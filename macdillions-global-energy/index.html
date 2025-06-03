@@ -1,227 +1,166 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Banoo.Marketing Monthly Report</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #f9fafa;
-      color: #1a1a1a;
-      padding: 40px 16px;
-    }
-    .report-wrapper {
-      max-width: 900px;
-      margin: auto;
-      background: #fff;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.05);
-    }
-    .hero {
-      background: linear-gradient(120deg, #111827, #1f2937);
-      color: #fff;
-      padding: 48px 32px;
-      text-align: center;
-    }
-    .hero h1 {
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-    .hero p {
-      font-size: 1.1rem;
-      color: #cbd5e1;
-    }
-    .section {
-      padding: 32px;
-      border-bottom: 1px solid #f0f0f0;
-    }
-    .section:last-child {
-      border-bottom: none;
-    }
-    .section h2 {
-      font-size: 1.5rem;
-      margin-bottom: 20px;
-      color: #111827;
-    }
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px;
-    }
-    .card {
-      background: #f9f9ff;
-      border-radius: 12px;
-      padding: 20px;
-      text-align: center;
-      transition: 0.3s;
-    }
-    .card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 6px 20px rgba(102,126,234,0.15);
-    }
-    .card .value {
-      font-size: 1.8rem;
-      font-weight: bold;
-      color: #4f46e5;
-    }
-    .card .label {
-      font-size: 0.9rem;
-      color: #64748b;
-      margin-top: 4px;
-    }
-    ul.list {
-      padding-left: 1.25rem;
-      line-height: 1.7;
-    }
-    ul.list li {
-      margin-bottom: 8px;
-    }
-    .phase {
-      margin-top: 20px;
-    }
-    .phase h3 {
-      font-size: 1.1rem;
-      margin-bottom: 10px;
-      color: #4338ca;
-    }
-    .cta {
-      text-align: center;
-      padding: 40px;
-      background: #f3f4f6;
-    }
-    .cta h2 {
-      font-size: 1.5rem;
-      margin-bottom: 16px;
-    }
-    .cta a {
-      display: inline-block;
-      padding: 14px 28px;
-      background: #4f46e5;
-      color: #fff;
-      border-radius: 30px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: 0.3s;
-    }
-    .cta a:hover {
-      background: #4338ca;
-    }
-    .footer {
-      text-align: center;
-      font-size: 0.8rem;
-      color: #94a3b8;
-      padding: 24px;
-    }
-  </style>
-</head>
-<body>
-  <div class="report-wrapper">
-    <div class="hero">
-      <h1>📈 Monthly Marketing Report</h1>
-      <p>Prepared for Macdillions Global Energy · Powered by Banoo.Marketing</p>
-    </div>
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{fontspec}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{setspace}
+\usepackage{parskip}
+\usepackage{hyperref}
 
-    <div class="section">
-      <h2>Executive Summary</h2>
-      <p>This month, we analyzed your PPC, SEO, and conversion efforts. Key areas for improvement were identified, and new campaigns were launched to increase qualified leads.</p>
-    </div>
+% Color scheme
+\definecolor{primary}{RGB}{0, 82, 147} % Deep blue
+\definecolor{accent}{RGB}{255, 111, 0}  % Orange accent
+\definecolor{light}{RGB}{240, 240, 240} % Light background
 
-    <div class="section">
-      <h2>Performance Snapshot</h2>
-      <div class="card-grid">
-        <div class="card">
-          <div class="value">2/100</div>
-          <div class="label">Authority Score</div>
-        </div>
-        <div class="card">
-          <div class="value">0</div>
-          <div class="label">Organic Visits</div>
-        </div>
-        <div class="card">
-          <div class="value">116</div>
-          <div class="label">Backlinks</div>
-        </div>
-        <div class="card">
-          <div class="value">7</div>
-          <div class="label">Ranking Keywords</div>
-        </div>
-      </div>
-    </div>
+% Font setup
+\setmainfont{Noto Sans}[
+    Path=fonts/,
+    Extension=.ttf,
+    UprightFont=*-Regular,
+    BoldFont=*-Bold,
+    ItalicFont=*-Italic
+]
 
-    <div class="section">
-      <h2>Top Issues</h2>
-      <ul class="list">
-        <li>📉 Zero search visibility and organic traffic</li>
-        <li>📍 No local SEO presence for Nigeria/US</li>
-        <li>📦 Website lacks funnels, segmentation, and CTAs</li>
-        <li>🧱 Missing trust signals (testimonials, case studies)</li>
-      </ul>
-    </div>
+\titleformat{\section}{\color{primary}\normalfont\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\color{primary}\normalfont\large\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\color{accent}\normalfont\bfseries}{\thesubsubsection}{1em}{}
 
-    <div class="section">
-      <h2>Growth Plan (Phased)</h2>
-      <div class="phase">
-        <h3>Phase 1: Foundation (Month 1–2)</h3>
-        <ul class="list">
-          <li>New landing pages for each service vertical</li>
-          <li>Structured schema, speed fixes, Google Console setup</li>
-        </ul>
-      </div>
-      <div class="phase">
-        <h3>Phase 2: Lead Generation (Month 2+)</h3>
-        <ul class="list">
-          <li>Google Ads & LinkedIn retargeting</li>
-          <li>2–3 blog posts/month targeting buyer-intent keywords</li>
-        </ul>
-      </div>
-      <div class="phase">
-        <h3>Phase 3: Optimization & Scaling</h3>
-        <ul class="list">
-          <li>CRM setup, nurture flows, dashboard reporting</li>
-          <li>Ongoing A/B testing and content SEO</li>
-        </ul>
-      </div>
-    </div>
+% Custom environments
+\newenvironment{auditblock}[1]{
+    \begin{minipage}{\textwidth}
+    \subsubsection{#1}
+    \begin{itemize}[leftmargin=*,nosep]
+}{
+    \end{itemize}
+    \end{minipage}
+}
 
-    <div class="section">
-      <h2>Key KPIs to Monitor</h2>
-      <div class="card-grid">
-        <div class="card">
-          <div class="value">📣</div>
-          <div class="label">Brand Awareness</div>
-        </div>
-        <div class="card">
-          <div class="value">👀</div>
-          <div class="label">Engagement & Clicks</div>
-        </div>
-        <div class="card">
-          <div class="value">📝</div>
-          <div class="label">Lead Forms / Bookings</div>
-        </div>
-        <div class="card">
-          <div class="value">✅</div>
-          <div class="label">Conversions / Sales</div>
-        </div>
-      </div>
-    </div>
+\newenvironment{actionblock}[1]{
+    \begin{minipage}{\textwidth}
+    \subsubsection{#1}
+    \begin{itemize}[leftmargin=*,nosep]
+}{
+    \end{itemize}
+    \end{minipage}
+}
 
-    <div class="cta">
-      <h2>Let’s Review Progress Together</h2>
-      <a href="https://calendly.com/emodvafa">📅 Book Strategy Call</a>
-    </div>
+\begin{document}
 
-    <div class="footer">
-      Report powered by Banoo.Marketing · AI-Powered Growth Engine for Visionary Brands
-    </div>
-  </div>
-</body>
-</html>
+% Cover Page
+\begin{center}
+\vspace*{1cm}
+{\Huge\bfseries\color{primary} Digital Presence Audit Report}\\[0.5cm]
+{\large Prepared for}\\[0.3cm]
+{\LARGE\bfseries Macdillions Global Energy}\\[0.5cm]
+\includegraphics[width=3cm]{banoo-logo} \\[0.5cm]
+{\large Prepared by \textbf{Banoo.Marketing}}\\[0.3cm]
+{\large \today}\\[1cm]
+\end{center}
+
+\pagebreak
+
+% Page 1
+\section*{Executive Summary}
+Our digital audit of \texttt{macdillionsge.com} reveals significant opportunities to enhance your online presence. Currently, your website has minimal search visibility and lacks conversion-focused elements. We've identified key areas for improvement that can transform your digital platform into a powerful lead generation engine.
+
+\section*{Current Digital Health Snapshot}
+\begin{center}
+\begin{tabularx}{0.9\textwidth}{|l|X|}
+\hline
+\rowcolor{light}
+\textbf{Metric} & \textbf{Status} \\
+\hline
+Authority Score & 2/100 (Very Low) \\
+\hline
+Organic Visits & 0 visits/month \\
+\hline
+Ranking Keywords & 7 (None in top positions) \\
+\hline
+Backlinks & 116 from 53 domains \\
+\hline
+Search Visibility & Practically nonexistent \\
+\hline
+\end{tabularx}
+\end{center}
+
+\section*{Top Issues Identified}
+
+\begin{auditblock}{Visibility Challenges}
+\item \textbf{Zero search presence} - Not ranking for key terms like "oil \& gas engineering firm" or "recruitment in Nigeria"
+\item \textbf{No local SEO} - Not visible in target markets (Nigeria/US)
+\item \textbf{No AI optimization} - Missing from ChatGPT, Perplexity, and modern search platforms
+\end{auditblock}
+
+\begin{auditblock}{Website Experience}
+\item \textbf{No conversion funnels} - Lacks clear paths for different audiences (B2B clients vs job seekers)
+\item \textbf{Generic messaging} - Doesn't differentiate services or speak directly to specific client needs
+\item \textbf{Poor CTAs} - Vague calls-to-action like "consult with us" with no clear next steps
+\item \textbf{Missing trust signals} - No case studies, testimonials, or proof of results
+\end{auditblock}
+
+\begin{auditblock}{Lead Generation}
+\item \textbf{No automation} - Manual processing of inquiries and applications
+\item \textbf{Absence of CRM} - No system to capture, track, or nurture leads
+\item \textbf{No content strategy} - Zero blog or authority content to establish expertise
+\item \textbf{No performance tracking} - Missing analytics to measure effectiveness
+\end{auditblock}
+
+% Page 2
+\section*{How Banoo.Marketing Can Help}
+We propose focusing on these 4 key areas to transform your digital presence:
+
+\begin{actionblock}{1. Strategic Website Transformation}
+\item Create audience-specific conversion funnels (Engineering, Recruitment, Training)
+\item Implement clear CTAs and lead capture points throughout the site
+\item Add trust-building elements: case studies, testimonials, client logos
+\item Develop geo-targeted content for US and Nigeria markets
+\end{actionblock}
+
+\begin{actionblock}{2. Search Visibility Enhancement}
+\item Technical SEO improvements: site speed, mobile optimization, structured data
+\item Content strategy targeting high-value industry keywords
+\item Local SEO setup for Port Harcourt and Georgia locations
+\item "Search Everywhere" optimization for Google, LinkedIn, and AI platforms
+\end{actionblock}
+
+\begin{actionblock}{3. Lead Generation System}
+\item CRM implementation with automated follow-up sequences
+\item Multi-channel lead capture (website, social, chat)
+\item Email nurture campaigns for different audience segments
+\item Recruitment portal enhancements with filtering and application tracking
+\end{actionblock}
+
+\begin{actionblock}{4. Authority Building}
+\item Develop industry-specific content (blog, whitepapers, guides)
+\item Create case study templates showcasing successful placements
+\item Executive thought leadership program (articles, interviews)
+\item Social proof collection and presentation strategy
+\end{actionblock}
+
+\section*{Next Steps}
+We recommend focusing on all four areas for maximum impact, but we can prioritize based on your business goals:
+
+\begin{itemize}
+\item[•] \textbf{Option 1}: Comprehensive transformation across all areas
+\item[•] \textbf{Option 2}: Focus on 1-2 priority areas for quick wins
+\item[•] \textbf{Option 3}: Deep dive into a single high-impact initiative
+\end{itemize}
+
+\vspace{0.5cm}
+\begin{center}
+\fbox{\begin{minipage}{0.8\textwidth}
+\centering
+\color{primary}\textbf{Let's Discuss Your Growth Strategy}\\[0.3cm]
+Book a complimentary consultation to discuss:\\[0.2cm]
+- Priority areas for your business\\[0.1cm]
+- Implementation roadmap\\[0.1cm]
+- Expected outcomes\\[0.3cm]
+\href{https://calendly.com/emodvafa}{\color{accent}\textbf{Book Strategy Session}}
+\end{minipage}}
+\end{center}
+
+\end{document}
