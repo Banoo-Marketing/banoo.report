@@ -1,306 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Macdillions Global Energy - Digital Audit Report | Banoo.Marketing</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #005293;
-            --accent: #FF6F00;
-            --light: #F0F0F0;
-            --dark: #333333;
-        }
-        
-        body {
-            font-family: 'Noto Sans', sans-serif;
-            line-height: 1.6;
-            color: var(--dark);
-            margin: 0;
-            padding: 0;
-            background-color: white;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        header {
-            background-color: var(--primary);
-            color: white;
-            padding: 40px 20px;
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-        
-        h2 {
-            color: var(--primary);
-            font-size: 1.8rem;
-            margin-top: 40px;
-            border-bottom: 2px solid var(--accent);
-            padding-bottom: 10px;
-        }
-        
-        h3 {
-            color: var(--accent);
-            font-size: 1.4rem;
-            margin-top: 30px;
-        }
-        
-        .logo {
-            height: 60px;
-            margin-bottom: 20px;
-        }
-        
-        .metric-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-        }
-        
-        .metric-card {
-            background-color: var(--light);
-            padding: 20px;
-            border-radius: 5px;
-            text-align: center;
-        }
-        
-        .metric-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin: 10px 0;
-        }
-        
-        .issue-card {
-            background-color: white;
-            border-left: 4px solid var(--accent);
-            padding: 15px;
-            margin: 20px 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
-        .solution-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin: 40px 0;
-        }
-        
-        .solution-card {
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 20px;
-            transition: transform 0.3s;
-        }
-        
-        .solution-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .solution-number {
-            display: inline-block;
-            width: 30px;
-            height: 30px;
-            background-color: var(--primary);
-            color: white;
-            text-align: center;
-            line-height: 30px;
-            border-radius: 50%;
-            margin-right: 10px;
-            font-weight: 700;
-        }
-        
-        .cta-box {
-            background-color: var(--light);
-            border: 2px solid var(--primary);
-            padding: 30px;
-            text-align: center;
-            margin: 50px 0;
-            border-radius: 5px;
-        }
-        
-        .btn {
-            display: inline-block;
-            background-color: var(--accent);
-            color: white;
-            padding: 12px 25px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: 700;
-            margin-top: 15px;
-            transition: background-color 0.3s;
-        }
-        
-        .btn:hover {
-            background-color: #e05d00;
-        }
-        
-        footer {
-            background-color: var(--dark);
-            color: white;
-            text-align: center;
-            padding: 20px;
-            margin-top: 50px;
-        }
-        
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .metric-grid, .solution-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audit & Growth Plan – Macdillions Global Energy | Banoo.Marketing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #2E4053;
+      --soft-gray: #BFC9CA;
+      --mid-gray: #AAB7B8;
+      --light-gray: #D5DBDB;
+      --gold: #F1C40F;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--light-gray);
+      color: #1e1e1e;
+      margin: 0;
+      padding: 0;
+    }
+    .wrapper {
+      max-width: 960px;
+      margin: 60px auto;
+      background: #ffffff;
+      padding: 60px;
+      border-radius: 20px;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+    }
+    header {
+      background: var(--navy);
+      padding: 50px;
+      border-radius: 18px;
+      color: white;
+      text-align: center;
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    header h1 {
+      font-size: 2.4rem;
+      margin-bottom: 0.5rem;
+    }
+    header p {
+      font-size: 1.1rem;
+      color: var(--soft-gray);
+    }
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-top: 40px;
+      border-left: 5px solid var(--gold);
+      padding-left: 14px;
+    }
+    h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-top: 30px;
+      color: #34495E;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    ul li {
+      margin-bottom: 0.75rem;
+      line-height: 1.6;
+    }
+    .highlight {
+      background: var(--soft-gray);
+      border-left: 6px solid var(--gold);
+      padding: 20px;
+      margin-top: 40px;
+      border-radius: 10px;
+    }
+    a {
+      color: var(--navy);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .footer {
+      margin-top: 60px;
+      font-size: 0.85rem;
+      color: var(--mid-gray);
+      text-align: center;
+    }
+    .tag {
+      background: var(--gold);
+      color: var(--navy);
+      padding: 6px 12px;
+      font-size: 0.9rem;
+      border-radius: 10px;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+    .fade-in {
+      animation: fadeIn 1s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
 <body>
+  <div class="wrapper fade-in">
     <header>
-        <div class="container">
-            <img src="https://banoo.marketing/logo-white.png" alt="Banoo.Marketing Logo" class="logo">
-            <h1>Digital Presence Audit Report</h1>
-            <p>Prepared for Macdillions Global Energy</p>
-        </div>
+      <h1>📊 Audit & Growth Plan</h1>
+      <p>Macdillions Global Energy | Powered by Banoo.Marketing</p>
     </header>
-    
-    <div class="container">
-        <section>
-            <h2>Executive Summary</h2>
-            <p>Our comprehensive audit of <strong>macdillionsge.com</strong> reveals significant opportunities to transform your digital presence into a powerful business growth engine. Currently, your website has minimal search visibility and lacks conversion-focused elements that could drive qualified leads for your engineering and recruitment services.</p>
-            
-            <div class="metric-grid">
-                <div class="metric-card">
-                    <div>Authority Score</div>
-                    <div class="metric-value">2/100</div>
-                    <div>(Very Low)</div>
-                </div>
-                <div class="metric-card">
-                    <div>Organic Traffic</div>
-                    <div class="metric-value">0</div>
-                    <div>visits/month</div>
-                </div>
-                <div class="metric-card">
-                    <div>Ranking Keywords</div>
-                    <div class="metric-value">7</div>
-                    <div>(None in top 10)</div>
-                </div>
-                <div class="metric-card">
-                    <div>Backlinks</div>
-                    <div class="metric-value">116</div>
-                    <div>from 53 domains</div>
-                </div>
-            </div>
-            
-            <p>These metrics indicate your website is practically invisible in search results, missing valuable opportunities to attract clients and candidates in the competitive oil & gas and engineering sectors.</p>
-        </section>
-        
-        <section>
-            <h2>Critical Issues Identified</h2>
-            
-            <h3>Visibility Challenges</h3>
-            <div class="issue-card">
-                <p><strong>Zero search presence:</strong> Not ranking for essential terms like "oil & gas engineering firm Nigeria" or "engineering recruitment agency Port Harcourt"</p>
-            </div>
-            <div class="issue-card">
-                <p><strong>No local SEO:</strong> Missing from local search results in key markets (Nigeria and US)</p>
-            </div>
-            <div class="issue-card">
-                <p><strong>No AI optimization:</strong> Not appearing in ChatGPT, Perplexity or other AI search platforms</p>
-            </div>
-            
-            <h3>Website Experience</h3>
-            <div class="issue-card">
-                <p><strong>No conversion funnels:</strong> Lacks clear paths for different audiences (B2B clients vs job seekers)</p>
-            </div>
-            <div class="issue-card">
-                <p><strong>Generic messaging:</strong> Doesn't differentiate your services or speak directly to specific client needs</p>
-            </div>
-            <div class="issue-card">
-                <p><strong>Poor CTAs:</strong> Vague calls-to-action like "consult with us" with no clear next steps</p>
-            </div>
-            
-            <h3>Lead Generation</h3>
-            <div class="issue-card">
-                <p><strong>No automation:</strong> Manual processing of inquiries and applications limits scalability</p>
-            </div>
-            <div class="issue-card">
-                <p><strong>Missing trust signals:</strong> No case studies, testimonials, or proof of successful placements</p>
-            </div>
-            <div class="issue-card">
-                <p><strong>No performance tracking:</strong> Can't measure what's working or identify improvement areas</p>
-            </div>
-        </section>
-        
-        <section>
-            <h2>How Banoo.Marketing Can Help</h2>
-            <p>We recommend focusing on these 4 strategic areas to transform your digital presence and drive measurable business growth:</p>
-            
-            <div class="solution-grid">
-                <div class="solution-card">
-                    <h3><span class="solution-number">1</span> Strategic Website Transformation</h3>
-                    <ul>
-                        <li>Audience-specific conversion funnels</li>
-                        <li>Clear CTAs and lead capture points</li>
-                        <li>Trust-building elements</li>
-                        <li>Geo-targeted content</li>
-                    </ul>
-                </div>
-                <div class="solution-card">
-                    <h3><span class="solution-number">2</span> Search Visibility Enhancement</h3>
-                    <ul>
-                        <li>Technical SEO improvements</li>
-                        <li>High-value keyword targeting</li>
-                        <li>Local SEO optimization</li>
-                        <li>AI search presence</li>
-                    </ul>
-                </div>
-                <div class="solution-card">
-                    <h3><span class="solution-number">3</span> Lead Generation System</h3>
-                    <ul>
-                        <li>CRM implementation</li>
-                        <li>Automated follow-up sequences</li>
-                        <li>Multi-channel lead capture</li>
-                        <li>Recruitment portal upgrades</li>
-                    </ul>
-                </div>
-                <div class="solution-card">
-                    <h3><span class="solution-number">4</span> Authority Building</h3>
-                    <ul>
-                        <li>Industry-specific content</li>
-                        <li>Case study development</li>
-                        <li>Executive thought leadership</li>
-                        <li>Social proof strategy</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-        
-        <div class="cta-box">
-            <h3>Ready to Transform Your Digital Presence?</h3>
-            <p>Let's discuss how we can implement these solutions to attract more clients and candidates for your business.</p>
-            <a href="https://calendly.com/emodvafa" class="btn">Schedule Strategy Session</a>
-        </div>
+
+    <p class="tag">🔗 Website: <a href="https://macdillionsge.com/">macdillionsge.com</a></p>
+
+    <h2>⚠️ Current Status</h2>
+    <ul>
+      <li>No SEO authority, weak conversion paths, and unclear messaging</li>
+      <li>Serving too many audiences without segmentation: engineering, recruitment, training, job seekers</li>
+    </ul>
+
+    <h2>✅ What We Recommend</h2>
+
+    <h3>1️⃣ Clarify Positioning & Split the Funnels</h3>
+    <ul>
+      <li>Dedicated landing pages for:
+        <ul>
+          <li>B2B Engineering & Facility Services</li>
+          <li>B2B Talent Acquisition / Recruitment</li>
+          <li>B2C Job Seeker Training & Career Support</li>
+        </ul>
+      </li>
+      <li>Geo-targeted content (US, Nigeria, Global)</li>
+    </ul>
+
+    <h3>2️⃣ SEO & Visibility Upgrade (SEO 2.0)</h3>
+    <ul>
+      <li>Full technical audit: headers, schema, speed, mobile</li>
+      <li>Rank for: “engineering recruiters Nigeria”, “oil & gas project consultants USA”</li>
+      <li>Optimize presence on Google, ChatGPT, YouTube, LinkedIn, Perplexity, Nairaland</li>
+    </ul>
+
+    <h3>3️⃣ Paid Ads for B2B & B2C</h3>
+    <ul>
+      <li>Google & LinkedIn Ads for corporate services</li>
+      <li>Facebook/Instagram Ads for training/job seeker funnels</li>
+      <li>Conversion pages with CTAs: “Request Proposal”, “Apply Now”, “Book Free Consult”</li>
+    </ul>
+
+    <h3>4️⃣ Trust-Building Content & Case Studies</h3>
+    <ul>
+      <li>Showcase testimonials, placements, and success stories</li>
+      <li>Bi-weekly blog/LinkedIn articles:
+        <ul>
+          <li>“Top 5 Roles in Oil & Gas (Nigeria 2025)”</li>
+          <li>“How We Helped [Client] Fill [X] Positions in 14 Days”</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>5️⃣ CRM, Automation & Funnel Fixes</h3>
+    <ul>
+      <li>Zoho or HubSpot CRM setup with:
+        <ul>
+          <li>Lead tracking</li>
+          <li>CV uploads</li>
+          <li>Automated follow-ups</li>
+        </ul>
+      </li>
+      <li>Integrate Calendly + WhatsApp Click-to-Chat</li>
+    </ul>
+
+    <h3>6️⃣ Nigeria-Specific Targeting</h3>
+    <ul>
+      <li>Google Business profile + Port Harcourt directories</li>
+      <li>Facebook & WhatsApp ads for training and placements</li>
+    </ul>
+
+    <div class="highlight">
+      <strong>🔁 Next Steps</strong>
+      <ul>
+        <li>Let us know which product/service to prioritize</li>
+        <li>We'll roll out homepage refresh + funnel setup</li>
+        <li>Pilot PPC, SEO, content + CRM automation</li>
+      </ul>
     </div>
-    
-    <footer>
-        <div class="container">
-            <img src="https://banoo.marketing/logo-white.png" alt="Banoo.Marketing Logo" style="height: 40px; margin-bottom: 15px;">
-            <p>AI-Powered Growth Engine for Visionary Brands</p>
-            <p>&copy; 2023 Banoo.Marketing. All rights reserved.</p>
-        </div>
-    </footer>
+
+    <p>Let’s position Macdillions as a premium solution — locally and globally.</p>
+
+    <div class="footer">
+      Prepared by Emod · <a href="https://banoo.marketing">Banoo.Marketing</a> · +1 (416) 400-4699 · <a href="https://calendly.com/emodvafa">Book a Call</a>
+    </div>
+  </div>
 </body>
 </html>
