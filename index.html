@@ -3,197 +3,96 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Audit & Growth Plan – Macdillions Global Energy | Banoo.Marketing</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Banoo.Report – Client Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root {
       --navy: #2E4053;
-      --soft-gray: #BFC9CA;
-      --mid-gray: #AAB7B8;
-      --light-gray: #D5DBDB;
       --gold: #F1C40F;
+      --light: #F8F9FA;
     }
     body {
-      font-family: 'Inter', sans-serif;
-      background: var(--light-gray);
-      color: #1e1e1e;
       margin: 0;
-      padding: 0;
-    }
-    .wrapper {
-      max-width: 960px;
-      margin: 60px auto;
-      background: #ffffff;
-      padding: 60px;
-      border-radius: 20px;
-      box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+      font-family: 'Inter', sans-serif;
+      background-color: var(--light);
+      color: #1a1a1a;
     }
     header {
-      background: var(--navy);
-      padding: 50px;
-      border-radius: 18px;
+      background-color: var(--navy);
       color: white;
+      padding: 40px;
       text-align: center;
-      margin-bottom: 40px;
-      position: relative;
-      overflow: hidden;
     }
     header h1 {
-      font-size: 2.4rem;
-      margin-bottom: 0.5rem;
+      font-size: 2.2rem;
+      margin-bottom: 8px;
     }
     header p {
-      font-size: 1.1rem;
-      color: var(--soft-gray);
+      font-size: 1rem;
+      color: #D0D3D4;
     }
-    h2 {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: var(--navy);
-      margin-top: 40px;
-      border-left: 5px solid var(--gold);
-      padding-left: 14px;
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+      padding: 40px;
+      max-width: 1200px;
+      margin: auto;
     }
-    h3 {
-      font-size: 1.2rem;
-      font-weight: 600;
-      margin-top: 30px;
-      color: #34495E;
+    .card {
+      background: white;
+      border: 1px solid #E5E7E9;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+      text-align: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    ul {
-      padding-left: 20px;
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.1);
     }
-    ul li {
-      margin-bottom: 0.75rem;
-      line-height: 1.6;
-    }
-    .highlight {
-      background: var(--soft-gray);
-      border-left: 6px solid var(--gold);
-      padding: 20px;
-      margin-top: 40px;
-      border-radius: 10px;
-    }
-    a {
+    .card a {
       color: var(--navy);
       text-decoration: none;
-      font-weight: 500;
-    }
-    a:hover {
-      text-decoration: underline;
+      font-weight: 600;
+      display: block;
+      margin-top: 12px;
     }
     .footer {
-      margin-top: 60px;
-      font-size: 0.85rem;
-      color: var(--mid-gray);
       text-align: center;
-    }
-    .tag {
-      background: var(--gold);
-      color: var(--navy);
-      padding: 6px 12px;
-      font-size: 0.9rem;
-      border-radius: 10px;
-      display: inline-block;
-      margin-bottom: 1rem;
-    }
-    .fade-in {
-      animation: fadeIn 1s ease-in-out;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+      padding: 20px;
+      font-size: 0.85rem;
+      color: #777;
     }
   </style>
 </head>
 <body>
-  <div class="wrapper fade-in">
-    <header>
-      <h1>📊 Audit & Growth Plan</h1>
-      <p>Macdillions Global Energy | Powered by Banoo.Marketing</p>
-    </header>
+  <header>
+    <h1>📊 Banoo.Report</h1>
+    <p>Client Reports & Marketing Dashboards</p>
+  </header>
 
-    <p class="tag">🔗 Website: <a href="https://macdillionsge.com/">macdillionsge.com</a></p>
+  <div class="grid">
+    <div class="card"><div>🎙️ PodCast</div><a href="/podcast/">View Report</a></div>
+    <div class="card"><div>💼 Banoo.Marketing</div><a href="/banoo.marketing/">View Report</a></div>
+    <div class="card"><div>🔐 Craig Petronella</div><a href="/craig-petronella/">View Report</a></div>
+    <div class="card"><div>🏭 MGE</div><a href="/macdillions-global-energy/">View Report</a></div>
+    <div class="card"><div>🌱 Ground Scape</div><a href="/ground-scape/">View Report</a></div>
+    <div class="card"><div>🌍 Imid Foundation</div><a href="/imid-foundation/">View Report</a></div>
+    <div class="card"><div>🍞 Cenan Bakery</div><a href="/cenan-bakery/">View Report</a></div>
+    <div class="card"><div>📈 Connor Clark and Lunn</div><a href="/connor-clark-lunn/">View Report</a></div>
+    <div class="card"><div>⚖️ Fosters Law</div><a href="/fosters-law/">View Report</a></div>
+    <div class="card"><div>🏠 Pro Insulation</div><a href="/pro-insulation-contracting/">View Report</a></div>
+    <div class="card"><div>🔐 Formmi</div><a href="/formmi/">View Report</a></div>
+    <div class="card"><div>💅 Nude Nail Spa</div><a href="/nude-nail-spa/">View Report</a></div>
+    <div class="card"><div>⚖️ Cactus Law</div><a href="/cactus-law/">View Report</a></div>
+    <div class="card"><div>🌸 416-Flower</div><a href="/416-flower/">View Report</a></div>
+    <div class="card"><div>🥗 Vegain</div><a href="/vegain/">View Report</a></div>
+  </div>
 
-    <h2>⚠️ Current Status</h2>
-    <ul>
-      <li>No SEO authority, weak conversion paths, and unclear messaging</li>
-      <li>Serving too many audiences without segmentation: engineering, recruitment, training, job seekers</li>
-    </ul>
-
-    <h2>✅ What We Recommend</h2>
-
-    <h3>1️⃣ Clarify Positioning & Split the Funnels</h3>
-    <ul>
-      <li>Dedicated landing pages for:
-        <ul>
-          <li>B2B Engineering & Facility Services</li>
-          <li>B2B Talent Acquisition / Recruitment</li>
-          <li>B2C Job Seeker Training & Career Support</li>
-        </ul>
-      </li>
-      <li>Geo-targeted content (US, Nigeria, Global)</li>
-    </ul>
-
-    <h3>2️⃣ SEO & Visibility Upgrade (SEO 2.0)</h3>
-    <ul>
-      <li>Full technical audit: headers, schema, speed, mobile</li>
-      <li>Rank for: “engineering recruiters Nigeria”, “oil & gas project consultants USA”</li>
-      <li>Optimize presence on Google, ChatGPT, YouTube, LinkedIn, Perplexity, Nairaland</li>
-    </ul>
-
-    <h3>3️⃣ Paid Ads for B2B & B2C</h3>
-    <ul>
-      <li>Google & LinkedIn Ads for corporate services</li>
-      <li>Facebook/Instagram Ads for training/job seeker funnels</li>
-      <li>Conversion pages with CTAs: “Request Proposal”, “Apply Now”, “Book Free Consult”</li>
-    </ul>
-
-    <h3>4️⃣ Trust-Building Content & Case Studies</h3>
-    <ul>
-      <li>Showcase testimonials, placements, and success stories</li>
-      <li>Bi-weekly blog/LinkedIn articles:
-        <ul>
-          <li>“Top 5 Roles in Oil & Gas (Nigeria 2025)”</li>
-          <li>“How We Helped [Client] Fill [X] Positions in 14 Days”</li>
-        </ul>
-      </li>
-    </ul>
-
-    <h3>5️⃣ CRM, Automation & Funnel Fixes</h3>
-    <ul>
-      <li>Zoho or HubSpot CRM setup with:
-        <ul>
-          <li>Lead tracking</li>
-          <li>CV uploads</li>
-          <li>Automated follow-ups</li>
-        </ul>
-      </li>
-      <li>Integrate Calendly + WhatsApp Click-to-Chat</li>
-    </ul>
-
-    <h3>6️⃣ Nigeria-Specific Targeting</h3>
-    <ul>
-      <li>Google Business profile + Port Harcourt directories</li>
-      <li>Facebook & WhatsApp ads for training and placements</li>
-    </ul>
-
-    <div class="highlight">
-      <strong>🔁 Next Steps</strong>
-      <ul>
-        <li>Let us know which product/service to prioritize</li>
-        <li>We'll roll out homepage refresh + funnel setup</li>
-        <li>Pilot PPC, SEO, content + CRM automation</li>
-      </ul>
-    </div>
-
-    <p>Let’s position Macdillions as a premium solution — locally and globally.</p>
-
-    <div class="footer">
-      Prepared by Emod · <a href="https://banoo.marketing">Banoo.Marketing</a> · +1 (416) 400-4699 · <a href="https://calendly.com/emodvafa">Book a Call</a>
-    </div>
+  <div class="footer">
+    Built with ❤️ by Banoo.Marketing — AI-powered dashboards for modern businesses
   </div>
 </body>
 </html>
