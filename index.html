@@ -7,6 +7,10 @@
   <title>Banoo.Report</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       background: #0c0c0c;
@@ -15,6 +19,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      transition: background-color 0.6s ease;
     }
 
     h1 {
@@ -22,12 +27,14 @@
       font-size: 3.5rem;
       font-weight: 800;
       letter-spacing: -1px;
+      animation: fadeIn 1s ease forwards;
     }
 
     p.subtitle {
       color: #888;
       font-size: 1.1rem;
       margin-top: 0.5rem;
+      animation: fadeIn 1.2s ease forwards;
     }
 
     .grid {
@@ -51,12 +58,15 @@
       justify-content: center;
       text-align: center;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
-      transition: all 0.3s ease-in-out;
+      transition: all 0.4s ease-in-out;
       margin: auto;
+      cursor: pointer;
+      opacity: 0;
+      animation: fadeInUp 1s ease forwards;
     }
 
     .tile:hover {
-      transform: scale(1.05);
+      transform: translateY(-6px) scale(1.05);
       box-shadow: 0 12px 32px rgba(0, 0, 0, 0.95);
     }
 
@@ -77,6 +87,30 @@
       color: #6cb8ff;
       text-decoration: none;
     }
+
+    .tile[data-delay] {
+      animation-delay: calc(0.2s * var(--i));
+    }
+
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
   </style>
 </head>
 
@@ -85,67 +119,67 @@
   <p class="subtitle">Client Reports & Marketing Dashboards</p>
 
   <div class="grid">
-    <div class="tile">
+    <div class="tile" style="--i:0">
       <span class="emoji">🎙️</span>
       <span class="label">Podcast</span>
       <a href="#">View Report</a>
     </div>
-    <div class="tile">
+    <div class="tile" style="--i:1">
       <span class="emoji">💼</span>
       <span class="label">Banoo.Marketing</span>
       <a href="#">View Report</a>
     </div>
-    <div class="tile">
+    <div class="tile" style="--i:2">
       <span class="emoji">🔐</span>
       <span class="label">Craig Petronella</span>
       <a href="#">View Report</a>
     </div>
-    <div class="tile">
+    <div class="tile" style="--i:3">
       <span class="emoji">🏭</span>
       <span class="label">MGE</span>
-      <a href="#">View Report</a>
+      <a href="https://banoo.report/macdillions-global-energy/index.html">View Report</a>
     </div>
-    <div class="tile">
+    <div class="tile" style="--i:4">
       <span class="emoji">🌱</span>
       <span class="label">Ground Scape</span>
       <a href="#">View Report</a>
     </div>
-    <div class="tile">
+    <div class="tile" style="--i:5">
       <span class="emoji">🌐</span>
       <span class="label">Omid Foundation</span>
       <a href="#">View Report</a>
     </div>
-    <div class="tile">
+    <div class="tile" style="--i:6">
       <span class="emoji">🏛️</span>
       <span class="label">Connor Clark and Lunn</span>
       <a href="#">View Report</a>
     </div>
-    <div class="tile">
+    <div class="tile" style="--i:7">
       <span class="emoji">⚖️</span>
       <span class="label">Fosters Law</span>
       <a href="#">View Report</a>
     </div>
-    <div class="tile">
+    <div class="tile" style="--i:8">
       <span class="emoji">🛠️</span>
       <span class="label">Pro Insulation</span>
       <a href="#">View Report</a>
     </div>
-    <div class="tile">
+    <div class="tile" style="--i:9">
       <span class="emoji">💅</span>
       <span class="label">Nude Nail Spa</span>
       <a href="#">View Report</a>
     </div>
-    <div class="tile">
+    <div class="tile" style="--i:10">
       <span class="emoji">👩‍⚖️</span>
       <span class="label">Cactus Law</span>
       <a href="#">View Report</a>
     </div>
-    <div class="tile">
+    <div class="tile" style="--i:11">
       <span class="emoji">🌸</span>
       <span class="label">416 Flower</span>
       <a href="#">View Report</a>
     </div>
-    <div class="tile">
+    <div class="tile" style="--i:12">
       <span class="emoji">🥦</span>
       <span class="label">Vegain</span>
       <a href="#">View Report</a>
