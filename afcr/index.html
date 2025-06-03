@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title> AFCR Report</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      margin: 0;
+      background: #0f0f0f;
+      color: white;
+      font-family: 'Inter', sans-serif;
+    }
+    .container {
+      max-width: 960px;
+      margin: 60px auto;
+      padding: 0 20px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+    .blurb {
+      color: #aaa;
+      font-size: 1.1rem;
+      margin-bottom: 40px;
+    }
+    h2 {
+      margin-top: 40px;
+      font-size: 1.3rem;
+      border-bottom: 1px solid #2a2a2a;
+      padding-bottom: 10px;
+      text-align: left;
+    }
+    .badge-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 24px;
+      margin-top: 30px;
+    }
+    .badge {
+      background: radial-gradient(circle, #1a1a1a, #121212);
+      border-radius: 50%;
+      width: 120px;
+      height: 120px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.6);
+    }
+    .badge span {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #e0e0e0;
+      margin-top: 8px;
+    }
+    .chart-container {
+      margin-top: 50px;
+      background: #1a1a1a;
+      border-radius: 12px;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>AFCR</h1>
+    <p class="blurb">Here's a snapshot of what we’re handling for AFCR.</p>
+
+    <h2>📌 Monthly Services</h2>
+    <div class="badge-grid">
+      <div class="badge"><span>📈</span><span>PPC</span></div>
+      <div class="badge"><span>🔍</span><span>SEO</span></div>
+      <div class="badge"><span>🖥️</span><span>Website</span></div>
+    </div>
+
+    <h2>📊 Performance Overview</h2>
+    <div class="chart-container">
+      <canvas id="reportChart"></canvas>
+    </div>
+
+    <h2>🔐 Access & Integrations</h2>
+    <div class="badge-grid">
+      <div class="badge"><span>🟢</span><span>Google Ads</span></div>
+      <div class="badge"><span>🌐</span><span>Website</span></div>
+      <div class="badge"><span>📊</span><span>GA4</span></div>
+      <div class="badge"><span>🔎</span><span>GSC</span></div>
+      <div class="badge"><span>💡</span><span>GTM</span></div>
+      <div class="badge"><span>💻</span><span>Bing Ads</span></div>
+      <div class="badge"><span>📱</span><span>Meta Ads</span></div>
+      <div class="badge"><span>🧠</span><span>Clarity</span></div>
+      <div class="badge"><span>🧾</span><span>Landing Page</span></div>
+      <div class="badge"><span>📍</span><span>GMB</span></div>
+    </div>
+  </div>
+
+  <script>
+    const ctx = document.getElementById('reportChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+        datasets: [{
+          label: 'Cost',
+          data: [250, 300, 280, 320],
+          borderColor: '#f39c12',
+          backgroundColor: 'rgba(243, 156, 18, 0.2)',
+          tension: 0.4
+        }, {
+          label: 'Clicks',
+          data: [400, 420, 450, 470],
+          borderColor: '#3498db',
+          backgroundColor: 'rgba(52, 152, 219, 0.2)',
+          tension: 0.4
+        }]
+      },
+      options: {
+        plugins: { legend: { labels: { color: '#eee' } } },
+        scales: {
+          x: { ticks: { color: '#aaa' }, grid: { color: '#222' }},
+          y: { ticks: { color: '#aaa' }, grid: { color: '#222' }}
+        }
+      }
+    });
+  </script>
+</body>
+</html>
