@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Craig Petronella - Marketing Proposal</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #1e293b;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            color: #64748b;
+            margin-bottom: 1rem;
+        }
+        
+        .budget-highlight {
+            background: linear-gradient(90deg, #10b981, #3b82f6);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .card h3 {
+            color: #1e293b;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .metric:last-child {
+            border-bottom: none;
+        }
+        
+        .metric-value {
+            font-weight: 600;
+            color: #3b82f6;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin: 1rem 0;
+        }
+        
+        .recommendation-box {
+            background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .recommendation-box h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .strategy-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .strategy-card h4 {
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .funnel-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .funnel-step {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            background: #f8fafc;
+            border-radius: 10px;
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .step-number {
+            background: #3b82f6;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-weight: 600;
+        }
+        
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .kpi-card {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .kpi-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #3b82f6;
+            margin-bottom: 0.5rem;
+        }
+        
+        .kpi-label {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        
+        .action-box {
+            background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .domain-redirect {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #000000;
+        }
+        
+        .redirect-arrow {
+            color: #f59e0b;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Craig Petronella Marketing Proposal</h1>
+            <p>Data-Driven Strategy for Cybersecurity Authority & Lead Generation</p>
+            <div class="budget-highlight">
+                💰 $1,000/month Budget | 📈 ROI-Focused Approach
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h3>📊 Current SEO Performance</h3>
+                <div class="chart-container">
+                    <canvas id="seoChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>🎯 Domain Analysis</h3>
+                <div class="metric">
+                    <span>PetronellaTech.com</span>
+                    <span class="metric-value">386 keywords</span>
+                </div>
+                <div class="metric">
+                    <span>BlockchainSecurity.com</span>
+                    <span class="metric-value">1 keyword</span>
+                </div>
+                <div class="metric">
+                    <span>SimpleCyber.io</span>
+                    <span class="metric-value">7 keywords</span>
+                </div>
+                <div class="metric">
+                    <span>ComplianceArmor.com</span>
+                    <span class="metric-value">6 keywords</span>
+                </div>
+                <div class="metric">
+                    <span>CraigPetronella.com</span>
+                    <span class="metric-value">13 keywords</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>💡 Traffic & Authority</h3>
+                <div class="chart-container">
+                    <canvas id="trafficChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>🔗 Backlink Profile</h3>
+                <div class="metric">
+                    <span>PetronellaTech.com</span>
+                    <span class="metric-value">12.2K backlinks</span>
+                </div>
+                <div class="metric">
+                    <span>BlockchainSecurity.com</span>
+                    <span class="metric-value">622 backlinks</span>
+                </div>
+                <div class="metric">
+                    <span>Other Domains</span>
+                    <span class="metric-value">Minimal</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="recommendation-box">
+            <h2>🎯 Strategic Recommendation: Domain Consolidation</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">
+                Our analysis reveals that <strong>PetronellaTech.com</strong> is your strongest digital asset with 21x authority score, 386 organic keywords, and 12.2K backlinks. Instead of spreading efforts across 5 domains, we recommend consolidating everything into your primary domain to maximize SEO impact and simplify your marketing funnel.
+            </p>
+            
+            <div class="strategy-grid">
+                <div class="strategy-card">
+                    <h4>🏆 Primary Asset</h4>
+                    <p>PetronellaTech.com has the highest authority and should be your main hub</p>
+                </div>
+                <div class="strategy-card">
+                    <h4>📈 SEO Consolidation</h4>
+                    <p>Redirect all domains to specialized landing pages on main site</p>
+                </div>
+                <div class="strategy-card">
+                    <h4>🎯 Focused Strategy</h4>
+                    <p>One strong domain vs. five weak ones = better Google rankings</p>
+                </div>
+                <div class="strategy-card">
+                    <h4>💰 Cost Efficiency</h4>
+                    <p>Maintain one website instead of five separate properties</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-box">
+            <h2>🔄 Domain Consolidation Action Plan</h2>
+            <p style="margin-bottom: 1.5rem;">Strategic 301 redirects to preserve SEO value while creating focused landing pages:</p>
+            
+            <div class="domain-redirect">
+                <span><strong>SimpleCyber.io</strong></span>
+                <span class="redirect-arrow">→</span>
+                <span>PetronellaTech.com/simple-cyber</span>
+            </div>
+            <div class="domain-redirect">
+                <span><strong>ComplianceArmor.com</strong></span>
+                <span class="redirect-arrow">→</span>
+                <span>PetronellaTech.com/compliance-armor</span>
+            </div>
+            <div class="domain-redirect">
+                <span><strong>BlockchainSecurity.com</strong></span>
+                <span class="redirect-arrow">→</span>
+                <span>PetronellaTech.com/blockchain-security</span>
+            </div>
+            <div class="domain-redirect">
+                <span><strong>CraigPetronella.com</strong></span>
+                <span class="redirect-arrow">→</span>
+                <span>PetronellaTech.com/about-craig</span>
+            </div>
+        </div>
+
+        <div class="funnel-section">
+            <h2>🎯 Enhanced Marketing Strategy Integration</h2>
+            <p style="margin-bottom: 2rem; color: #64748b;">
+                Leveraging insights from the comprehensive digital growth analysis, we're implementing a multi-layered approach that targets scam victims, high-net-worth individuals, and SMB compliance officers with precision-targeted campaigns and emotional resonance.
+            </p>
+            
+            <div class="funnel-step">
+                <div class="step-number">1</div>
+                <div>
+                    <strong>Lead Magnets & Emotional Triggers</strong>
+                    <p>Deploy "Crypto Scam Recovery Kit" and "CMMC Self-Assessment Tool" with empathic messaging that addresses shame, urgency, and trust issues</p>
+                </div>
+            </div>
+            
+            <div class="funnel-step">
+                <div class="step-number">2</div>
+                <div>
+                    <strong>Multi-Platform Paid Strategy</strong>
+                    <p>$800 X Ads for authority building + $200 Meta Ads for emotional victim recovery stories targeting urgent, high-intent searches</p>
+                </div>
+            </div>
+            
+            <div class="funnel-step">
+                <div class="step-number">3</div>
+                <div>
+                    <strong>Behavioral Retargeting</strong>
+                    <p>Dynamic ads across funnel drop-outs with personalized messaging based on visitor behavior and pain points</p>
+                </div>
+            </div>
+            
+            <div class="funnel-step">
+                <div class="step-number">4</div>
+                <div>
+                    <strong>Content Amplification System</strong>
+                    <p>Weekly "Scam Survivor Stories" content + LinkedIn thought leadership + YouTube Shorts for trust-building and funnel traffic</p>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="card">
+            <h3>🚀 Competitive Advantage Strategy</h3>
+            <div style="text-align: left;">
+                <p style="margin-bottom: 1rem; color: #64748b;">
+                    <strong>vs. MADSecurity:</strong> They focus on technical B2B messaging. Craig's advantage: real scam recovery expertise with empathic, victim-centric approach.
+                </p>
+                <p style="margin-bottom: 1rem; color: #64748b;">
+                    <strong>vs. KnowBe4:</strong> Expensive, generic training. Craig offers personalized, bite-sized, scenario-based training with real-world effectiveness.
+                </p>
+                <p style="color: #64748b;">
+                    <strong>Market Gap:</strong> Emotional, psychologically-driven cybersecurity training that addresses shame, urgency, and trust issues in scam recovery.
+                </p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>🎯 Expected KPIs & Revenue Targets</h3>
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-value">5-10</div>
+                    <div class="kpi-label">Emergency Consult Calls/Month</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">15-30</div>
+                    <div class="kpi-label">Course Enrollments/Month</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">&lt;$10</div>
+                    <div class="kpi-label">Cost Per Qualified Lead</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">2.5x+</div>
+                    <div class="kpi-label">Ad ROAS Target</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">40-50%</div>
+                    <div class="kpi-label">Email Open Rate</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">$500-2K</div>
+                    <div class="kpi-label">Avg. Consult Value</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>📈 90-Day Revenue Pipeline</h3>
+            <div style="text-align: left;">
+                <div class="metric">
+                    <span><strong>Month 1:</strong> Setup & Launch</span>
+                    <span class="metric-value">$2K-5K revenue</span>
+                </div>
+                <div class="metric">
+                    <span><strong>Month 2:</strong> Optimize & Scale</span>
+                    <span class="metric-value">$5K-10K revenue</span>
+                </div>
+                <div class="metric">
+                    <span><strong>Month 3:</strong> Full System</span>
+                    <span class="metric-value">$10K-15K revenue</span>
+                </div>
+                <div style="margin-top: 1rem; padding: 1rem; background: #f8fafc; border-radius: 8px;">
+                    <strong>Revenue Sources:</strong> Emergency consultations ($500-2K), course sales ($29-299), compliance retainers ($1K-5K/month), and Skool community subscriptions.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // SEO Performance Chart
+        const seoCtx = document.getElementById('seoChart').getContext('2d');
+        new Chart(seoCtx, {
+            type: 'bar',
+            data: {
+                labels: ['PetronellaTech', 'SimpleCyber', 'ComplianceArmor', 'BlockchainSec', 'CraigPetronella'],
+                datasets: [{
+                    label: 'Authority Score',
+                    data: [21, 5, 6, 1, 13],
+                    backgroundColor: '#3b82f6',
+                    borderRadius: 5
+                }, {
+                    label: 'Organic Traffic',
+                    data: [216, 0, 0, 0, 7],
+                    backgroundColor: '#10b981',
+                    borderRadius: 5
+                }, {
+                    label: 'Keywords',
+                    data: [386, 7, 6, 1, 13],
+                    backgroundColor: '#f59e0b',
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Traffic Distribution Chart
+        const trafficCtx = document.getElementById('trafficChart').getContext('2d');
+        new Chart(trafficCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['PetronellaTech.com', 'Other Domains'],
+                datasets: [{
+                    data: [216, 7],
+                    backgroundColor: ['#3b82f6', '#e2e8f0'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        // Budget Allocation Chart
+        const budgetCtx = document.getElementById('budgetChart').getContext('2d');
+        new Chart(budgetCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Google Ads', 'Meta Ads', 'LinkedIn Ads', 'Email/Landing Tools', 'Design Tools', 'VA/Freelancer'],
+                datasets: [{
+                    data: [400, 200, 150, 50, 30, 170],
+                    backgroundColor: [
+                        '#3b82f6',
+                        '#10b981',
+                        '#f59e0b',
+                        '#8b5cf6',
+                        '#ef4444',
+                        '#06b6d4'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
