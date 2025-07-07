@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrossRealms Digital Discovery Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            border-radius: 15px;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            padding: 60px 40px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateX(0) translateY(0); }
+            100% { transform: translateX(-50px) translateY(-50px); }
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .header .subtitle {
+            font-size: 1.3em;
+            opacity: 0.9;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header .date {
+            font-size: 1.1em;
+            opacity: 0.8;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content {
+            padding: 0;
+        }
+
+        .section {
+            padding: 40px;
+            border-bottom: 1px solid #e8e8e8;
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            transform: translateX(5px);
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-size: 1.6em;
+            font-weight: 700;
+            color: #1e3c72;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .section-title .emoji {
+            font-size: 1.2em;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-content {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #444;
+        }
+
+        .section-content ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .section-content li {
+            margin-bottom: 15px;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .section-content li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: #2a5298;
+            font-weight: bold;
+            font-size: 1em;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #2a5298;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-top: 4px solid #2a5298;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #1e3c72;
+            display: block;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .opportunity-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 5px solid #2a5298;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .opportunity-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .page-analysis {
+            background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+            color: white;
+            padding: 18px 25px;
+            border-radius: 10px;
+            margin: 18px 0;
+            font-weight: 600;
+            box-shadow: 0 8px 25px rgba(30, 60, 114, 0.2);
+        }
+
+        .current-state {
+            background: #fed7d7;
+            color: #742a2a;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        .target-state {
+            background: #c6f6d5;
+            color: #22543d;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        .priority-urgent {
+            background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-weight: 600;
+            box-shadow: 0 8px 25px rgba(229, 62, 62, 0.2);
+            border-left: 4px solid #ffc107;
+        }
+
+        .priority-high {
+            background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-weight: 600;
+            box-shadow: 0 8px 25px rgba(237, 137, 54, 0.2);
+            border-left: 4px solid #ffc107;
+        }
+
+        .priority-medium {
+            background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-weight: 600;
+            box-shadow: 0 8px 25px rgba(66, 153, 225, 0.2);
+            border-left: 4px solid #ffc107;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            color: white;
+            text-align: center;
+            padding: 60px 40px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #ffc107 0%, #ff8f00 100%);
+            color: #1e3c72;
+            padding: 18px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            margin: 20px 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(255, 193, 7, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(255, 193, 7, 0.4);
+        }
+
+        .contact-info {
+            margin-top: 30px;
+            font-size: 1.1em;
+        }
+
+        .contact-info div {
+            margin: 12px 0;
+        }
+
+        .confidential {
+            text-align: center;
+            padding: 25px;
+            background: #f8f9fa;
+            color: #666;
+            font-size: 0.9em;
+            font-style: italic;
+            border-top: 3px solid #2a5298;
+        }
+
+        .directory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+            font-size: 0.9em;
+        }
+
+        .directory-item {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            border: 1px solid #e8e8e8;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .header {
+                padding: 40px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .section {
+                padding: 30px 20px;
+            }
+            
+            .section:hover {
+                transform: none;
+            }
+
+            .cta-section {
+                padding: 40px 20px;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+            
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+            
+            .section:hover {
+                background: white;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 CrossRealms Digital Discovery</h1>
+            <div class="subtitle">Your Journey to Online Visibility & AI-Powered Growth</div>
+            <div class="date">By Banoo Inc. – July 07, 2025</div>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <div class="section-title">
+                    <span class="emoji">📍</span>
+                    Where You Are Now
+                </div>
+                <div class="section-content">
+                    <div class="highlight-box">
+                        <p style="font-size: 1.2em; color: #1e3c72; font-weight: 600;">Think of your website as a hidden treasure chest in the vast digital ocean. Right now, your valuable services are there, but they're buried deep where your ideal customers can't easily find them. This report is your treasure map to visibility.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <span class="emoji">🔍</span>
+                    Current Performance Reality Check
+                </div>
+                <div class="section-content">
+                    <div class="highlight-box">
+                        <p style="font-size: 1.1em; color: #1e3c72; font-style: italic;">Your website has amazing content, but it's like having a brilliant conversation in an empty room</p>
+                    </div>
+
+                    <div class="page-analysis">
+                        <strong>🔒 Sophos MDR Security Page</strong><br>
+                        Google Position: 29th (Page 3) | Monthly Traffic: 0 visitors | Potential Audience: 720 searches/month<br>
+                        <span style="color: #ffc107;">🚨 Hidden in the shadows - needs immediate attention</span>
+                    </div>
+
+                    <div class="page-analysis">
+                        <strong>📧 Phishy Emails Blog</strong><br>
+                        Google Position: 93rd (Page 10) | Monthly Traffic: 0 visitors | Potential Audience: 590 searches/month<br>
+                        <span style="color: #ffc107;">🔍 Virtually invisible - major restructuring needed</span>
+                    </div>
+
+                    <div class="page-analysis">
+                        <strong>🛡️ MDR Security Services</strong><br>
+                        Google Position: 21st (Page 2) | Monthly Traffic: 0 visitors | Potential Audience: 480 searches/month<br>
+                        <span style="color: #ffc107;">⚠️ Close to page 1 - small push needed</span>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-number">1,790</span>
+                            <div class="stat-label">Monthly Visitors You're Missing</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">0</span>
+                            <div class="stat-label">Current Traffic from These Pages</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">3</span>
+                            <div class="stat-label">Pages Ready for Quick Wins</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <span class="emoji">🎯</span>
+                    Golden Opportunities Waiting
+                </div>
+                <div class="section-content">
+                    <div class="highlight-box">
+                        <p style="font-size: 1.1em; color: #1e3c72; font-weight: 600;">These are like open doors with welcome mats - easier to rank for, high reward</p>
+                    </div>
+
+                    <div class="opportunity-card">
+                        <strong style="color: #1e3c72; display: block; margin-bottom: 8px; font-size: 1.1em;">MSP 2.0 Services</strong>
+                        <div class="target-state">Easy to Rank</div>
+                        <div>720 monthly searches | Low competition</div>
+                    </div>
+
+                    <div class="opportunity-card">
+                        <strong style="color: #1e3c72; display: block; margin-bottom: 8px; font-size: 1.1em;">Cybersecurity Compliance</strong>
+                        <div class="target-state">Easy to Rank</div>
+                        <div>320 monthly searches | Perfect fit for your services</div>
+                    </div>
+
+                    <div class="opportunity-card">
+                        <strong style="color: #1e3c72; display: block; margin-bottom: 8px; font-size: 1.1em;">Splunk Professional Services</strong>
+                        <div class="target-state">Easy to Rank</div>
+                        <div>140 monthly searches | Specialized niche opportunity</div>
+                    </div>
+
+                    <div class="opportunity-card">
+                        <strong style="color: #1e3c72; display: block; margin-bottom: 8px; font-size: 1.1em;">IT Consulting Firms</strong>
+                        <div class="current-state">Medium Effort</div>
+                        <div>590 monthly searches | High value prospects</div>
+                    </div>
+
+                    <div class="opportunity-card">
+                        <strong style="color: #1e3c72; display: block; margin-bottom: 8px; font-size: 1.1em;">MSSP Services</strong>
+                        <div class="current-state">Needs Strategy</div>
+                        <div>1,000 monthly searches | Biggest opportunity</div>
+                    </div>
+
+                    <div class="opportunity-card">
+                        <strong style="color: #1e3c72; display: block; margin-bottom: 8px; font-size: 1.1em;">Fractional IT Services</strong>
+                        <div class="target-state">No Competition</div>
+                        <div>30 monthly searches | Untapped market</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <span class="emoji">🤖</span>
+                    The AI Revolution Strategy
+                </div>
+                <div class="section-content">
+                    <div class="highlight-box">
+                        <p style="font-size: 1.1em; color: #1e3c72; font-weight: 600;">People aren't just Googling anymore - they're asking ChatGPT and AI assistants for business recommendations</p>
+                    </div>
+
+                    <div class="opportunity-card">
+                        <strong style="color: #1e3c72; display: block; margin-bottom: 8px; font-size: 1.1em;">🗣️ Conversation-Ready Content</strong>
+                        <div>When someone asks AI "Who's the best MSSP in the Midwest?" - we want CrossRealms to be the answer.</div>
+                        <div style="margin-top: 15px;"><strong>Target Questions:</strong></div>
+                        <ul style="margin-top: 10px;">
+                            <li>"What's the difference between MSP and MSSP?"</li>
+                            <li>"Best IT consulting firms for healthcare in Chicago"</li>
+                            <li>"Who offers Splunk support for small businesses?"</li>
+                        </ul>
+                    </div>
+
+                    <div class="opportunity-card">
+                        <strong style="color: #1e3c72; display: block; margin-bottom: 8px; font-size: 1.1em;">🎯 Smart Entity Recognition</strong>
+                        <div>Teaching AI systems to understand CrossRealms as THE Chicago cybersecurity expert.</div>
+                        <div style="margin-top: 15px;"><strong>Key Associations:</strong></div>
+                        <ul style="margin-top: 10px;">
+                            <li>CrossRealms = Chicago cybersecurity</li>
+                            <li>Healthcare & enterprise focus</li>
+                            <li>B2B specialized services</li>
+                        </ul>
+                    </div>
+
+                    <div class="opportunity-card">
+                        <strong style="color: #1e3c72; display: block; margin-bottom: 8px; font-size: 1.1em;">🔍 Voice Search Optimization</strong>
+                        <div>Optimizing for how people actually talk to their devices and AI assistants.</div>
+                        <div style="margin-top: 15px;"><strong>Natural Phrases:</strong></div>
+                        <ul style="margin-top: 10px;">
+                            <li>"Find me a reliable MSSP in the Midwest"</li>
+                            <li>"Splunk help desk for healthcare"</li>
+                            <li>"Chicago IT consulting for compliance"</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <span class="emoji">📍</span>
+                    Missing Directory Presence
+                </div>
+                <div class="section-content">
+                    <div class="highlight-box">
+                        <p style="font-size: 1.1em; color: #1e3c72; font-weight: 600;">Your business isn't showing up in key directories - it's like having an unlisted phone number</p>
+                    </div>
+
+                    <div class="directory-grid">
+                        <div class="directory-item">Bing</div>
+                        <div class="directory-item">Yahoo!</div>
+                        <div class="directory-item">Yellow Pages</div>
+                        <div class="directory-item">MapQuest</div>
+                        <div class="directory-item">Foursquare</div>
+                        <div class="directory-item">YP.com</div>
+                        <div class="directory-item">Insider Pages</div>
+                        <div class="directory-item">iGlobal</div>
+                        <div class="directory-item">Hours.com</div>
+                        <div class="directory-item">My Local Services</div>
+                        <div class="directory-item">Tupalo</div>
+                        <div class="directory-item">Opendi</div>
+                        <div class="directory-item">Citysearch</div>
+                        <div class="directory-item">8coupons</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <span class="emoji">🚀</span>
+                    Your Action Roadmap
+                </div>
+                <div class="section-content">
+                    <div class="highlight-box">
+                        <p style="font-size: 1.1em; color: #1e3c72; font-weight: 600;">From invisible to irresistible - here's your step-by-step journey to digital dominance</p>
+                    </div>
+
+                    <div class="priority-urgent">
+                        <strong>🔥 URGENT: Fix Your Sophos MDR Page</strong><br>
+                        This page is your biggest quick win. With proper optimization, you could capture 720 monthly searches and start generating real leads within 4-6 weeks.<br>
+                        <strong>What we'll do:</strong> Enhanced content, better internal linking, schema markup, and semantic SEO improvements.
+                    </div>
+
+                    <div class="priority-high">
+                        <strong>🎯 HIGH PRIORITY: Create New Opportunity Pages</strong><br>
+                        Build dedicated landing pages for "MSP 2.0", "Cybersecurity Compliance", and "Splunk Professional Services" - these are low-hanging fruit with high reward.<br>
+                        <strong>Expected impact:</strong> 1,000+ new monthly visitors within 3 months.
+                    </div>
+
+                    <div class="priority-high">
+                        <strong>🤖 HIGH PRIORITY: AI-Optimized Content Creation</strong><br>
+                        Create FAQ sections and expert explainers that directly answer how people search using AI tools. This positions you for the future of search.<br>
+                        <strong>Focus areas:</strong> Conversational content, entity recognition, voice search optimization.
+                    </div>
+
+                    <div class="priority-medium">
+                        <strong>📧 MEDIUM: Revamp Phishy Emails Blog</strong><br>
+                        Transform this underperforming piece into a comprehensive cybersecurity resource with structured data and current examples.<br>
+                        <strong>Goal:</strong> Move from position 93 to top 20 within 6 months.
+                    </div>
+
+                    <div class="priority-medium">
+                        <strong>📍 MEDIUM: Directory Listing Blitz</strong><br>
+                        Get listed in 14 major directories to improve local SEO and domain authority. This foundational work supports all other efforts.<br>
+                        <strong>Timeline:</strong> Complete within 2 weeks for immediate credibility boost.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <div class="section-title" style="color: white; justify-content: center; margin-bottom: 30px;">
+                <span class="emoji">🚀</span>
+                Ready to Transform Your Digital Presence?
+            </div>
+            <p style="font-size: 1.3em; margin-bottom: 30px; opacity: 0.9;">Let's turn your hidden digital treasure into a customer-generating machine</p>
+            
+            <div class="stats-grid" style="margin-bottom: 30px;">
+                <div class="stat-item" style="background: rgba(255,255,255,0.1); color: white; border-top: 4px solid #ffc107;">
+                    <span class="stat-number" style="color: #ffc107;">2,800+</span>
+                    <div class="stat-label" style="color: white;">Potential Monthly Visitors</div>
+                </div>
+                <div class="stat-item" style="background: rgba(255,255,255,0.1); color: white; border-top: 4px solid #ffc107;">
+                    <span class="stat-number" style="color: #ffc107;">60-90</span>
+                    <div class="stat-label" style="color: white;">Days to See Results</div>
+                </div>
+                <div class="stat-item" style="background: rgba(255,255,255,0.1); color: white; border-top: 4px solid #ffc107;">
+                    <span class="stat-number" style="color: #ffc107;">5x</span>
+                    <div class="stat-label" style="color: white;">Projected Traffic Increase</div>
+                </div>
+            </div>
+            
+            <a href="#" class="cta-button">Let's Start Your Digital Transformation</a>
+            
+            <div class="contact-info">
+                <div style="font-size: 1.3em; margin-bottom: 15px;"><strong>Emod Vafa, Founder & CEO</strong></div>
+                <div>📞 <strong>416-400-4699</strong></div>
+                <div>🌐 <strong>https://banoo.marketing</strong></div>
+                <div>📧 <strong>emod@banoo.marketing</strong></div>
+                <div style="margin-top: 25px; font-size: 1.1em; opacity: 0.9; line-height: 1.6;">
+                    <strong>Next Steps:</strong> Reply to this report with your preferred consultation time, or click above to schedule directly. We're ready to begin maximizing your digital growth immediately.
+                </div>
+            </div>
+        </div>
+
+        <div class="confidential">
+            <strong>Confidential Digital Discovery Report</strong> – Prepared exclusively for CrossRealms – July 2025
+        </div>
+    </div>
+
+    <script>
+        // Enhanced functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Professional print button
+            const printBtn = document.createElement('button');
+            printBtn.innerHTML = '📄 Export PDF';
+            printBtn.style.cssText = `
+                position: fixed;
+                top: 25px;
+                right: 25px;
+                background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+                color: white;
+                border: none;
+                padding: 15px 25px;
+                border-radius: 30px;
+                cursor: pointer;
+                font-weight: 600;
+                z-index: 1000;
+                box-shadow: 0 6px 20px rgba(30, 60, 114, 0.3);
+                transition: all 0.3s ease;
+                font-size: 14px;
+                letter-spacing: 0.5px;
+            `;
+            
+            printBtn.onmouseover = function() {
+                this.style.transform = 'translateY(-3px)';
+                this.style.boxShadow = '0 10px 30px rgba(30, 60, 114, 0.4)';
+            };
+            
+            printBtn.onmouseout = function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 6px 20px rgba(30, 60, 114, 0.3)';
+            };
+            
+            printBtn.onclick = function() {
+                window.print();
+            };
+            
+            document.body.appendChild(printBtn);
+
+            // Scroll animations
+            const sections = document.querySelectorAll('.section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = 'fadeInUp 0.8s ease-out';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // Add professional loading animation
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.5s ease';
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
