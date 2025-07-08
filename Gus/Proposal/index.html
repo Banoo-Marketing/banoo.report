@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gus Modern Marketing Campaign Proposal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            border-radius: 15px;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            padding: 60px 40px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateX(0) translateY(0); }
+            100% { transform: translateX(-50px) translateY(-50px); }
+        }
+
+        .client-logo {
+            width: 120px;
+            height: 120px;
+            background: #FF5722;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 8px 25px rgba(255, 87, 34, 0.3);
+        }
+
+        .client-logo span {
+            font-size: 2.2em;
+            font-weight: 700;
+            color: white;
+            letter-spacing: -2px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .header .subtitle {
+            font-size: 1.3em;
+            opacity: 0.9;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header .date {
+            font-size: 1.1em;
+            opacity: 0.8;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content {
+            padding: 0;
+        }
+
+        .section {
+            padding: 40px;
+            border-bottom: 1px solid #e8e8e8;
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            transform: translateX(5px);
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-size: 1.6em;
+            font-weight: 700;
+            color: #1e3c72;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .section-title .emoji {
+            font-size: 1.2em;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-content {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #444;
+        }
+
+        .section-content ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .section-content li {
+            margin-bottom: 15px;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .section-content li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: #2a5298;
+            font-weight: bold;
+            font-size: 1em;
+        }
+
+        .greeting-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #2a5298;
+            font-style: italic;
+        }
+
+        .phase-container {
+            background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+            color: white;
+            padding: 18px 25px;
+            border-radius: 10px;
+            margin: 18px 0;
+            font-weight: 600;
+            box-shadow: 0 8px 25px rgba(30, 60, 114, 0.2);
+            border-left: 4px solid #ffc107;
+        }
+
+        .campaign-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .campaign-table th {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .campaign-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e8e8e8;
+            vertical-align: top;
+        }
+
+        .campaign-table tr:hover {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .budget-highlight {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .phase-highlight {
+            background: linear-gradient(135deg, #ffc107 0%, #ff8f00 100%);
+            color: #1e3c72;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-top: 4px solid #2a5298;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #1e3c72;
+            display: block;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #2a5298;
+        }
+
+        .investment-item {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 5px solid #2a5298;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .investment-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .investment-item strong {
+            color: #1e3c72;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .investment-item .price {
+            color: #2a5298;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            color: white;
+            text-align: center;
+            padding: 60px 40px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #ffc107 0%, #ff8f00 100%);
+            color: #1e3c72;
+            padding: 18px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            margin: 20px 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(255, 193, 7, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(255, 193, 7, 0.4);
+        }
+
+        .contact-info {
+            margin-top: 30px;
+            font-size: 1.1em;
+        }
+
+        .contact-info div {
+            margin: 12px 0;
+        }
+
+        .confidential {
+            text-align: center;
+            padding: 25px;
+            background: #f8f9fa;
+            color: #666;
+            font-size: 0.9em;
+            font-style: italic;
+            border-top: 3px solid #2a5298;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .header {
+                padding: 40px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .section {
+                padding: 30px 20px;
+            }
+            
+            .section:hover {
+                transform: none;
+            }
+
+            .cta-section {
+                padding: 40px 20px;
+            }
+
+            .campaign-table {
+                font-size: 0.9em;
+            }
+
+            .campaign-table th,
+            .campaign-table td {
+                padding: 10px 8px;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+            
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+            
+            .section:hover {
+                background: white;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="client-logo">
+                <span>Gus*</span>
+            </div>
+            <h1>🚀 Pre-Sale + Sale Campaign Plan</h1>
+            <div class="subtitle">July Activation Strategy for Gus Modern</div>
+            <div class="date">By Banoo Inc. – July 07, 2025</div>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <div class="section-title">
+                    <span class="emoji">👋</span>
+                    Campaign Overview
+                </div>
+                <div class="section-content">
+                    <div class="greeting-box">
+                        <p style="font-size: 1.1em; color: #1e3c72;"><strong>Hi Jon & Team,</strong></p>
+                        <p>Hope you're well! Following our latest discussion and your July sale campaign timeline, here's the recommended rollout plan based on your <strong>$20K total media allocation</strong> (including fees). The broader D2C vision will stay in our back pocket for now—we'll keep the focus laser-sharp on this activation.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <span class="emoji">🗓️</span>
+                    Campaign Timeline & Budget
+                </div>
+                <div class="section-content">
+                    <table class="campaign-table">
+                        <thead>
+                            <tr>
+                                <th>Phase</th>
+                                <th>Dates</th>
+                                <th>Budget</th>
+                                <th>Focus</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="phase-highlight">Pre-Sale Phase</span></td>
+                                <td>Launch this week</td>
+                                <td><span class="budget-highlight">~$5,000</span></td>
+                                <td>Remarketing & Warm-up</td>
+                            </tr>
+                            <tr>
+                                <td><span class="phase-highlight">Sale Campaign</span></td>
+                                <td>Launch mid-July</td>
+                                <td><span class="budget-highlight">~$15,000</span></td>
+                                <td>Display-first campaign</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-number">$20K</span>
+                            <div class="stat-label">Total Media Allocation</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">2</span>
+                            <div class="stat-label">Campaign Phases</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">July</span>
+                            <div class="stat-label">Primary Launch Month</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <span class="emoji">🎯</span>
+                    Phase 1: Pre-Sale Strategy
+                </div>
+                <div class="section-content">
+                    <div class="phase-container">
+                        Launch This Week | Budget: ~$5,000 | Focus: Remarketing & Warm-up
+                    </div>
+
+                    <div class="highlight-box">
+                        <p style="font-size: 1.2em; color: #1e3c72; font-weight: 600;">Strategic warm-up phase to prepare your audience for the main sale campaign</p>
+                    </div>
+
+                    <ul>
+                        <li><strong>Remarketing Campaigns:</strong> Target previous website visitors and past customers with teaser content</li>
+                        <li><strong>Audience Building:</strong> Expand remarketing pools through lookalike audiences</li>
+                        <li><strong>Content Seeding:</strong> Share behind-the-scenes content and product previews</li>
+                        <li><strong>Email Integration:</strong> Coordinate with email marketing for cohesive messaging</li>
+                        <li><strong>Performance Testing:</strong> Test ad creatives and messaging for optimal performance</li>
+                    </ul>
+
+                    <div class="investment-item">
+                        <strong>Pre-Sale Investment Breakdown</strong>
+                        <div>Facebook/Instagram Ads: $3,000</div>
+                        <div>Google Display Network: $1,500</div>
+                        <div>Creative Development & Testing: $500</div>
+                        <div class="price">Total: $5,000</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <span class="emoji">🚀</span>
+                    Phase 2: Main Sale Campaign
+                </div>
+                <div class="section-content">
+                    <div class="phase-container">
+                        Launch Mid-July | Budget: ~$15,000 | Focus: Display-First Campaign
+                    </div>
+
+                    <div class="highlight-box">
+                        <p style="font-size: 1.2em; color: #1e3c72; font-weight: 600;">High-impact campaign leveraging the warm audience from Phase 1 to maximize sale conversions</p>
+                    </div>
+
+                    <ul>
+                        <li><strong>Display-First Strategy:</strong> Prioritize visual impact across premium display networks</li>
+                        <li><strong>Multi-Platform Approach:</strong> Facebook, Instagram, Google Display, and YouTube</li>
+                        <li><strong>Dynamic Product Ads:</strong> Showcase specific furniture pieces with real-time inventory</li>
+                        <li><strong>Conversion Optimization:</strong> Focus on driving direct sales and qualified leads</li>
+                        <li><strong>Real-Time Analytics:</strong> Monitor performance and optimize campaigns daily</li>
+                        <li><strong>Retargeting Intensification:</strong> Aggressive retargeting of engaged users from Phase 1</li>
+                    </ul>
+
+                    <div class="investment-item">
+                        <strong>Main Campaign Investment Breakdown</strong>
+                        <div>Facebook/Instagram Ads: $8,000</div>
+                        <div>Google Display & Shopping: $4,500</div>
+                        <div>YouTube Video Campaigns: $1,500</div>
+                        <div>Creative Assets & Optimization: $1,000</div>
+                        <div class="price">Total: $15,000</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <span class="emoji">📊</span>
+                    Expected Outcomes & KPIs
+                </div>
+                <div class="section-content">
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-number">25-35%</span>
+                            <div class="stat-label">Expected ROAS Increase</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">15-20%</span>
+                            <div class="stat-label">Conversion Rate Lift</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">40K+</span>
+                            <div class="stat-label">Estimated Reach</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">$80K+</span>
+                            <div class="stat-label">Projected Revenue</div>
+                        </div>
+                    </div>
+
+                    <ul>
+                        <li><strong>Primary KPI:</strong> Return on Ad Spend (ROAS) targeting 4:1 minimum</li>
+                        <li><strong>Sales Volume:</strong> Track direct sales attributed to campaigns</li>
+                        <li><strong>Audience Growth:</strong> Expand remarketing pools for future campaigns</li>
+                        <li><strong>Brand Awareness:</strong> Measure reach and frequency across target demographics</li>
+                        <li><strong>Customer Acquisition:</strong> Cost per acquisition and lifetime value metrics</li>
+                        <li><strong>Creative Performance:</strong> A/B test messaging and visual elements</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <span class="emoji">🎨</span>
+                    Creative Strategy & Assets
+                </div>
+                <div class="section-content">
+                    <div class="highlight-box">
+                        <p style="font-size: 1.1em; color: #1e3c72; font-weight: 600;">Leveraging Gus Modern's premium design aesthetic to create compelling, conversion-focused creative assets</p>
+                    </div>
+
+                    <ul>
+                        <li><strong>Visual Consistency:</strong> Align with Gus Modern's clean, contemporary brand identity</li>
+                        <li><strong>Product Focus:</strong> Highlight best-selling pieces and new arrivals</li>
+                        <li><strong>Lifestyle Integration:</strong> Show furniture in aspirational home settings</li>
+                        <li><strong>Sale Messaging:</strong> Clear, compelling calls-to-action with urgency elements</li>
+                        <li><strong>Mobile Optimization:</strong> Ensure all creatives perform across devices</li>
+                        <li><strong>Video Content:</strong> Short-form videos showcasing product details and room transformations</li>
+                    </ul>
+
+                    <div class="investment-item">
+                        <strong>Creative Development Package</strong>
+                        <div>Static display ads (15+ variations)</div>
+                        <div>Video content (3-5 short-form videos)</div>
+                        <div>Dynamic product feed optimization</div>
+                        <div>Landing page recommendations</div>
+                        <div class="price">Included in campaign budget</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <span class="emoji">🔄</span>
+                    Future D2C Vision
+                </div>
+                <div class="section-content">
+                    <div class="highlight-box">
+                        <p style="font-size: 1.1em; color: #1e3c72; font-weight: 600;">While we focus on this July activation, we're keeping the broader D2C strategy ready for future expansion</p>
+                    </div>
+
+                    <ul>
+                        <li><strong>Omnichannel Integration:</strong> Seamless customer experience across all touchpoints</li>
+                        <li><strong>Customer Journey Optimization:</strong> Full-funnel approach from awareness to retention</li>
+                        <li><strong>Advanced Targeting:</strong> Sophisticated audience segmentation and personalization</li>
+                        <li><strong>Seasonal Campaigns:</strong> Year-round marketing calendar aligned with furniture buying cycles</li>
+                        <li><strong>Subscription Services:</strong> Explore recurring revenue models and customer loyalty programs</li>
+                        <li><strong>Content Marketing:</strong> Establish thought leadership in modern furniture and design</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <div class="section-title" style="color: white; justify-content: center; margin-bottom: 30px;">
+                <span class="emoji">🚀</span>
+                Ready to Launch Your July Campaign?
+            </div>
+            <p style="font-size: 1.3em; margin-bottom: 30px; opacity: 0.9;">Let's maximize your $20K investment and drive exceptional results for Gus Modern</p>
+            
+            <a href="#" class="cta-button">Approve Campaign Plan</a>
+            <a href="mailto:emod@banoo.marketing" class="cta-button">Schedule Kickoff Call</a>
+            
+            <div class="contact-info">
+                <div style="font-size: 1.3em; margin-bottom: 15px;"><strong>Emod Vafa, Founder & CEO</strong></div>
+                <div>📞 <strong>416-400-4699</strong></div>
+                <div>🌐 <strong>https://banoo.marketing</strong></div>
+                <div>📧 <strong>emod@banoo.marketing</strong></div>
+                <div style="margin-top: 25px; font-size: 1.1em; opacity: 0.9; line-height: 1.6;">
+                    <strong>Next Steps:</strong> Upon approval, we'll begin Phase 1 implementation this week with detailed campaign setup and creative development. Weekly performance reports will keep you informed of all key metrics and optimizations.
+                </div>
+            </div>
+        </div>
+
+        <div class="confidential">
+            <strong>Confidential Marketing Proposal</strong> – Prepared exclusively for Gus Modern – July 2025
+        </div>
+    </div>
+
+    <script>
+        // Enhanced functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Professional print button
+            const printBtn = document.createElement('button');
+            printBtn.innerHTML = '📄 Export PDF';
+            printBtn.style.cssText = `
+                position: fixed;
+                top: 25px;
+                right: 25px;
+                background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+                color: white;
+                border: none;
+                padding: 15px 25px;
+                border-radius: 30px;
+                cursor: pointer;
+                font-weight: 600;
+                z-index: 1000;
+                box-shadow: 0 6px 20px rgba(30, 60, 114, 0.3);
+                transition: all 0.3s ease;
+                font-size: 14px;
+                letter-spacing: 0.5px;
+            `;
+            
+            printBtn.onmouseover = function() {
+                this.style.transform = 'translateY(-3px)';
+                this.style.boxShadow = '0 10px 30px rgba(30, 60, 114, 0.4)';
+            };
+            
+            printBtn.onmouseout = function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 6px 20px rgba(30, 60, 114, 0.3)';
+            };
+            
+            printBtn.onclick = function() {
+                window.print();
+            };
+            
+            document.body.appendChild(printBtn);
+
+            // Scroll animations
+            const sections = document.querySelectorAll('.section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = 'fadeInUp 0.8s ease-out';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // Add professional loading animation
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.5s ease';
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
