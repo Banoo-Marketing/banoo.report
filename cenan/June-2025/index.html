@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>گزارش تحلیل سئو - برند سه‌نان</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Vazir', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            z-index: 1;
+            position: relative;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            z-index: 1;
+            position: relative;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #3498db;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .status-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+        
+        .status-card:hover {
+            border-color: #3498db;
+            transform: translateY(-3px);
+        }
+        
+        .status-card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .problems {
+            background: #fff5f5;
+            border-left-color: #e74c3c;
+        }
+        
+        .strengths {
+            background: #f0fff4;
+            border-left-color: #27ae60;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        
+        .small-chart {
+            height: 250px;
+        }
+        
+        .metrics-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .metrics-table th,
+        .metrics-table td {
+            padding: 15px;
+            text-align: right;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .metrics-table th {
+            background: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .metrics-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .timeline {
+            position: relative;
+            margin: 30px 0;
+        }
+        
+        .timeline-item {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .timeline-item h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .kpi-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .kpi-card:hover {
+            border-color: #3498db;
+            transform: scale(1.05);
+        }
+        
+        .kpi-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+        
+        .kpi-label {
+            color: #7f8c8d;
+            font-size: 1.1em;
+        }
+        
+        .priority-high {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .priority-medium {
+            color: #f39c12;
+            font-weight: bold;
+        }
+        
+        .priority-low {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        
+        .action-item {
+            background: #fff;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #f39c12;
+            transition: all 0.3s ease;
+        }
+        
+        .action-item:hover {
+            background: #f8f9fa;
+            transform: translateX(5px);
+        }
+        
+        .summary-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .summary-box h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+        
+        .charts-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .charts-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>گزارش تحلیل سئو</h1>
+            <p>برند سه‌نان (Cenan Bakery) - تولید نان‌های صنعتی سالم و بسته‌بندی‌شده</p>
+        </div>
+        
+        <div class="content">
+            <!-- Executive Summary -->
+            <div class="summary-box">
+                <h3>خلاصه اجرایی</h3>
+                <p>وب‌سایت سه‌نان فاقد رتبه در گوگل، بدون لینک‌های خارجی معتبر و دارای ایرادات فنی اولیه است. برای رشد ارگانیک و تثبیت جایگاه در بازار نان‌های صنعتی سالم، سه‌نان باید تمرکز را روی بهینه‌سازی فنی، تولید محتوای تخصصی، و افزایش اعتبار دامنه قرار دهد.</p>
+            </div>
+            
+            <!-- Current Status -->
+            <div class="section">
+                <h2>🔍 وضعیت فعلی سئو</h2>
+                <div class="status-grid">
+                    <div class="status-card problems">
+                        <h3>🔴 مشکلات اصلی</h3>
+                        <ul>
+                            <li>عدم وجود بک‌لینک (۰ لینک خارجی معتبر)</li>
+                            <li>عدم رتبه در کلمات کلیدی هدف</li>
+                            <li>مشکلات فنی: عنوان‌های تکراری، توضیحات متا ناقص</li>
+                            <li>محتوای ضعیف: صفحه اصلی تنها ۳۶۲ کلمه</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="status-card strengths">
+                        <h3>🟢 نقاط قوت</h3>
+                        <ul>
+                            <li>ساختار اسکیما مناسب</li>
+                            <li>زیرساخت فنی قابل‌قبول برای توسعه‌های بعدی</li>
+                            <li>دامنه با قدمت مناسب</li>
+                            <li>طراحی ریسپانسیو</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Current Metrics -->
+            <div class="section">
+                <h2>📊 شاخص‌های فعلی</h2>
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-number">0</div>
+                        <div class="kpi-label">بک‌لینک</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-number">362</div>
+                        <div class="kpi-label">کلمات صفحه اصلی</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-number">0</div>
+                        <div class="kpi-label">رتبه کلمات کلیدی</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-number">25</div>
+                        <div class="kpi-label">Domain Authority</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SEO Issues Analysis -->
+            <div class="section">
+                <h2>⚠️ تحلیل مشکلات سئو</h2>
+                <table class="metrics-table">
+                    <thead>
+                        <tr>
+                            <th>مشکل</th>
+                            <th>اولویت</th>
+                            <th>تأثیر</th>
+                            <th>زمان رفع</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>عدم وجود بک‌لینک</td>
+                            <td class="priority-high">بالا</td>
+                            <td>بسیار زیاد</td>
+                            <td>۳-۶ ماه</td>
+                        </tr>
+                        <tr>
+                            <td>عنوان‌های تکراری</td>
+                            <td class="priority-high">بالا</td>
+                            <td>زیاد</td>
+                            <td>۱ هفته</td>
+                        </tr>
+                        <tr>
+                            <td>محتوای ضعیف</td>
+                            <td class="priority-high">بالا</td>
+                            <td>زیاد</td>
+                            <td>۱ ماه</td>
+                        </tr>
+                        <tr>
+                            <td>نبود متا دیسکریپشن</td>
+                            <td class="priority-medium">متوسط</td>
+                            <td>متوسط</td>
+                            <td>۱ هفته</td>
+                        </tr>
+                        <tr>
+                            <td>لینک‌سازی داخلی ضعیف</td>
+                            <td class="priority-medium">متوسط</td>
+                            <td>متوسط</td>
+                            <td>۲ هفته</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Charts Section -->
+            <div class="section">
+                <h2>📈 تحلیل عملکرد و پیش‌بینی</h2>
+                <div class="charts-row">
+                    <div class="chart-container small-chart">
+                        <h3>پیش‌بینی رشد ترافیک ارگانیک</h3>
+                        <canvas id="trafficChart"></canvas>
+                    </div>
+                    <div class="chart-container small-chart">
+                        <h3>توزیع مشکلات سئو</h3>
+                        <canvas id="issuesChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <h3>پیش‌بینی رشد کلمات کلیدی در ۶ ماه</h3>
+                    <canvas id="keywordsChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Action Plan -->
+            <div class="section">
+                <h2>🎯 برنامه اجرایی ۶ ماهه</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h4>ماه اول: بهینه‌سازی پایه</h4>
+                        <div class="action-item">اصلاح عنوان صفحات</div>
+                        <div class="action-item">افزودن توضیحات متا به همه صفحات</div>
+                        <div class="action-item">گسترش صفحه اصلی با محتوای هدفمند</div>
+                        <div class="action-item">افزودن اسکیما محصولات</div>
+                        <div class="action-item">ثبت دامنه در ۵ دایرکتوری معتبر</div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <h4>ماه دوم تا سوم: تولید محتوا و سئو داخلی</h4>
+                        <div class="action-item">نوشتن ۴ تا ۶ پست بلاگ درباره سبک زندگی سالم</div>
+                        <div class="action-item">ساخت صفحات محصول کامل برای هر نوع نان</div>
+                        <div class="action-item">بهینه‌سازی بر اساس کلمات کلیدی هدف</div>
+                        <div class="action-item">آغاز کمپین لینک‌سازی</div>
+                        <div class="action-item">افزودن بخش سوالات متداول (FAQ)</div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <h4>ماه چهارم تا ششم: ساخت اعتبار و اعتماد</h4>
+                        <div class="action-item">انتشار مستمر پست‌های وبلاگ</div>
+                        <div class="action-item">جذب ۵ بک‌لینک باکیفیت در ماه</div>
+                        <div class="action-item">تمرکز روی جستجوهای محلی (Local SEO)</div>
+                        <div class="action-item">ارائه فایل‌های قابل دانلود</div>
+                        <div class="action-item">ایجاد روابط با رسانه‌های تخصصی</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Keyword Strategy -->
+            <div class="section">
+                <h2>🔑 استراتژی کلمات کلیدی</h2>
+                <table class="metrics-table">
+                    <thead>
+                        <tr>
+                            <th>کلمه کلیدی</th>
+                            <th>حجم جستجو</th>
+                            <th>رقابت</th>
+                            <th>اولویت</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>نان سالم بسته‌بندی‌شده</td>
+                            <td>۱,۲۰۰</td>
+                            <td class="priority-medium">متوسط</td>
+                            <td class="priority-high">بالا</td>
+                        </tr>
+                        <tr>
+                            <td>تولید صنعتی نان</td>
+                            <td>۸۰۰</td>
+                            <td class="priority-low">کم</td>
+                            <td class="priority-high">بالا</td>
+                        </tr>
+                        <tr>
+                            <td>نان بدون مواد نگهدارنده</td>
+                            <td>۹۵۰</td>
+                            <td class="priority-medium">متوسط</td>
+                            <td class="priority-high">بالا</td>
+                        </tr>
+                        <tr>
+                            <td>تامین‌کننده عمده نان</td>
+                            <td>۶۰۰</td>
+                            <td class="priority-low">کم</td>
+                            <td class="priority-medium">متوسط</td>
+                        </tr>
+                        <tr>
+                            <td>نان مغذی و پرخاصیت</td>
+                            <td>۷۰۰</td>
+                            <td class="priority-medium">متوسط</td>
+                            <td class="priority-medium">متوسط</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Expected Results -->
+            <div class="section">
+                <h2>🎯 نتایج مورد انتظار</h2>
+                <table class="metrics-table">
+                    <thead>
+                        <tr>
+                            <th>بازه زمانی</th>
+                            <th>ترافیک ارگانیک</th>
+                            <th>کلمات کلیدی</th>
+                            <th>بک‌لینک</th>
+                            <th>Domain Authority</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ماه ۱-۲</td>
+                            <td>+۲۰٪</td>
+                            <td>۱۰-۱۵</td>
+                            <td>۵-۸</td>
+                            <td>۳۰</td>
+                        </tr>
+                        <tr>
+                            <td>ماه ۳-۶</td>
+                            <td>+۵۰٪</td>
+                            <td>۲۵-۳۵</td>
+                            <td>۱۵-۲۵</td>
+                            <td>۳۵</td>
+                        </tr>
+                        <tr>
+                            <td>ماه ۶-۱۲</td>
+                            <td>+۱۰۰٪</td>
+                            <td>۵۰-۷۰</td>
+                            <td>۳۰-۵۰</td>
+                            <td>۴۵</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Traffic Growth Chart
+        const trafficCtx = document.getElementById('trafficChart').getContext('2d');
+        new Chart(trafficCtx, {
+            type: 'line',
+            data: {
+                labels: ['فعلی', 'ماه 1', 'ماه 2', 'ماه 3', 'ماه 4', 'ماه 5', 'ماه 6'],
+                datasets: [{
+                    label: 'ترافیک ارگانیک',
+                    data: [100, 120, 150, 180, 220, 280, 350],
+                    borderColor: '#3498db',
+                    backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Issues Distribution Chart
+        const issuesCtx = document.getElementById('issuesChart').getContext('2d');
+        new Chart(issuesCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['مشکلات فنی', 'محتوای ضعیف', 'عدم بک‌لینک', 'سایر'],
+                datasets: [{
+                    data: [30, 25, 35, 10],
+                    backgroundColor: ['#e74c3c', '#f39c12', '#3498db', '#95a5a6'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 20
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Keywords Growth Chart
+        const keywordsCtx = document.getElementById('keywordsChart').getContext('2d');
+        new Chart(keywordsCtx, {
+            type: 'bar',
+            data: {
+                labels: ['نان سالم', 'تولید صنعتی', 'بدون مواد نگهدارنده', 'تامین عمده', 'نان مغذی'],
+                datasets: [{
+                    label: 'رتبه فعلی',
+                    data: [0, 0, 0, 0, 0],
+                    backgroundColor: 'rgba(231, 76, 60, 0.8)'
+                }, {
+                    label: 'رتبه هدف (6 ماه)',
+                    data: [15, 8, 12, 20, 18],
+                    backgroundColor: 'rgba(52, 152, 219, 0.8)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        reverse: true,
+                        title: {
+                            display: true,
+                            text: 'رتبه در گوگل'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
