@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCL Private Capital - SEO Audit Report</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .header h1 {
+            color: #1e3c72;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        
+        .domain-badges {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .domain-badge {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .executive-summary {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .domain-card {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .domain-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #4CAF50, #2196F3);
+        }
+        
+        .domain-card.primary::before {
+            background: linear-gradient(90deg, #FF6B6B, #4ECDC4);
+        }
+        
+        .domain-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #1e3c72;
+            margin-bottom: 10px;
+        }
+        
+        .domain-url {
+            font-size: 1rem;
+            color: #2a5298;
+            margin-bottom: 25px;
+            font-family: 'Courier New', monospace;
+            background: rgba(46, 82, 152, 0.1);
+            padding: 8px 12px;
+            border-radius: 8px;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .metric {
+            background: rgba(248, 249, 250, 0.9);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .metric:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .metric-value {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #1e3c72;
+            margin-bottom: 8px;
+        }
+        
+        .metric-label {
+            color: #666;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .chart-container {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .chart-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1e3c72;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .insight-card {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .insight-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1e3c72;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .recommendations {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .recommendation-category {
+            margin-bottom: 30px;
+        }
+        
+        .recommendation-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #1e3c72;
+            margin-bottom: 20px;
+            padding: 15px 0;
+            border-bottom: 3px solid #2a5298;
+        }
+        
+        .recommendation-list {
+            list-style: none;
+        }
+        
+        .recommendation-list li {
+            padding: 15px 0;
+            padding-left: 40px;
+            position: relative;
+            color: #555;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+        
+        .recommendation-list li::before {
+            position: absolute;
+            left: 0;
+            top: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .priority-high::before {
+            content: '🔥';
+        }
+        
+        .priority-medium::before {
+            content: '⚡';
+        }
+        
+        .priority-low::before {
+            content: '💡';
+        }
+        
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #1e3c72;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .status-positive {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        
+        .status-negative {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .status-neutral {
+            color: #f39c12;
+            font-weight: bold;
+        }
+        
+        .canvas-container {
+            position: relative;
+            height: 400px;
+            margin: 25px 0;
+        }
+        
+        .quick-wins {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .quick-win {
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.1), rgba(52, 152, 219, 0.1));
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid #2ecc71;
+            transition: transform 0.3s ease;
+        }
+        
+        .quick-win:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .quick-win h4 {
+            color: #27ae60;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .comparison-table th {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 18px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .comparison-table td {
+            padding: 15px 18px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .alert-box {
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(241, 196, 15, 0.1));
+            border-left: 5px solid #e74c3c;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .alert-box h4 {
+            color: #c0392b;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .insights-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🏢 Connor, Clark & Lunn</h1>
+            <p>Comprehensive SEO Audit & Strategic Analysis</p>
+            <p style="color: #999; font-size: 1rem;">Report Generated: July 16, 2025</p>
+            <div class="domain-badges">
+                <div class="domain-badge">🌐 cclprivatecapital.com</div>
+                <div class="domain-badge">🌐 cclfg.cclgroup.com</div>
+            </div>
+        </div>
+
+        <!-- Executive Summary -->
+        <div class="executive-summary">
+            <h2 class="section-title">📊 Executive Summary</h2>
+            <div class="alert-box">
+                <h4>🚨 Critical Finding</h4>
+                <p><strong>Traffic Imbalance:</strong> Your subdomain (cclfg.cclgroup.com) receives 590x more traffic than your main private capital domain. This represents a massive opportunity to bridge this traffic to your conversion-focused pages.</p>
+            </div>
+            
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-value">11.2K</div>
+                    <div class="metric-label">Total Monthly Traffic</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">2,682</div>
+                    <div class="metric-label">Combined Keywords</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">24K</div>
+                    <div class="metric-label">Total Backlinks</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value status-neutral">$2.6K</div>
+                    <div class="metric-label">Monthly Traffic Value</div>
+                </div>
+            </div>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>cclfg.cclgroup.com</th>
+                        <th>cclprivatecapital.com</th>
+                        <th>Analysis</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Monthly Traffic</strong></td>
+                        <td class="status-positive">11,200</td>
+                        <td class="status-negative">19</td>
+                        <td>Subdomain dominates with 590x more traffic</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Keywords</strong></td>
+                        <td class="status-positive">2,593</td>
+                        <td class="status-negative">89</td>
+                        <td>Major keyword visibility gap</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Traffic Value</strong></td>
+                        <td class="status-positive">$2,600</td>
+                        <td class="status-negative">$21</td>
+                        <td>124x difference in monetizable traffic</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Backlinks</strong></td>
+                        <td class="status-positive">23,000</td>
+                        <td class="status-neutral">987</td>
+                        <td>Authority concentrated on subdomain</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Branded Traffic</strong></td>
+                        <td class="status-neutral">7.5%</td>
+                        <td class="status-negative">0%</td>
+                        <td>Brand recognition opportunity missed</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Domain Comparison -->
+        <div class="comparison-grid">
+            <div class="domain-card primary">
+                <div class="domain-title">🚀 Traffic Powerhouse</div>
+                <div class="domain-url">cclfg.cclgroup.com</div>
+                <div class="metrics-grid">
+                    <div class="metric">
+                        <div class="metric-value status-positive">11.2K</div>
+                        <div class="metric-label">Monthly Visits</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">2,593</div>
+                        <div class="metric-label">Keywords</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">23K</div>
+                        <div class="metric-label">Backlinks</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">41</div>
+                        <div class="metric-label">Authority Score</div>
+                    </div>
+                </div>
+                <p style="color: #27ae60; font-weight: bold; text-align: center; margin-top: 15px;">✅ High Traffic, Low Conversion Focus</p>
+            </div>
+
+            <div class="domain-card">
+                <div class="domain-title">💼 Conversion Target</div>
+                <div class="domain-url">cclprivatecapital.com</div>
+                <div class="metrics-grid">
+                    <div class="metric">
+                        <div class="metric-value status-negative">19</div>
+                        <div class="metric-label">Monthly Visits</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">89</div>
+                        <div class="metric-label">Keywords</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">987</div>
+                        <div class="metric-label">Backlinks</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">21</div>
+                        <div class="metric-label">Authority Score</div>
+                    </div>
+                </div>
+                <p style="color: #e74c3c; font-weight: bold; text-align: center; margin-top: 15px;">⚠️ Low Traffic, High Conversion Potential</p>
+            </div>
+        </div>
+
+        <!-- Traffic Analysis Charts -->
+        <div class="chart-container">
+            <h3 class="chart-title">📈 Traffic Distribution Analysis</h3>
+            <div class="canvas-container">
+                <canvas id="trafficChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h3 class="chart-title">🎯 Keyword Intent Breakdown</h3>
+            <div class="canvas-container">
+                <canvas id="intentChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h3 class="chart-title">🔗 Backlink Authority Distribution</h3>
+            <div class="canvas-container">
+                <canvas id="backlinkChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Key Insights -->
+        <div class="insights-grid">
+            <div class="insight-card">
+                <div class="insight-title">🔍 <span>Traffic Analysis</span></div>
+                <p><strong>cclfg.cclgroup.com</strong> attracts 11,200 monthly visitors primarily through informational searches like "USD to CAD" (73.5% informational intent). However, this traffic isn't being converted to leads for your private capital services.</p>
+            </div>
+            
+            <div class="insight-card">
+                <div class="insight-title">🎯 <span>Conversion Opportunity</span></div>
+                <p><strong>cclprivatecapital.com</strong> only receives branded searches (cc&l, connor clark lunn) representing existing clients. There's zero visibility for high-value commercial terms like "private wealth management Toronto".</p>
+            </div>
+            
+            <div class="insight-card">
+                <div class="insight-title">🏗️ <span>Backlink Quality</span></div>
+                <p>cclfg.cclgroup.com has 21,769 backlinks from one domain (moneymovesmarkets.com), which creates risk. cclprivatecapital.com has cleaner but fewer links, mostly from parent company sites.</p>
+            </div>
+            
+            <div class="insight-card">
+                <div class="insight-title">📍 <span>Local SEO Gap</span></div>
+                <p>Google My Business profile has <strong>0 reviews</strong> despite prime Toronto Financial District location. This severely impacts local search visibility for high-net-worth prospects.</p>
+            </div>
+        </div>
+
+        <!-- Quick Wins -->
+        <div class="chart-container">
+            <h2 class="section-title">🍎 Immediate Quick Wins (30-60 Days)</h2>
+            <div class="quick-wins">
+                <div class="quick-win">
+                    <h4>🔗 Cross-Domain Linking</h4>
+                    <p>Add prominent CTAs on high-traffic cclfg.cclgroup.com pages linking to private capital services. Target your currency exchange audience with wealth preservation messaging.</p>
+                </div>
+                <div class="quick-win">
+                    <h4>⭐ GMB Review Campaign</h4>
+                    <p>Launch immediate client outreach for Google My Business reviews. Target 10 reviews in 30 days to boost local search visibility for Toronto financial services.</p>
+                </div>
+                <div class="quick-win">
+                    <h4>🎯 Branded SEO</h4>
+                    <p>Optimize cclprivatecapital.com for brand variations: "Connor Clark Lunn wealth management", "CCL private capital Toronto". Currently 0% branded traffic.</p>
+                </div>
+                <div class="quick-win">
+                    <h4>📱 Content Optimization</h4>
+                    <p>Add location-specific content targeting "Toronto private wealth", "Financial District investment services". Leverage your prestigious King Street address.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Strategic Recommendations -->
+        <div class="recommendations">
+            <h2 class="section-title">🎯 Strategic SEO Roadmap</h2>
+            
+            <div class="recommendation-category">
+                <h3 class="recommendation-title">🔥 Phase 1: Immediate Actions (0-30 Days)</h3>
+                <ul class="recommendation-list">
+                    <li class="priority-high">Launch Google My Business review campaign targeting existing clients</li>
+                    <li class="priority-high">Add internal links from cclfg.cclgroup.com blog posts to cclprivatecapital.com services</li>
+                    <li class="priority-high">Create location-specific landing page: "Private Wealth Management Toronto Financial District"</li>
+                    <li class="priority-high">Optimize title tags and meta descriptions on cclprivatecapital.com (currently missing)</li>
+                </ul>
+            </div>
+
+            <div class="recommendation-category">
+                <h3 class="recommendation-title">⚡ Phase 2: Content & Authority Building (30-90 Days)</h3>
+                <ul class="recommendation-list">
+                    <li class="priority-medium">Create conversion-focused content on cclfg.cclgroup.com with strong CTAs to private capital</li>
+                    <li class="priority-medium">Target Canadian-specific wealth management keywords with lower competition</li>
+                    <li class="priority-medium">Build backlinks to cclprivatecapital.com through financial media outreach</li>
+                    <li class="priority-medium">Develop "wealth preservation" content targeting currency exchange visitors</li>
+                </ul>
+            </div>
+
+            <div class="recommendation-category">
+                <h3 class="recommendation-title">💡 Phase 3: Long-term Growth (90+ Days)</h3>
+                <ul class="recommendation-list">
+                    <li class="priority-low">Consider consolidating high-performing content from cclfg.cclgroup.com to cclprivatecapital.com</li>
+                    <li class="priority-low">Expand content hub with investment insights targeting high-net-worth keywords</li>
+                    <li class="priority-low">Build relationships with Canadian financial publications for thought leadership</li>
+                    <li class="priority-low">Develop calculator tools for wealth management and currency hedging</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Competition Analysis -->
+        <div class="chart-container">
+            <h3 class="chart-title">🏁 Competitive Landscape</h3>
+            <div class="canvas-container">
+                <canvas id="competitorChart"></canvas>
+            </div>
+            <p style="text-align: center; margin-top: 20px; color: #666; font-size: 1.1rem;">
+                <strong>Opportunity:</strong> Your main competitors (Bank of Canada, RBC) dominate with large keyword portfolios, but there's significant opportunity in niche private wealth management terms where competition is lower.
+            </p>
+        </div>
+
+        <!-- Final Recommendations -->
+        <div class="executive-summary">
+            <h2 class="section-title">🎯 Priority Action Plan</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;">
+                <div style="background: rgba(231, 76, 60, 0.1); padding: 25px; border-radius: 15px; border-left: 5px solid #e74c3c;">
+                    <h4 style="color: #c0392b; margin-bottom: 15px;">🚨 Week 1-2: Crisis Items</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin: 8px 0;">• Get 5+ Google My Business reviews</li>
+                        <li style="margin: 8px 0;">• Add cross-links between domains</li>
+                        <li style="margin: 8px 0;">• Fix missing meta descriptions</li>
+                    </ul>
+                </div>
+                <div style="background: rgba(241, 196, 15, 0.1); padding: 25px; border-radius: 15px; border-left: 5px solid #f1c40f;">
+                    <h4 style="color: #d68910; margin-bottom: 15px;">⚡ Month 1: Quick Impact</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin: 8px 0;">• Create Toronto-specific landing pages</li>
+                        <li style="margin: 8px 0;">• Optimize for branded search terms</li>
+                        <li style="margin: 8px 0;">• Add CTAs to high-traffic blog posts</li>
+                    </ul>
+                </div>
+                <div style="background: rgba(46, 204, 113, 0.1); padding: 25px; border-radius: 15px; border-left: 5px solid #2ecc71;">
+                    <h4 style="color: #27ae60; margin-bottom: 15px;">🚀 Months 2-3: Growth</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin: 8px 0;">• Launch content marketing campaign</li>
+                        <li style="margin: 8px 0;">• Build external backlinks</li>
+                        <li style="margin: 8px 0;">• Target commercial keywords</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div style="margin-top: 30px; padding: 25px; background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(155, 89, 182, 0.1)); border-radius: 15px; text-align: center;">
+                <h3 style="color: #2c3e50; margin-bottom: 15px;">📈 Expected Results</h3>
+                <p style="font-size: 1.1rem; color: #555;">With proper implementation, expect to see <strong>200-400% increase</strong> in cclprivatecapital.com traffic within 90 days, improved local search visibility, and better lead generation from your existing high-traffic content.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Traffic Comparison Chart
+        const trafficCtx = document.getElementById('trafficChart').getContext('2d');
+        new Chart(trafficCtx, {
+            type: 'bar',
+            data: {
+                labels: ['cclfg.cclgroup.com\n(Content Hub)', 'cclprivatecapital.com\n(Private Capital)'],
+                datasets: [{
+                    label: 'Monthly Traffic',
+                    data: [11200, 19],
+                    backgroundColor: ['rgba(46, 204, 113, 0.8)', 'rgba(231, 76, 60, 0.8)'],
+                    borderColor: ['#2ecc71', '#e74c3c'],
+                    borderWidth: 3,
+                    borderRadius: 15,
+                    borderSkipped: false,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return 'Monthly Traffic: ' + context.parsed.y.toLocaleString() + ' visitors';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return value.toLocaleString();
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0,0,0,0.1)'
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            maxRotation: 0
+                        }
+                    }
+                }
+            }
+        });
+
+        // Keyword Intent Chart
