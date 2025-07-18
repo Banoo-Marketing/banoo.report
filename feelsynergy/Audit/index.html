@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feel Synergy Medical Spa - Digital Marketing Audit</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header-info {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            text-align: left;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .card {
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .card-success {
+            background: #e8f5e8;
+            border-left: 5px solid #4caf50;
+        }
+        
+        .card-warning {
+            background: #fff3e0;
+            border-left: 5px solid #ff9800;
+        }
+        
+        .card-info {
+            background: #e3f2fd;
+            border-left: 5px solid #2196f3;
+        }
+        
+        .card h3 {
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        
+        .card-success h3 { color: #2e7d32; }
+        .card-warning h3 { color: #f57c00; }
+        .card-info h3 { color: #1976d2; }
+        
+        .performance-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .performance-card {
+            background: linear-gradient(135deg, #4fc3f7 0%, #29b6f6 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .performance-card.success {
+            background: linear-gradient(135deg, #66bb6a 0%, #4caf50 100%);
+        }
+        
+        .performance-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .performance-stats {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 1.8em;
+            font-weight: bold;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .status-active {
+            background: #4caf50;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .status-paused {
+            background: #f44336;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .metric-good {
+            background: #e8f5e8;
+            color: #2e7d32;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        
+        .metric-warning {
+            background: #ffebee;
+            color: #c62828;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        
+        .timeline {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .timeline-item {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .timeline-item.phase1 { background: #ffebee; border-color: #f44336; }
+        .timeline-item.phase2 { background: #fff3e0; border-color: #ff9800; }
+        .timeline-item.phase3 { background: #f3e5f5; border-color: #9c27b0; }
+        .timeline-item.phase4 { background: #e8f5e8; border-color: #4caf50; }
+        
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .action-card {
+            background: #fff3e0;
+            border: 1px solid #ffcc02;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        
+        .action-card h4 {
+            color: #f57c00;
+            margin-bottom: 15px;
+        }
+        
+        .action-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .action-card li {
+            padding: 5px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .action-card li:last-child {
+            border-bottom: none;
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, #ff7043 0%, #f4511e 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .cta-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .cta-item {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .highlight-box {
+            background: #f1f8e9;
+            border: 1px solid #c8e6c9;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .progress-bar {
+            background: rgba(255,255,255,0.3);
+            height: 6px;
+            border-radius: 3px;
+            margin: 8px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: white;
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+        
+        .budget-allocation {
+            background: linear-gradient(135deg, #5c6bc0 0%, #3f51b5 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .allocation-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .cta-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .performance-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Feel Synergy Medical Spa</h1>
+            <h2>Comprehensive Digital Marketing Audit & Strategic Roadmap</h2>
+            
+            <div class="header-info">
+                <div><strong>📅 Audit Date:</strong> July 18, 2025</div>
+                <div><strong>👥 Prepared by:</strong> OpenMoves Digital Marketing Team</div>
+                <div><strong>🏥 Client:</strong> Feel Synergy Medical Spa (7 locations across NC & VA)</div>
+                <div><strong>💰 Monthly Investment:</strong> $80,000 (Google Ads + Meta Ads)</div>
+                <div><strong>🎯 Primary Goal:</strong> Double lead generation while reducing cost per acquisition</div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- Executive Summary Dashboard -->
+            <section class="section">
+                <h2>🚀 Executive Summary Dashboard</h2>
+                <div class="dashboard">
+                    <div class="card card-success">
+                        <h3>💪 Strengths</h3>
+                        <ul>
+                            <li>Strong CRM integration capability</li>
+                            <li>Positive brand reputation (4-5 ⭐)</li>
+                            <li>High-performing NC campaigns</li>
+                            <li>$80K monthly budget for scale</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card card-warning">
+                        <h3>⚠️ Critical Issues</h3>
+                        <ul>
+                            <li>70% campaigns paused (policy issues)</li>
+                            <li>Low impression share (28%)</li>
+                            <li>High cost per lead ($74)</li>
+                            <li>Zero local store actions</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card card-info">
+                        <h3>🎯 Opportunities</h3>
+                        <ul>
+                            <li>Reactivate paused campaigns</li>
+                            <li>Optimize keyword targeting</li>
+                            <li>Expand to video platforms</li>
+                            <li>Integrate SEO-Paid strategy</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Current Performance Analytics -->
+            <section class="section">
+                <h2>📊 Current Performance Analytics</h2>
+                
+                <h3>Google Ads Performance Snapshot</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>📈 Metric</th>
+                            <th>📋 Current Value</th>
+                            <th>🎯 Industry Benchmark</th>
+                            <th>📊 Performance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Total Spend</strong></td>
+                            <td>$273,000</td>
+                            <td>N/A</td>
+                            <td><span class="metric-good">7 months</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total Conversions</strong></td>
+                            <td>3,694 leads</td>
+                            <td>N/A</td>
+                            <td><span class="metric-good">Strong volume</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cost Per Lead</strong></td>
+                            <td>$74</td>
+                            <td>$50-70</td>
+                            <td><span class="metric-warning">Above target</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Conversion Rate</strong></td>
+                            <td>4.33%</td>
+                            <td>3-5%</td>
+                            <td><span class="metric-good">Good</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Impression Share</strong></td>
+                            <td>28%</td>
+                            <td>60%+</td>
+                            <td><span class="metric-warning">Needs improvement</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Platform Performance Comparison</h3>
+                <div class="performance-cards">
+                    <div class="performance-card">
+                        <h3>🔍 Search Campaigns</h3>
+                        <div class="performance-stats">
+                            <div class="stat-item">
+                                <span class="stat-number">$167K</span>
+                                <span class="stat-label">Spend (61% of total)</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">1,933</span>
+                                <span class="stat-label">Leads ($86 per lead)</span>
+                            </div>
+                        </div>
+                        <div style="font-size: 14px;">
+                            ✅ High-intent targeting<br>
+                            ⚠️ Above target CPA
+                        </div>
+                    </div>
+                    
+                    <div class="performance-card success">
+                        <h3>🎯 Performance Max</h3>
+                        <div class="performance-stats">
+                            <div class="stat-item">
+                                <span class="stat-number">$106K</span>
+                                <span class="stat-label">Spend (39% of total)</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">1,761</span>
+                                <span class="stat-label">Leads ($60 per lead)</span>
+                            </div>
+                        </div>
+                        <div style="font-size: 14px;">
+                            ✅ Better efficiency<br>
+                            ✅ Automated scaling
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Top Performing Campaigns</h3>
+                <div class="highlight-box">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>🏆 Campaign Name</th>
+                                <th>💰 Spend</th>
+                                <th>📞 Leads</th>
+                                <th>💵 Cost/Lead</th>
+                                <th>📍 Location</th>
+                                <th>📊 Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>NC PMax MedSpa</strong></td>
+                                <td>$52,000</td>
+                                <td>1,039</td>
+                                <td>$50</td>
+                                <td>North Carolina</td>
+                                <td><span class="status-active">✅ Active</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>NC Search Fillers</strong></td>
+                                <td>$30,500</td>
+                                <td>266</td>
+                                <td>$115</td>
+                                <td>North Carolina</td>
+                                <td><span class="status-active">✅ Active</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>NC Search Botox</strong></td>
+                                <td>$22,800</td>
+                                <td>135</td>
+                                <td>$169</td>
+                                <td>North Carolina</td>
+                                <td><span class="status-active">✅ Active</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>VA Rhinoplasty</strong></td>
+                                <td>$4,500</td>
+                                <td>20</td>
+                                <td>$223</td>
+                                <td>Virginia</td>
+                                <td><span class="status-paused">⏸️ Paused</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SEO Performance Analysis -->
+            <section class="section">
+                <h2>🔍 SEO Performance Analysis</h2>
+                
+                <div class="performance-card" style="background: linear-gradient(135deg, #ab47bc 0%, #8e24aa 100%);">
+                    <h3>Organic Traffic Snapshot</h3>
+                    <div class="performance-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">9K</span>
+                            <span class="stat-label">Monthly Visitors</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">29</span>
+                            <span class="stat-label">Authority Score</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">2.9K</span>
+                            <span class="stat-label">Keywords</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">83%</span>
+                            <span class="stat-label">Branded Traffic</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>SEO Opportunity Matrix</h3>
+                <div class="dashboard">
+                    <div class="card card-warning">
+                        <h3>🚨 Critical Weaknesses</h3>
+                        <ul>
+                            <li>83% branded traffic (over-reliant)</li>
+                            <li>61% backlinks from low-authority sites</li>
+                            <li>Missing commercial intent keywords</li>
+                            <li>Stagnant growth since March 2024</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card card-success">
+                        <h3>💡 High-Impact Opportunities</h3>
+                        <ul>
+                            <li>Target "Botox near me" (1,200 volume)</li>
+                            <li>Expand "lip fillers Raleigh" (#12 → Top 3)</li>
+                            <li>Build 10+ .edu/.gov backlinks</li>
+                            <li>Create comparison content</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Strategic Optimization Roadmap -->
+            <section class="section">
+                <h2>🎯 Strategic Optimization Roadmap</h2>
+                
+                <h3>Phase 1: Immediate Fixes (Week 1-2)</h3>
+                <div class="card card-warning">
+                    <h3>🚨 Critical Actions</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>🎯 Action Item</th>
+                                <th>📈 Expected Impact</th>
+                                <th>⏰ Timeline</th>
+                                <th>👤 Owner</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Fix Policy Violations</strong></td>
+                                <td>+15% active campaigns</td>
+                                <td>3-5 days</td>
+                                <td>OpenMoves</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Implement Negative Keywords</strong></td>
+                                <td>-20% wasted spend</td>
+                                <td>1 week</td>
+                                <td>OpenMoves</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Budget Reallocation</strong></td>
+                                <td>+25% lead volume</td>
+                                <td>Immediate</td>
+                                <td>Client Approval</td>
+                            </tr>
+                            <tr>
+                                <td><strong>CRM Integration Check</strong></td>
+                                <td>Better attribution</td>
+                                <td>2-3 days</td>
+                                <td>Client IT</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Phase 2: Performance Enhancement (Week 3-8)</h3>
+                <div class="card card-info">
+                    <h3>⚡ Optimization Initiatives</h3>
+                    <div class="dashboard">
+                        <div>
+                            <h4>🎯 Bidding & Targeting</h4>
+                            <ul>
+                                <li>Implement tCPA bidding ($50 target)</li>
+                                <li>Add 43 new high-intent keywords</li>
+                                <li>Activate broad match for +30% reach</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>🎨 Creative & Assets</h4>
+                            <ul>
+                                <li>Upload before/after videos to PMax</li>
+                                <li>Create location-specific RSAs</li>
+                                <li>A/B test privacy-focused LPs</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Phase 3: Scale & Expansion (Month 2-3)</h3>
+                <div class="card card-success">
+                    <h3>🚀 Growth Initiatives</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>📱 New Channel</th>
+                                <th>💰 Budget Allocation</th>
+                                <th>📊 Expected ROI</th>
+                                <th>🎯 Target Audience</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>TikTok Video Ads</strong></td>
+                                <td>10% ($8K/month)</td>
+                                <td>+25% leads</td>
+                                <td>Ages 25-45, Visual content</td>
+                            </tr>
+                            <tr>
+                                <td><strong>YouTube Lead Forms</strong></td>
+                                <td>5% ($4K/month)</td>
+                                <td>+20% engagement</td>
+                                <td>Educational seekers</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Enhanced Remarketing</strong></td>
+                                <td>5% ($4K/month)</td>
+                                <td>+15% conversion rate</td>
+                                <td>Website visitors</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Performance Projections & ROI -->
+            <section class="section">
+                <h2>📈 Performance Projections & ROI</h2>
+                
+                <h3>90-Day Targets</h3>
+                <div class="performance-card" style="background: linear-gradient(135deg, #26c6da 0%, #00acc1 100%);">
+                    <div class="performance-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">900-1,000</span>
+                            <span class="stat-label">Monthly Leads (+46-63% increase)</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">$50-55</span>
+                            <span class="stat-label">Cost Per Lead (-26-32% reduction)</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">45%+</span>
+                            <span class="stat-label">Impression Share (+61% improvement)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Revenue Impact Analysis</h3>
+                <div class="highlight-box">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>💼 Metric</th>
+                                <th>📊 Current</th>
+                                <th>🎯 Target</th>
+                                <th>💰 Financial Impact</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Monthly Leads</strong></td>
+                                <td>615</td>
+                                <td>900-1,000</td>
+                                <td>+285-385 leads</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Cost Efficiency</strong></td>
+                                <td>$74/lead</td>
+                                <td>$50-55/lead</td>
+                                <td>$14,760-19,760/mo savings</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Revenue Potential</strong></td>
+                                <td>Baseline</td>
+                                <td>Target</td>
+                                <td>$142,500-192,500/mo</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Annual Growth</strong></td>
+                                <td>Current</td>
+                                <td>Projected</td>
+                                <td>$1.7M - $2.3M increase</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p style="font-style: italic; margin-top: 15px;">*Based on $500 average client lifetime value</p>
+                </div>
+            </section>
+
+            <!-- Implementation Timeline -->
+            <section class="section">
+                <h2>🛠️ Implementation Timeline</h2>
+                <div class="timeline">
+                    <div class="timeline-item phase1">
+                        <strong>📅 Week 1-2: Foundation</strong><br>
+                        🔧 <strong>Technical Fixes:</strong> Policy violations, negative keywords, budget reallocation
+                    </div>
+                    <div class="timeline-item phase2">
+                        <strong>📅 Week 3-4: Optimization</strong><br>
+                        ⚡ <strong>Performance:</strong> tCPA bidding, new RSAs, landing page tests
+                    </div>
+                    <div class="timeline-item phase3">
+                        <strong>📅 Week 5-8: Enhancement</strong><br>
+                        📈 <strong>Growth:</strong> Keyword expansion, competitor targeting, asset optimization
+                    </div>
+                    <div class="timeline-item phase4">
+                        <strong>📅 Month 2-3: Scale</strong><br>
+                        🚀 <strong>Expansion:</strong> New platforms, advanced targeting, cross-channel integration
+                    </div>
+                </div>
+            </section>
+
+            <!-- Investment & Resource Allocation -->
+            <section class="section">
+                <h2>💼 Investment & Resource Allocation</h2>
+                
+                <div class="dashboard">
+                    <div class="budget-allocation">
+                        <h3>💰 Budget Allocation</h3>
+                        <div class="allocation-item">
+                            <span>Search Campaigns</span>
+                            <strong>50% ($40K)</strong>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 50%;"></div>
+                        </div>
+                        <div class="allocation-item">
+                            <span>Performance Max</span>
+                            <strong>30% ($24K)</strong>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 30%;"></div>
+                        </div>
+                        <div class="allocation-item">
+                            <span>New Channels</span>
+                            <strong>15% ($12K)</strong>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 15%;"></div>
+                        </div>
+                        <div class="allocation-item">
+                            <span>Remarketing</span>
+                            <strong>5% ($4K)</strong>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 5
