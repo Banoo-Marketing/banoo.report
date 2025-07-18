@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Synergy Face + Body – Integrated Paid Media & SEO Audit (July 18, 2025)</title>
+<meta name="description" content="Integrated Paid Media & SEO Audit for Synergy Face + Body (NC & VA) – Google Ads, Meta Ads, SEO, Funnel, and Growth Roadmap." />
+<style>
+:root {
+  --bg: #0f1115; /* dark slate */
+  --bg-alt: #181c22;
+  --bg-soft: #1f252d;
+  --border: #2c3642;
+  --text: #eef2f7;
+  --text-dim: #9fb1c3;
+  --accent: #5ec7ff;
+  --accent-grad: linear-gradient(135deg,#32b3ff,#7af3c3 60%);
+  --danger: #ff5f56;
+  --warn: #ffb347;
+  --ok: #4ade80;
+  --info: #60a5fa;
+  --radius: 18px;
+  --shadow: 0 4px 12px -2px rgba(0,0,0,.4),0 2px 4px -1px rgba(0,0,0,.35);
+  font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin:0; background: var(--bg); color: var(--text); line-height:1.5; -webkit-font-smoothing: antialiased; }
+main { max-width:1320px; margin:0 auto; padding:40px 32px 96px; }
+h1,h2,h3,h4 { font-weight:600; line-height:1.15; letter-spacing:.5px; }
+h1 { font-size:clamp(2.2rem,3.3vw,3.2rem); background:var(--accent-grad); -webkit-background-clip:text; color:transparent; margin:0 0 1rem; }
+h2 { margin:3rem 0 1.1rem; font-size:clamp(1.6rem,2.2vw,2.2rem); }
+h3 { margin:2.2rem 0 .75rem; font-size:1.35rem; color:var(--accent); }
+h4 { margin:1.6rem 0 .5rem; font-size:1.1rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; }
+p { margin:.75rem 0; }
+a { color: var(--accent); text-decoration:none; }
+a:hover { text-decoration:underline; }
+code,pre { font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace; background: var(--bg-soft); padding:.15em .5em; border-radius:6px; color: var(--accent); }
+
+/* Layout */
+.grid { display:grid; gap:20px; }
+.kpi-grid { grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); margin-bottom:40px; }
+.flex { display:flex; gap:20px; flex-wrap:wrap; }
+.split-2 { display:grid; gap:32px; grid-template-columns:repeat(auto-fit,minmax(420px,1fr)); }
+.full-bleed { width:100%; }
+
+/* Boxes */
+.box { position:relative; background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius); padding:22px 24px 28px; box-shadow:var(--shadow); overflow:hidden; }
+.box:before { content:""; position:absolute; inset:0; background:radial-gradient(circle at 120% -10%,rgba(94,199,255,.22),transparent 60%); pointer-events:none; }
+.box.outline { background:var(--bg); }
+.badge { display:inline-flex; align-items:center; gap:6px; font-size:.7rem; text-transform:uppercase; letter-spacing:.9px; background:var(--bg-soft); padding:4px 10px; border-radius:30px; border:1px solid var(--border); color:var(--text-dim); }
+.tag-row { display:flex; flex-wrap:wrap; gap:10px; margin-top:4px; }
+.tag { font-size:.65rem; letter-spacing:.7px; padding:4px 10px; border-radius:20px; background:var(--bg-soft); border:1px solid var(--border); color:var(--text-dim); text-transform:uppercase; }
+
+.status-dot { width:10px; height:10px; border-radius:50%; background:var(--info); box-shadow:0 0 0 4px rgba(96,165,250,.15); }
+.status-dot.ok { background:var(--ok); box-shadow:0 0 0 4px rgba(74,222,128,.15); }
+.status-dot.warn { background:var(--warn); box-shadow:0 0 0 4px rgba(255,179,71,.18); }
+.status-dot.danger { background:var(--danger); box-shadow:0 0 0 4px rgba(255,95,86,.18); }
+
+/* Tables */
+table { width:100%; border-collapse:collapse; margin:1.25rem 0 2.5rem; font-size:.92rem; }
+th,td { padding:10px 14px; text-align:left; vertical-align:top; border-bottom:1px solid var(--border); }
+th { background:var(--bg-soft); font-weight:600; position:sticky; top:0; z-index:1; }
+tr:last-child td { border-bottom:none; }
+tr:hover td { background:rgba(255,255,255,.02); }
+table.compact th, table.compact td { padding:6px 10px; }
+
+/* KPI Cards */
+.kpi { position:relative; background:var(--bg-alt); border:1px solid var(--border); border-radius:16px; padding:18px 20px 20px; flex:1 1 220px; min-width:220px; box-shadow:var(--shadow); }
+.kpi h3 { margin:.2rem 0 .6rem; font-size:1.05rem; color:var(--text-dim); font-weight:500; }
+.kpi .value { font-size:1.85rem; font-weight:600; letter-spacing:.5px; }
+.kpi .delta { font-size:.75rem; margin-top:6px; display:inline-block; padding:3px 8px; border-radius:14px; background:var(--bg-soft); color:var(--text-dim); }
+.kpi.positive .delta { background:rgba(74,222,128,.12); color:var(--ok); }
+.kpi.negative .delta { background:rgba(255,95,86,.12); color:var(--danger); }
+
+/* Color accents */
+.accent { color:var(--accent); }
+.text-dim { color:var(--text-dim); }
+.warn { color:var(--warn); }
+.danger { color:var(--danger); }
+.ok { color:var(--ok); }
+
+/* Pill Lists */
+.pills { display:flex; flex-wrap:wrap; gap:8px; }
+.pill { font-size:.7rem; letter-spacing:.8px; padding:5px 12px 4px; background:var(--bg-soft); border:1px solid var(--border); border-radius:30px; text-transform:uppercase; color:var(--text-dim); font-weight:500; }
+.pill.good { border-color:rgba(74,222,128,.4); color:var(--ok); }
+.pill.bad { border-color:rgba(255,95,86,.4); color:var(--danger); }
+.pill.focus { border-color:rgba(94,199,255,.5); color:var(--accent); }
+
+/* Roadmap */
+.roadmap { position:relative; margin:30px 0 10px; }
+.phase { border-left:4px solid var(--accent); padding:14px 18px 18px; background:var(--bg-alt); margin:18px 0; border-radius:14px; box-shadow:var(--shadow); }
+.phase h3 { margin-top:0; }
+.phase ul { margin:0; padding-left:18px; }
+.phase li { margin:.45rem 0; }
+
+/* Charts (placeholder styling) */
+.chart-grid { display:grid; gap:24px; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); margin:28px 0 42px; }
+.chart { background:var(--bg-alt); border:1px solid var(--border); border-radius:16px; padding:16px 16px 60px; position:relative; box-shadow:var(--shadow); overflow:hidden; }
+.chart h4 { margin:.2rem 0 .75rem; font-size:.85rem; letter-spacing:.8px; font-weight:600; color:var(--text-dim); }
+.chart .placeholder { position:absolute; inset:auto 12px 10px 12px; height:46%; background:linear-gradient(135deg,rgba(94,199,255,.18),rgba(122,243,195,.15)); border:1px dashed rgba(255,255,255,.1); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:.7rem; color:var(--text-dim); }
+
+/* Callouts */
+.callout { border:1px solid var(--border); border-left:5px solid var(--accent); background:var(--bg-alt); padding:14px 18px 16px; border-radius:14px; margin:26px 0; box-shadow:var(--shadow); }
+.callout.danger { border-left-color:var(--danger); }
+.callout.warn { border-left-color:var(--warn); }
+.callout.ok { border-left-color:var(--ok); }
+.callout h4 { margin-top:0; }
+
+/* Lists */
+ol { margin:1rem 0 1.4rem; padding-left:1.3rem; }
+li { margin:.5rem 0; }
+
+/* Footer */
+footer { margin-top:90px; font-size:.75rem; color:var(--text-dim); text-align:center; }
+
+@media (max-width:680px) {
+  main { padding:36px 20px 80px; }
+  .split-2 { grid-template-columns:1fr; }
+  h1 { font-size:2.2rem; }
+}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Synergy Face + Body – Integrated Paid Media & SEO Audit</h1>
+    <p class="text-dim">Comprehensive performance, gap, and growth roadmap • <strong>Audit Date:</strong> July 18, 2025 • <strong>Prepared By:</strong> Banoo Inc. (Emod)</p>
+  </header>
+
+  <!-- KPI DASHBOARD -->
+  <section>
+    <h2>🔑 At-a-Glance KPI Dashboard</h2>
+    <div class="grid kpi-grid">
+      <div class="kpi positive"><h3>Monthly Leads (Avg)</h3><div class="value">~615</div><div class="delta">Baseline</div></div>
+      <div class="kpi negative"><h3>Target Monthly Leads</h3><div class="value">1,230</div><div class="delta">2× Growth Goal</div></div>
+      <div class="kpi negative"><h3>Avg. Cost / Lead</h3><div class="value">$74</div><div class="delta">Above Target</div></div>
+      <div class="kpi positive"><h3>Target Cost / Lead</h3><div class="value">&lt;$50</div><div class="delta">Efficiency Goal</div></div>
+      <div class="kpi negative"><h3>Impression Share</h3><div class="value">28%</div><div class="delta">Low Visibility</div></div>
+      <div class="kpi"><h3>PMax Cost / Lead</h3><div class="value">$60</div><div class="delta">Better Than Avg</div></div>
+      <div class="kpi"><h3>Search Cost / Lead</h3><div class="value">$86</div><div class="delta">Needs Work</div></div>
+      <div class="kpi negative"><h3>Paused Campaigns</h3><div class="value">70%+</div><div class="delta">Activation Gap</div></div>
+    </div>
+  </section>
+
+  <!-- EXEC SUMMARY -->
+  <section>
+    <h2>🧠 Executive Summary</h2>
+    <div class="split-2">
+      <div class="box">
+        <h3>Core Story</h3>
+        <p>Strong lead engine in North Carolina (Botox / Fillers) powered by <strong>PMax</strong> &amp; Search. Scale capped by compliance pauses, keyword waste, and under-leveraged CRM + local presence. Organic search heavily branded (83%), limiting discovery growth.</p>
+        <p><strong>Objective:</strong> Double qualified leads (615 → 1,230/mo) while dropping CPL below $50 within 6–12 months.</p>
+      </div>
+      <div class="box">
+        <h3>Growth Thesis</h3>
+        <ul>
+          <li><strong>Activate &amp; Clean:</strong> Resolve policy, kill waste (negatives, redundants) = immediate lift.</li>
+          <li><strong>Optimize &amp; Train:</strong> CRM-fed tCPA &amp; asset upgrades reduce CPL.</li>
+          <li><strong>Expand &amp; Integrate:</strong> Non-branded SEO + TikTok/YouTube video funnel + remarketing = scale.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout warn"><h4>Key Risk</h4><p>Policy disapprovals + privacy (HIPAA) constraints suppress active inventory &amp; impression share. Must implement compliance-first creative framework.</p></div>
+  </section>
+
+  <!-- PAID MEDIA PERFORMANCE -->
+  <section>
+    <h2>📊 Paid Media Performance (Dec 2024 – Jul 2025)</h2>
+    <table>
+      <thead><tr><th>Channel / Segment</th><th>Spend</th><th>Impr.</th><th>Clicks</th><th>CTR</th><th>Leads</th><th>Conv Rate</th><th>Cost / Lead</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Total (Google Ads)</strong></td><td>$273,810</td><td>2.07M</td><td>85K</td><td>4.13%</td><td>3,694</td><td>4.33%</td><td>$74</td><td>Baseline</td></tr>
+        <tr><td>Search</td><td>$167K</td><td>370K</td><td>26K</td><td>7.15%</td><td>1,933</td><td>7.3%</td><td>$86</td><td>High intent; high CPC</td></tr>
+        <tr><td>Performance Max</td><td>$106K</td><td>1.7M</td><td>58K</td><td>3.4%</td><td>1,761</td><td>3.0%</td><td>$60</td><td>Scale &amp; efficiency driver</td></tr>
+        <tr><td>Video / YouTube</td><td>$0</td><td>—</td><td>—</td><td>—</td><td>0</td><td>—</td><td>—</td><td class="danger">Untapped</td></tr>
+        <tr><td>Meta (Inferred)</td><td>~33% share of $80K/mo</td><td>—</td><td>—</td><td>—</td><td>1,500–2,000*</td><td>5–10%*</td><td>$40–60*</td><td>*Need confirmed data</td></tr>
+      </tbody>
+    </table>
+    <div class="callout"><h4>Data Quality Note</h4><p>Meta performance &amp; exact weekly pacing require confirmation. Offline (CRM) conversions not yet leveraged fully in bidding logic.</p></div>
+  </section>
+
+  <!-- CAMPAIGN INSIGHTS -->
+  <section>
+    <h2>🔍 Campaign & Asset Insights</h2>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:22px;">
+      <div class="box">
+        <h3>Top Performers</h3>
+        <ul>
+          <li><strong>PMax NC MedSpa</strong>: 1,039 leads @ $50 CPL</li>
+          <li><strong>Search Fillers (NC)</strong>: 266 leads @ $115 CPL</li>
+          <li><strong>Search Botox (NC)</strong>: 135 leads (budget-limited)</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>Underperformers</h3>
+        <ul>
+          <li>VA Rhinoplasty: $223 CPL (low volume)</li>
+          <li>Paused PMax VA MedSpa – lost momentum</li>
+          <li>RSAs with “Poor” strength (quality drag)</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>Waste &amp; Leaks</h3>
+        <ul>
+          <li>~70% campaigns paused (policy / disapprovals)</li>
+          <li>Redundant keywords + broad misses = 30% spend inefficiency</li>
+          <li>Irrelevant queries ("free botox", "cheap") consuming budget</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>Geo &amp; Local Gap</h3>
+        <ul>
+          <li>Zero recorded local extension actions (497K impressions)</li>
+          <li>NC drives ~80% leads; VA under-indexing</li>
+          <li>No structured geo exclusions / bid tiers</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHART PLACEHOLDERS -->
+  <section>
+    <h2>📈 Visual Indicators (Placeholders)</h2>
+    <div class="chart-grid">
+      <div class="chart"><h4>Leads Trend (Weekly)</h4><div class="placeholder">Insert line chart</div></div>
+      <div class="chart"><h4>Channel Mix: Leads %</h4><div class="placeholder">Donut chart</div></div>
+      <div class="chart"><h4>CPA Distribution (Search vs PMax)</h4><div class="placeholder">Bar chart</div></div>
+      <div class="chart"><h4>Branded vs Non‑Branded Organic</h4><div class="placeholder">Split chart</div></div>
+      <div class="chart"><h4>Impression Share vs Competitors</h4><div class="placeholder">Column chart</div></div>
+      <div class="chart"><h4>Device Performance</h4><div class="placeholder">Stacked bars</div></div>
+    </div>
+    <p class="text-dim">Charts can be populated later via embedded JS (e.g., Chart.js / D3) using exported data arrays.</p>
+  </section>
+
+  <!-- KEYWORD & SEO -->
+  <section>
+    <h2>🔑 Keyword & SEO Overview</h2>
+    <table class="compact">
+      <thead><tr><th>Metric</th><th>Current</th><th>Issue</th><th>Action</th><th>Impact</th></tr></thead>
+      <tbody>
+        <tr><td>Authority Score</td><td>29</td><td>Moderate</td><td>Acquire high-AS links (.edu/.gov, local media)</td><td>Trust ↑ + Rankings</td></tr>
+        <tr><td>Organic Traffic</td><td>~9K / mo</td><td>Plateaued</td><td>Non-branded content expansion</td><td>Discovery ↑</td></tr>
+        <tr><td>Branded Share</td><td>83%</td><td>Over-reliant</td><td>Commercial / local service pages</td><td>Pipeline diversity</td></tr>
+        <tr><td>Backlinks</td><td>5.2K (611 RD)</td><td>Quality skew</td><td>Disavow toxic + diversify anchors</td><td>Risk ↓</td></tr>
+        <tr><td>Commercial Keywords</td><td>1.1K (41%)</td><td>Low vs 60%+ goal</td><td>Gap cluster build (“Botox near me” etc.)</td><td>Lead intent ↑</td></tr>
+      </tbody>
+    </table>
+    <div class="callout"><h4>High-Value Non-Branded Gaps</h4><p>“Botox near me” (NR), “Lip fillers Raleigh” (#12), “Med spa Virginia” (#18) – immediate targets for <em>paid conquest + SEO hub pages + remarketing loop</em>.</p></div>
+  </section>
+
+  <!-- KEY ISSUES -->
+  <section>
+    <h2>🚨 Key Issue Clusters</h2>
+    <div class="split-2">
+      <div class="box">
+        <h3>1. Activation & Compliance</h3>
+        <p><span class="danger">70%+ paused</span> = suppressed scale. Policy disapprovals (weight loss / prescription phrasing) impede reach.</p>
+        <ul>
+          <li>Centralize policy-safe copy blocks</li>
+          <li>Rebuild disapproved RSAs with medical-compliant terminology</li>
+          <li>Escalate chronic disapprovals via rep channel</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>2. Efficiency & Waste</h3>
+        <p>Redundant & irrelevant queries inflate CPC and CPL. Lack of structured negatives & broad match strategy.</p>
+        <ul>
+          <li>Daily search term triage (7-day rolling)</li>
+          <li>Negative taxonomy: Cost / Intent / Compliance tiers</li>
+          <li>Smart broad + audience layering (in-market aesthetics)</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>3. Creative & Experience</h3>
+        <p>Poor RSA strength, no video assets in PMax, mobile LP speed deficits (≈10/100).</p>
+        <ul>
+          <li>Video set: 6s hook / 15s testimonial / 30s explainer</li>
+          <li>LP sprint: Core Web Vitals + trust badges + privacy microcopy</li>
+          <li>Structured variant testing matrix (Headline × Offer × Proof)</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>4. Integration & Data</h3>
+        <p>Offline conversions under-leveraged; SEO & Paid run in silos.</p>
+        <ul>
+          <li>Weekly shared keyword report</li>
+          <li>CRM → GAds (Booked Consult, Procedure)</li>
+          <li>Organic intent buckets → Paid audience seeds</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- STRATEGY PILLARS -->
+  <section>
+    <h2>🧱 Strategy Pillars</h2>
+    <div class="pills">
+      <div class="pill focus">Amplify Winners</div>
+      <div class="pill focus">Fix Leaks</div>
+      <div class="pill focus">Integrate SEO</div>
+      <div class="pill focus">Creative Velocity</div>
+      <div class="pill focus">Channel Expansion</div>
+      <div class="pill focus">Data & Attribution</div>
+      <div class="pill focus">Local Dominance</div>
+    </div>
+  </section>
+
+  <!-- OPTIMIZATION TABLE -->
+  <section>
+    <h2>⚙️ Optimization Matrix</h2>
+    <table>
+      <thead><tr><th>Category</th><th>Weak Point</th><th>Action</th><th>Owner</th><th>ETA</th><th>Impact</th></tr></thead>
+      <tbody>
+        <tr><td>Bidding</td><td>Manual / mixed strategies</td><td>Unified tCPA ($50) post data hygiene</td><td>Paid Media</td><td>2 wks</td><td>−20% CPL</td></tr>
+        <tr><td>Keywords</td><td>Redundancy & irrelevant</td><td>Neg matrix + add 43 new high-intent broad</td><td>Paid Media</td><td>1 wk</td><td>+30% qual impr.</td></tr>
+        <tr><td>Creative</td><td>Poor RSA strength</td><td>3 RSA variants/ad group; DKIs + trust</td><td>Creative</td><td>2 wks</td><td>+10% CTR</td></tr>
+        <tr><td>Assets</td><td>No video in PMax</td><td>Upload 5 video cuts + lifestyle imagery</td><td>Creative</td><td>3 wks</td><td>+5–8% Conv.</td></tr>
+        <tr><td>Geo</td><td>No bid tiers</td><td>Top ZIP +20%; low performers −30%</td><td>Paid Media</td><td>2 wks</td><td>+12% Leads</td></tr>
+        <tr><td>Local</td><td>0 ext. actions</td><td>Fix location ext. + LSAs (pilot)</td><td>Paid / Client</td><td>3 wks</td><td>+20% Store leads</td></tr>
+        <tr><td>SEO</td><td>Branded heavy</td><td>Non-branded service hub rollout</td><td>SEO Agency</td><td>60 days</td><td>+50% NB traffic</td></tr>
+        <tr><td>Backlinks</td><td>Low quality skew</td><td>Disavow + 10 high-AS acquisitions</td><td>SEO</td><td>45 days</td><td>AS 29→35</td></tr>
+        <tr><td>Attribution</td><td>Offline underused</td><td>CRM import (Booked, Revenue tiers)</td><td>Client IT</td><td>30 days</td><td>Bid precision</td></tr>
+        <tr><td>Remarketing</td><td>Generic pools</td><td>Segment by service intent & depth</td><td>Paid Media</td><td>3 wks</td><td>+8% Conv.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ROADMAP -->
+  <section>
+    <h2>🛣️ 90-Day Roadmap</h2>
+    <div class="roadmap">
+      <div class="phase">
+        <h3>Phase 1 (Days 0–30) – Restore & Clean</h3>
+        <ul>
+          <li>Resolve policy disapprovals; reactivate core paused sets</li>
+          <li>Negative keyword purge & redundancy cleanup</li>
+          <li>Launch tCPA where ≥30 conv / 30 days (else Max Conv)</li>
+          <li>Speed & mobile UX quick fixes on top LPs</li>
+          <li>Disavow toxic backlinks; optimize GMB listings</li>
+          <li>Shared paid ↔ SEO keyword gap sheet initiated</li>
+        </ul>
+      </div>
+      <div class="phase">
+        <h3>Phase 2 (Days 31–60) – Optimize & Align</h3>
+        <ul>
+          <li>Video & image asset infusion into PMax + new RSAs</li>
+          <li>Geo bid stratification + schedule refinement (peak clustering)</li>
+          <li>Service hub SEO pages (Botox Raleigh, Lip Fillers Richmond, etc.)</li>
+          <li>Remarketing segmentation by service & funnel depth</li>
+          <li>CRM offline conv imports powering tCPA refinement</li>
+          <li>A/B test LP variants (Offer vs Social Proof emphasis)</li>
+        </ul>
+      </div>
+      <div class="phase">
+        <h3>Phase 3 (Days 61–90) – Scale & Expand</h3>
+        <ul>
+          <li>TikTok & YouTube pilot (10–15% test budget)</li>
+          <li>Competitor conquesting (Auction insights gaps)</li>
+          <li>Advanced audience layering (LAL high LTV, in-market aesthetics)</li>
+          <li>SEO backlink acquisition sprint (.edu / local press)</li>
+          <li>Quality Score uplift review & bid rebalancing</li>
+          <li>Executive KPI dashboard automation</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTEGRATED STRATEGY -->
+  <section>
+    <h2>🔗 Integrated Paid + SEO Plays</h2>
+    <table class="compact">
+      <thead><tr><th>Play</th><th>Mechanism</th><th>Stack</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>Conquer &amp; Defend Keywords</td><td>Paid covers gaps while SEO builds hub pages</td><td>Search + SEO Hub</td><td>Share of SERP ↑</td></tr>
+        <tr><td>Organic → Paid Remarketing</td><td>Create GA4 audiences from high-intent pages</td><td>GA4 + Meta + GAds</td><td>Lead rate ↑</td></tr>
+        <tr><td>Paid Data → Content Roadmap</td><td>Export top converting search terms monthly</td><td>Sheets + SEMrush</td><td>SEO focus accuracy ↑</td></tr>
+        <tr><td>LP Harmonization</td><td>Map top organic pages to ad groups</td><td>CMS + GAds</td><td>CPC ↓ / QS ↑</td></tr>
+        <tr><td>Video Funnel</td><td>Awareness (TikTok) → Consider (YouTube) → Convert (Search/PMax)</td><td>Cross-channel</td><td>Incremental reach</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- BACKLINK REMEDIATION -->
+  <section>
+    <h2>🧬 Backlink Quality Remediation</h2>
+    <div class="split-2">
+      <div class="box">
+        <h3>Current State</h3>
+        <ul>
+          <li>5.2K backlinks / 611 domains</li>
+          <li>61% from low-AS (&lt;10) sources</li>
+          <li>Anchor over-concentration (“Synergy Face + Body” 55%)</li>
+          <li>Only 4 high-authority (.edu/.gov)</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>Action Stack</h3>
+        <ol>
+          <li>Toxic domain disavow (spam directories)</li>
+          <li>Anchor diversification (geo + service + neutral)</li>
+          <li>.edu outreach (health programs) + local press</li>
+          <li>Case study + patient story link magnets</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHANNEL EXPANSION -->
+  <section>
+    <h2>📡 Channel Expansion Hypotheses</h2>
+    <table class="compact">
+      <thead><tr><th>Channel</th><th>Format</th><th>Hypothesis</th><th>Test Metric</th><th>Scale Gate</th></tr></thead>
+      <tbody>
+        <tr><td>TikTok</td><td>Short vertical UGC</td><td>Authentic transformations drive low-funnel search lift</td><td>Lead assist %</td><td>&gt;10% incremental + CPL parity</td></tr>
+        <tr><td>YouTube</td><td>In-stream &amp; Shorts</td><td>Educational explainer lowers CPL by pre-qualifying</td><td>View → Lead rate</td><td>&gt;2% view-to-lead assisted</td></tr>
+        <tr><td>Pinterest</td><td>Procedure inspiration</td><td>Planning users add high LTV pipeline</td><td>Save → Site CTR</td><td>&gt;1.5% CTR &amp; CPL ≤120% search</td></tr>
+        <tr><td>Local Services Ads</td><td>Geo intent</td><td>Direct call volume boost</td><td>Qualified calls</td><td>Call CPL &lt; current blended</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- RISKS & MITIGATION -->
+  <section>
+    <h2>⚠️ Risks & Mitigation</h2>
+    <table class="compact">
+      <thead><tr><th>Risk</th><th>Vector</th><th>Mitigation</th><th>Owner</th></tr></thead>
+      <tbody>
+        <tr><td>Policy Recurrence</td><td>Sensitive medical phrasing</td><td>Pre-flight compliance checklist repo</td><td>Creative Lead</td></tr>
+        <tr><td>Attribution Blind Spots</td><td>Offline not synced</td><td>CRM nightly import + QA log</td><td>Data / IT</td></tr>
+        <tr><td>Rising CPC</td><td>Competitor bid pressure</td><td>Quality Score uplift + long-tail clusters</td><td>Paid Media</td></tr>
+        <tr><td>Organic Plateau</td><td>Branded over-reliance</td><td>Non-branded service hub cadence</td><td>SEO Agency</td></tr>
+        <tr><td>Creative Fatigue</td><td>Static offers</td><td>Monthly offer rotation & split tests</td><td>Growth</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- CLIENT ACTIONS -->
+  <section>
+    <h2>🧾 Client Action Checklist</h2>
+    <ul>
+      <li>Approve budget reallocations (Fillers + Botox increases)</li>
+      <li>Provide 2–3 patient testimonial videos (vertical + horizontal)</li>
+      <li>Confirm legal guardrails & compliance wording</li>
+      <li>Grant GA4, GAds, Meta, GMB full access (audit credentials)</li>
+      <li>Approve backlink disavow list & outreach targets</li>
+      <li>Share existing SEO agency keyword ranking exports</li>
+    </ul>
+  </section>
+
+  <!-- SUMMARY CALL TO ACTION -->
+  <section>
+    <h2>🚀 Path to 2× Leads</h2>
+    <div class="callout ok"><h4>Projection</h4><p>Phase 1 &amp; 2 execution expected to drive +30% leads (CPL -15–20%). Full 3-phase + integration + channel tests → 2× leads &lt;$50 CPL in 9–12 months.</p></div>
+    <p><strong>Next:</strong> Align on Phase 1 kickoff date & establish weekly operating cadence (Monday performance sync; Friday experiment readout).</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Banoo Inc. | Synergy Face + Body Audit | Internal Use & Client Presentation</p>
+  </footer>
+</main>
+</body>
+</html>
