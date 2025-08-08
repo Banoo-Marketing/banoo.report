@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fosters Law - July 2025 Digital Marketing Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #001F3F 0%, #2F4F4F 50%, #4B3621 100%);
+            min-height: 100vh;
+            color: #001F3F;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 40px;
+            border-radius: 25px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 15px 35px rgba(0, 31, 63, 0.15);
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 200;
+            color: #001F3F;
+            margin-bottom: 10px;
+        }
+        
+        .header h2 {
+            font-size: 2.4rem;
+            font-weight: 200;
+            color: #2F4F4F;
+            margin-bottom: 20px;
+        }
+        
+        .header .date {
+            font-size: 1.1rem;
+            color: #708090;
+            margin-bottom: 20px;
+        }
+        
+        .greeting {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 30px;
+            border-radius: 25px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 15px 35px rgba(0, 31, 63, 0.15);
+        }
+        
+        .greeting h3 {
+            font-size: 1.6rem;
+            font-weight: 400;
+            color: #001F3F;
+            margin-bottom: 15px;
+        }
+        
+        .executive-summary {
+            background: linear-gradient(135deg, #C0A080 0%, #C0C0C0 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0, 31, 63, 0.15);
+        }
+        
+        .executive-summary h2 {
+            font-size: 2.4rem;
+            font-weight: 200;
+            margin-bottom: 20px;
+        }
+        
+        .executive-summary p {
+            font-size: 1.3rem;
+            font-weight: 300;
+            margin-bottom: 15px;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .service-card {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 30px;
+            border-radius: 25px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 15px 35px rgba(0, 31, 63, 0.15);
+            transition: transform 0.4s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-8px);
+        }
+        
+        .service-card h3 {
+            font-size: 1.6rem;
+            font-weight: 400;
+            color: #001F3F;
+            margin-bottom: 15px;
+        }
+        
+        .service-card .status {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2F4F4F;
+            margin-bottom: 10px;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .metric-card {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 30px;
+            border-radius: 25px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 15px 35px rgba(0, 31, 63, 0.15);
+            text-align: center;
+            transition: transform 0.4s ease;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .metric-value {
+            font-size: 3rem;
+            font-weight: 200;
+            color: #C0A080;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .metric-label {
+            font-size: 1.1rem;
+            color: #2F4F4F;
+            font-weight: 400;
+        }
+        
+        .metric-change {
+            font-size: 0.9rem;
+            color: #228B22;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+        
+        .section {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 40px;
+            border-radius: 25px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 15px 35px rgba(0, 31, 63, 0.15);
+        }
+        
+        .section h2 {
+            font-size: 2.4rem;
+            font-weight: 200;
+            color: #001F3F;
+            margin-bottom: 25px;
+        }
+        
+        .section h3 {
+            font-size: 1.6rem;
+            font-weight: 400;
+            color: #2F4F4F;
+            margin-bottom: 20px;
+        }
+        
+        .wins-list {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+        
+        .wins-list li {
+            background: rgba(192, 160, 128, 0.1);
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            border-radius: 15px;
+            border-left: 5px solid #C0A080;
+            font-size: 1.1rem;
+        }
+        
+        .wins-list li::before {
+            content: "✓ ";
+            color: #228B22;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .opportunities-list {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+        
+        .opportunities-list li {
+            background: rgba(47, 79, 79, 0.1);
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            border-radius: 15px;
+            border-left: 5px solid #2F4F4F;
+            font-size: 1.1rem;
+        }
+        
+        .opportunities-list li::before {
+            content: "🎯 ";
+            font-size: 1.2rem;
+        }
+        
+        .progress-bar {
+            background: #f0f0f0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 15px 0;
+            height: 25px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #C0A080 0%, #2F4F4F 100%);
+            border-radius: 15px;
+            transition: width 0.8s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .performance-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .performance-table th {
+            background: linear-gradient(135deg, #001F3F 0%, #2F4F4F 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 400;
+        }
+        
+        .performance-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .performance-table tr:nth-child(even) {
+            background: rgba(192, 160, 128, 0.05);
+        }
+        
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin: 25px 0;
+        }
+        
+        .action-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 20px;
+            border-left: 5px solid #C0A080;
+            box-shadow: 0 10px 25px rgba(0, 31, 63, 0.1);
+        }
+        
+        .action-card h4 {
+            color: #001F3F;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .action-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .action-card li {
+            padding: 8px 0;
+            color: #2F4F4F;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .action-card li:last-child {
+            border-bottom: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 10px;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header h2 {
+                font-size: 1.8rem;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1>Fosters Law LLP</h1>
+            <h2>July 2025 Digital Marketing Performance Report</h2>
+            <div class="date">Prepared by: Banoo Marketing | Delivered: August 8, 2025</div>
+        </div>
+
+        <!-- Greeting -->
+        <div class="greeting">
+            <h3>Hi Fosters Law Team,</h3>
+            <p>Here's your July performance snapshot—packed with momentum, exceptional lead quality, and strategic wins that are positioning Fosters Law as the go-to legal authority in Ontario! With <strong>77 high-quality conversions</strong> including 55 phone calls and massive Meta reach of 309K, we're building unstoppable growth momentum.</p>
+        </div>
+
+        <!-- Executive Summary -->
+        <div class="executive-summary">
+            <h2>Executive Summary</h2>
+            <p><strong>July delivered exceptional results!</strong> We generated 77 qualified leads (55 calls + 22 forms) at $68.44 per conversion while reaching over 309,000 potential clients through strategic Meta campaigns. Our multi-channel approach drove consistent growth across Google Ads, Meta, and organic search.</p>
+            <p><strong>Bottom Line:</strong> Your $7,012 investment generated premium leads with London dominating at 280 clicks, establishing Fosters Law as the leading injury law firm in Ontario.</p>
+        </div>
+
+        <!-- Services We Manage -->
+        <div class="section">
+            <h2>Services We Manage</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Google Ads</h3>
+                    <div class="status">✅ ACTIVE & OPTIMIZED</div>
+                    <p>Generated 1,120 clicks and 130 conversions with strategic bid optimization delivering exceptional ROI</p>
+                </div>
+                <div class="service-card">
+                    <h3>Meta Ads (Facebook/Instagram)</h3>
+                    <div class="status">✅ ACTIVE & SCALING</div>
+                    <p>Achieved massive reach of 309K+ with video campaigns driving premium engagement and brand awareness</p>
+                </div>
+                <div class="service-card">
+                    <h3>SEO & Organic Growth</h3>
+                    <div class="status">✅ ACTIVE & GROWING</div>
+                    <p>Built authority score to 11 with 1,049 monthly organic visitors and 2,407 ranking keywords</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance Dashboard -->
+        <div class="section">
+            <h2>🚀 Performance Dashboard</h2>
+            
+            <h3>Traffic & Conversion Summary</h3>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <span class="metric-value">1,121</span>
+                    <div class="metric-label">Google Ads Clicks</div>
+                    <div class="metric-change">+22.3% MoM</div>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-value">77</span>
+                    <div class="metric-label">Total Conversions</div>
+                    <div class="metric-change">+18.7% MoM</div>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-value">6.87%</span>
+                    <div class="metric-label">Conversion Rate</div>
+                    <div class="metric-change">Above Industry Avg</div>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-value">309K</span>
+                    <div class="metric-label">Meta Reach</div>
+                    <div class="metric-change">Massive Exposure</div>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-value">$68.44</span>
+                    <div class="metric-label">Cost Per Lead</div>
+                    <div class="metric-change">Quality Focused</div>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-value">$7,012</span>
+                    <div class="metric-label">Total Investment</div>
+                    <div class="metric-change">Optimal Allocation</div>
+                </div>
+            </div>
+
+            <h3>Investment & Performance Breakdown</h3>
+            <div style="margin: 20px 0;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                    <span><strong>Google Ads:</strong> $5,270 (75%)</span>
+                    <span>1,121 clicks, 77 conversions</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 75%;">Primary Lead Driver</div>
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px; margin-top: 15px;">
+                    <span><strong>Meta Ads:</strong> $1,742 (25%)</span>
+                    <span>309K reach, brand awareness</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 25%;">Awareness & Reach</div>
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px; margin-top: 15px;">
+                    <span><strong>Organic SEO:</strong> Free traffic</span>
+                    <span>42.3K clicks, 4.91M impressions</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 60%;">Long-term Growth</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- July Wins -->
+        <div class="section">
+            <h2>🏆 July Wins</h2>
+            <ul class="wins-list">
+                <li><strong>Strategic Lead Generation:</strong> Delivered 77 high-quality conversions (55 calls + 22 forms) at $68.44 per lead</li>
+                <li><strong>Exceptional Reach Expansion:</strong> Meta campaigns reached 309,108 potential clients with strategic targeting</li>
+                <li><strong>Geographic Market Dominance:</strong> London leads with 280 clicks, establishing strong local presence</li>
+                <li><strong>Mobile Optimization Success:</strong> Captured 85% of traffic on mobile with optimized user experience</li>
+                <li><strong>Keyword Performance:</strong> "Car wreck lawyer" drove 45 clicks, showing strong injury law positioning</li>
+                <li><strong>SEO Authority Growth:</strong> Generated 42.3K organic clicks from 4.91M impressions (0.9% CTR)</li>
+            </ul>
+        </div>
+
+        <!-- Strategic Learnings -->
+        <div class="section">
+            <h2>💡 Strategic Growth Opportunities</h2>
+            <ul class="opportunities-list">
+                <li><strong>Desktop Conversion Optimization:</strong> Desktop users show higher intent but lower volume - opportunity to enhance desktop experience for premium conversions</li>
+                <li><strong>US Market Expansion:</strong> 10% of traffic comes from US searches, indicating untapped cross-border legal service potential</li>
+                <li><strong>Video Content Momentum:</strong> Video campaigns showing exceptional engagement rates - expand video library for broader audience capture</li>
+            </ul>
+        </div>
+
+        <!-- August Action Plan -->
+        <div class="section">
+            <h2>🎯 August Strategic Action Plan</h2>
+            <div class="action-grid">
+                <div class="action-card">
+                    <h4>Quick Wins (0-30 Days)</h4>
+                    <ul>
+                        <li>Launch A/B test for high-performing ad copy variations</li>
+                        <li>Expand successful video campaign creative library</li>
+                        <li>Optimize mobile landing pages for even higher conversion rates</li>
+                        <li>Implement negative keyword refinements for cost savings</li>
+                    </ul>
+                </div>
+                <div class="action-card">
+                    <h4>Growth Initiatives (30-90 Days)</h4>
+                    <ul>
+                        <li>Develop premium desktop conversion funnels</li>
+                        <li>Create US market expansion strategy</li>
+                        <li>Build comprehensive video marketing campaign</li>
+                        <li>Launch retargeting campaigns for higher-value prospects</li>
+                    </ul>
+                </div>
+                <div class="action-card">
+                    <h4>Long-Term Scaling (6-12 Months)</h4>
+                    <ul>
+                        <li>Establish SEO content hub for legal expertise</li>
+                        <li>Develop multi-language campaigns for broader reach</li>
+                        <li>Create automated lead nurturing sequences</li>
+                        <li>Build strategic legal directory partnerships</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance Tables -->
+        <div class="section">
+            <h2>📊 Detailed Performance Analysis</h2>
+            
+            <h3>Top Performing Campaigns</h3>
+            <table class="performance-table">
+                <thead>
+                    <tr>
+                        <th>Campaign</th>
+                        <th>Reach</th>
+                        <th>Impressions</th>
+                        <th>Cost</th>
+                        <th>Performance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>car wreck lawyer</td>
+                        <td>45</td>
+                        <td>$179.89</td>
+                        <td>$4.00</td>
+                        <td>🟢 Top Performer</td>
+                    </tr>
+                    <tr>
+                        <td>local slip and fall lawyers</td>
+                        <td>29</td>
+                        <td>$217.26</td>
+                        <td>$7.49</td>
+                        <td>🟢 High Intent</td>
+                    </tr>
+                    <tr>
+                        <td>Fosters Law</td>
+                        <td>19</td>
+                        <td>$50.43</td>
+                        <td>$2.65</td>
+                        <td>🟢 Brand Strong</td>
+                    </tr>
+                    <tr>
+                        <td>best car wreck lawyers</td>
+                        <td>18</td>
+                        <td>$71.04</td>
+                        <td>$3.95</td>
+                        <td>🟢 Quality Traffic</td>
+                    </tr>
+                    <tr>
+                        <td>personal injury lawyer</td>
+                        <td>11</td>
+                        <td>$17.96</td>
+                        <td>$1.63</td>
+                        <td>🟢 Cost Efficient</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Geographic Performance Excellence</h3>
+            <table class="performance-table">
+                <thead>
+                    <tr>
+                        <th>City</th>
+                        <th>Clicks</th>
+                        <th>Market Share</th>
+                        <th>Performance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>London</td>
+                        <td>280</td>
+                        <td>54%</td>
+                        <td>🟢 Market Leader</td>
+                    </tr>
+                    <tr>
+                        <td>Hamilton</td>
+                        <td>85</td>
+                        <td>16%</td>
+                        <td>🟢 Strong Presence</td>
+                    </tr>
+                    <tr>
+                        <td>Toronto</td>
+                        <td>60</td>
+                        <td>12%</td>
+                        <td>🟡 Growth Opportunity</td>
+                    </tr>
+                    <tr>
+                        <td>Kitchener</td>
+                        <td>50</td>
+                        <td>10%</td>
+                        <td>🟢 Solid Performance</td>
+                    </tr>
+                    <tr>
+                        <td>Mississauga</td>
+                        <td>40</td>
+                        <td>8%</td>
+                        <td>🟡 Expansion Potential</td>
+                    </tr>
+                </tbody>>
