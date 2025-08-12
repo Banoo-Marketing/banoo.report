@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>416-Flowers.com Final SEO Recovery Plan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .header h1 {
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .crisis-summary {
+            background: linear-gradient(45deg, #dc3545, #ff6b6b);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+        }
+        
+        .issue-card {
+            background: #f8f9fa;
+            border-left: 6px solid;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .critical { border-left-color: #dc3545; }
+        .high { border-left-color: #fd7e14; }
+        .medium { border-left-color: #ffc107; }
+        
+        .issue-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .issue-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .priority-badge {
+            padding: 5px 12px;
+            border-radius: 15px;
+            color: white;
+            font-size: 0.8em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .p1 { background: #dc3545; }
+        .p2 { background: #fd7e14; }
+        .p3 { background: #ffc107; color: #000; }
+        
+        .issue-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 15px 0;
+        }
+        
+        .detail-box {
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+        
+        .root-cause {
+            background: #fef2f2;
+            border-left-color: #ef4444;
+        }
+        
+        .solution {
+            background: #f0fdf4;
+            border-left-color: #22c55e;
+        }
+        
+        .action-items {
+            background: #fefce8;
+            border-left-color: #eab308;
+            grid-column: 1 / -1;
+        }
+        
+        .tools-outcome {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .tools {
+            background: #f1f5f9;
+            border-left: 4px solid #0ea5e9;
+            padding: 12px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .outcome {
+            background: #f0f9ff;
+            border-left: 4px solid #06b6d4;
+            padding: 12px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .checklist li {
+            padding: 5px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .checklist li::before {
+            content: '✓';
+            color: #22c55e;
+            font-weight: bold;
+            min-width: 20px;
+        }
+        
+        .ticket-section {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin: 30px 0;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .team-card {
+            background: rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .team-card h3 {
+            color: #fbbf24;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        
+        .ticket {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            border-left: 4px solid #fbbf24;
+        }
+        
+        .ticket-header {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .ticket-timeline {
+            background: rgba(255,255,255,0.1);
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+        
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 10px 0;
+        }
+        
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .timeline {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .timeline-icon {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            font-size: 1.2em;
+            min-width: 40px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🌸 416-Flowers.com</h1>
+            <h2>Final SEO Recovery Action Plan</h2>
+            <p style="font-size: 1.2em; margin-top: 15px;">Complete Implementation Guide - From Crisis to #1 Toronto Florist</p>
+        </div>
+
+        <!-- Crisis Summary -->
+        <div class="crisis-summary">
+            🚨 CURRENT CRISIS: 80-90% traffic drop since June 2025 | From 42K to 20.6K monthly visits<br>
+            🎯 MISSION: Become #1 flower delivery service in Toronto & GTA<br>
+            ⏰ CRITICAL WINDOW: Deploy all P1 fixes within 48 hours to stop ranking bleeding
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="quick-stats">
+            <div class="stat-card">
+                <div class="stat-number">8</div>
+                <div class="stat-label">Critical Issues</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">74%</div>
+                <div class="stat-label">Pages Not Indexed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">89%</div>
+                <div class="stat-label">Toxic Backlinks</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">48h</div>
+                <div class="stat-label">Emergency Timeline</div>
+            </div>
+        </div>
+
+        <!-- List of Issues -->
+        <div class="section">
+            <h2>🔍 COMPLETE ISSUE BREAKDOWN</h2>
+
+            <!-- Issue 1 -->
+            <div class="issue-card critical">
+                <div class="issue-header">
+                    <div class="issue-title">1. TOXIC BACKLINK PROFILE - Algorithmic Penalty</div>
+                    <span class="priority-badge p1">P1 CRITICAL</span>
+                </div>
+                
+                <div class="issue-details">
+                    <div class="detail-box root-cause">
+                        <h4>🔍 Root Cause:</h4>
+                        <p>89% of backlinks use over-optimized promotional anchors:</p>
+                        <ul style="margin: 10px 0; padding-left: 20px;">
+                            <li>52% "flash deal: a dozen roses for only $19.99—shop now!" (21,122 links)</li>
+                            <li>21% "women's day deal: a dozen roses for only $19.99—shop now!" (8,554 links)</li>
+                            <li>16% "flash deal: a dozen roses for only $19.49—shop now!" (6,583 links)</li>
+                        </ul>
+                        <p><strong>Result:</strong> Google June 2025 Core Update penalty targeting link manipulation</p>
+                    </div>
+                    
+                    <div class="detail-box solution">
+                        <h4>🔧 Solution:</h4>
+                        <p>Emergency disavow of 36,000+ promotional links and diversification of anchor profile to natural/branded anchors (80%+ target)</p>
+                    </div>
+                </div>
+
+                <div class="detail-box action-items">
+                    <h4>📋 Action Items:</h4>
+                    <ul class="checklist">
+                        <li>Export all backlinks from SEMrush/Ahrefs</li>
+                        <li>Create disavow.txt file with all promotional anchor variations</li>
+                        <li>Include toxic domains: zcu.ge, coloringalpha04.blogspot.com, micahpclost.blogspot.com</li>
+                        <li>Submit disavow file to Google Search Console</li>
+                        <li>Stop all promotional email campaigns creating indexed links</li>
+                        <li>Audit remaining 11% for quality assessment</li>
+                    </ul>
+                </div>
+
+                <div class="tools-outcome">
+                    <div class="tools">
+                        <h4>🛠️ Tools Needed:</h4>
+                        <p>Google Search Console Disavow Tool, SEMrush Backlink Audit, Google Sheets for file creation</p>
+                    </div>
+                    <div class="outcome">
+                        <h4>📈 Expected Outcome:</h4>
+                        <p>Rankings stabilize in 2-4 weeks, stop further penalty damage, +20-30% authority recovery</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Issue 2 -->
+            <div class="issue-card critical">
+                <div class="issue-header">
+                    <div class="issue-title">2. MASSIVE INDEXATION CRISIS</div>
+                    <span class="priority-badge p1">P1 CRITICAL</span>
+                </div>
+                
+                <div class="issue-details">
+                    <div class="detail-box root-cause">
+                        <h4>🔍 Root Cause:</h4>
+                        <p>81.1K pages (74%) not indexed by Google due to:</p>
+                        <ul style="margin: 10px 0; padding-left: 20px;">
+                            <li>43,734 pages "Crawled - currently not indexed" (low value content)</li>
+                            <li>34,877 pages with canonical issues/duplicates</li>
+                            <li>742 pages with noindex tags on valuable content</li>
+                            <li>1,268 pages with redirect chains</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="detail-box solution">
+                        <h4>🔧 Solution:</h4>
+                        <p>Complete technical audit and cleanup of indexation barriers, canonical consolidation, sitemap optimization</p>
+                    </div>
+                </div>
+
+                <div class="detail-box action-items">
+                    <h4>📋 Action Items:</h4>
+                    <ul class="checklist">
+                        <li>Crawl entire site with Screaming Frog to identify issues</li>
+                        <li>Fix canonical tags - ensure self-referencing on canonical pages</li>
+                        <li>Remove noindex tags from valuable product/category pages</li>
+                        <li>Consolidate thin location pages (/location/ca/ontario/[city]/)</li>
+                        <li>Fix redirect chains to direct 301s</li>
+                        <li>Generate clean sitemap excluding duplicates and redirects</li>
+                        <li>Resubmit updated sitemap to Google Search Console</li>
+                    </ul>
+                </div>
+
+                <div class="tools-outcome">
+                    <div class="tools">
+                        <h4>🛠️ Tools Needed:</h4>
+                        <p>Screaming Frog, Google Search Console, .htaccess file access, FTP/cPanel</p>
+                    </div>
+                    <div class="outcome">
+                        <h4>📈 Expected Outcome:</h4>
+                        <p>Indexed pages increase from 26% to 60%+, visibility boost +40%, faster crawling</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Issue 3 -->
+            <div class="issue-card critical">
+                <div class="issue-header">
+                    <div class="issue-title">3. CORE WEB VITALS FAILURE</div>
+                    <span class="priority-badge p1">P1 CRITICAL</span>
+                </div>
+                
+                <div class="issue-details">
+                    <div class="detail-box root-cause">
+                        <h4>🔍 Root Cause:</h4>
+                        <p>Poor user experience metrics hurting mobile rankings (77% of traffic):</p>
+                        <ul style="margin: 10px 0; padding-left: 20px;">
+                            <li>391 mobile URLs with LCP >2.5s (slow loading)</li>
+                            <li>272 desktop URLs with CLS >0.25 (layout shifts)</li>
+                            <li>Unoptimized images (2MB+ each)</li>
+                            <li>Blocking JavaScript and unused CSS</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="detail-box solution">
+                        <h4>🔧 Solution:</h4>
+                        <p>Comprehensive performance optimization targeting <1.5s load times and stable layouts</p>
+                    </div>
+                </div>
+
+                <div class="detail-box action-items">
+                    <h4>📋 Action Items:</h4>
+                    <ul class="checklist">
+                        <li>Convert all flower images to WebP format</li>
+                        <li>Compress images to <200KB each</li>
+                        <li>Implement lazy loading for below-fold images</li>
+                        <li>Minify and defer non-critical JavaScript</li>
+                        <li>Remove unused Bootstrap CSS (400KB bloat)</li>
+                        <li>Set up CDN (CloudFlare) for static assets</li>
+                        <li>Fix layout shift elements (reserve space for dynamic content)</li>
+                    </ul>
+                </div>
+
+                <div class="tools-outcome">
+                    <div class="tools">
+                        <h4>🛠️ Tools Needed:</h4>
+                        <p>PageSpeed Insights, WebPageTest, Chrome DevTools, ImageOptim/TinyPNG, CloudFlare</p>
+                    </div>
+                    <div class="outcome">
+                        <h4>📈 Expected Outcome:</h4>
+                        <p>Mobile rankings improve, 90%+ pages pass Core Web Vitals, +25% user engagement</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Issue 4 -->
+            <div class="issue-card high">
+                <div class="issue-header">
+                    <div class="issue-title">4. MISSING LOCAL SEO OPTIMIZATION</div>
+                    <span class="priority-badge p2">P2 HIGH</span>
+                </div>
+                
+                <div class="issue-details">
+                    <div class="detail-box root-cause">
+                        <h4>🔍 Root Cause:</h4>
+                        <p>Zero visibility for high-intent local searches where competitors dominate:</p>
+                        <ul style="margin: 10px 0; padding-left: 20px;">
+                            <li>"florist near me" (18,100 volume) - Teleflora ranks #1, you're not in top 100</li>
+                            <li>"flower delivery near me" - Canada Flowers dominates</li>
+                            <li>No dedicated GTA area pages</li>
+                            <li>Google Business Profile underoptimized</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="detail-box solution">
+                        <h4>🔧 Solution:</h4>
+                        <p>Build comprehensive local SEO strategy with dedicated landing pages for 8 GTA areas</p>
+                    </div>
+                </div>
+
+                <div class="detail-box action-items">
+                    <h4>📋 Action Items:</h4>
+                    <ul class="checklist">
+                        <li>Create 8 local landing pages: Toronto, North York, Scarborough, Etobicoke, Mississauga, Brampton, Vaughan, Markham</li>
+                        <li>Optimize Google Business Profile: complete categories, services, hours, photos</li>
+                        <li>Add LocalBusiness schema to all local pages</li>
+                        <li>Target funeral home keywords (high conversion): Delmoro, Ogden, Glendale</li>
+                        <li>Build local citation strategy</li>
+                        <li>Create location-specific content (800+ words each)</li>
+                    </ul>
+                </div>
+
+                <div class="tools-outcome">
+                    <div class="tools">
+                        <h4>🛠️ Tools Needed:</h4>
+                        <p>Google My Business, BrightLocal, Moz Local, Schema markup generator</p>
+                    </div>
+                    <div class="outcome">
+                        <h4>📈 Expected Outcome:</h4>
+                        <p>Rank in local pack for "near me" searches, +40% local traffic, +60% local conversions</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Issue 5 -->
+            <div class="issue-card high">
+                <div class="issue-header">
+                    <div class="issue-title">5. MISSING HIGH-VALUE KEYWORDS</div>
+                    <span class="priority-badge p2">P2 HIGH</span>
+                </div>
+                
+                <div class="issue-details">
+                    <div class="detail-box root-cause">
+                        <h4>🔍 Root Cause:</h4>
+                        <p>Not ranking for major keywords that competitors dominate:</p>
+                        <ul style="margin: 10px 0; padding-left: 20px;">
+                            <li>"flower" (40,500 volume) - Not ranking, competitors rank 1-3</li>
+                            <li>"edible arrangements" (27,100 volume) - Bloomex dominates</li>
+                            <li>"fleuriste" (22,200 volume) - French market missed</li>
+                            <li>"flower bouquet" (6,600 volume) - Weak rankings</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="detail-box solution">
+                        <h4>🔧 Solution:</h4>
+                        <p>Create dedicated keyword-focused landing pages and optimize existing content for missed opportunities</p>
+                    </div>
+                </div>
+
+                <div class="detail-box action-items">
+                    <h4>📋 Action Items:</h4>
+                    <ul class="checklist">
+                        <li>Create comprehensive "flower" guide page (target 40,500 volume)</li>
+                        <li>Build "edible arrangements" section with fruit baskets</li>
+                        <li>Develop French language content for "fleuriste" keyword</li>
+                        <li>Optimize existing "flower bouquet" pages</li>
+                        <li>Target seasonal keywords: "Christmas flowers", "Valentine's flowers"</li>
+                        <li>Create occasion-based content: "wedding flowers", "funeral flowers"</li>
+                    </ul>
+                </div>
+
+                <div class="tools-outcome">
+                    <div class="tools">
+                        <h4>🛠️ Tools Needed:</h4>
+                        <p>SEMrush Keyword Magic Tool, Ahrefs Content Gap, Google Translate, Yoast SEO</p>
+                    </div>
+                    <div class="outcome">
+                        <h4>📈 Expected Outcome:</h4>
+                        <p>Rank top 10 for target keywords, +35% organic traffic from new keyword capture</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Issue 6 -->
+            <div class="issue-card medium">
+                <div class="issue-header">
+                    <div class="issue-title">6. THIN CONTENT & NO REVIEWS</div>
+                    <span class="priority-badge p3">P3 MEDIUM</span>
+                </div>
+                
+                <div class="issue-details">
+                    <div class="detail-box root-cause">
+                        <h4>🔍 Root Cause:</h4>
+                        <p>Content depth significantly below competitor standards:</p>
+                        <ul style="margin: 10px 0; padding-left: 20px;">
+                            <li>Homepage: 450 words vs competitors' 1,500+ words</li>
+                            <li>Zero customer reviews displayed</li>
+                            <li>No FAQs, testimonials, or trust signals</li>
+                            <li>Blog performance: 29 clicks/month (extremely low)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="detail-box solution">
+                        <h4>🔧 Solution:</h4>
+                        <p>Expand content depth, add social proof, implement review collection strategy</p>
+                    </div>
+                </div>
+
+                <div class="detail-box action-items">
+                    <h4>📋 Action Items:</h4>
+                    <ul class="checklist">
+                        <li>Expand homepage to 1,000+ words with FAQs and reviews</li>
+                        <li>Launch customer review collection campaign (target 50+ reviews)</li>
+                        <li>Add testimonials and trust badges</li>
+                        <li>Create seasonal blog content calendar</li>
+                        <li>Implement review schema markup</li>
+                        <li>Add "About Us" and team bios for E-A-T</li>
+                    </ul>
+                </div>
+
+                <div class="tools-outcome">
+                    <div class="tools">
+                        <h4>🛠️ Tools Needed:</h4>
+                        <p>Google Reviews API, Trustpilot, Review schema generator, Content calendar tool</p>
+                    </div>
+                    <div class="outcome">
+                        <h4>📈 Expected Outcome:</h4>
+                        <p>Higher quality scores, +20% time on site, improved conversion rates</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Team Tickets -->
+        <div class="ticket-section">
+            <h2>🎯 TEAM ACTION TICKETS</h2>
+            <p style="margin-bottom: 30px; font-size: 1.1em;">Immediate deployment instructions for each team</p>
+
+            <div class="team-grid">
+                <!-- SEO Team -->
+                <div class="team-card">
+                    <h3>🎯 SEO TEAM (3 tickets)</h3>
+                    
+                    <div class="ticket">
+                        <div class="ticket-header">SEO-001: EMERGENCY BACKLINK DISAVOW</div>
+                        <p>Create and submit disavow file for 36,000+ toxic promotional links</p>
+                        <div class="ticket-timeline">⏰ Timeline: 12 hours | Owner: SEO Lead</div>
+                    </div>
+
+                    <div class="ticket">
+                        <div class="ticket-header">SEO-002: LOCAL KEYWORD RESEARCH</div>
+                        <p>Map keywords for 8 GTA areas, optimize Google Business Profile</p>
+                        <div class="ticket-timeline">⏰ Timeline: 48 hours | Owner: Local SEO Specialist</div>
+                    </div>
+
+                    <div class="ticket">
+                        <div class="ticket-header">SEO-003: MISSING KEYWORD STRATEGY</div>
+                        <p>Create content briefs for high-value missing keywords</p>
+                        <div class="ticket-timeline">⏰ Timeline: 1 week | Owner: Keyword Strategist</div>
+                    </div>
+                </div>
+
+                <!-- Dev Team -->
+                <div class="team-card">
+                    <h3>💻 DEV TEAM (4 tickets)</h3>
+                    
+                    <div class="ticket">
+                        <div class="ticket-header">DEV-001: INDEXATION EMERGENCY FIX</div>
+                        <p>Fix canonicals, remove noindex, consolidate duplicates, update sitemap</p>
+                        <div class="ticket-timeline">⏰ Timeline: 24 hours | Owner: Technical Lead</div>
+                    </div>
+
+                    <div class="ticket">
+                        <div class="ticket-header">DEV-002: CORE WEB VITALS OPTIMIZATION</div>
+                        <p>Image optimization, lazy loading, CSS/JS minification, CDN setup</p>
+                        <div class="ticket-timeline">⏰ Timeline: 1 week | Owner: Frontend Dev</div>
+                    </div>
+
+                    <div class="ticket">
+                        <div class="ticket-header">DEV-003: SCHEMA MARKUP FIXES</div>
+                        <p>Fix product schema, add LocalBusiness, implement FAQ schema</p>
+                        <div class="ticket-timeline">⏰ Timeline: 72 hours | Owner: Backend Dev</div>
+                    </div>
+
+                    <div class="ticket">
+                        <div class="ticket-header">DEV-004: LOCAL PAGES INFRASTRUCTURE</div>
+                        <p>Build template system for 8 local landing pages with proper schema</p>
+                        <div class="ticket-timeline">⏰ Timeline: 2 weeks | Owner: Full Stack Dev</div>
+                    </div>
+                </div>
+
+                <!-- Content Team -->
+                <div class="team-card">
+                    <h3>📝 CONTENT TEAM (3 tickets)</h3>
+                    
+                    <div class="ticket">
+                        <div class="ticket-header">CONTENT-001: LOCAL LANDING PAGES</div>
+                        <p>Write 8 GTA area pages (800+ words each) with local optimization</p>
+                        <div class="ticket-timeline">⏰ Timeline: 2 weeks | Owner: Content Writer</div>
+                    </div>
+
+                    <div class="ticket">
+                        <div class="ticket-header">CONTENT-002: HOMEPAGE EXPANSION</div>
+                        <p>Expand homepage to 1,000+ words, add FAQs and trust signals</p>
+                        <div class="ticket-timeline">⏰ Timeline: 1 week | Owner: Senior Writer</div>
+                    </div>
+
+                    <div class="ticket">
+                        <div class="ticket-header">CONTENT-003: KEYWORD-FOCUSED PAGES</div>
+                        <p>Create pages for "flower", "edible arrangements", "fleuriste"</p>
+                        <div class="ticket-timeline">⏰ Timeline: 2 weeks | Owner: Content Strategist</div>
