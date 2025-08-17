@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFCR Q4 Digital Growth Proposal</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #000;
+            background: #fff;
+            scroll-behavior: smooth;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            margin-bottom: 40px;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" stroke-width="0.5" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .hero-subtitle {
+            font-size: 1.4rem;
+            opacity: 0.95;
+            margin-bottom: 10px;
+        }
+        
+        .hero-meta {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-bottom: 30px;
+        }
+        
+        .cta-button {
+            background: #3b82f6;
+            color: white;
+            padding: 15px 35px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin: 10px 10px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+        
+        .cta-button:hover {
+            background: #2563eb;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 50px 0;
+        }
+        
+        .summary-card {
+            background: white;
+            padding: 35px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-left: 6px solid #3b82f6;
+            transition: transform 0.3s ease;
+        }
+        
+        .summary-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .summary-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .summary-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #1e40af;
+        }
+        
+        .section {
+            margin: 50px 0;
+            padding: 40px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid #f1f5f9;
+        }
+        
+        .section-title {
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            color: #1e40af;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 3px solid #e2e8f0;
+            padding-bottom: 15px;
+        }
+        
+        .personas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .persona-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 5px solid #3b82f6;
+            transition: all 0.3s ease;
+        }
+        
+        .persona-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .persona-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .persona-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #1e40af;
+        }
+        
+        .priorities-container {
+            display: grid;
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .priority-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .priority-card:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.1);
+        }
+        
+        .priority-number {
+            position: absolute;
+            top: -15px;
+            left: 30px;
+            background: #3b82f6;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .priority-title {
+            margin-top: 10px;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            color: #1e40af;
+            font-weight: 600;
+        }
+        
+        .roadmap {
+            position: relative;
+            margin: 40px 0;
+        }
+        
+        .roadmap-timeline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .phase-card {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 6px solid #3b82f6;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .phase-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .phase-number {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            background: #3b82f6;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.3rem;
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+        }
+        
+        .phase-title {
+            font-size: 1.3rem;
+            color: #1e40af;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .phase-duration {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        
+        .outcomes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .outcome-card {
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .outcome-card.traffic {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+        }
+        
+        .outcome-card.conversion {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+        }
+        
+        .outcome-card.acquisition {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        }
+        
+        .outcome-card.retention {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+        
+        .outcome-card.visibility {
+            background: linear-gradient(135deg, #ec4899, #db2777);
+        }
+        
+        .outcome-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+        
+        .outcome-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .next-steps {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            padding: 40px;
+            border-radius: 20px;
+            margin-top: 40px;
+            border: 2px solid #bfdbfe;
+        }
+        
+        .next-steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+        
+        .next-step-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .step-number {
+            background: #3b82f6;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .progress-indicator {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #1e40af);
+            border-radius: 4px;
+            transition: width 1.5s ease;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            .section {
+                padding: 25px;
+            }
+            
+            .summary-grid, .personas-grid, .roadmap-timeline {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .floating-nav {
+            position: fixed;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 10px;
+            z-index: 1000;
+        }
+        
+        .nav-item {
+            display: block;
+            padding: 10px;
+            color: #64748b;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 5px 0;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .nav-item:hover, .nav-item.active {
+            background: #3b82f6;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Navigation -->
+    <div class="floating-nav">
+        <a href="#hero" class="nav-item">🏠 Top</a>
+        <a href="#summary" class="nav-item">📋 Summary</a>
+        <a href="#personas" class="nav-item">👥 Personas</a>
+        <a href="#priorities" class="nav-item">🎯 Priorities</a>
+        <a href="#roadmap" class="nav-item">🗺️ Roadmap</a>
+        <a href="#outcomes" class="nav-item">📈 Outcomes</a>
+        <a href="#next-steps" class="nav-item">✅ Next Steps</a>
+    </div>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="hero" id="hero">
+            <div class="hero-content">
+                <h1>📑 NFCR Q4 Digital Growth Proposal</h1>
+                <div class="hero-subtitle">Maximizing Year-End Fundraising Through Strategic Digital Optimization</div>
+                <div class="hero-meta">
+                    <strong>Prepared for:</strong> NFCR MARCOMM & Leadership<br>
+                    <strong>Draft:</strong> August 2025 (seeking feedback)
+                </div>
+                <div style="margin-top: 30px;">
+                    <a href="#summary" class="cta-button">📊 View Executive Summary</a>
+                    <a href="#priorities" class="cta-button">🎯 See Strategic Priorities</a>
+                    <a href="#roadmap" class="cta-button">🗺️ Implementation Roadmap</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Executive Summary -->
+        <div class="section" id="summary">
+            <h2 class="section-title">🎯 Executive Summary</h2>
+            <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 30px; color: #374151;">
+                NFCR enters Q4 with strong website traffic and brand visibility. The priority now is to turn traffic into one-click donations and expand new donor acquisition during the critical year-end giving season.
+            </p>
+            
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <span class="summary-icon">🚀</span>
+                    <div class="summary-title">Drive Qualified Traffic</div>
+                    <p>Through search and seasonal campaigns using existing Google Grant and SEO strategies</p>
+                </div>
+                <div class="summary-card">
+                    <span class="summary-icon">💰</span>
+                    <div class="summary-title">Optimize Donation Journey</div>
+                    <p>Frictionless giving experience with Apple Pay, Google Pay, and enhanced UX</p>
+                </div>
+                <div class="summary-card">
+                    <span class="summary-icon">👥</span>
+                    <div class="summary-title">Grow New Donors</div>
+                    <p>Peer-to-peer and viral campaigns to expand donor base organically</p>
+                </div>
+                <div class="summary-card">
+                    <span class="summary-icon">🔄</span>
+                    <div class="summary-title">Strengthen Retention</div>
+                    <p>Targeted re-engagement of past donors with personalized messaging</p>
+                </div>
+                <div class="summary-card">
+                    <span class="summary-icon">📢</span>
+                    <div class="summary-title">Enhance Brand Awareness</div>
+                    <p>Authentic storytelling and strategic influencer partnerships</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Target Donor Personas -->
+        <div class="section" id="personas">
+            <h2 class="section-title">👥 Target Donor Personas</h2>
+            <div class="personas-grid">
+                <div class="persona-card">
+                    <span class="persona-icon">❤️</span>
+                    <div class="persona-title">Compassionate Caregiver</div>
+                    <p><strong>Age:</strong> 40–65<br>
+                    <strong>Profile:</strong> Past donors, memorial giving<br>
+                    <strong>Motivation:</strong> Personal connection to cancer research through family/friends</p>
+                    <div class="progress-indicator">
+                        <div class="progress-fill" style="width: 85%;"></div>
+                    </div>
+                </div>
+                <div class="persona-card">
+                    <span class="persona-icon">⭐</span>
+                    <div class="persona-title">Impact-Driven Professional</div>
+                    <p><strong>Age:</strong> 25–40<br>
+                    <strong>Profile:</strong> Younger donors, measurable impact<br>
+                    <strong>Motivation:</strong> Wants to see tangible results and research breakthroughs</p>
+                    <div class="progress-indicator">
+                        <div class="progress-fill" style="width: 70%;"></div>
+                    </div>
+                </div>
+                <div class="persona-card">
+                    <span class="persona-icon">👑</span>
+                    <div class="persona-title">Legacy Philanthropist</div>
+                    <p><strong>Age:</strong> 50+<br>
+                    <strong>Profile:</strong> High-net-worth, tax benefits, legacy giving<br>
+                    <strong>Motivation:</strong> Building lasting impact and recognition</p>
+                    <div class="progress-indicator">
+                        <div class="progress-fill" style="width: 90%;"></div>
+                    </div>
+                </div>
+                <div class="persona-card">
+                    <span class="persona-icon">🤝</span>
+                    <div class="persona-title">Peer-Influenced Donor</div>
+                    <p><strong>Age:</strong> All ages<br>
+                    <strong>Profile:</strong> Community and social proof motivated<br>
+                    <strong>Motivation:</strong> Influenced by friends, family, and social networks</p>
+                    <div class="progress-indicator">
+                        <div class="progress-fill" style="width: 60%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Strategic Priorities -->
+        <div class="section" id="priorities">
+            <h2 class="section-title">🔑 Top 7 Strategic Priorities for Q4</h2>
+            <div class="priorities-container">
+                <div class="priority-card">
+                    <div class="priority-number">1</div>
+                    <h3 class="priority-title">🎁 Year-End Matching Gift Campaign</h3>
+                    <p>Partner with corporations or major donors to match contributions during Q4, especially around Giving Tuesday (Dec 2, 2025). Matching doubles perceived donor impact and drives urgency.</p>
+                </div>
+
+                <div class="priority-card">
+                    <div class="priority-number">2</div>
+                    <h3 class="priority-title">📱 Frictionless Mobile Donations (Apple Pay & Google Pay)</h3>
+                    <p>Enable Apple Pay & Google Pay directly on donation forms for 1-tap checkout. These methods increase completion rates by removing friction.</p>
+                    <ul style="margin-top: 10px; color: #6b7280;">
+                        <li>Apple Pay requires NFCR's Candid Seal of Transparency + valid merchant account</li>
+                        <li>Google Pay integrates via Stripe or similar</li>
+                        <li>Best for one-time gifts; recurring donations can use FundraiseUp</li>
+                    </ul>
+                </div>
+
+                <div class="priority-card">
+                    <div class="priority-number">3</div>
+                    <h3 class="priority-title">🎯 Personalized Donor Segmentation with HubSpot</h3>
+                    <p>Deploy persona-based messaging:</p>
+                    <ul style="margin-top: 10px; color: #6b7280;">
+                        <li><strong>Past donors:</strong> Impact updates + legacy stories</li>
+                        <li><strong>Younger donors:</strong> UGC, viral challenges, social-driven appeals</li>
+                        <li><strong>HNW donors:</strong> Tax benefit framing + recognition campaigns</li>
+                    </ul>
+                </div>
+
+                <div class="priority-card">
+                    <div class="priority-number">4</div>
+                    <h3 class="priority-title">📖 Multi-Channel Storytelling Campaigns</h3>
+                    <p>Leverage HubSpot + Google Grant + Social Media to run integrated campaigns.</p>
+                    <ul style="margin-top: 10px; color: #6b7280;">
+                        <li>Emotional storytelling: survivor stories, lab breakthroughs</li>
+                        <li>Seasonal landing pages: Thanksgiving, Holidays, Year-End Giving</li>
+                        <li>Targeted retargeting ads for site visitors in the last 300 days</li>
+                    </ul>
+                </div>
+
+                <div class="priority-card">
+                    <div class="priority-number">5</div>
+                    <h3 class="priority-title">🌟 Viral #CureChallenge Social Campaign</h3>
+                    <p>Launch a holiday peer challenge (Instagram Reels, TikTok, YouTube Shorts). Donors share "Why I Give to NFCR" and challenge friends. Easy, viral, and low cost—builds community + donor acquisition.</p>
+                </div>
+
+                <div class="priority-card">
+                    <div class="priority-number">6</div>
+                    <h3 class="priority-title">🤝 Influencer "Story Swap" Partnerships</h3>
+                    <p>Engage 5–10 micro-influencers (cancer survivors, advocates) to share NFCR impact stories on their platforms. Authentic storytelling can multiply reach, especially leading into holidays.</p>
+                </div>
+
+                <div class="priority-card">
+                    <div class="priority-number">7</div>
+                    <h3 class="priority-title">🎮 Gamified Peer-to-Peer Holiday Raffle</h3>
+                    <p>Launch a digital raffle: each $10 donation = 1 entry. Prizes include research lab tours, branded gear, or donor spotlight features. Powered via Raisely/Angelink. Gamification boosts engagement + repeat giving.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Roadmap & Execution -->
+        <div class="section" id="roadmap">
+            <h2 class="section-title">🗺️ Roadmap & Execution</h2>
+            <div class="roadmap-timeline">
+                <div class="phase-card">
+                    <div class="phase-number">1</div>
+                    <h3 class="phase-title">🏗️ Foundation</h3>
+                    <div class="phase-duration">Weeks 1–2</div>
+                    <ul>
+                        <li>Expand Google Grant with donation-focused keywords</li>
+                        <li>Enable Apple Pay & Google Pay on all forms</li>
+                        <li>HubSpot: segment donor lists and prep year-end automations</li>
+                    </ul>
+                </div>
+
+                <div class="phase-card">
+                    <div class="phase-number">2</div>
+                    <h3 class="phase-title">🚀 Engagement</h3>
+                    <div class="phase-duration">Weeks 3–6</div>
+                    <ul>
+                        <li>Launch Matching Gift + Giving Tuesday campaigns</li>
+                        <li>Roll out seasonal donation landing pages</li>
+                        <li>Begin influencer outreach + social challenge teasers</li>
+                    </ul>
+                </div>
+
+                <div class="phase-card">
+                    <div class="phase-number">3</div>
+                    <h3 class="phase-title">⚡ Activation</h3>
+                    <div class="phase-duration">Weeks 7–10</div>
+                    <ul>
+                        <li>Run full #CureChallenge social push</li>
+                        <li>Launch peer-to-peer holiday raffle</li>
+                        <li>Deploy HubSpot personalized email sequences</li>
+                    </ul>
+                </div>
+
+                <div class="phase-card">
+                    <div class="phase-number">4</div>
+                    <h3 class="phase-title">📊 Optimization</h3>
+                    <div class="phase-duration">Weeks 11–12</div>
+                    <ul>
+                        <li>GA4 dashboards + predictive lead scoring</li>
+                        <li>Reallocate Google Grant budget to highest performers</li>
+                        <li>Retarget lapsed donors with high-touch campaigns</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Expected Outcomes -->
+        <div class="section" id="outcomes">
+            <h2 class="section-title">📈 Expected Outcomes</h2>
+            <div class="outcomes-grid">
+                <div class="outcome-card traffic">
+                    <div class="outcome-icon">📈</div>
+                    <div class="outcome-title">Increased Website Traffic</div>
+                    <p>Through optimized Google Grant & seasonal landing pages</p>
+                </div>
+                <div class="outcome-card conversion">
+                    <div class="outcome-icon">💰</div>
+                    <div class="outcome-title">Higher Conversion Rates</div>
+                    <p>Via Apple Pay, Google Pay, and FundraiseUp optimizations</p>
+                </div>
+                <div class="outcome-card acquisition">
+                    <div class="outcome-icon">👥</div>
+                    <div class="outcome-title">Stronger Donor Acquisition</div>
+                    <p>Through viral challenges and peer-to-peer campaigns</p>
+                </div>
+                <div class="outcome-card retention">
+                    <div class="outcome-icon">🔄</div>
+                    <div class="outcome-title">Improved Donor Retention</div>
+                    <p>By re-engaging past donors and remarketing site visitors</p>
+                </div>
+                <div class="outcome-card visibility">
+                    <div class="outcome-icon">📢</div>
+                    <div class="outcome-title">Enhanced Brand Visibility</div>
+                    <p>Through influencer "story swaps" and community campaigns</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Next Steps -->
+        <div class="next-steps" id="next-steps">
+            <h2 class="section-title">✅ Immediate Next Steps</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 25px; color: #374151;">
+                To refine and finalize this proposal, it would be helpful to confirm:
+            </p>
+            
+            <div class="next-steps-grid">
+                <div class="next-step-card">
+                    <div class="step-number">1</div>
+                    <h3>💰 Budget Confirmation</h3>
+                    <p>Budget for Q4 campaigns (Google Grant maxed + any paid allocation)</p>
+                </div>
+                
+                <div class="next-step-card">
+                    <div class="step-number">2</div>
+                    <h3>🎨 Campaign Theme</h3>
+                    <p>Campaign theme (e.g., "Light the Path" holiday giving or Giving Tuesday)</p>
+                </div>
+                
+                <div class="next-step-card">
+                    <div class="step-number">3</div>
+                    <h3>📋 Priority Content</h3>
+                    <p>Which podcasts, videos, donor stories should we highlight?</p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="#hero" class="cta-button" style="font-size: 1.3rem; padding: 18px 45px;">
+                    🚀 Let's Finalize This Strategy
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Smooth scrolling and active navigation
+        const navItems = document.querySelectorAll('.nav-item');
+        const sections = document.querySelectorAll('.section, .hero');
+
+        // Update active navigation item based on scroll position
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute
