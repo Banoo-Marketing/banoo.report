@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{{REPORT_TITLE}}</title>
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      /* ---- Brand knobs (edit these per client) ---- */
+      --accent: {{ACCENT_HEX}};                 /* e.g. #007AFF or #00F5A0 */
+      --accent-2: {{ACCENT_HEX_2}};             /* e.g. #AF52DE or #00D9F5 */
+      --bg-0:#000; --bg-1:#111; --bg-2:#0b0b0b; /* backgrounds */
+      --ink:#fff; --ink-sub:#c9c9c9;            /* text colors */
+
+      /* Component radii & shadows */
+      --r-sm:10px; --r-md:16px; --r-lg:24px; --r-xl:28px; --r-pill:999px;
+      --glass:rgba(255,255,255,0.08);
+      --elev:rgba(255,255,255,0.12);
+      --shadow:0 18px 60px rgba(0,0,0,0.35);
+
+      /* Gradients (hero + accents) */
+      --g-hero: radial-gradient(1200px 800px at 50% 10%, color-mix(in oklab, var(--accent) 30%, #fff 0%) 0%, transparent 60%),
+                radial-gradient(1000px 600px at 80% 30%, color-mix(in oklab, var(--accent-2) 24%, #fff 0%) 0%, transparent 70%);
+      --g-line: linear-gradient(90deg, var(--accent), var(--accent-2));
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family: Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;
+      color:var(--ink);
+      background: linear-gradient(180deg, var(--bg-0), var(--bg-1) 60%, var(--bg-2));
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    .container{max-width:1160px;margin:0 auto;padding:0 22px}
+
+    /* Hero */
+    .hero{
+      min-height:92vh; display:grid; place-items:center; position:relative; text-align:center; overflow:hidden;
+    }
+    .hero::before{content:""; position:absolute; inset:-10%; background:var(--g-hero); filter:blur(40px); opacity:.9; z-index:0}
+    .hero-inner{position:relative; z-index:1}
+    .pill{display:inline-flex; align-items:center; gap:10px; padding:10px 18px; border-radius:var(--r-pill);
+      background:color-mix(in oklab, var(--glass) 86%, transparent 14%); border:1px solid rgba(255,255,255,.12); backdrop-filter: blur(16px);
+      color:var(--ink-sub); font-weight:600; letter-spacing:.2px; margin-bottom:24px
+    }
+    .h1{
+      font-family: "Playfair Display", serif; font-weight:700; line-height:.95;
+      font-size:clamp(44px,7vw,88px);
+      background:linear-gradient(135deg,#fff 0%,#cfcfcf 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:14px
+    }
+    .sub{max-width:720px; margin:0 auto 28px; color:var(--ink-sub); font-size:clamp(16px,2.2vw,20px)}
+    .cta{
+      display:inline-flex; align-items:center; gap:10px; padding:14px 26px; border:0; border-radius:var(--r-pill);
+      background:var(--g-line); color:#000; font-weight:800; cursor:pointer; transition:transform .2s ease, box-shadow .2s ease;
+      box-shadow: 0 14px 40px rgba(0,0,0,.4)
+    }
+    .cta:hover{transform:translateY(-2px); box-shadow:0 24px 70px rgba(0,0,0,.55)}
+
+    /* Sections */
+    .section{padding:96px 0; position:relative}
+    .section-header{ text-align:center; margin-bottom:56px}
+    .kicker{display:inline-block; font-size:12px; letter-spacing:.26em; text-transform:uppercase; color:var(--ink-sub); margin-bottom:12px}
+    .h2{
+      font-size:clamp(28px,4.6vw,54px); font-weight:900; letter-spacing:-.02em;
+      background:linear-gradient(135deg,#fff 0%,#dcdcdc 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      margin-bottom:10px
+    }
+    .lead{color:var(--ink-sub); max-width:680px; margin:0 auto}
+
+    /* Cards grid */
+    .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:22px}
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
+      border:1px solid rgba(255,255,255,.12); backdrop-filter: blur(18px);
+      border-radius:var(--r-lg); padding:28px; box-shadow:var(--shadow); transition:transform .25s ease, border-color .25s ease
+    }
+    .card:hover{transform:translateY(-6px); border-color: rgba(255,255,255,.22)}
+    .card .title{font-weight:800; color:#fff; letter-spacing:-.01em; margin:10px 0 8px; font-size:20px}
+    .muted{color:var(--ink-sub)}
+
+    /* Metric rings (CSS-only) */
+    .metrics{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:18px}
+    .metric{
+      background:linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.05));
+      border:1px solid rgba(255,255,255,.12); border-radius:var(--r-lg); padding:26px; text-align:center; position:relative; overflow:hidden
+    }
+    .ring{--p: {{METRIC_PROGRESS_DEFAULT}}; /* 0..100 */
+      width:120px; height:120px; border-radius:50%; margin:0 auto 12px;
+      background:
+        conic-gradient(var(--accent) calc(var(--p)*1%), rgba(255,255,255,.12) 0),
+        radial-gradient(farthest-side, #0f0f0f 64%, transparent 65% 100%);
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.12), 0 14px 40px rgba(0,0,0,.35)
+    }
+    .metric .value{font-size:28px; font-weight:900; letter-spacing:-.02em}
+    .metric .label{font-size:12px; text-transform:uppercase; letter-spacing:.2em; color:var(--ink-sub); margin-top:6px}
+
+    /* Table */
+    .table-wrap{
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
+      border:1px solid rgba(255,255,255,.12); border-radius:var(--r-lg); overflow:hidden; box-shadow:var(--shadow)
+    }
+    table{width:100%; border-collapse:collapse}
+    th,td{padding:16px 18px; text-align:left}
+    thead th{
+      font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-sub); background:rgba(255,255,255,.03)
+    }
+    tbody tr{border-top:1px solid rgba(255,255,255,.08)}
+    tbody tr:hover{background:rgba(255,255,255,.03)}
+    .badge{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:var(--r-pill); font-weight:700; font-size:12px}
+    .b-ok{background:rgba(52,199,89,.14); color:#34C759}
+    .b-warn{background:rgba(255,149,0,.14); color:#FF9500}
+    .b-bad{background:rgba(255,59,48,.14); color:#FF3B30}
+
+    /* Timeline (Strategic Priorities) */
+    .timeline{max-width:820px; margin:40px auto 0; position:relative}
+    .timeline::before{content:""; position:absolute; left:22px; top:0; bottom:0; width:2px; background:rgba(255,255,255,.1)}
+    .t-item{position:relative; padding-left:70px; margin-bottom:26px}
+    .dot{position:absolute; left:12px; top:6px; width:20px; height:20px; border-radius:50%;
+      background:var(--g-line); border:3px solid #0f0f0f; box-shadow:0 0 0 6px rgba(255,255,255,.06)}
+    .t-title{font-weight:900; margin-bottom:6px}
+    .t-body{color:var(--ink-sub)}
+
+    /* CTA */
+    .cta-wrap{
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
+      border:1px solid rgba(255,255,255,.12); border-radius:var(--r-xl);
+      padding:66px 32px; text-align:center; box-shadow:var(--shadow)
+    }
+    .cta-head{font-size:clamp(26px,4vw,40px); font-weight:900; letter-spacing:-.02em; margin-bottom:10px}
+    .cta-sub{color:var(--ink-sub); max-width:640px; margin:0 auto 20px}
+
+    /* Footer chips */
+    .chips{display:flex; gap:12px; flex-wrap:wrap; justify-content:center}
+    .chip{padding:10px 16px; border-radius:var(--r-pill); background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12); color:#fff}
+
+    /* Responsive */
+    @media (max-width:768px){
+      .section{padding:72px 0}
+      .t-item{padding-left:62px}
+      .hero{min-height:86vh}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner container">
+      <span class="pill">{{BADGE_TEXT}}</span>
+      <h1 class="h1">{{HEADLINE_LINE1}}<br>{{HEADLINE_LINE2}}</h1>
+      <p class="sub">{{SUBHEAD}}</p>
+      <a class="cta" href="{{PRIMARY_CTA_HREF}}" target="_blank" rel="noopener">{{PRIMARY_CTA_LABEL}} →</a>
+
+      <!-- Optional client chip -->
+      <div style="margin-top:28px">
+        <span class="chip" style="background:rgba(255,255,255,.12)">{{CLIENT_NAME}}</span>
+        <span class="chip">{{CLIENT_WEBSITE}}</span>
+        <span class="chip">{{INDUSTRY}}</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STRATEGIC INSIGHTS -->
+  <section class="section">
+    <div class="container">
+      <header class="section-header">
+        <span class="kicker">Insights</span>
+        <h2 class="h2">{{INSIGHTS_TITLE}}</h2>
+        <p class="lead">{{INSIGHTS_SUBTITLE}}</p>
+      </header>
+
+      <div class="grid">
+        <!-- Repeat cards as needed -->
+        <article class="card">
+          <div class="title">{{INSIGHT_1_TITLE}}</div>
+          <p class="muted">{{INSIGHT_1_DESC}}</p>
+        </article>
+        <article class="card">
+          <div class="title">{{INSIGHT_2_TITLE}}</div>
+          <p class="muted">{{INSIGHT_2_DESC}}</p>
+        </article>
+        <article class="card">
+          <div class="title">{{INSIGHT_3_TITLE}}</div>
+          <p class="muted">{{INSIGHT_3_DESC}}</p>
+        </article>
+        <article class="card">
+          <div class="title">{{INSIGHT_4_TITLE}}</div>
+          <p class="muted">{{INSIGHT_4_DESC}}</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PERFORMANCE METRICS -->
+  <section class="section">
+    <div class="container">
+      <header class="section-header">
+        <span class="kicker">Performance</span>
+        <h2 class="h2">{{METRICS_TITLE}}</h2>
+        <p class="lead">{{METRICS_SUBTITLE}}</p>
+      </header>
+
+      <div class="metrics">
+        <!-- Copy block and change --p and numbers per metric -->
+        <div class="metric">
+          <div class="ring" style="--p: {{METRIC_1_PROGRESS}}"></div>
+          <div class="value">{{METRIC_1_VALUE}}</div>
+          <div class="label">{{METRIC_1_LABEL}}</div>
+        </div>
+        <div class="metric">
+          <div class="ring" style="--p: {{METRIC_2_PROGRESS}}"></div>
+          <div class="value">{{METRIC_2_VALUE}}</div>
+          <div class="label">{{METRIC_2_LABEL}}</div>
+        </div>
+        <div class="metric">
+          <div class="ring" style="--p: {{METRIC_3_PROGRESS}}"></div>
+          <div class="value">{{METRIC_3_VALUE}}</div>
+          <div class="label">{{METRIC_3_LABEL}}</div>
+        </div>
+        <div class="metric">
+          <div class="ring" style="--p: {{METRIC_4_PROGRESS}}"></div>
+          <div class="value">{{METRIC_4_VALUE}}</div>
+          <div class="label">{{METRIC_4_LABEL}}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CUSTOMER PERSONAS -->
+  <section class="section">
+    <div class="container">
+      <header class="section-header">
+        <span class="kicker">Audience</span>
+        <h2 class="h2">{{PERSONAS_TITLE}}</h2>
+        <p class="lead">{{PERSONAS_SUBTITLE}}</p>
+      </header>
+
+      <div class="grid">
+        <article class="card">
+          <div class="title">{{PERSONA_1_TITLE}}</div>
+          <p class="muted">{{PERSONA_1_LINES}}</p>
+        </article>
+        <article class="card">
+          <div class="title">{{PERSONA_2_TITLE}}</div>
+          <p class="muted">{{PERSONA_2_LINES}}</p>
+        </article>
+        <article class="card">
+          <div class="title">{{PERSONA_3_TITLE}}</div>
+          <p class="muted">{{PERSONA_3_LINES}}</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECHNICAL / TABLE EXAMPLE -->
+  <section class="section">
+    <div class="container">
+      <header class="section-header">
+        <span class="kicker">Technical</span>
+        <h2 class="h2">{{TECH_TITLE}}</h2>
+        <p class="lead">{{TECH_SUBTITLE}}</p>
+      </header>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Component</th>
+              <th>Status</th>
+              <th>Score</th>
+              <th>Priority</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{TECH_ROW_1_NAME}}</td>
+              <td><span class="badge b-ok">{{TECH_ROW_1_STATUS}}</span></td>
+              <td>{{TECH_ROW_1_SCORE}}</td>
+              <td><span class="badge b-warn">{{TECH_ROW_1_PRIORITY}}</span></td>
+            </tr>
+            <tr>
+              <td>{{TECH_ROW_2_NAME}}</td>
+              <td><span class="badge b-bad">{{TECH_ROW_2_STATUS}}</span></td>
+              <td>{{TECH_ROW_2_SCORE}}</td>
+              <td><span class="badge b-warn">{{TECH_ROW_2_PRIORITY}}</span></td>
+            </tr>
+            <tr>
+              <td>{{TECH_ROW_3_NAME}}</td>
+              <td><span class="badge b-ok">{{TECH_ROW_3_STATUS}}</span></td>
+              <td>{{TECH_ROW_3_SCORE}}</td>
+              <td><span class="badge b-ok">{{TECH_ROW_3_PRIORITY}}</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- STRATEGIC PRIORITIES (Next Month + Q4) -->
+  <section class="section">
+    <div class="container">
+      <header class="section-header">
+        <span class="kicker">Priorities</span>
+        <h2 class="h2">🔑 Top 5 Strategic Priorities — Next 30 Days</h2>
+        <p class="lead">{{PRIORITIES_SUBTITLE}}</p>
+      </header>
+
+      <div class="timeline">
+        <div class="t-item">
+          <span class="dot"></span>
+          <div class="t-title">{{P1_TITLE}}</div>
+          <div class="t-body">{{P1_DESC}}</div>
+        </div>
+        <div class="t-item">
+          <span class="dot"></span>
+          <div class="t-title">{{P2_TITLE}}</div>
+          <div class="t-body">{{P2_DESC}}</div>
+        </div>
+        <div class="t-item">
+          <span class="dot"></span>
+          <div class="t-title">{{P3_TITLE}}</div>
+          <div class="t-body">{{P3_DESC}}</div>
+        </div>
+        <div class="t-item">
+          <span class="dot"></span>
+          <div class="t-title">{{P4_TITLE}}</div>
+          <div class="t-body">{{P4_DESC}}</div>
+        </div>
+        <div class="t-item">
+          <span class="dot"></span>
+          <div class="t-title">{{P5_TITLE}}</div>
+          <div class="t-body">{{P5_DESC}}</div>
+        </div>
+      </div>
+
+      <header class="section-header" style="margin-top:64px">
+        <h2 class="h2">🔑 Top 7 Strategic Priorities — Q4</h2>
+        <p class="lead">{{PRIORITIES_Q4_SUBTITLE}}</p>
+      </header>
+
+      <div class="timeline">
+        <div class="t-item"><span class="dot"></span><div class="t-title">{{Q4_1_TITLE}}</div><div class="t-body">{{Q4_1_DESC}}</div></div>
+        <div class="t-item"><span class="dot"></span><div class="t-title">{{Q4_2_TITLE}}</div><div class="t-body">{{Q4_2_DESC}}</div></div>
+        <div class="t-item"><span class="dot"></span><div class="t-title">{{Q4_3_TITLE}}</div><div class="t-body">{{Q4_3_DESC}}</div></div>
+        <div class="t-item"><span class="dot"></span><div class="t-title">{{Q4_4_TITLE}}</div><div class="t-body">{{Q4_4_DESC}}</div></div>
+        <div class="t-item"><span class="dot"></span><div class="t-title">{{Q4_5_TITLE}}</div><div class="t-body">{{Q4_5_DESC}}</div></div>
+        <div class="t-item"><span class="dot"></span><div class="t-title">{{Q4_6_TITLE}}</div><div class="t-body">{{Q4_6_DESC}}</div></div>
+        <div class="t-item"><span class="dot"></span><div class="t-title">{{Q4_7_TITLE}}</div><div class="t-body">{{Q4_7_DESC}}</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IMPLEMENTATION ROADMAP -->
+  <section class="section">
+    <div class="container">
+      <header class="section-header">
+        <span class="kicker">Roadmap</span>
+        <h2 class="h2">{{ROADMAP_TITLE}}</h2>
+        <p class="lead">{{ROADMAP_SUBTITLE}}</p>
+      </header>
+
+      <div class="grid">
+        <article class="card">
+          <div class="title">0–30 Days</div>
+          <p class="muted">{{R_PHASE1}}</p>
+        </article>
+        <article class="card">
+          <div class="title">30–90 Days</div>
+          <p class="muted">{{R_PHASE2}}</p>
+        </article>
+        <article class="card">
+          <div class="title">6–12 Months</div>
+          <p class="muted">{{R_PHASE3}}</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section">
+    <div class="container">
+      <div class="cta-wrap">
+        <div class="cta-head">{{CTA_HEADLINE}}</div>
+        <p class="cta-sub">{{CTA_SUBHEAD}}</p>
+        <a class="cta" href="mailto:{{CTA_EMAIL}}">{{CTA_BUTTON_LABEL}} →</a>
+      </div>
+      <div style="margin-top:22px" class="chips">
+        <span class="chip">{{COMPANY_NAME}}</span>
+        <span class="chip">{{COMPANY_PHONE}}</span>
+        <span class="chip">{{COMPANY_WEBSITE}}</span>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>
