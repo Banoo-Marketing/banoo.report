@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BCF Marketing & Lead Generation Blueprint</title>
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      /* ---- Brand knobs (edit these per client) ---- */
+      --accent: #007AFF;                 /* BCF Blue */
+      --accent-2: #00F5A0;             /* BCF Green */
+      --bg-0:#f8f9fa; --bg-1:#ffffff; --bg-2:#f1f3f4; /* backgrounds */
+      --ink:#1a1a1a; --ink-sub:#6b7280;            /* text colors */
+
+      /* Component radii & shadows */
+      --r-sm:10px; --r-md:16px; --r-lg:24px; --r-xl:28px; --r-pill:999px;
+      --glass:rgba(0,0,0,0.03);
+      --elev:rgba(0,0,0,0.08);
+      --shadow:0 4px 20px rgba(0,0,0,0.08);
+
+      /* Gradients (hero + accents) */
+      --g-hero: radial-gradient(1200px 800px at 50% 10%, color-mix(in oklab, var(--accent) 30%, #fff 0%) 0%, transparent 60%),
+                radial-gradient(1000px 600px at 80% 30%, color-mix(in oklab, var(--accent-2) 24%, #fff 0%) 0%, transparent 70%);
+      --g-line: linear-gradient(90deg, var(--accent), var(--accent-2));
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family: Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;
+      color:var(--ink);
+      background: linear-gradient(180deg, var(--bg-0), var(--bg-1) 60%, var(--bg-2));
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    .container{max-width:1160px;margin:0 auto;padding:0 22px}
+
+    /* Hero */
+    .hero{
+      min-height:92vh; display:grid; place-items:center; position:relative; text-align:center; overflow:hidden;
+    }
+    .hero::before{content:""; position:absolute; inset:-10%; background:var(--g-hero); filter:blur(40px); opacity:.9; z-index:0}
+    .hero-inner{position:relative; z-index:1}
+    .pill{display:inline-flex; align-items:center; gap:10px; padding:10px 18px; border-radius:var(--r-pill);
+      background:rgba(0,0,0,0.04); border:1px solid rgba(0,0,0,.08); backdrop-filter: blur(16px);
+      color:var(--ink-sub); font-weight:600; letter-spacing:.2px; margin-bottom:24px
+    }
+    .h1{
+      font-family: "Playfair Display", serif; font-weight:700; line-height:.95;
+      font-size:clamp(44px,7vw,88px);
+      background:linear-gradient(135deg,#1a1a1a 0%,#4a5568 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:14px
+    }
+    .sub{max-width:720px; margin:0 auto 28px; color:var(--ink-sub); font-size:clamp(16px,2.2vw,20px)}
+    .cta{
+      display:inline-flex; align-items:center; gap:10px; padding:14px 26px; border:0; border-radius:var(--r-pill);
+      background:var(--g-line); color:#fff; font-weight:800; cursor:pointer; transition:transform .2s ease, box-shadow .2s ease;
+      box-shadow: 0 4px 16px rgba(0,123,255,0.3)
+    }
+    .cta:hover{transform:translateY(-2px); box-shadow:0 8px 32px rgba(0,123,255,0.4)}
+
+    /* Sections */
+    .section{padding:96px 0; position:relative}
+    .section-header{ text-align:center; margin-bottom:56px}
+    .kicker{display:inline-block; font-size:12px; letter-spacing:.26em; text-transform:uppercase; color:var(--ink-sub); margin-bottom:12px}
+    .h2{
+      font-size:clamp(28px,4.6vw,54px); font-weight:900; letter-spacing:-.02em;
+      background:linear-gradient(135deg,#1a1a1a 0%,#4a5568 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      margin-bottom:10px
+    }
+    .lead{color:var(--ink-sub); max-width:680px; margin:0 auto}
+
+    /* Cards grid */
+    .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:22px}
+    .card{
+      background:rgba(255,255,255,0.8); border:1px solid rgba(0,0,0,.08); backdrop-filter: blur(18px);
+      border-radius:var(--r-lg); padding:28px; box-shadow:var(--shadow); transition:transform .25s ease, border-color .25s ease
+    }
+    .card:hover{transform:translateY(-6px); border-color: rgba(0,0,0,.15)}
+    .card .title{font-weight:800; color:#1a1a1a; letter-spacing:-.01em; margin:10px 0 8px; font-size:20px}
+    .muted{color:var(--ink-sub)}
+
+    /* Metric rings (CSS-only) */
+    .metrics{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:18px}
+    .metric{
+      background:rgba(255,255,255,0.8); border:1px solid rgba(0,0,0,.08); border-radius:var(--r-lg); padding:26px; text-align:center; position:relative; overflow:hidden
+    }
+    .ring{--p: 75; /* 0..100 */
+      width:120px; height:120px; border-radius:50%; margin:0 auto 12px;
+      background:
+        conic-gradient(var(--accent) calc(var(--p)*1%), rgba(0,0,0,.08) 0),
+        radial-gradient(farthest-side, #f8f9fa 64%, transparent 65% 100%);
+      box-shadow:inset 0 0 0 1px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.08)
+    }
+    .metric .value{font-size:28px; font-weight:900; letter-spacing:-.02em}
+    .metric .label{font-size:12px; text-transform:uppercase; letter-spacing:.2em; color:var(--ink-sub); margin-top:6px}
+
+    /* Table */
+    .table-wrap{
+      background:rgba(255,255,255,0.8); border:1px solid rgba(0,0,0,.08); border-radius:var(--r-lg); overflow:hidden; box-shadow:var(--shadow)
+    }
+    table{width:100%; border-collapse:collapse}
+    th,td{padding:16px 18px; text-align:left}
+    thead th{
+      font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-sub); background:rgba(0,0,0,.02)
+    }
+    tbody tr{border-top:1px solid rgba(0,0,0,.05)}
+    tbody tr:hover{background:rgba(0,0,0,.02)}
+    .badge{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:var(--r-pill); font-weight:700; font-size:12px}
+    .b-ok{background:rgba(52,199,89,.14); color:#34C759}
+    .b-warn{background:rgba(255,149,0,.14); color:#FF9500}
+    .b-bad{background:rgba(255,59,48,.14); color:#FF3B30}
+
+    /* Timeline (Strategic Priorities) */
+    .timeline{max-width:820px; margin:40px auto 0; position:relative}
+    .timeline::before{content:""; position:absolute; left:22px; top:0; bottom:0; width:2px; background:rgba(0,0,0,.1)}
+    .t-item{position:relative; padding-left:70px; margin-bottom:26px}
+    .dot{position:absolute; left:12px; top:6px; width:20px; height:20px; border-radius:50%;
+      background:var(--g-line); border:3px solid #f8f9fa; box-shadow:0 0 0 6px rgba(0,0,0,.03)}
+    .t-title{font-weight:900; margin-bottom:6px; color:#1a1a1a}
+    .t-body{color:var(--ink-sub)}
+
+    /* CTA */
+    .cta-wrap{
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
+      border:1px solid rgba(255,255,255,.12); border-radius:var(--r-xl);
+      padding:66px 32px; text-align:center; box-shadow:var(--shadow)
+    }
+    .cta-head{font-size:clamp(26px,4vw,40px); font-weight:900; letter-spacing:-.02em; margin-bottom:10px}
+    .cta-sub{color:var(--ink-sub); max-width:640px; margin:0 auto 20px}
+
+    /* Footer chips */
+    .chips{display:flex; gap:12px; flex-wrap:wrap; justify-content:center}
+    .chip{padding:10px 16px; border-radius:var(--r-pill); background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12); color:#fff}
+
+    /* Responsive */
+    @media (max-width:768px){
+      .section{padding:72px 0}
+      .t-item{padding-left:62px}
+      .hero{min-height:86vh}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner container">
+      <span class="pill">🚀 Lead Generation Blueprint</span>
+      <h1 class="h1">Marketing Strategy<br>for BCF</h1>
+      <p class="sub">A multi-channel lead generation engine targeting Defense, Healthcare, and Financial sectors with AI Visibility, Geo-Fencing, and CMMC Compliance expertise</p>
+      <a class="cta" href="mailto:hello@banoo.marketing" target="_blank" rel="noopener">Book Strategy Call →</a>
+
+      <!-- Optional client chip -->
+      <div style="margin-top:28px">
+        <span class="chip" style="background:rgba(255,255,255,.12)">Brownstone Consulting Firm</span>
+        <span class="chip">Compliance & Visibility</span>
+        <span class="chip">B2B Enterprise</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STRATEGIC INSIGHTS -->
+  <section class="section">
+    <div class="container">
+      <header class="section-header">
+        <span class="kicker">Market Analysis</span>
+        <h2 class="h2">Strategic Market Position</h2>
+        <p class="lead">BCF operates in high-stakes compliance sectors where trust, expertise, and visibility are paramount for winning enterprise contracts</p>
+      </header>
+
+      <div class="grid">
+        <!-- Repeat cards as needed -->
+        <article class="card">
+          <div class="title">Defense Industrial Base</div>
+          <p class="muted">CMMC 2.0 compliance deadline creating urgent demand. Risk-averse buyers prioritize certified partners. Target: IT/Compliance leads at DoD contractors via LinkedIn and industry associations.</p>
+        </article>
+        <article class="card">
+          <div class="title">Healthcare Compliance</div>
+          <p class="muted">HIPAA breach fines averaging $10.9M drive demand for proactive compliance. Process-driven buyers seek proven solutions. Target: CIOs and HIPAA leads through HIMSS and healthcare IT channels.</p>
+        </article>
+        <article class="card">
+          <div class="title">Financial Services Risk</div>
+          <p class="muted">PCI-DSS and emerging fintech regulations create compliance complexity. Regional banks need specialized guidance. Target: CISOs and Risk officers through fintech webinars and LinkedIn.</p>
+        </article>
+        <article class="card">
+          <div class="title">Global Expansion Opportunity</div>
+          <p class="muted">GDPR in Europe and emerging data sovereignty laws in Africa present early-mover advantage. Startups need compliance guidance for international expansion and funding.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS & SERVICES -->
+  <section class="section">
+    <div class="container">
+      <header class="section-header">
+        <span class="kicker">Our Solutions</span>
+        <h2 class="h2">Products & Services</h2>
+        <p class="lead">Comprehensive marketing solutions tailored for BCF's compliance expertise and market expansion</p>
+      </header>
+
+      <div class="metrics">
+        <!-- Service cards with emojis instead of rings -->
+        <div class="metric">
+          <div style="width:120px; height:120px; border-radius:50%; margin:0 auto 12px; background:rgba(255,255,255,0.9); border:1px solid rgba(0,0,0,.08); display:flex; align-items:center; justify-content:center; font-size:48px; box-shadow:0 4px 16px rgba(0,0,0,.08)">🤖</div>
+          <div class="value">AI</div>
+          <div class="label">Visibility Solutions</div>
+        </div>
+        <div class="metric">
+          <div style="width:120px; height:120px; border-radius:50%; margin:0 auto 12px; background:rgba(255,255,255,0.9); border:1px solid rgba(0,0,0,.08); display:flex; align-items:center; justify-content:center; font-size:48px; box-shadow:0 4px 16px rgba(0,0,0,.08)">📍</div>
+          <div class="value">Geo</div>
+          <div class="label">Fencing Services</div>
+        </div>
+        <div class="metric">
+          <div style="width:120px; height:120px; border-radius:50%; margin:0 auto 12px; background:rgba(255,255,255,0.9); border:1px solid rgba(0,0,0,.08); display:flex; align-items:center; justify-content:center; font-size:48px; box-shadow:0 4px 16px rgba(0,0,0,.08)">🔍</div>
+          <div class="value">SEO</div>
+          <div class="label">Optimization</div>
+        </div>
+        <div class="metric">
+          <div style="width:120px; height:120px; border-radius:50%; margin:0 auto 12px; background:rgba(255,255,255,0.9); border:1px solid rgba(0,0,0,.08); display:flex; align-items:center; justify-content:center; font-size:48px; box-shadow:0 4px 16px rgba(0,0,0,.08)">🇺🇸</div>
+          <div class="value">US</div>
+          <div class="label">Main Target Market</div>
+        </div>
+        <div class="metric">
+          <div style="width:120px; height:120px; border-radius:50%; margin:0 auto 12px; background:rgba(255,255,255,0.9); border:1px solid rgba(0,0,0,.08); display:flex; align-items:center; justify-content:center; font-size:48px; box-shadow:0 4px 16px rgba(0,0,0,.08)">🇪🇺</div>
+          <div class="value">EU</div>
+          <div class="label">Emerging Market</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; text-align: center;">
+        <h3 style="font-size: 24px; font-weight: 700; margin-bottom: 16px; color: var(--ink);">Additional Future Markets</h3>
+        <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+          <div style="background: rgba(0,245,160,0.1); border: 1px solid rgba(0,245,160,0.2); padding: 12px 20px; border-radius: var(--r-pill); font-weight: 600;">
+            🌍 Emerging Companies in Africa
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CUSTOMER PERSONAS -->
+  <section class="section">
+    <div class="container">
+      <header class="section-header">
+        <span class="kicker">Target Audience</span>
+        <h2 class="h2">Ideal Customer Personas</h2>
+        <p class="lead">Primary decision-makers and influencers across BCF's core market segments</p>
+      </header>
+
+      <div class="grid">
+        <article class="card">
+          <div class="title">Defense Contractor Manager</div>
+          <p class="muted"><strong>Role:</strong> IT/Compliance lead at DoD contractor<br>
+          <strong>Pain:</strong> Risk of failing CMMC audit and losing contracts<br>
+          <strong>Channels:</strong> LinkedIn (NDIA groups), GovWin, Defense conferences</p>
+        </article>
+        <article class="card">
+          <div class="title">Healthcare Compliance Officer</div>
+          <p class="muted"><strong>Role:</strong> CIO, HIPAA compliance lead<br>
+          <strong>Pain:</strong> Fear of HIPAA breach and regulatory fines<br>
+          <strong>Channels:</strong> LinkedIn, HIMSS events, Healthcare IT News</p>
+        </article>
+        <article class="card">
+          <div class="title">Financial Services Risk Manager</div>
+          <p class="muted"><strong>Role:</strong> CISO/Risk officer at regional bank<br>
+          <strong>Pain:</strong> PCI-DSS compliance and fraud concerns<br>
+          <strong>Channels:</strong> LinkedIn, Fintech webinars, Financial Times</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECHNICAL / CHANNEL STRATEGY -->
+  <section class="section">
+    <div class="container">
+      <header class="section-header">
+        <span class="kicker">Strategy</span>
+        <h2 class="h2">Multi-Channel Approach</h2>
+        <p class="lead">Integrated outbound and inbound tactics designed to capture enterprise compliance leads</p>
+      </header>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Channel</th>
+              <th>Target</th>
+              <th>Priority</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Apollo/LinkedIn Outreach</td>
+              <td>Direct contact with decision makers</td>
+              <td><span class="badge b-ok">High</span></td>
+            </tr>
+            <tr>
+              <td>SEO & Content Marketing</td>
+              <td>Organic search for compliance terms</td>
+              <td><span class="badge b-warn">Medium</span></td>
+            </tr>
+            <tr>
+              <td>LinkedIn Ads & Sponsorship</td>
+              <td>Compliance job titles and pain points</td>
+              <td><span class="badge b-ok">High</span></td>
+            </tr>
+            <tr>
+              <td>Webinars & Speaking</td>
+              <td>Thought leadership positioning</td>
+              <td><span class="badge b-warn">Medium</span></td>
+            </tr>
+            <tr>
+              <td>PR & Industry Media</td>
+              <td>Brand visibility and credibility</td>
+              <td><span class="badge b-ok">High</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- STRATEGIC PRIORITIES (Next Month + Q4) -->
+  <section class="section">
+    <div class="container">
+      <header class="section-header">
+        <span class="kicker">Implementation</span>
+        <h2 class="h2">🔑 Top 5 Strategic Priorities — Next 30 Days</h2>
+        <p class="lead">Immediate action items to launch BCF's lead generation engine</p>
+      </header>
+
+      <div class="timeline">
+        <div class="t-item">
+          <span class="dot"></span>
+          <div class="t-title">Launch ABM Outreach Campaign</div>
+          <div class="t-body">Build segmented prospect lists using Apollo/ZoomInfo. Target DoD subcontractors, hospitals, and financial institutions with intent filters for CMMC, HIPAA, and compliance audits.</div>
+        </div>
+        <div class="t-item">
+          <span class="dot"></span>
+          <div class="t-title">Develop Lead Magnets & Content</div>
+          <div class="t-body">Create "CMMC Readiness Assessment" and "HIPAA Compliance Checklist" as downloadable resources. Optimize service pages for AI Visibility, Geo-Fencing, and compliance keywords.</div>
+        </div>
+        <div class="t-item">
+          <span class="dot"></span>
+          <div class="t-title">LinkedIn Advertising Setup</div>
+          <div class="t-body">Launch targeted campaigns with copy like "Fail CMMC and lose your contract — stay compliant with BCF." Target specific job titles and compliance pain points across sectors.</div>
+        </div>
+        <div class="t-item">
+          <span class="dot"></span>
+          <div class="t-title">PR & Thought Leadership Push</div>
+          <div class="t-body">Submit guest articles to Defense One, Healthcare IT Today, and Finextra. Draft press release: "BCF launches AI Visibility service for CMMC-regulated firms."</div>
+        </div>
+        <div class="t-item">
+          <span class="dot"></span>
+          <div class="t-title">First Webinar Planning</div>
+          <div class="t-body">Plan "CMMC 2.0: What Defense Firms Need Before 2026" webinar. Partner with industry associations for credibility and expanded reach. Set up email nurture sequence.</div>
+        </div>
+      </div>
+
+      <header class="section-header" style="margin-top:64px">
+        <h2 class="h2">🔑 Top 7 Strategic Priorities — Q4 2025</h2>
+        <p class="lead">Building long-term authority and expanding market presence</p>
+      </header>
+
+      <div class="timeline">
+        <div class="t-item"><span class="dot"></span><div class="t-title">Scale Content Marketing</div><div class="t-body">Publish comprehensive case study library showcasing successful CMMC, HIPAA, and financial compliance projects. Optimize for long-tail compliance keywords.</div></div>
+        <div class="t-item"><span class="dot"></span><div class="t-title">International Market Entry</div><div class="t-body">Launch compliance service pages for Africa & Europe markets. Target GDPR and data sovereignty requirements with localized content and outreach.</div></div>
+        <div class="t-item"><span class="dot"></span><div class="t-title">Strategic Partnership Development</div><div class="t-body">Establish referral partnerships with cybersecurity firms, MSPs, and law firms. Create joint webinars and co-marketing opportunities.</div></div>
+        <div class="t-item"><span class="dot"></span><div class="t-title">Advanced SEO Implementation</div><div class="t-body">Build high-quality backlinks through industry association partnerships and case study collaborations. Target featured snippets for compliance queries.</div></div>
+        <div class="t-item"><span class="dot"></span><div class="t-title">Speaking Circuit & Conferences</div><div class="t-body">Secure speaking opportunities at cybersecurity, healthcare IT, and financial services compliance forums. Establish BCF as the go-to compliance expert.</div></div>
+        <div class="t-item"><span class="dot"></span><div class="t-title">Marketing Automation & CRM</div><div class="t-body">Implement advanced lead scoring, automated nurture sequences, and sales handoff processes to maximize conversion rates from all channels.</div></div>
+        <div class="t-item"><span class="dot"></span><div class="t-title">Performance Optimization</div><div class="t-body">Analyze channel performance, optimize high-converting campaigns, and scale successful tactics. Launch podcast appearances and media placements.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IMPLEMENTATION ROADMAP -->
+  <section class="section">
+    <div class="container">
+      <header class="section-header">
+        <span class="kicker">Timeline</span>
+        <h2 class="h2">Implementation Roadmap</h2>
+        <p class="lead">Phased approach to building BCF's lead generation engine and market authority</p>
+      </header>
+
+      <div class="grid">
+        <article class="card">
+          <div class="title">0–30 Days: Foundation</div>
+          <p class="muted">Launch ABM outreach campaigns, develop lead magnets, optimize website SEO, and begin LinkedIn advertising. Focus on immediate pipeline injection.</p>
+        </article>
+        <article class="card">
+          <div class="title">30–90 Days: Growth</div>
+          <p class="muted">Scale inbound content marketing, host first webinar, publish PR articles, and establish industry partnerships. Build authority and organic visibility.</p>
+        </article>
+        <article class="card">
+          <div class="title">6–12 Months: Authority</div>
+          <p class="muted">Expand to international markets, establish thought leadership through speaking engagements, optimize high-performing channels, and build referral network.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section">
+    <div class="container">
+      <div class="cta-wrap">
+        <div class="cta-head">Ready to Dominate Compliance Lead Gen?</div>
+        <p class="cta-sub">Transform BCF into the default compliance partner for Defense, Healthcare, and Financial sectors. Let's build your lead generation engine.</p>
+        <a class="cta" href="mailto:hello@banoo.marketing">Start Your Strategy →</a>
+      </div>
+      <div style="margin-top:22px" class="chips">
+        <span class="chip">Banoo.Marketing</span>
+        <span class="chip">(416) 400-4699</span>
+        <span class="chip">hello@banoo.marketing</span>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>
