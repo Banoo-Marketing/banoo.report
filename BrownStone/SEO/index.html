@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BCF Digital Marketing Audit Report</title>
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      /* ---- Brand knobs (edit these per client) ---- */
+      --accent: #007AFF;                 /* e.g. #007AFF or #00F5A0 */
+      --accent-2: #AF52DE;             /* e.g. #AF52DE or #00D9F5 */
+      --bg-0:#f8f9fa; --bg-1:#ffffff; --bg-2:#f1f3f5; /* light backgrounds */
+      --ink:#1a1a1a; --ink-sub:#6b7280;            /* dark text colors */
+
+      /* Component radii & shadows */
+      --r-sm:10px; --r-md:16px; --r-lg:24px; --r-xl:28px; --r-pill:999px;
+      --glass:rgba(255,255,255,0.9);
+      --elev:rgba(0,0,0,0.06);
+      --shadow:0 18px 60px rgba(0,0,0,0.12);
+
+      /* Gradients (hero + accents) */
+      --g-hero: radial-gradient(1200px 800px at 50% 10%, color-mix(in oklab, var(--accent) 10%, #fff 0%) 0%, transparent 60%),
+                radial-gradient(1000px 600px at 80% 30%, color-mix(in oklab, var(--accent-2) 8%, #fff 0%) 0%, transparent 70%);
+      --g-line: linear-gradient(90deg, var(--accent), var(--accent-2));
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family: Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;
+      color:var(--ink);
+      background: linear-gradient(180deg, var(--bg-0), var(--bg-1) 60%, var(--bg-2));
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    .container{max-width:1160px;margin:0 auto;padding:0 22px}
+
+    /* Hero */
+    .hero{
+      min-height:92vh; display:grid; place-items:center; position:relative; text-align:center; overflow:hidden;
+    }
+    .hero::before{content:""; position:absolute; inset:-10%; background:var(--g-hero); filter:blur(40px); opacity:.9; z-index:0}
+    .hero-inner{position:relative; z-index:1}
+    .pill{display:inline-flex; align-items:center; gap:10px; padding:10px 18px; border-radius:var(--r-pill);
+      background:rgba(255,255,255,0.8); border:1px solid rgba(0,0,0,.08); backdrop-filter: blur(16px);
+      color:var(--ink-sub); font-weight:600; letter-spacing:.2px; margin-bottom:24px
+    }
+    .h1{
+      font-family: "Playfair Display", serif; font-weight:700; line-height:.95;
+      font-size:clamp(44px,7vw,88px);
+      background:linear-gradient(135deg,#1a1a1a 0%,#4a5568 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:14px
+    }
+    .sub{max-width:720px; margin:0 auto 28px; color:var(--ink-sub); font-size:clamp(16px,2.2vw,20px)}
+    .cta{
+      display:inline-flex; align-items:center; gap:10px; padding:14px 26px; border:0; border-radius:var(--r-pill);
+      background:var(--g-line); color:#ffffff; font-weight:800; cursor:pointer; transition:transform .2s ease, box-shadow .2s ease;
+      box-shadow: 0 14px 40px rgba(0,0,0,.15)
+    }
+    .cta:hover{transform:translateY(-2px); box-shadow:0 24px 70px rgba(0,0,0,.25)}
+
+    /* Sections */
+    .section{padding:96px 0; position:relative}
+    .section-header{ text-align:center; margin-bottom:56px}
+    .kicker{display:inline-block; font-size:12px; letter-spacing:.26em; text-transform:uppercase; color:var(--ink-sub); margin-bottom:12px}
+    .h2{
+      font-size:clamp(28px,4.6vw,54px); font-weight:900; letter-spacing:-.02em;
+      background:linear-gradient(135deg,#1a1a1a 0%,#4a5568 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      margin-bottom:10px
+    }
+    .lead{color:var(--ink-sub); max-width:680px; margin:0 auto}
+
+    /* Cards grid */
+    .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:22px}
+    .card{
+      background:rgba(255,255,255,0.7);
+      border:1px solid rgba(0,0,0,.08); backdrop-filter: blur(18px);
+      border-radius:var(--r-lg); padding:28px; box-shadow:var(--shadow); transition:transform .25s ease, border-color .25s ease
+    }
+    .card:hover{transform:translateY(-6px); border-color: rgba(0,0,0,.15)}
+    .card .title{font-weight:800; color:#1a1a1a; letter-spacing:-.01em; margin:10px 0 8px; font-size:20px}
+    .muted{color:var(--ink-sub)}
+
+    /* Metric rings (CSS-only) */
+    .metrics{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:18px}
+    .metric{
+      background:rgba(255,255,255,0.7);
+      border:1px solid rgba(0,0,0,.08); border-radius:var(--r-lg); padding:26px; text-align:center; position:relative; overflow:hidden
+    }
+    .ring{--p: 15; /* 0..100 */
+      width:120px; height:120px; border-radius:50%; margin:0 auto 12px;
+      background:
+        conic-gradient(var(--accent) calc(var(--p)*1%), rgba(0,0,0,.12) 0),
+        radial-gradient(farthest-side, #f8f9fa 64%, transparent 65% 100%);
+      box-shadow:inset 0 0 0 1px rgba(0,0,0,.08), 0 14px 40px rgba(0,0,0,.12)
+    }
+    .metric .value{font-size:28px; font-weight:900; letter-spacing:-.02em}
+    .metric .label{font-size:12px; text-transform:uppercase; letter-spacing:.2em; color:var(--ink-sub); margin-top:6px}
+
+    /* Table */
+    .table-wrap{
+      background:rgba(255,255,255,0.7);
+      border:1px solid rgba(0,0,0,.08); border-radius:var(--r-lg); overflow:hidden; box-shadow:var(--shadow)
+    }
+    table{width:100%; border-collapse:collapse}
+    th,td{padding:16px 18px; text-align:left}
+    thead th{
+      font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-sub); background:rgba(0,0,0,.03)
+    }
+    tbody tr{border-top:1px solid rgba(0,0,0,.08)}
+    tbody tr:hover{background:rgba(0,0,0,.03)}
+    .badge{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:var(--r-pill); font-weight:700; font-size:12px}
+    .b-ok{background:rgba(52,199,89,.14); color:#34C759}
+    .b-warn{background:rgba(255,149,0,.14); color:#FF9500}
+    .b-bad{background:rgba(255,59,48,.14); color:#FF3B30}
+
+    /* Timeline (Strategic Priorities) */
+    .timeline{max-width:820px; margin:40px auto 0; position:relative}
+    .timeline::before{content:""; position:absolute; left:22px; top:0; bottom:0; width:2px; background:rgba(0,0,0,.15)}
+    .t-item{position:relative; padding-left:70px; margin-bottom:26px}
+    .dot{position:absolute; left:12px; top:6px; width:20px; height:20px; border-radius:50%;
+      background:var(--g-line); border:3px solid #ffffff; box-shadow:0 0 0 6px rgba(0,0,0,.06)}
+    .t-title{font-weight:900; margin-bottom:6px}
+    .t-body{color:var(--ink-sub)}
+
+    /* CTA */
+    .cta-wrap{
+      background:rgba(255,255,255,0.7);
+      border:1px solid rgba(0,0,0,.08); border-radius:var(--r-xl);
+      padding:66px 32px; text-align:center; box-shadow:var(--shadow)
+    }
+    .cta-head{font-size:clamp(26px,4vw,40px); font-weight:900; letter-spacing:-.02em; margin-bottom:10px}
+    .cta-sub{color:var(--ink-sub); max-width:640px; margin:0 auto 20px}
+
+    /* Footer chips */
+    .chips{display:flex; gap:12px; flex-wrap:wrap; justify-content:center}
+    .chip{padding:10px 16px; border-radius:var(--r-pill); background:rgba(255,255,255,.8); border:1px solid rgba(0,0,0,.08); color:#1a1a1a}
+
+    /* Responsive */
+    @media (max-width:768px){
+      .section{padding:72px 0}
+      .t-item{padding-left:62px}
+      .hero{min-height:86vh}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner container">
+      <span class="pill">🚀 Digital Transformation Audit</span>
+      <h1 class="h1">Digital Marketing<br>Strategic Report</h1>
+      <p class="sub">Comprehensive analysis and actionable recommendations to accelerate BCF's digital growth and market positioning in the cybersecurity sector.</p>
+      <a class="cta" href="mailto:info@bcf-us.com" target="_blank" rel="noopener">View Strategic Insights →</a>
+
+      <!-- Optional client chip -->
+      <div style="margin-top:28px">
+        <span class="chip" style="background:rgba(255,255,255,.9); border:1px solid rgba(0,0,0,.12)">Brownstone Consulting Firm</span>
+        <span class="chip">bcf-us.com</span>
+        <span class="chip">CMMC • AI Visibility • Geo-Fencing</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STRATEGIC INSIGHTS -->
+  <section class="section">
+    <div class="container">
+      <header class="section-header">
+        <span class="kicker">Critical Findings</span>
+        <h2 class="h2">Key Strategic Insights</h2>
+        <p class="lead">Four critical areas where BCF can dominate in CMMC compliance, AI visibility, geo-fencing, and multi-sector cybersecurity across defense, healthcare, and financial industries.</p>
+      </header>
+
+      <div class="grid">
+        <!-- Repeat cards as needed -->
+        <article class="card">
+          <div class="title">CMMC Compliance Gap</div>
+          <p class="muted">With CMMC 2.0 requirements intensifying, BCF's defense expertise represents a massive untapped market worth millions in contracts. Current digital presence doesn't capture high-value CMMC certification searches.</p>
+        </article>
+        <article class="card">
+          <div class="title">Emerging Tech Positioning</div>
+          <p class="muted">AI Visibility and Geo-fencing services position BCF at the forefront of next-generation cybersecurity. These cutting-edge offerings need dedicated content and SEO strategy to capture early adopter clients.</p>
+        </article>
+        <article class="card">
+          <div class="title">Multi-Sector Expertise Underutilized</div>
+          <p class="muted">BCF serves defense, healthcare, and financial sectors but lacks targeted content for each vertical's unique compliance requirements and regulatory frameworks.</p>
+        </article>
+        <article class="card">
+          <div class="title">Global Expansion Readiness</div>
+          <p class="muted">Plans for Africa and Europe markets require understanding of GDPR, data localization laws, and emerging market cybersecurity regulations. Digital foundation must support international compliance messaging.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PERFORMANCE METRICS -->
+  <section class="section">
+    <div class="container">
+      <header class="section-header">
+        <span class="kicker">Current State</span>
+        <h2 class="h2">Digital Performance Baseline</h2>
+        <p class="lead">Current digital marketing metrics reveal significant opportunities for improvement across all key performance indicators.</p>
+      </header>
+
+      <div class="metrics">
+        <!-- Copy block and change --p and numbers per metric -->
+        <div class="metric">
+          <div class="ring" style="--p: 5"></div>
+          <div class="value">5/100</div>
+          <div class="label">Domain Authority</div>
+        </div>
+        <div class="metric">
+          <div class="ring" style="--p: 1"></div>
+          <div class="value">~50</div>
+          <div class="label">Monthly Organic Traffic</div>
+        </div>
+        <div class="metric">
+          <div class="ring" style="--p: 65"></div>
+          <div class="value">65/100</div>
+          <div class="label">Site Performance</div>
+        </div>
+        <div class="metric">
+          <div class="ring" style="--p: 15"></div>
+          <div class="value">15%</div>
+          <div class="label">Digital Readiness Score</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CUSTOMER PERSONAS -->
+  <section class="section">
+    <div class="container">
+      <header class="section-header">
+        <span class="kicker">Target Audience</span>
+        <h2 class="h2">Key Customer Personas</h2>
+        <p class="lead">Understanding BCF's primary decision-makers enables precise targeting and messaging for maximum conversion impact.</p>
+      </header>
+
+      <div class="grid">
+        <article class="card">
+          <div class="title">Defense Industrial Base CIO</div>
+          <p class="muted">Ages 45-60, prime contractors and subcontractors. Focused on CMMC 2.0 compliance, supply chain security, and meeting DoD cybersecurity requirements. Values proven NIST expertise and veteran-owned partnerships.</p>
+        </article>
+        <article class="card">
+          <div class="title">Healthcare CISO</div>
+          <p class="muted">Ages 40-55, hospitals and health systems. Navigating HIPAA compliance, medical device security, and patient data protection. Seeks AI-powered visibility solutions and geo-fencing for sensitive medical data.</p>
+        </article>
+        <article class="card">
+          <div class="title">Financial Services Security Lead</div>
+          <p class="muted">Ages 38-52, banks and fintech companies. Managing PCI-DSS compliance, fraud prevention, and regulatory reporting. Interested in AI visibility for transaction monitoring and geo-fencing for geographic compliance.</p>
+        </article>
+        <article class="card">
+          <div class="title">International Compliance Officer</div>
+          <p class="muted">Ages 35-50, emerging companies in Africa & Europe. Navigating GDPR, data localization laws, and regional cybersecurity regulations. Requires expertise in cross-border data protection and local compliance frameworks.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECHNICAL / TABLE EXAMPLE -->
+  <section class="section">
+    <div class="container">
+      <header class="section-header">
+        <span class="kicker">Technical Analysis</span>
+        <h2 class="h2">Service-Specific SEO Opportunities</h2>
+        <p class="lead">Technical assessment of BCF's expanded service portfolio reveals high-value keyword gaps and market positioning opportunities.</p>
+      </header>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Service Area</th>
+              <th>Market Demand</th>
+              <th>Competition</th>
+              <th>Opportunity Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>CMMC 2.0 Compliance</td>
+              <td><span class="badge b-ok">Very High</span></td>
+              <td><span class="badge b-warn">Medium</span></td>
+              <td>95/100</td>
+            </tr>
+            <tr>
+              <td>AI Visibility Solutions</td>
+              <td><span class="badge b-ok">High</span></td>
+              <td><span class="badge b-ok">Low</span></td>
+              <td>90/100</td>
+            </tr>
+            <tr>
+              <td>Geo-Fencing Security</td>
+              <td><span class="badge b-warn">Growing</span></td>
+              <td><span class="badge b-ok">Low</span></td>
+              <td>85/100</td>
+            </tr>
+            <tr>
+              <td>Healthcare HIPAA Compliance</td>
+              <td><span class="badge b-ok">High</span></td>
+              <td><span class="badge b-bad">High</span></td>
+              <td>70/100</td>
+            </tr>
+            <tr>
+              <td>Financial PCI-DSS</td>
+              <td><span class="badge b-ok">High</span></td>
+              <td><span class="badge b-bad">High</span></td>
+              <td>65/100</td>
+            </tr>
+            <tr>
+              <td>International GDPR/Data Localization</td>
+              <td><span class="badge b-warn">Emerging</span></td>
+              <td><span class="badge b-warn">Medium</span></td>
+              <td>75/100</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- STRATEGIC PRIORITIES (Next Month + Q4) -->
+  <section class="section">
+    <div class="container">
+      <header class="section-header">
+        <span class="kicker">Action Plan</span>
+        <h2 class="h2">🔑 Top 5 Strategic Priorities — Next 30 Days</h2>
+        <p class="lead">Immediate actions to establish digital foundation and begin generating measurable results within the first month.</p>
+      </header>
+
+      <div class="timeline">
+        <div class="t-item">
+          <span class="dot"></span>
+          <div class="t-title">CMMC 2.0 Content Strategy</div>
+          <div class="t-body">Create comprehensive CMMC compliance resource hub targeting defense industrial base contractors. Focus on NIST 800-171, assessment processes, and implementation timelines.</div>
+        </div>
+        <div class="t-item">
+          <span class="dot"></span>
+          <div class="t-title">AI Visibility Service Pages</div>
+          <div class="t-body">Develop dedicated landing pages for AI-powered threat detection, behavioral analytics, and automated compliance monitoring services across healthcare, financial, and defense sectors.</div>
+        </div>
+        <div class="t-item">
+          <span class="dot"></span>
+          <div class="t-title">Geo-Fencing Solutions Showcase</div>
+          <div class="t-body">Build geo-fencing service portfolio demonstrating data sovereignty, location-based access controls, and regulatory compliance for multi-jurisdictional operations.</div>
+        </div>
+        <div class="t-item">
+          <span class="dot"></span>
+          <div class="t-title">Sector-Specific SEO Optimization</div>
+          <div class="t-body">Implement targeted keyword strategies for "CMMC consultant," "healthcare AI cybersecurity," "financial geo-fencing," and "GDPR compliance Africa Europe."</div>
+        </div>
+        <div class="t-item">
+          <span class="dot"></span>
+          <div class="t-title">Mobile Performance Crisis Fix</div>
+          <div class="t-body">Optimize images (66KB immediate savings), remove 128KB unused JavaScript, implement responsive image loading. Move from Wix to performance-optimized platform.</div>
+        </div>
+      </div>
+
+      <header class="section-header" style="margin-top:64px">
+        <h2 class="h2">🔑 Top 7 Strategic Priorities — Q4 2025</h2>
+        <p class="lead">Medium-term initiatives to scale digital presence and establish BCF as a recognized authority in cybersecurity consulting.</p>
+      </header>
+
+      <div class="timeline">
+        <div class="t-item"><span class="dot"></span><div class="t-title">Defense Contractor Case Studies</div><div class="t-body">Develop CMMC success stories showcasing DoD contractor compliance achievements, timeline reductions, and cost savings through BCF's systematic approach.</div></div>
+        <div class="t-item"><span class="dot"></span><div class="t-title">AI Visibility Whitepapers</div><div class="t-body">Publish technical papers on AI-powered threat detection, behavioral analysis in healthcare, and automated compliance monitoring for financial services.</div></div>
+        <div class="t-item"><span class="dot"></span><div class="t-title">Multi-Sector PPC Campaigns</div><div class="t-body">Launch targeted campaigns for "CMMC consultant," "healthcare AI security," "financial geo-fencing," and "GDPR compliance consulting" with sector-specific landing pages.</div></div>
+        <div class="t-item"><span class="dot"></span><div class="t-title">International Partnership Network</div><div class="t-body">Establish relationships with African and European cybersecurity partners, legal firms, and compliance consultants to support market entry and local expertise.</div></div>
+        <div class="t-item"><span class="dot"></span><div class="t-title">Regulatory Compliance Hub</div><div class="t-body">Create comprehensive resource center covering CMMC, HIPAA, PCI-DSS, GDPR, and emerging African/European cybersecurity regulations and frameworks.</div></div>
+        <div class="t-item"><span class="dot"></span><div class="t-title">Thought Leadership Speaking</div><div class="t-body">Secure speaking opportunities at CMMC conferences, healthcare IT summits, financial cybersecurity events, and international compliance forums.</div></div>
+        <div class="t-item"><span class="dot"></span><div class="t-title">Advanced Service Differentiation</div><div class="t-body">Develop proprietary methodologies for AI visibility implementation, geo-fencing deployment, and cross-border compliance management to establish competitive moats.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IMPLEMENTATION ROADMAP -->
+  <section class="section">
+    <div class="container">
+      <header class="section-header">
+        <span class="kicker">Timeline</span>
+        <h2 class="h2">Implementation Roadmap</h2>
+        <p class="lead">Phased approach to digital transformation ensuring sustainable growth and measurable progress at each stage.</p>
+      </header>
+
+      <div class="grid">
+        <article class="card">
+          <div class="title">0–30 Days</div>
+          <p class="muted">Foundation Phase: Complete technical SEO setup, enhance About Us content, establish Google Business Profile, launch LinkedIn presence, and begin content planning. Focus on immediate credibility improvements.</p>
+        </article>
+        <article class="card">
+          <div class="title">30–90 Days</div>
+          <p class="muted">Growth Phase: Publish first case studies and whitepapers, launch PPC campaigns, optimize government directory listings, begin link building, and establish performance tracking systems for continuous improvement.</p>
+        </article>
+        <article class="card">
+          <div class="title">6–12 Months</div>
+          <p class="muted">Scale Phase: Expand content library, develop strategic partnerships, implement advanced SEO strategies, optimize conversion funnel, and establish BCF as recognized thought leader in cybersecurity consulting.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section">
+    <div class="container">
+      <div class="cta-wrap">
+        <div class="cta-head">Ready to Transform Your Digital Presence?</div>
+        <p class="cta-sub">This comprehensive audit reveals significant opportunities for BCF to establish digital authority, capture qualified leads, and leverage competitive advantages in the cybersecurity market.</p>
+        <a class="cta" href="mailto:info@bcf-us.com">Discuss Implementation Strategy →</a>
+      </div>
+      <div style="margin-top:22px" class="chips">
+        <span class="chip">Brownstone Consulting Firm</span>
+        <span class="chip">(202) 555-0123</span>
+        <span class="chip">bcf-us.com</span>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>
