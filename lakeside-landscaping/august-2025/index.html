@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lakeside Landscaping Marketing Report - August 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .report-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+        }
+        
+        .branding {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #3b82f6;
+        }
+        
+        .logo .dot {
+            color: #ffffff;
+        }
+        
+        .client-info {
+            text-align: right;
+        }
+        
+        .client-name {
+            font-size: 24px;
+            font-weight: 600;
+            color: #10b981;
+            margin-bottom: 5px;
+        }
+        
+        .report-date {
+            font-size: 16px;
+            color: #94a3b8;
+        }
+        
+        .main-title {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .main-title h1 {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 20px;
+            color: #94a3b8;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .budget-section {
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .budget-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #10b981, #059669);
+        }
+        
+        .budget-header {
+            font-size: 24px;
+            font-weight: 700;
+            color: #10b981;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .budget-visual {
+            background: rgba(255, 255, 255, 0.1);
+            height: 25px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .budget-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #059669);
+            border-radius: 12px;
+            width: 78%; /* Replace with actual percentage */
+            transition: width 1s ease;
+            position: relative;
+        }
+        
+        .budget-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 2px;
+            height: 100%;
+            background: #ffffff;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        
+        .budget-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .budget-item {
+            text-align: center;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+        }
+        
+        .budget-amount {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+        
+        .budget-label {
+            font-size: 12px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+        
+        .metric-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(16, 185, 129, 0.2);
+        }
+        
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #10b981, #3b82f6);
+        }
+        
+        .metric-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .metric-label {
+            font-size: 14px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        
+        .metric-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+        
+        .metric-change {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .positive {
+            color: #10b981;
+        }
+        
+        .negative {
+            color: #ef4444;
+        }
+        
+        .neutral {
+            color: #f59e0b;
+        }
+        
+        .keywords-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #10b981;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .keywords-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .keyword-card {
+            background: rgba(16, 185, 129, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #10b981;
+            transition: all 0.3s ease;
+        }
+        
+        .keyword-card:hover {
+            background: rgba(16, 185, 129, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .keyword-name {
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .keyword-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            font-size: 14px;
+        }
+        
+        .keyword-stat {
+            text-align: center;
+            color: #94a3b8;
+        }
+        
+        .stat-number {
+            color: #10b981;
+            font-weight: 600;
+            display: block;
+        }
+        
+        .summary-section {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(59, 130, 246, 0.1));
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+        
+        .summary-text {
+            font-size: 18px;
+            line-height: 1.7;
+            color: #e2e8f0;
+        }
+        
+        .highlight {
+            color: #10b981;
+            font-weight: 600;
+        }
+        
+        .seasonal-note {
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .seasonal-note h4 {
+            color: #3b82f6;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .report-container {
+                padding: 20px;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .client-info {
+                text-align: center;
+            }
+            
+            .main-title h1 {
+                font-size: 32px;
+            }
+            
+            .budget-details {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .keywords-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="report-container">
+        <div class="header">
+            <div class="branding">
+                <div class="logo">Banoo<span class="dot">.</span>Marketing</div>
+            </div>
+            <div class="client-info">
+                <div class="client-name">🌿 Lakeside Landscaping</div>
+                <div class="report-date">August 2025 Performance Report</div>
+            </div>
+        </div>
+        
+        <div class="main-title">
+            <h1>Growing Your Business, Naturally</h1>
+        </div>
+        <div class="subtitle">Your Digital Marketing Success in the Peak Season</div>
+        
+        <div class="budget-section">
+            <div class="budget-header">
+                💰 Marketing Investment Overview
+            </div>
+            <div class="budget-visual">
+                <div class="budget-fill"></div>
+            </div>
+            <div class="budget-details">
+                <div class="budget-item">
+                    <div class="budget-amount">$3,500</div>
+                    <div class="budget-label">Budget Allocated</div>
+                </div>
+                <div class="budget-item">
+                    <div class="budget-amount">$2,735</div>
+                    <div class="budget-label">Amount Invested</div>
+                </div>
+                <div class="budget-item">
+                    <div class="budget-amount positive">$765</div>
+                    <div class="budget-label">Under Budget</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-icon">👆</div>
+                <div class="metric-label">People Who Found You</div>
+                <div class="metric-value">1,847</div>
+                <div class="metric-change positive">↗️ +31% vs last month</div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-icon">📞</div>
+                <div class="metric-label">New Customer Inquiries</div>
+                <div class="metric-value">89</div>
+                <div class="metric-change positive">↗️ +42% more leads</div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-icon">💡</div>
+                <div class="metric-label">Cost to Get Someone to Visit</div>
+                <div class="metric-value">$1.48</div>
+                <div class="metric-change positive">↘️ -18% more efficient</div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-icon">🎯</div>
+                <div class="metric-label">Cost Per New Customer Lead</div>
+                <div class="metric-value">$30.73</div>
+                <div class="metric-change positive">↘️ -25% vs target</div>
+            </div>
+        </div>
+        
+        <div class="keywords-section">
+            <div class="section-title">
+                🔍 What People Are Searching For
+            </div>
+            <div class="keywords-grid">
+                <div class="keyword-card">
+                    <div class="keyword-name">"landscaping near me"</div>
+                    <div class="keyword-stats">
+                        <div class="keyword-stat">
+                            <span class="stat-number">412</span>
+                            Clicks
+                        </div>
+                        <div class="keyword-stat">
+                            <span class="stat-number">28</span>
+                            Leads
+                        </div>
+                        <div class="keyword-stat">
+                            <span class="stat-number">$1.25</span>
+                            Per Click
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="keyword-card">
+                    <div class="keyword-name">"lawn care services"</div>
+                    <div class="keyword-stats">
+                        <div class="keyword-stat">
+                            <span class="stat-number">298</span>
+                            Clicks
+                        </div>
+                        <div class="keyword-stat">
+                            <span class="stat-number">19</span>
+                            Leads
+                        </div>
+                        <div class="keyword-stat">
+                            <span class="stat-number">$1.42</span>
+                            Per Click
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="keyword-card">
+                    <div class="keyword-name">"garden design ideas"</div>
+                    <div class="keyword-stats">
+                        <div class="keyword-stat">
+                            <span class="stat-number">187</span>
+                            Clicks
+                        </div>
+                        <div class="keyword-stat">
+                            <span class="stat-number">16</span>
+                            Leads
+                        </div>
+                        <div class="keyword-stat">
+                            <span class="stat-number">$1.89</span>
+                            Per Click
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="keyword-card">
+                    <div class="keyword-name">"patio installation"</div>
+                    <div class="keyword-stats">
+                        <div class="keyword-stat">
+                            <span class="stat-number">156</span>
+                            Clicks
+                        </div>
+                        <div class="keyword-stat">
+                            <span class="stat-number">14</span>
+                            Leads
+                        </div>
+                        <div class="keyword-stat">
+                            <span class="stat-number">$2.15</span>
+                            Per Click
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="keyword-card">
+                    <div class="keyword-name">"tree trimming service"</div>
+                    <div class="keyword-stats">
+                        <div class="keyword-stat">
+                            <span class="stat-number">143</span>
+                            Clicks
+                        </div>
+                        <div class="keyword-stat">
+                            <span class="stat-number">8</span>
+                            Leads
+                        </div>
+                        <div class="keyword-stat">
+                            <span class="stat-number">$1.67</span>
+                            Per Click
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="keyword-card">
+                    <div class="keyword-name">"sprinkler system repair"</div>
+                    <div class="keyword-stats">
+                        <div class="keyword-stat">
+                            <span class="stat-number">89</span>
+                            Clicks
+                        </div>
+                        <div class="keyword-stat">
+                            <span class="stat-number">4</span>
+                            Leads
+                        </div>
+                        <div class="keyword-stat">
+                            <span class="stat-number">$3.12</span>
+                            Per Click
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="summary-section">
+            <div class="section-title">🌱 What This Means for Lakeside Landscaping</div>
+            <div class="summary-text">
+                August has been an outstanding month for your landscaping business! We brought <span class="highlight">1,847 potential customers</span> to learn about your services while staying <span class="highlight">$765 under your marketing budget</span>.
+                
+                <br><br>
+                
+                Most importantly, we generated <span class="highlight">89 high-quality leads</span> - people who are actively looking for landscaping services. At just <span class="highlight">$30.73 per lead</span>, that's 25% better than our target, meaning you're getting more potential customers for less money.
+                
+                <br><br>
+                
+                Your most successful searches were people looking for "landscaping near me" and "lawn care services" - exactly the customers who are ready to hire. We're not just getting you website visitors; we're connecting you with <span class="highlight">homeowners who need your expertise right now</span>.
+                
+                <div class="seasonal-note">
+                    <h4>🍂 Looking Ahead to Fall Season</h4>
+                    <p>As we move into September, we'll be shifting focus to fall cleanup services, leaf removal, and winter prep - keeping your pipeline full as the seasons change.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
