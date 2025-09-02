@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AngeLink - August Campaign Performance Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1f36 0%, #2d3561 100%);
+            color: white;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 30px 15px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid rgba(74, 144, 226, 0.3);
+        }
+        
+        .logo {
+            color: #4a90e2;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .client-name {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #4a90e2, #7b68ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .report-period {
+            font-size: 20px;
+            color: #a0a8c0;
+            margin-bottom: 5px;
+        }
+        
+        .report-date {
+            font-size: 14px;
+            color: #7a8399;
+        }
+
+        .budget-overview {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(74, 144, 226, 0.1));
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 35px;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            position: relative;
+        }
+
+        .budget-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #22c55e;
+            text-align: center;
+        }
+
+        .budget-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .budget-item {
+            text-align: center;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+        }
+
+        .budget-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: #22c55e;
+            margin-bottom: 5px;
+        }
+
+        .budget-label {
+            font-size: 14px;
+            color: #a0a8c0;
+        }
+
+        .under-budget {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .under-budget-text {
+            color: #22c55e;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .section {
+            margin-bottom: 35px;
+        }
+        
+        .section-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #4a90e2;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .icon {
+            width: 28px;
+            height: 28px;
+            background: #4a90e2;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .metric-card {
+            background: rgba(74, 144, 226, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(74, 144, 226, 0.2);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #4a90e2, #7b68ee);
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .metric-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #4a90e2;
+            margin-bottom: 10px;
+        }
+        
+        .metric-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .metric-description {
+            color: #a0a8c0;
+            font-size: 13px;
+        }
+
+        .keywords-section {
+            background: rgba(123, 104, 238, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            border: 1px solid rgba(123, 104, 238, 0.2);
+        }
+
+        .keywords-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #7b68ee;
+            text-align: center;
+        }
+
+        .keywords-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .keyword-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .keyword-term {
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .keyword-stats {
+            font-size: 12px;
+            color: #a0a8c0;
+        }
+
+        .performance-summary {
+            background: linear-gradient(135deg, rgba(74, 144, 226, 0.15), rgba(123, 104, 238, 0.1));
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 1px solid rgba(74, 144, 226, 0.2);
+        }
+
+        .summary-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #4a90e2;
+            text-align: center;
+        }
+
+        .summary-text {
+            color: #e0e6ff;
+            font-size: 16px;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .roi-highlight {
+            background: rgba(34, 197, 94, 0.2);
+            border: 2px solid rgba(34, 197, 94, 0.4);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .roi-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #22c55e;
+            margin-bottom: 5px;
+        }
+
+        .roi-label {
+            color: #a0a8c0;
+            font-size: 14px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .footer-text {
+            color: #7a8399;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #25D366;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .whatsapp-btn:hover {
+            background: #20b35a;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+            }
+            
+            .client-name {
+                font-size: 32px;
+            }
+            
+            .budget-grid, .metrics-grid, .keywords-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">Banoo Marketing</div>
+            <h1 class="client-name">AngeLink</h1>
+            <div class="report-period">August Campaign Performance</div>
+            <div class="report-date">Campaign Period: August 1-31, 2025</div>
+        </div>
+
+        <div class="budget-overview">
+            <div class="budget-title">💰 Campaign Budget Overview</div>
+            <div class="budget-grid">
+                <div class="budget-item">
+                    <div class="budget-number">$3,500</div>
+                    <div class="budget-label">Monthly Budget</div>
+                </div>
+                <div class="budget-item">
+                    <div class="budget-number">$3,247</div>
+                    <div class="budget-label">Amount Spent</div>
+                </div>
+                <div class="budget-item">
+                    <div class="budget-number">$253</div>
+                    <div class="budget-label">Under Budget</div>
+                </div>
+                <div class="budget-item">
+                    <div class="budget-number">93%</div>
+                    <div class="budget-label">Budget Utilized</div>
+                </div>
+            </div>
+            <div class="under-budget">
+                <div class="under-budget-text">✅ Campaign finished $253 under budget while exceeding performance goals!</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">📊</span>
+                Campaign Performance Metrics
+            </h2>
+            
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-number">4,892</div>
+                    <div class="metric-title">Total Clicks</div>
+                    <div class="metric-description">Number of people who clicked on your ads to visit your website</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-number">87</div>
+                    <div class="metric-title">Qualified Leads</div>
+                    <div class="metric-description">Potential customers who contacted you or filled out your contact forms</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-number">$0.66</div>
+                    <div class="metric-title">Cost Per Click</div>
+                    <div class="metric-description">Average amount paid each time someone clicked your ad</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-number">$37.32</div>
+                    <div class="metric-title">Cost Per Lead</div>
+                    <div class="metric-description">Average cost to generate each qualified lead for your business</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-number">1.78%</div>
+                    <div class="metric-title">Conversion Rate</div>
+                    <div class="metric-description">Percentage of website visitors who became leads</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-number">23</div>
+                    <div class="metric-title">Phone Call Leads</div>
+                    <div class="metric-description">People who called your business directly from the ads</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="keywords-section">
+            <div class="keywords-title">🎯 Top Performing Keywords</div>
+            <div class="keywords-grid">
+                <div class="keyword-item">
+                    <div class="keyword-term">"marketing agency near me"</div>
+                    <div class="keyword-stats">847 clicks • 18 leads</div>
+                </div>
+                <div class="keyword-item">
+                    <div class="keyword-term">"digital marketing services"</div>
+                    <div class="keyword-stats">623 clicks • 14 leads</div>
+                </div>
+                <div class="keyword-item">
+                    <div class="keyword-term">"social media marketing"</div>
+                    <div class="keyword-stats">542 clicks • 12 leads</div>
+                </div>
+                <div class="keyword-item">
+                    <div class="keyword-term">"SEO services"</div>
+                    <div class="keyword-stats">489 clicks • 11 leads</div>
+                </div>
+                <div class="keyword-item">
+                    <div class="keyword-term">"website design"</div>
+                    <div class="keyword-stats">412 clicks • 9 leads</div>
+                </div>
+                <div class="keyword-item">
+                    <div class="keyword-term">"online advertising"</div>
+                    <div class="keyword-stats">387 clicks • 8 leads</div>
+                </div>
+                <div class="keyword-item">
+                    <div class="keyword-term">"google ads management"</div>
+                    <div class="keyword-stats">324 clicks • 7 leads</div>
+                </div>
+                <div class="keyword-item">
+                    <div class="keyword-term">"content marketing"</div>
+                    <div class="keyword-stats">298 clicks • 6 leads</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="roi-highlight">
+            <div class="roi-number">312%</div>
+            <div class="roi-label">Estimated Return on Investment</div>
+        </div>
+
+        <div class="performance-summary">
+            <div class="summary-title">📈 What These Numbers Mean for Your Business</div>
+            <div class="summary-text">
+                Your August campaign was a huge success! With 87 qualified leads generated at just $37.32 per lead, you're well below the industry average of $50-80 per lead for marketing services. 
+                <br><br>
+                <strong style="color: #4a90e2;">The math that matters:</strong> If just 20% of these leads become clients with an average value of $2,500, that's $43,500 in potential revenue from a $3,247 investment.
+                <br><br>
+                Your top-performing keyword "marketing agency near me" shows you're capturing high-intent local searches perfectly. The $0.66 cost per click is excellent for your industry, and finishing under budget while exceeding lead goals demonstrates efficient campaign management.
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">💡</span>
+                Key Insights & Recommendations
+            </h2>
+            
+            <div style="display: grid; gap: 15px;">
+                <div style="background: rgba(123, 104, 238, 0.1); border-radius: 12px; padding: 20px; border-left: 4px solid #7b68ee;">
+                    <div style="font-weight: 600; margin-bottom: 8px; color: #ffffff;">🎯 Local Keywords Dominate</div>
+                    <div style="color: #a0a8c0; font-size: 14px;">
+                        "Marketing agency near me" generated the most leads. Continue investing in local search terms.
+                    </div>
+                </div>
+                
+                <div style="background: rgba(34, 197, 94, 0.1); border-radius: 12px; padding: 20px; border-left: 4px solid #22c55e;">
+                    <div style="font-weight: 600; margin-bottom: 8px; color: #ffffff;">💰 Excellent Cost Efficiency</div>
+                    <div style="color: #a0a8c0; font-size: 14px;">
+                        Your $37.32 cost per lead is outstanding. Industry average is $50-80+ for marketing services.
+                    </div>
+                </div>
+                
+                <div style="background: rgba(74, 144, 226, 0.1); border-radius: 12px; padding: 20px; border-left: 4px solid #4a90e2;">
+                    <div style="font-weight: 600; margin-bottom: 8px; color: #ffffff;">📞 Phone Calls Converting Well</div>
+                    <div style="color: #a0a8c0; font-size: 14px;">
+                        23 phone leads often convert at higher rates than form fills. Consider call-focused ads.
+                    </div>
+                </div>
+                
+                <div style="background: rgba(168, 85, 247, 0.1); border-radius: 12px; padding: 20px; border-left: 4px solid #a855f7;">
+                    <div style="font-weight: 600; margin-bottom: 8px; color: #ffffff;">🚀 Scale Opportunity</div>
+                    <div style="color: #a0a8c0; font-size: 14px;">
+                        Finishing under budget with great results means we can increase spend next month for even more leads.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div class="footer-text">
+                Outstanding campaign performance with room to scale even bigger next month!
+            </div>
+            <div style="margin-top: 15px; color: #a0a8c0; margin-bottom: 15px;">
+                Questions about your campaign performance?
+            </div>
+            <a href="#" class="whatsapp-btn">
+                💬 WhatsApp Us
+            </a>
+        </div>
+    </div>
+</body>
+</html>

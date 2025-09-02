@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketing Performance Report - August 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .report-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #3b82f6;
+        }
+        
+        .logo .dot {
+            color: #ffffff;
+        }
+        
+        .report-date {
+            font-size: 18px;
+            color: #94a3b8;
+        }
+        
+        .main-title {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .main-title h1 {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 20px;
+            color: #94a3b8;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+        
+        .metric-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.2);
+        }
+        
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+        }
+        
+        .metric-label {
+            font-size: 14px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        
+        .metric-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+        
+        .metric-change {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .positive {
+            color: #10b981;
+        }
+        
+        .negative {
+            color: #ef4444;
+        }
+        
+        .neutral {
+            color: #f59e0b;
+        }
+        
+        .budget-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .budget-header {
+            font-size: 24px;
+            font-weight: 700;
+            color: #3b82f6;
+            margin-bottom: 20px;
+        }
+        
+        .budget-bar {
+            background: rgba(255, 255, 255, 0.1);
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+        
+        .budget-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            border-radius: 10px;
+            width: 85%; /* Replace with actual percentage */
+            transition: width 0.8s ease;
+        }
+        
+        .budget-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .budget-item {
+            text-align: center;
+        }
+        
+        .budget-amount {
+            font-size: 20px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+        
+        .budget-label {
+            font-size: 12px;
+            color: #94a3b8;
+            text-transform: uppercase;
+        }
+        
+        .keywords-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #3b82f6;
+            margin-bottom: 20px;
+        }
+        
+        .keywords-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .keyword-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .keyword-name {
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+        
+        .keyword-stats {
+            font-size: 14px;
+            color: #94a3b8;
+        }
+        
+        .summary-section {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        
+        .summary-text {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #e2e8f0;
+        }
+        
+        .highlight {
+            color: #3b82f6;
+            font-weight: 600;
+        }
+        
+        @media (max-width: 768px) {
+            .report-container {
+                padding: 20px;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .main-title h1 {
+                font-size: 32px;
+            }
+            
+            .budget-details {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="report-container">
+        <div class="header">
+            <div class="logo">Banoo<span class="dot">.</span>Marketing</div>
+            <div class="report-date">August 2025 Report</div>
+        </div>
+        
+        <div class="main-title">
+            <h1>Your Marketing Success Story</h1>
+        </div>
+        <div class="subtitle">AI-Powered Results That Drive Real Business Growth</div>
+        
+        <div class="budget-section">
+            <div class="budget-header">💰 Budget Overview</div>
+            <div class="budget-bar">
+                <div class="budget-fill"></div>
+            </div>
+            <div class="budget-details">
+                <div class="budget-item">
+                    <div class="budget-amount">$5,000</div>
+                    <div class="budget-label">Budget Allocated</div>
+                </div>
+                <div class="budget-item">
+                    <div class="budget-amount">$4,250</div>
+                    <div class="budget-label">Amount Spent</div>
+                </div>
+                <div class="budget-item">
+                    <div class="budget-amount positive">$750</div>
+                    <div class="budget-label">Under Budget</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-label">Total Clicks Generated</div>
+                <div class="metric-value">2,847</div>
+                <div class="metric-change positive">↗️ +23% vs last month</div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-label">Quality Leads Generated</div>
+                <div class="metric-value">127</div>
+                <div class="metric-change positive">↗️ +18% conversion rate</div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-label">Cost Per Click</div>
+                <div class="metric-value">$1.49</div>
+                <div class="metric-change positive">↘️ -12% more efficient</div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-label">Cost Per Lead</div>
+                <div class="metric-value">$33.46</div>
+                <div class="metric-change positive">↘️ -15% vs target</div>
+            </div>
+        </div>
+        
+        <div class="keywords-section">
+            <div class="section-title">🎯 Top Performing Keywords</div>
+            <div class="keywords-list">
+                <div class="keyword-item">
+                    <div class="keyword-name">"marketing agency Toronto"</div>
+                    <div class="keyword-stats">342 clicks • 28 leads • $12.21 CPC</div>
+                </div>
+                <div class="keyword-item">
+                    <div class="keyword-name">"digital marketing services"</div>
+                    <div class="keyword-stats">287 clicks • 19 leads • $15.12 CPC</div>
+                </div>
+                <div class="keyword-item">
+                    <div class="keyword-name">"AI marketing automation"</div>
+                    <div class="keyword-stats">198 clicks • 24 leads • $8.33 CPC</div>
+                </div>
+                <div class="keyword-item">
+                    <div class="keyword-name">"social media management"</div>
+                    <div class="keyword-stats">156 clicks • 12 leads • $13.01 CPC</div>
+                </div>
+                <div class="keyword-item">
+                    <div class="keyword-name">"SEO services Toronto"</div>
+                    <div class="keyword-stats">143 clicks • 15 leads • $9.52 CPC</div>
+                </div>
+                <div class="keyword-item">
+                    <div class="keyword-name">"PPC advertising agency"</div>
+                    <div class="keyword-stats">125 clicks • 11 leads • $11.36 CPC</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="summary-section">
+            <div class="section-title">📊 What This Means for Your Business</div>
+            <div class="summary-text">
+                This month has been a tremendous success for your marketing campaigns. We delivered <span class="highlight">2,847 targeted visitors</span> to your website while staying <span class="highlight">$750 under budget</span>. 
+                
+                <br><br>
+                
+                Most importantly, we generated <span class="highlight">127 high-quality leads</span> at just <span class="highlight">$33.46 per lead</span> - that's 15% better than our target cost. Our AI-powered optimization reduced your cost per click by 12%, meaning every dollar works harder for your business.
+                
+                <br><br>
+                
+                Your top-performing keywords in AI and digital marketing are driving the most valuable traffic, showing that our strategy of positioning you as a technology-forward agency is paying off. We're not just getting you clicks - we're getting you the <span class="highlight">right customers at the right price</span>.
+            </div>
+        </div>
+    </div>
+</body>
+</html>

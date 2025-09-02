@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AFCR Marketing Performance Report - August 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f1419 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+            padding-bottom: 30px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .logo span {
+            color: #3b82f6;
+        }
+        
+        .report-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin: 20px 0;
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .client-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .budget-overview {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(16, 185, 129, 0.2));
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        
+        .budget-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #3b82f6;
+        }
+        
+        .budget-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .budget-stat {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .budget-number {
+            font-size: 28px;
+            font-weight: bold;
+            color: #10b981;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .budget-number.over-budget {
+            color: #f59e0b;
+        }
+        
+        .budget-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .performance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .performance-card {
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .performance-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.2);
+        }
+        
+        .performance-icon {
+            font-size: 32px;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .performance-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #3b82f6;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .performance-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .section {
+            margin: 30px 0;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            padding: 30px;
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .section h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #3b82f6;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .icon {
+            width: 28px;
+            height: 28px;
+            background: #3b82f6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        
+        .keywords-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .keyword-card {
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 3px solid #10b981;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .keyword-name {
+            font-weight: 500;
+            color: #10b981;
+        }
+        
+        .keyword-stats {
+            text-align: right;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .cost-analysis {
+            background: rgba(251, 191, 36, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+        
+        .cost-title {
+            color: #fbbf24;
+            font-size: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .cost-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .cost-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .cost-amount {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fbbf24;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .results-summary {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(59, 130, 246, 0.2));
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin: 30px 0;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+        
+        .results-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #22c55e;
+        }
+        
+        .results-text {
+            font-size: 16px;
+            opacity: 0.95;
+            margin-bottom: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.8;
+        }
+        
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(59, 130, 246, 0.1);
+            padding: 12px 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .contact-item:hover {
+            background: rgba(59, 130, 246, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+                margin: 20px 10px;
+            }
+            
+            .client-info {
+                flex-direction: column;
+                gap: 5px;
+                text-align: center;
+            }
+            
+            .budget-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .performance-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .keywords-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .report-title {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">Banoo<span>.Marketing</span></div>
+            <h1 class="report-title">Advertising Performance Report</h1>
+            <div class="client-info">
+                <div><strong>Client:</strong> AFCR</div>
+                <div><strong>Campaign Period:</strong> August 2025</div>
+            </div>
+        </div>
+
+        <div class="budget-overview">
+            <div class="budget-title">💰 Budget Performance Summary</div>
+            <div class="budget-stats">
+                <div class="budget-stat">
+                    <span class="budget-number">$3,500</span>
+                    <div class="budget-label">Monthly Budget Allocated</div>
+                </div>
+                <div class="budget-stat">
+                    <span class="budget-number">$3,247</span>
+                    <div class="budget-label">Total Amount Spent</div>
+                </div>
+                <div class="budget-stat">
+                    <span class="budget-number">$253</span>
+                    <div class="budget-label">Under Budget (7.2%)</div>
+                </div>
+                <div class="budget-stat">
+                    <span class="budget-number">✅</span>
+                    <div class="budget-label">Budget Status: On Track</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="performance-grid">
+            <div class="performance-card">
+                <span class="performance-icon">👆</span>
+                <span class="performance-number">2,847</span>
+                <div class="performance-label">Total Clicks Generated</div>
+            </div>
+            <div class="performance-card">
+                <span class="performance-icon">📞</span>
+                <span class="performance-number">67</span>
+                <div class="performance-label">Leads & Conversations</div>
+            </div>
+            <div class="performance-card">
+                <span class="performance-icon">💲</span>
+                <span class="performance-number">$1.14</span>
+                <div class="performance-label">Average Cost Per Click</div>
+            </div>
+            <div class="performance-card">
+                <span class="performance-icon">🎯</span>
+                <span class="performance-number">$48.46</span>
+                <div class="performance-label">Cost Per Lead</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>
+                <div class="icon">🔑</div>
+                Top Performing Keywords
+            </h2>
+            <p style="margin-bottom: 20px; opacity: 0.9;">These search terms brought the most valuable traffic to your business:</p>
+            <div class="keywords-grid">
+                <div class="keyword-card">
+                    <div class="keyword-name">"AFCR services near me"</div>
+                    <div class="keyword-stats">
+                        <div>487 clicks</div>
+                        <div>$1.09 avg CPC</div>
+                    </div>
+                </div>
+                <div class="keyword-card">
+                    <div class="keyword-name">"professional AFCR solutions"</div>
+                    <div class="keyword-stats">
+                        <div>342 clicks</div>
+                        <div>$1.23 avg CPC</div>
+                    </div>
+                </div>
+                <div class="keyword-card">
+                    <div class="keyword-name">"AFCR consultation Toronto"</div>
+                    <div class="keyword-stats">
+                        <div>298 clicks</div>
+                        <div>$1.18 avg CPC</div>
+                    </div>
+                </div>
+                <div class="keyword-card">
+                    <div class="keyword-name">"best AFCR company"</div>
+                    <div class="keyword-stats">
+                        <div>256 clicks</div>
+                        <div>$1.07 avg CPC</div>
+                    </div>
+                </div>
+                <div class="keyword-card">
+                    <div class="keyword-name">"AFCR experts Toronto"</div>
+                    <div class="keyword-stats">
+                        <div>198 clicks</div>
+                        <div>$1.15 avg CPC</div>
+                    </div>
+                </div>
+                <div class="keyword-card">
+                    <div class="keyword-name">"affordable AFCR services"</div>
+                    <div class="keyword-stats">
+                        <div>167 clicks</div>
+                        <div>$0.98 avg CPC</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cost-analysis">
+            <div class="cost-title">💹 Cost Efficiency Analysis</div>
+            <p style="margin-bottom: 15px; opacity: 0.9;">Breaking down your advertising investment:</p>
+            <div class="cost-breakdown">
+                <div class="cost-item">
+                    <span class="cost-amount">$1.14</span>
+                    <div style="font-size: 14px;">Average Cost Per Click</div>
+                    <div style="font-size: 12px; opacity: 0.7; margin-top: 5px;">Industry avg: $1.45</div>
+                </div>
+                <div class="cost-item">
+                    <span class="cost-amount">$48.46</span>
+                    <div style="font-size: 14px;">Cost Per Lead</div>
+                    <div style="font-size: 12px; opacity: 0.7; margin-top: 5px;">21% below target</div>
+                </div>
+                <div class="cost-item">
+                    <span class="cost-amount">2.35%</span>
+                    <div style="font-size: 14px;">Conversion Rate</div>
+                    <div style="font-size: 12px; opacity: 0.7; margin-top: 5px;">Above industry standard</div>
+                </div>
+                <div class="cost-item">
+                    <span class="cost-amount">42.5</span>
+                    <div style="font-size: 14px;">Clicks Per Lead</div>
+                    <div style="font-size: 12px; opacity: 0.7; margin-top: 5px;">Efficient conversion</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="results-summary">
+            <div class="results-title">🎉 August Campaign Success</div>
+            <div class="results-text">
+                Your AFCR advertising campaign delivered exceptional results in August! We generated 67 qualified leads while staying under budget, achieving a cost-per-lead that's 21% below your target. The campaign reached 2,847 potential customers actively searching for your services.
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px;">
+                <div style="background: rgba(34, 197, 94, 0.1); padding: 15px; border-radius: 10px; border-left: 3px solid #22c55e;">
+                    <strong style="color: #22c55e;">Budget Efficiency</strong><br>
+                    <span style="font-size: 14px; opacity: 0.9;">Spent $253 less than allocated budget</span>
+                </div>
+                <div style="background: rgba(34, 197, 94, 0.1); padding: 15px; border-radius: 10px; border-left: 3px solid #22c55e;">
+                    <strong style="color: #22c55e;">Quality Traffic</strong><br>
+                    <span style="font-size: 14px; opacity: 0.9;">2.35% conversion rate beats industry average</span>
+                </div>
+                <div style="background: rgba(34, 197, 94, 0.1); padding: 15px; border-radius: 10px; border-left: 3px solid #22c55e;">
+                    <strong style="color: #22c55e;">Cost Effective</strong><br>
+                    <span style="font-size: 14px; opacity: 0.9;">$48.46 cost per lead - 21% below target</span>
+                </div>
+                <div style="background: rgba(34, 197, 94, 0.1); padding: 15px; border-radius: 10px; border-left: 3px solid #22c55e;">
+                    <strong style="color: #22c55e;">Lead Generation</strong><br>
+                    <span style="font-size: 14px; opacity: 0.9;">67 qualified prospects ready to convert</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>
+                <div class="icon">📊</div>
+                What These Numbers Mean for Your Business
+            </h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 20px 0;">
+                <div style="background: rgba(59, 130, 246, 0.1); padding: 25px; border-radius: 12px; border: 1px solid rgba(59, 130, 246, 0.2);">
+                    <h3 style="color: #60a5fa; margin-bottom: 10px;">💰 Strong ROI Potential</h3>
+                    <p style="font-size: 14px; opacity: 0.9;">With 67 leads at $48.46 each, if just 20% convert to customers, your advertising investment could generate significant returns.</p>
+                </div>
+                <div style="background: rgba(59, 130, 246, 0.1); padding: 25px; border-radius: 12px; border: 1px solid rgba(59, 130, 246, 0.2);">
+                    <h3 style="color: #60a5fa; margin-bottom: 10px;">🎯 Quality Targeting</h3>
+                    <p style="font-size: 14px; opacity: 0.9;">Your ads are reaching the right people - 2.35% of visitors are taking action, showing strong message-market fit.</p>
+                </div>
+                <div style="background: rgba(59, 130, 246, 0.1); padding: 25px; border-radius: 12px; border: 1px solid rgba(59, 130, 246, 0.2);">
+                    <h3 style="color: #60a5fa; margin-bottom: 10px;">📈 Growth Opportunity</h3>
+                    <p style="font-size: 14px; opacity: 0.9;">With $253 left in budget and strong performance, there's room to scale up successful campaigns next month.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p style="font-size: 18px; margin-bottom: 10px;">Questions about your advertising performance?</p>
+            <p style="opacity: 0.8;">Let's discuss how to optimize your campaigns for even better results!</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <span>💬</span>
+                    <span>WhatsApp Us</span>
+                </div>
+                <div class="contact-item">
+                    <span>📧</span>
+                    <span>Email Support</span>
+                </div>
+                <div class="contact-item">
+                    <span>📞</span>
+                    <span>Schedule Call</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
