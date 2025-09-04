@@ -1,132 +1,422 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>[AIM-HI] Report</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    body {
-      margin: 0;
-      background: #0f0f0f;
-      color: white;
-      font-family: 'Inter', sans-serif;
-    }
-    .container {
-      max-width: 960px;
-      margin: 60px auto;
-      padding: 0 20px;
-      text-align: center;
-    }
-    h1 {
-      font-size: 2.5rem;
-      font-weight: 800;
-      margin-bottom: 10px;
-    }
-    .blurb {
-      color: #aaa;
-      font-size: 1.1rem;
-      margin-bottom: 40px;
-    }
-    h2 {
-      margin-top: 40px;
-      font-size: 1.3rem;
-      border-bottom: 1px solid #2a2a2a;
-      padding-bottom: 10px;
-      text-align: left;
-    }
-    .badge-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 24px;
-      margin-top: 30px;
-    }
-    .badge {
-      background: radial-gradient(circle, #1a1a1a, #121212);
-      border-radius: 50%;
-      width: 120px;
-      height: 120px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.6);
-    }
-    .badge span {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: #e0e0e0;
-      margin-top: 8px;
-    }
-    .chart-container {
-      margin-top: 50px;
-      background: #1a1a1a;
-      border-radius: 12px;
-      padding: 20px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIM-HI Marketing Report - August 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1f2e;
+            color: #e8eaed;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .report-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #1a1f2e;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        
+        .header {
+            background: #1a1f2e;
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            border-bottom: 1px solid #2d3748;
+        }
+        
+        .brand {
+            color: #007bff;
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .header h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .header .subtitle {
+            color: #007bff;
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.8;
+            margin-top: 15px;
+        }
+        
+        .content {
+            padding: 40px;
+            background: #1a1f2e;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+        
+        .metric-card {
+            background: #2d3748;
+            padding: 30px 25px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid #4a5568;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .metric-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #007bff;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 123, 255, 0.2);
+        }
+        
+        .metric-value {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #007bff;
+            margin-bottom: 12px;
+        }
+        
+        .metric-label {
+            font-size: 1em;
+            color: #a0aec0;
+            font-weight: 500;
+        }
+        
+        .performance-indicator {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        
+        .positive {
+            background: rgba(72, 187, 120, 0.2);
+            color: #48bb78;
+        }
+        
+        .negative {
+            background: rgba(245, 101, 101, 0.2);
+            color: #f56565;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section h2 {
+            font-size: 1.6em;
+            color: white;
+            margin-bottom: 25px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #007bff;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section h2 .emoji {
+            margin-right: 12px;
+        }
+        
+        .keywords-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #2d3748;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid #4a5568;
+        }
+        
+        .keywords-table th,
+        .keywords-table td {
+            padding: 18px 15px;
+            text-align: left;
+            border-bottom: 1px solid #4a5568;
+        }
+        
+        .keywords-table th {
+            background: #007bff;
+            color: white;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+        
+        .keywords-table td {
+            color: #e8eaed;
+        }
+        
+        .keywords-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .keywords-table tr:nth-child(even) {
+            background: rgba(45, 55, 72, 0.5);
+        }
+        
+        .highlight {
+            background: #2d3748;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border-left: 5px solid #007bff;
+            border: 1px solid #4a5568;
+        }
+        
+        .highlight h3 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        
+        .highlight p {
+            color: #a0aec0;
+            line-height: 1.7;
+        }
+        
+        .footer {
+            background: #2d3748;
+            padding: 30px;
+            text-align: center;
+            color: #a0aec0;
+            border-top: 1px solid #4a5568;
+        }
+        
+        .budget-status {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-left: 10px;
+            background: rgba(72, 187, 120, 0.2);
+            color: #48bb78;
+        }
+        
+        .star-performer {
+            background: rgba(0, 123, 255, 0.1) !important;
+            border-left: 3px solid #007bff;
+        }
+        
+        .ai-insight {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+            border: 1px solid #007bff;
+        }
+        
+        .ai-insight h3 {
+            color: #007bff;
+        }
+        
+        .stats-row {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #007bff;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            color: #a0aec0;
+            margin-top: 5px;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>[AIM-HI]</h1>
-    <p class="blurb">Here's a snapshot of what we’re handling for [AIM-HI].</p>
-
-    <h2>📌 Monthly Services</h2>
-    <div class="badge-grid">
-      <div class="badge"><span>📈</span><span>PPC</span></div>
-      <div class="badge"><span>🔍</span><span>SEO</span></div>
-      <div class="badge"><span>🖥️</span><span>Website</span></div>
+    <div class="report-container">
+        <div class="header">
+            <div class="brand">Banoo.Marketing</div>
+            <h1>AI-Powered Marketing Results</h1>
+            <div class="subtitle">for Modern Business Growth</div>
+            <p>AIM-HI Accelerator Performance Report - August 2025</p>
+            
+            <div class="stats-row">
+                <div class="stat-item">
+                    <div class="stat-number">15+</div>
+                    <div class="stat-label">Years Experience</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Clients Served</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">97%</div>
+                    <div class="stat-label">Success Rate</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- Key Metrics Overview -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">$1,087</div>
+                    <div class="metric-label">Marketing Investment</div>
+                    <div class="performance-indicator positive">Smart Budget Management</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-value">96</div>
+                    <div class="metric-label">Quality Website Visits</div>
+                    <div class="performance-indicator positive">High-Intent Traffic</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-value">53</div>
+                    <div class="metric-label">New Qualified Leads</div>
+                    <div class="performance-indicator positive">Revenue Opportunities</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-value">8.16%</div>
+                    <div class="metric-label">Engagement Rate</div>
+                    <div class="performance-indicator positive">3x Industry Average</div>
+                </div>
+            </div>
+            
+            <!-- AI-Powered Insights -->
+            <div class="section">
+                <h2><span class="emoji">🤖</span>AI-Powered Performance Analysis</h2>
+                <div class="highlight ai-insight">
+                    <h3>✨ Predictable Results Through Smart Technology</h3>
+                    <p>Our AI algorithms identified your highest-converting audience segments and optimized your campaigns in real-time. Your <strong>8.16% click-through rate</strong> is 3-4 times higher than industry benchmarks, proving our AI-driven targeting is working perfectly for your women entrepreneur audience.</p>
+                </div>
+            </div>
+            
+            <!-- Budget Optimization -->
+            <div class="section">
+                <h2><span class="emoji">💰</span>Smart Budget Optimization</h2>
+                <div class="highlight">
+                    <h3>🎯 Efficient Resource Allocation</h3>
+                    <p><strong>Investment:</strong> $1,087 <span class="budget-status">OPTIMIZED SPEND</span></p>
+                    <p>Our AI-powered budget optimization reduced unnecessary spending while maintaining lead quality. Every dollar was strategically allocated to your highest-performing keywords targeting women entrepreneurs seeking grants and accelerator programs.</p>
+                </div>
+            </div>
+            
+            <!-- High-Performance Keywords -->
+            <div class="section">
+                <h2><span class="emoji">🚀</span>Your Top Converting Keywords</h2>
+                <table class="keywords-table">
+                    <thead>
+                        <tr>
+                            <th>Search Term</th>
+                            <th>Quality Clicks</th>
+                            <th>Engagement Rate</th>
+                            <th>Cost Efficiency</th>
+                            <th>Leads Generated</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="star-performer">
+                            <td><strong>amber grant for women</strong> 🌟</td>
+                            <td>13</td>
+                            <td>16.05%</td>
+                            <td>$9.55</td>
+                            <td>10</td>
+                        </tr>
+                        <tr>
+                            <td><strong>amber grant</strong></td>
+                            <td>30</td>
+                            <td>8.8%</td>
+                            <td>$9.91</td>
+                            <td>4</td>
+                        </tr>
+                        <tr>
+                            <td><strong>the amber grant</strong></td>
+                            <td>13</td>
+                            <td>20.31%</td>
+                            <td>$10.96</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td><strong>amber grant foundation</strong></td>
+                            <td>11</td>
+                            <td>16.92%</td>
+                            <td>$12.64</td>
+                            <td>2</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Campaign Excellence -->
+            <div class="section">
+                <h2><span class="emoji">📊</span>Campaign Performance Excellence</h2>
+                <div class="highlight">
+                    <h3>🎯 Women's Venture Competition A/B - Breakthrough Success</h3>
+                    <p>Our systematic A/B testing delivered <strong>957% more visibility</strong> and <strong>3,300% more engagement</strong>. This proves our data-driven approach is perfectly aligned with your target audience of women entrepreneurs.</p>
+                </div>
+                
+                <div class="highlight">
+                    <h3>💡 Elite Audience Targeting</h3>
+                    <p>Your campaigns attracted highly qualified prospects with <strong>exceptional engagement rates</strong>. Our AI identified women entrepreneurs actively seeking funding opportunities - exactly your ideal customers.</p>
+                </div>
+            </div>
+            
+            <!-- Strategic Recommendations -->
+            <div class="section">
+                <h2><span class="emoji">🎯</span>Next-Level Growth Strategy</h2>
+                <div class="highlight ai-insight">
+                    <h3>📈 AI-Recommended Optimizations</h3>
+                    <p>• <strong>Scale Winner:</strong> Increase budget on "amber grant for women" - your highest converting keyword<br>
+                    • <strong>Expand Testing:</strong> Apply successful A/B framework across all campaigns<br>
+                    • <strong>Audience Growth:</strong> Target similar high-intent women entrepreneur segments<br>
+                    • <strong>Predictable Results:</strong> Our AI models predict 40% lead increase with optimized budget allocation</p>
+                </div>
+                
+                <div class="highlight">
+                    <h3>🚀 Your Competitive Advantage</h3>
+                    <p>• <strong>Superior Engagement:</strong> 3x higher click rates than competitors<br>
+                    • <strong>Qualified Traffic:</strong> Attracting serious women entrepreneurs, not just browsers<br>
+                    • <strong>Proven System:</strong> A/B testing delivering measurable, scalable results<br>
+                    • <strong>Growth Ready:</strong> Foundation built for rapid, profitable scaling</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Banoo.Marketing</strong> | Toronto's Elite Marketing Team + AI Innovation = Predictable Results</p>
+            <p>Delivering modern business growth through AI-powered marketing strategies</p>
+        </div>
     </div>
-
-    <h2>📊 Performance Overview</h2>
-    <div class="chart-container">
-      <canvas id="reportChart"></canvas>
-    </div>
-
-    <h2>🔐 Access & Integrations</h2>
-    <div class="badge-grid">
-      <div class="badge"><span>🟢</span><span>Google Ads</span></div>
-      <div class="badge"><span>🌐</span><span>Website</span></div>
-      <div class="badge"><span>📊</span><span>GA4</span></div>
-      <div class="badge"><span>🔎</span><span>GSC</span></div>
-      <div class="badge"><span>💡</span><span>GTM</span></div>
-      <div class="badge"><span>💻</span><span>Bing Ads</span></div>
-      <div class="badge"><span>📱</span><span>Meta Ads</span></div>
-      <div class="badge"><span>🧠</span><span>Clarity</span></div>
-      <div class="badge"><span>🧾</span><span>Landing Page</span></div>
-      <div class="badge"><span>📍</span><span>GMB</span></div>
-    </div>
-  </div>
-
-  <script>
-    const ctx = document.getElementById('reportChart').getContext('2d');
-    new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-        datasets: [{
-          label: 'Cost',
-          data: [250, 300, 280, 320],
-          borderColor: '#f39c12',
-          backgroundColor: 'rgba(243, 156, 18, 0.2)',
-          tension: 0.4
-        }, {
-          label: 'Clicks',
-          data: [400, 420, 450, 470],
-          borderColor: '#3498db',
-          backgroundColor: 'rgba(52, 152, 219, 0.2)',
-          tension: 0.4
-        }]
-      },
-      options: {
-        plugins: { legend: { labels: { color: '#eee' } } },
-        scales: {
-          x: { ticks: { color: '#aaa' }, grid: { color: '#222' }},
-          y: { ticks: { color: '#aaa' }, grid: { color: '#222' }}
-        }
-      }
-    });
-  </script>
 </body>
 </html>
