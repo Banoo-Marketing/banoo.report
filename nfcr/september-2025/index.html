@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFCR Marketing Report - September 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0a1628 0%, #1a2840 100%);
+            color: #ffffff;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            border-bottom: 2px solid rgba(66, 133, 244, 0.3);
+            padding-bottom: 30px;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .logo-blue {
+            color: #4285f4;
+        }
+        
+        h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #ffffff 0%, #4285f4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .period {
+            font-size: 18px;
+            color: #9ca3af;
+            margin-top: 10px;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+        
+        .metric-card {
+            background: rgba(66, 133, 244, 0.1);
+            border: 1px solid rgba(66, 133, 244, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(66, 133, 244, 0.2);
+        }
+        
+        .metric-label {
+            font-size: 14px;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        
+        .metric-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: #4285f4;
+            margin-bottom: 8px;
+        }
+        
+        .metric-change {
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .positive {
+            color: #10b981;
+        }
+        
+        .negative {
+            color: #ef4444;
+        }
+        
+        .neutral {
+            color: #9ca3af;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #4285f4;
+        }
+        
+        .budget-status {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .budget-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .budget-row:last-child {
+            border-bottom: none;
+        }
+        
+        .budget-label {
+            font-size: 16px;
+            color: #e5e7eb;
+        }
+        
+        .budget-value {
+            font-size: 20px;
+            font-weight: 600;
+            color: #10b981;
+        }
+        
+        .keywords-table {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .table-header {
+            background: rgba(66, 133, 244, 0.2);
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 15px;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .table-row {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            align-items: center;
+        }
+        
+        .table-row:hover {
+            background: rgba(66, 133, 244, 0.05);
+        }
+        
+        .table-row:last-child {
+            border-bottom: none;
+        }
+        
+        .keyword-name {
+            font-weight: 500;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(66, 133, 244, 0.2) 0%, rgba(66, 133, 244, 0.05) 100%);
+            border-left: 4px solid #4285f4;
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+        
+        .highlight-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #4285f4;
+        }
+        
+        .highlight-text {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #e5e7eb;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 32px;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .table-header, .table-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .table-header {
+                display: none;
+            }
+            
+            .table-row > div::before {
+                content: attr(data-label);
+                display: block;
+                font-weight: 600;
+                color: #9ca3af;
+                font-size: 12px;
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">Banoo<span class="logo-blue">.Marketing</span></div>
+            <h1>Your Marketing Performance</h1>
+            <p class="period">September 2025</p>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">Budget Overview</h2>
+            <div class="budget-status">
+                <div class="budget-row">
+                    <span class="budget-label">Monthly Budget</span>
+                    <span class="budget-value">$32,000</span>
+                </div>
+                <div class="budget-row">
+                    <span class="budget-label">Amount Spent</span>
+                    <span class="budget-value">$170.12</span>
+                </div>
+                <div class="budget-row">
+                    <span class="budget-label">Budget Status</span>
+                    <span class="budget-value">Under Budget by $31,829.88</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">Performance Metrics</h2>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-label">Total Clicks</div>
+                    <div class="metric-value">30</div>
+                    <div class="metric-change negative">↓ 99.3% vs last month</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-label">Leads Generated</div>
+                    <div class="metric-value">15</div>
+                    <div class="metric-change negative">↓ 99.7% vs last month</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-label">Cost Per Click</div>
+                    <div class="metric-value">$5.67</div>
+                    <div class="metric-change neutral">Average across campaigns</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-label">Cost Per Lead</div>
+                    <div class="metric-value">$11.34</div>
+                    <div class="metric-change positive">↑ 45.9% vs last month</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">Top Performing Keywords</h2>
+            <div class="keywords-table">
+                <div class="table-header">
+                    <div>Keyword</div>
+                    <div>Clicks</div>
+                    <div>Leads</div>
+                    <div>Cost/Lead</div>
+                </div>
+                
+                <div class="table-row">
+                    <div class="keyword-name" data-label="Keyword">gallstones symptoms</div>
+                    <div data-label="Clicks">1</div>
+                    <div data-label="Leads">1</div>
+                    <div data-label="Cost/Lead">$1.39</div>
+                </div>
+                
+                <div class="table-row">
+                    <div class="keyword-name" data-label="Keyword">breast cancer symptoms</div>
+                    <div data-label="Clicks">1</div>
+                    <div data-label="Leads">0</div>
+                    <div data-label="Cost/Lead">$0</div>
+                </div>
+                
+                <div class="table-row">
+                    <div class="keyword-name" data-label="Keyword">bladder cancer symptoms</div>
+                    <div data-label="Clicks">1</div>
+                    <div data-label="Leads">0</div>
+                    <div data-label="Cost/Lead">$0</div>
+                </div>
+                
+                <div class="table-row">
+                    <div class="keyword-name" data-label="Keyword">cervical cancer symptoms</div>
+                    <div data-label="Clicks">1</div>
+                    <div data-label="Leads">0</div>
+                    <div data-label="Cost/Lead">$0</div>
+                </div>
+                
+                <div class="table-row">
+                    <div class="keyword-name" data-label="Keyword">Other keywords</div>
+                    <div data-label="Clicks">26</div>
+                    <div data-label="Leads">14</div>
+                    <div data-label="Cost/Lead">$11.11</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">Campaign Breakdown</h2>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-label">Keywords + Search</div>
+                    <div class="metric-value">6 Leads</div>
+                    <div class="metric-change neutral">$17.74 per lead</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-label">NFCR News</div>
+                    <div class="metric-value">3 Leads</div>
+                    <div class="metric-change neutral">$3.44 per lead</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-label">#P4tC (Main)</div>
+                    <div class="metric-value">1 Lead</div>
+                    <div class="metric-change neutral">$14.00 per lead</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-label">News & Blogs</div>
+                    <div class="metric-value">1 Lead</div>
+                    <div class="metric-change neutral">$1.39 per lead</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="highlight-box">
+            <div class="highlight-title">📊 What This Means For You</div>
+            <div class="highlight-text">
+                September saw a significant decrease in activity across all campaigns. While spending was minimal at only $170, this resulted in much lower visibility and engagement. The positive note is that your cost per lead remained relatively efficient at $11.34, but the overall volume of leads dropped dramatically. We recommend reviewing budget allocation and campaign activation status to ensure optimal performance moving forward.
+            </div>
+        </div>
+        
+        <div class="highlight-box" style="margin-top: 20px;">
+            <div class="highlight-title">💡 Key Insight</div>
+            <div class="highlight-text">
+                The "NFCR News" campaign delivered the best cost per lead at just $3.44, making it your most efficient campaign this month. Consider allocating more budget here to maximize lead generation at a lower cost.
+            </div>
+        </div>
+    </div>
+</body>
+</html>
