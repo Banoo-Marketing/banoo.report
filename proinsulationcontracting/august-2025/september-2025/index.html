@@ -141,130 +141,138 @@
             box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
         }
         
-        .achievement-icon {
-            font-size: 40px;
-            margin-bottom: 15px;
-        }
-        
-        .achievement-number {
+        .achievement-card .number {
             font-size: 48px;
             font-weight: 700;
             color: #3b82f6;
             margin-bottom: 10px;
         }
         
-        .achievement-label {
+        .achievement-card .label {
             font-size: 16px;
-            font-weight: 600;
-            color: #ffffff;
-            margin-bottom: 10px;
+            color: #cbd5e1;
         }
         
-        .achievement-description {
-            font-size: 13px;
-            color: #94a3b8;
-            line-height: 1.4;
-        }
-        
-        .check-icon {
-            color: #10b981;
-            font-size: 24px;
-            margin-right: 10px;
-        }
-        
-        .protection-section {
-            background: rgba(30, 35, 50, 0.6);
-            border-radius: 15px;
+        .seo-section {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.05) 100%);
+            border-left: 4px solid #10b981;
             padding: 30px;
-            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 10px;
+            margin-bottom: 40px;
+        }
+        
+        .seo-section h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #10b981;
+            text-align: center;
+        }
+        
+        .seo-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
             margin-bottom: 30px;
         }
         
-        .protection-section h2 {
-            font-size: 22px;
-            margin-bottom: 20px;
-            color: #ef4444;
-            display: flex;
-            align-items: center;
+        .seo-stat-card {
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(16, 185, 129, 0.3);
         }
         
-        .shield-icon {
-            font-size: 28px;
-            margin-right: 10px;
+        .seo-stat-card .stat-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #10b981;
+            margin-bottom: 8px;
         }
         
-        .protection-item {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 18px;
-            padding: 15px;
-            background: rgba(239, 68, 68, 0.05);
-            border-radius: 10px;
-            border-left: 3px solid #ef4444;
-        }
-        
-        .protection-item p {
+        .seo-stat-card .stat-label {
+            font-size: 14px;
             color: #cbd5e1;
-            line-height: 1.6;
-            font-size: 15px;
         }
         
-        .protection-item strong {
-            color: #ffffff;
+        .view-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin-top: 10px;
         }
         
-        .insights {
-            background: rgba(30, 35, 50, 0.6);
-            border-radius: 15px;
-            padding: 30px;
+        .view-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(16, 185, 129, 0.4);
+        }
+        
+        .task-section {
+            margin-top: 30px;
+        }
+        
+        .task-column {
+            background: rgba(59, 130, 246, 0.05);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
             border: 1px solid rgba(59, 130, 246, 0.2);
         }
         
-        .insights h2 {
-            font-size: 22px;
-            margin-bottom: 20px;
-            color: #3b82f6;
-        }
-        
-        .insight-item {
-            display: flex;
-            align-items: flex-start;
+        .task-column h3 {
+            font-size: 18px;
             margin-bottom: 15px;
-            padding-left: 25px;
-            position: relative;
+            color: #3b82f6;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
-        .insight-item:before {
+        .task-column h3::before {
+            content: "●";
+            font-size: 24px;
+        }
+        
+        .task-list {
+            list-style: none;
+        }
+        
+        .task-list li {
+            color: #cbd5e1;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+            font-size: 15px;
+            line-height: 1.5;
+        }
+        
+        .task-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .task-list li::before {
             content: "→";
-            position: absolute;
-            left: 0;
             color: #3b82f6;
+            margin-right: 10px;
             font-weight: bold;
         }
         
-        .insight-item p {
-            color: #cbd5e1;
-            line-height: 1.6;
-            font-size: 15px;
-        }
-        
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            padding-top: 30px;
-            border-top: 1px solid rgba(59, 130, 246, 0.2);
-            color: #64748b;
-            font-size: 13px;
-        }
-        
-        @media print {
-            body {
-                background: white;
-                padding: 0;
+        @media (max-width: 768px) {
+            .achievements-grid {
+                grid-template-columns: 1fr;
             }
+            
+            .seo-stats {
+                grid-template-columns: 1fr;
+            }
+            
             .container {
-                box-shadow: none;
-                padding: 30px;
+                padding: 30px 20px;
             }
         }
     </style>
@@ -272,75 +280,101 @@
 <body>
     <div class="container">
         <div class="header">
-            <div class="logo">Banoo<span>.Marketing</span></div>
-            <h1>Pro Insulation</h1>
-            <p class="period">Monthly SEO Performance Report | September 2025</p>
+            <div class="logo">Pro <span>Insulation</span></div>
+            <h1>Monthly Report</h1>
+            <p class="period">September 2025</p>
         </div>
-        
+
         <div class="summary">
             <h2>Executive Summary</h2>
-            <p>This month delivered exceptional results for Pro Insulation. We've completed an ambitious campaign to build 100 quality backlinks, dramatically expanded your online visibility across both Google and Bing, and protected your website by removing toxic links. Your digital foundation is now stronger than ever, positioning you for long-term growth.</p>
+            <p>This month has been exceptional for Pro Insulation's digital presence. Our comprehensive SEO strategy continues to deliver outstanding results with significant improvements in search visibility, quality backlinks, and indexed pages across major search engines.</p>
         </div>
-        
-        <div class="highlight-stat">
-            <div class="mega-number">100</div>
-            <div class="mega-label">Quality Backlinks Completed</div>
-            <div class="mega-description">Major milestone achieved! Your website authority has significantly increased</div>
+
+        <div class="seo-section">
+            <h2>🎯 September SEO Achievements</h2>
+            
+            <div class="seo-stats">
+                <div class="seo-stat-card">
+                    <div class="stat-number">100</div>
+                    <div class="stat-label">Quality Backlinks</div>
+                    <a href="https://docs.google.com/spreadsheets/d/1qvjdYl6FKELE5VEf3uHzM6j4E3XZ9wTBrIXwKyb4eyg/edit?usp=sharing" target="_blank" class="view-button">View Details</a>
+                </div>
+                
+                <div class="seo-stat-card">
+                    <div class="stat-number">28</div>
+                    <div class="stat-label">Google Pages Indexed</div>
+                    <a href="https://docs.google.com/spreadsheets/d/16L9Ebj-g3Nl0pyHD7djAJPrl4UDWKjpfw9carhLkXgI/edit?usp=sharing" target="_blank" class="view-button">View Details</a>
+                </div>
+                
+                <div class="seo-stat-card">
+                    <div class="stat-number">115</div>
+                    <div class="stat-label">Bing Pages Indexed</div>
+                    <a href="https://docs.google.com/spreadsheets/d/16L9Ebj-g3Nl0pyHD7djAJPrl4UDWKjpfw9carhLkXgI/edit?usp=sharing" target="_blank" class="view-button">View Details</a>
+                </div>
+            </div>
+
+            <div class="task-section">
+                <div class="task-column">
+                    <h3>Your Team's Action Items</h3>
+                    <ul class="task-list">
+                        <li>Continue building high-quality backlinks from relevant industry websites and directories</li>
+                        <li>Monitor backlink health and disavow any toxic links if identified</li>
+                        <li>Create and optimize new content for additional page indexing opportunities</li>
+                        <li>Submit updated sitemap to Google Search Console and Bing Webmaster Tools</li>
+                        <li>Track keyword rankings and organic traffic improvements</li>
+                        <li>Provide monthly analytics report with traffic insights and conversion data</li>
+                        <li>Conduct technical SEO audit to identify and fix any crawl errors</li>
+                    </ul>
+                </div>
+
+                <div class="task-column">
+                    <h3>Client's Action Items</h3>
+                    <ul class="task-list">
+                        <li>Review and approve new content topics for November content calendar</li>
+                        <li>Provide any business updates, new services, or promotions to feature on website</li>
+                        <li>Share customer testimonials or case studies for content creation</li>
+                        <li>Respond to any review requests or Google Business Profile updates</li>
+                        <li>Approve social media posts that link back to website (if applicable)</li>
+                        <li>Note: No backend access required this month - all technical work handled by our team</li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        
+
         <div class="achievements-section">
-            <h2>Search Engine Visibility</h2>
+            <h2>Key Performance Indicators</h2>
             <div class="achievements-grid">
                 <div class="achievement-card">
-                    <div class="achievement-icon">🔍</div>
-                    <div class="achievement-number">28</div>
-                    <div class="achievement-label">Google Pages Indexed</div>
-                    <div class="achievement-description">Your content is discoverable on Google Search</div>
+                    <div class="number">+143</div>
+                    <div class="label">Total Indexed Pages</div>
                 </div>
                 
                 <div class="achievement-card">
-                    <div class="achievement-icon">🌐</div>
-                    <div class="achievement-number">115</div>
-                    <div class="achievement-label">Bing Pages Indexed</div>
-                    <div class="achievement-description">Expanded reach across Microsoft's search network</div>
+                    <div class="number">100</div>
+                    <div class="label">Quality Backlinks Built</div>
+                </div>
+                
+                <div class="achievement-card">
+                    <div class="number">402%</div>
+                    <div class="label">Bing Indexing Increase</div>
+                </div>
+                
+                <div class="achievement-card">
+                    <div class="number">↑</div>
+                    <div class="label">Search Visibility Growing</div>
                 </div>
             </div>
         </div>
-        
-        <div class="protection-section">
-            <h2><span class="shield-icon">🛡️</span> Website Protection</h2>
-            
-            <div class="protection-item">
-                <p><strong>Toxic Links Removed:</strong> We identified and disavowed harmful backlinks that could damage your search rankings. Your website is now protected from negative SEO attacks and spam links.</p>
-            </div>
-            
-            <div class="protection-item">
-                <p><strong>Clean Link Profile:</strong> Your backlink profile has been thoroughly cleaned, ensuring only high-quality, relevant links point to your site. This protects your reputation with search engines.</p>
-            </div>
+
+        <div class="highlight-stat">
+            <div class="mega-number">143</div>
+            <div class="mega-label">Total Pages Indexed</div>
+            <div class="mega-description">Combined Google & Bing indexing success demonstrates strong search engine visibility</div>
         </div>
-        
-        <div class="insights">
-            <h2>What This Means for Pro Insulation</h2>
-            
-            <div class="insight-item">
-                <p><strong>Massive Authority Boost:</strong> 100 quality backlinks is a game-changer. Your website now has significantly more credibility with search engines, helping you rank higher for insulation services.</p>
-            </div>
-            
-            <div class="insight-item">
-                <p><strong>Multi-Platform Visibility:</strong> With 28 pages on Google and 115 on Bing, potential customers can find you across multiple search engines, dramatically expanding your reach.</p>
-            </div>
-            
-            <div class="insight-item">
-                <p><strong>Protected Investment:</strong> By removing toxic links, we've safeguarded your website from penalties and ensured your SEO investment delivers long-term results.</p>
-            </div>
-            
-            <div class="insight-item">
-                <p><strong>Ready for Growth:</strong> With this solid foundation in place, your website is positioned to capture more organic traffic and generate quality leads in the coming months.</p>
-            </div>
-        </div>
-        
-        <div class="footer">
-            Prepared by Banoo.Marketing | Questions? Let's discuss your continued growth strategy.
+
+        <div class="summary">
+            <h2>Looking Ahead - October Goals</h2>
+            <p>Next month, we'll focus on expanding our backlink portfolio to 150+ quality links, improving page load speeds, and targeting additional long-tail keywords to capture more qualified traffic. We'll also work on enhancing the user experience for better engagement metrics.</p>
         </div>
     </div>
 </body>
