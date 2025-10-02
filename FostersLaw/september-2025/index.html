@@ -158,6 +158,12 @@
             transition: all 0.3s ease;
         }
         
+        .seo-card a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
         .seo-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
@@ -193,6 +199,7 @@
             border-radius: 15px;
             padding: 30px;
             border: 1px solid rgba(59, 130, 246, 0.2);
+            margin-bottom: 30px;
         }
         
         .insights h2 {
@@ -221,6 +228,154 @@
             color: #cbd5e1;
             line-height: 1.6;
             font-size: 15px;
+        }
+        
+        .action-plan {
+            background: rgba(30, 35, 50, 0.6);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            margin-bottom: 30px;
+        }
+        
+        .action-plan h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #3b82f6;
+            text-align: center;
+        }
+        
+        .action-intro {
+            text-align: center;
+            color: #cbd5e1;
+            font-size: 15px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .week-section {
+            margin-bottom: 35px;
+            background: rgba(20, 25, 40, 0.5);
+            border-radius: 12px;
+            padding: 25px;
+            border: 1px solid rgba(59, 130, 246, 0.15);
+        }
+        
+        .week-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .week-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+        }
+        
+        .week-number {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+        
+        .week-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+        
+        .action-block {
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid;
+        }
+        
+        .action-block:last-child {
+            margin-bottom: 0;
+        }
+        
+        .team-handle {
+            background: rgba(16, 185, 129, 0.08);
+            border-left-color: #10b981;
+        }
+        
+        .client-action {
+            background: rgba(251, 191, 36, 0.08);
+            border-left-color: #fbbf24;
+        }
+        
+        .collaborative {
+            background: rgba(139, 92, 246, 0.08);
+            border-left-color: #8b5cf6;
+        }
+        
+        .action-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .action-icon {
+            font-size: 20px;
+        }
+        
+        .action-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        
+        .action-block ul {
+            list-style: none;
+            padding-left: 30px;
+        }
+        
+        .action-block li {
+            color: #cbd5e1;
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 8px;
+            position: relative;
+        }
+        
+        .action-block li:before {
+            content: "•";
+            position: absolute;
+            left: -15px;
+            color: #3b82f6;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .cta-button {
+            display: block;
+            width: 100%;
+            max-width: 400px;
+            margin: 30px auto;
+            padding: 18px 40px;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: #ffffff;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
         }
         
         .footer {
@@ -299,16 +454,20 @@
             <h2>SEO Performance</h2>
             <div class="seo-grid">
                 <div class="seo-card">
-                    <div class="seo-icon">🔗</div>
-                    <div class="seo-number">50</div>
-                    <div class="seo-label">Quality Backlinks Built</div>
-                    <div class="seo-description">Strengthening your website's authority and search rankings</div>
+                    <a href="https://docs.google.com/spreadsheets/d/1ccdOT45hBkvyPFn0EFWk6-NOllc82i70bEGJZyjKF3Q/edit?usp=sharing">
+                        <div class="seo-icon">🔗</div>
+                        <div class="seo-number">50</div>
+                        <div class="seo-label">Quality Backlinks Built</div>
+                        <div class="seo-description">Strengthening your website's authority and search rankings</div>
+                    </a>
                 </div>
                 <div class="seo-card">
-                    <div class="seo-icon">📄</div>
-                    <div class="seo-number">26</div>
-                    <div class="seo-label">Pages Indexed by Google</div>
-                    <div class="seo-description">Your content is now discoverable in search results</div>
+                    <a href="https://docs.google.com/spreadsheets/d/1Z4u29BUkbW0brp-QZLgjyWuVMdoOeBkIdcbq6vnB1hk/edit?usp=sharing">
+                        <div class="seo-icon">📄</div>
+                        <div class="seo-number">26</div>
+                        <div class="seo-label">Pages Indexed by Google</div>
+                        <div class="seo-description">Your content is now discoverable in search results</div>
+                    </a>
                 </div>
             </div>
         </div>
@@ -332,6 +491,114 @@
                 <p><strong>Recommended Action:</strong> Test new ad variations emphasizing your unique value proposition to improve lead quality and conversion rates.</p>
             </div>
         </div>
+        
+        <div class="action-plan">
+            <h2>🎯 October Action Plan: Reversing the Decline</h2>
+            <p class="action-intro">Based on our analysis, here's exactly what we'll tackle next month to turn things around:</p>
+            
+            <div class="week-section">
+                <div class="week-header">
+                    <span class="week-number">Week 1-2</span>
+                    <span class="week-title">Technical Foundation</span>
+                </div>
+                
+                <div class="action-block team-handle">
+                    <div class="action-header">
+                        <span class="action-icon">✅</span>
+                        <span class="action-title">Our Team Will Handle:</span>
+                    </div>
+                    <ul>
+                        <li>Identify all technical issues via SEMrush audit</li>
+                        <li>Provide detailed technical recommendations</li>
+                        <li>Create mobile optimization guidelines</li>
+                        <li>Audit accessibility compliance</li>
+                    </ul>
+                </div>
+                
+                <div class="action-block client-action">
+                    <div class="action-header">
+                        <span class="action-icon">⚠️</span>
+                        <span class="action-title">Fosters Law Team Action Required:</span>
+                    </div>
+                    <ul>
+                        <li>Implement website speed optimizations</li>
+                        <li>Fix JavaScript errors and layout shifts</li>
+                        <li>Update mobile responsiveness</li>
+                        <li>Install accessibility improvements</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="week-section">
+                <div class="week-header">
+                    <span class="week-number">Week 2-3</span>
+                    <span class="week-title">Authority Building</span>
+                </div>
+                
+                <div class="action-block team-handle">
+                    <div class="action-header">
+                        <span class="action-icon">✅</span>
+                        <span class="action-title">Our Team Will Handle:</span>
+                    </div>
+                    <ul>
+                        <li>Research and secure 100 high-authority backlinks</li>
+                        <li>Target legal and local directory submissions</li>
+                        <li>Build relationships with legal publications</li>
+                        <li>Monitor and report backlink quality</li>
+                    </ul>
+                </div>
+                
+                <div class="action-block collaborative">
+                    <div class="action-header">
+                        <span class="action-icon">🤝</span>
+                        <span class="action-title">Collaborative Effort:</span>
+                    </div>
+                    <ul>
+                        <li>Provide firm credentials for directory listings</li>
+                        <li>Review and approve guest post opportunities</li>
+                        <li>Share case studies or success stories for outreach</li>
+                        <li>Connect us with industry contacts if available</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="week-section">
+                <div class="week-header">
+                    <span class="week-number">Week 3-4</span>
+                    <span class="week-title">Content & Local SEO</span>
+                </div>
+                
+                <div class="action-block team-handle">
+                    <div class="action-header">
+                        <span class="action-icon">✅</span>
+                        <span class="action-title">Our Team Will Handle:</span>
+                    </div>
+                    <ul>
+                        <li>Research competitor keywords and gaps</li>
+                        <li>Optimize Google Business Profile</li>
+                        <li>Create schema markup recommendations</li>
+                        <li>Develop FAQ content strategy</li>
+                    </ul>
+                </div>
+                
+                <div class="action-block client-action">
+                    <div class="action-header">
+                        <span class="action-icon">⚠️</span>
+                        <span class="action-title">Fosters Law Team Action Required:</span>
+                    </div>
+                    <ul>
+                        <li>Update existing content with new keywords</li>
+                        <li>Implement schema markup on website</li>
+                        <li>Add FAQ sections to service pages</li>
+                        <li>Publish new content as recommended</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <a href="https://docs.google.com/spreadsheets/d/1SjstDIRrJ7Tu7mTvmGiFdRTIWbpfvC6-3wqwL_kyS14/edit?usp=sharing" class="cta-button" target="_blank">
+            📊 View Detailed Technical Issues & Solutions
+        </a>
         
         <div class="footer">
             Prepared by Banoo.Marketing | Questions? Let's discuss your campaign strategy.
