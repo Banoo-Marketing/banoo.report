@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lakeside Landscaping - September Marketing Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            padding: 20px;
+        }
+        
+        .report-container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: #1a1a1a;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            overflow: hidden;
+            border: 1px solid #2a2a2a;
+        }
+        
+        .header {
+            background: #1a1a1a;
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-bottom: 1px solid #2a2a2a;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #5b8ff9 0%, #7c6bff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header p {
+            font-size: 16px;
+            color: #a0a0a0;
+        }
+        
+        .content {
+            padding: 35px;
+            background: #1a1a1a;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .metric-card {
+            background: #0f0f0f;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #2a2a2a;
+        }
+        
+        .metric-label {
+            font-size: 13px;
+            color: #808080;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        
+        .metric-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+        
+        .metric-subtext {
+            font-size: 12px;
+            color: #808080;
+            margin-top: 5px;
+        }
+        
+        .alert-box {
+            background: #2a1f0f;
+            border-left: 4px solid #ffa726;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border: 1px solid #3a2f1f;
+        }
+        
+        .alert-box h3 {
+            color: #ffa726;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .alert-box p {
+            color: #d0d0d0;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            color: #ffffff;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #5b8ff9;
+        }
+        
+        .keywords-box {
+            background: #0f0f0f;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border: 1px solid #2a2a2a;
+        }
+        
+        .keywords-box p {
+            color: #a0a0a0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .recommendations {
+            background: #0f1a2a;
+            border-left: 4px solid #5b8ff9;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #1a2a3a;
+        }
+        
+        .recommendations h3 {
+            color: #5b8ff9;
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+        
+        .recommendations ul {
+            margin-left: 20px;
+            color: #d0d0d0;
+        }
+        
+        .recommendations li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        
+        .footer {
+            background: #0f0f0f;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #808080;
+            border-top: 1px solid #2a2a2a;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        
+        .status-under {
+            background: rgba(91, 143, 249, 0.2);
+            color: #5b8ff9;
+            border: 1px solid rgba(91, 143, 249, 0.3);
+        }
+        
+        .status-alert {
+            background: rgba(255, 167, 38, 0.2);
+            color: #ffa726;
+            border: 1px solid rgba(255, 167, 38, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="report-container">
+        <div class="header">
+            <h1>🌿 Lakeside Landscaping</h1>
+            <p>Marketing Performance Report - September 2025</p>
+        </div>
+        
+        <div class="content">
+            <div class="alert-box">
+                <h3>⚠️ Important: We Need to Fix Your Tracking</h3>
+                <p>Your ads are getting clicks from interested customers, but we can't see if they're turning into leads. This means we can't track phone calls, form submissions, or quote requests. We need to fix this immediately so we know what's working!</p>
+            </div>
+            
+            <h2 class="section-title">Your September Budget Snapshot</h2>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-label">Total Spent</div>
+                    <div class="metric-value">$63.13</div>
+                    <div class="status-badge status-under">Under Budget</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-label">People Who Clicked Your Ad</div>
+                    <div class="metric-value">12</div>
+                    <div class="metric-subtext">Down 95% from last month</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-label">Cost Per Click</div>
+                    <div class="metric-value">$5.26</div>
+                    <div class="metric-subtext">What you paid each time someone clicked</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-label">Leads Generated</div>
+                    <div class="metric-value">0</div>
+                    <div class="status-badge status-alert">Tracking Issue</div>
+                </div>
+            </div>
+            
+            <h2 class="section-title">What Happened This Month?</h2>
+            <div class="keywords-box">
+                <p><strong>Your ads barely ran in September.</strong> Your impressions (times people saw your ads) dropped by 96.5%. This dramatic decline suggests your campaigns may have been paused, ran out of budget early, or had technical issues.</p>
+                <p style="margin-top: 12px;"><strong>Keywords:</strong> No keyword data was recorded this month due to the minimal campaign activity.</p>
+            </div>
+            
+            <h2 class="section-title">What We Need to Do Next</h2>
+            <div class="recommendations">
+                <h3>🎯 Action Plan for October</h3>
+                <ul>
+                    <li><strong>Fix conversion tracking immediately</strong> - Set up proper tracking for phone calls, contact forms, and quote requests so we can see which ads bring you customers.</li>
+                    <li><strong>Investigate the campaign shutdown</strong> - Check if campaigns were accidentally paused or if there was a billing issue that stopped your ads from running.</li>
+                    <li><strong>Review your budget settings</strong> - Make sure your daily budget is set high enough to run consistently throughout the month.</li>
+                    <li><strong>Restart high-performing campaigns</strong> - Previous data shows "Lake of Bays landscaping" had a strong 7.14% click rate - we should prioritize keywords like this.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer">
+            Report Generated: October 4, 2025 | Questions? Let's discuss your next steps.
+        </div>
+    </div>
+</body>
+</html>
