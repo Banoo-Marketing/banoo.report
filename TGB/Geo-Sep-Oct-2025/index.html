@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toronto Gold Bullion Inc | Campaign Performance Report</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', 'Helvetica Neue', Arial, sans-serif;
+            background: #F8F9FA;
+            line-height: 1.6;
+            color: #2C2C2C;
+        }
+
+        /* Hero Section - Toronto Gold Bullion Brand Colors */
+        .hero {
+            background: linear-gradient(135deg, #1A1A1A 0%, #3D3D3D 50%, #C5A572 100%);
+            color: white;
+            padding: 80px 20px 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="60" height="60" xmlns="http://www.w3.org/2000/svg"><circle cx="30" cy="30" r="1" fill="rgba(197,165,114,0.1)"/></svg>');
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-label {
+            font-size: 14px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            opacity: 0.85;
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: #C5A572;
+        }
+
+        .hero-title {
+            font-size: clamp(36px, 5vw, 68px);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 15px;
+            line-height: 1.1;
+            color: #D4AF37;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(18px, 3vw, 28px);
+            font-weight: 600;
+            margin-bottom: 10px;
+            opacity: 0.95;
+        }
+
+        .hero-date {
+            font-size: clamp(14px, 2vw, 18px);
+            opacity: 0.85;
+            margin-bottom: 10px;
+        }
+
+        .hero-link {
+            color: #D4AF37;
+            text-decoration: none;
+            opacity: 0.9;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.5);
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .hero-link:hover {
+            opacity: 1;
+            border-bottom: 1px solid #D4AF37;
+        }
+
+        /* Hero Stats Grid */
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .hero-stat-card {
+            background: rgba(197, 165, 114, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .hero-stat-card:hover {
+            transform: translateY(-5px);
+            background: rgba(197, 165, 114, 0.25);
+            border: 1px solid rgba(212, 175, 55, 0.5);
+        }
+
+        .hero-stat-value {
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 800;
+            color: #D4AF37;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .hero-stat-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.85;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: -60px auto 0;
+            padding: 0 20px 60px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Campaign Performance Cards */
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: clamp(24px, 3vw, 32px);
+            font-weight: 800;
+            color: #2C2C2C;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .metric-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+            border-top: 4px solid #C5A572;
+        }
+
+        .metric-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(197, 165, 114, 0.3);
+        }
+
+        /* Metric Card Header */
+        .metric-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .metric-icon {
+            font-size: 36px;
+        }
+
+        .metric-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2C2C2C;
+        }
+
+        .metric-subtitle {
+            font-size: 14px;
+            color: #7C878E;
+            margin-left: 51px;
+            margin-bottom: 25px;
+        }
+
+        /* Campaign Comparison Grid */
+        .campaign-comparison {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+            align-items: center;
+        }
+
+        .comparison-box {
+            background: rgba(124, 135, 142, 0.1);
+            border: 2px solid #BAC0C3;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .comparison-box.highlight {
+            background: rgba(197, 165, 114, 0.1);
+            border: 2px solid #C5A572;
+            box-shadow: 0 4px 20px rgba(197, 165, 114, 0.25);
+        }
+
+        .comparison-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #7C878E;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .comparison-box.highlight .comparison-label {
+            color: #B8860B;
+        }
+
+        .comparison-value {
+            font-size: 36px;
+            font-weight: 800;
+            color: #2C2C2C;
+        }
+
+        .comparison-arrow {
+            font-size: 48px;
+            color: #C5A572;
+            font-weight: 800;
+        }
+
+        /* Change Badge */
+        .change-badge {
+            background: linear-gradient(135deg, #C5A572 0%, #D4AF37 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .change-badge.neutral {
+            background: linear-gradient(135deg, #7C878E 0%, #5a6268 100%);
+        }
+
+        .change-badge.warning {
+            background: linear-gradient(135deg, #B8860B 0%, #9A7500 100%);
+        }
+
+        .change-percentage {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .change-label {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.95;
+        }
+
+        .change-sublabel {
+            font-size: 13px;
+            opacity: 0.85;
+            margin-top: 5px;
+        }
+
+        /* Insight Box */
+        .insight-box {
+            background: rgba(197, 165, 114, 0.1);
+            border-left: 4px solid #C5A572;
+            border-radius: 12px;
+            padding: 20px 25px;
+            font-size: 16px;
+            line-height: 1.7;
+            color: #2C2C2C;
+        }
+
+        .insight-box.warning {
+            background: rgba(184, 134, 11, 0.1);
+            border-left: 4px solid #B8860B;
+        }
+
+        .insight-box strong {
+            color: #B8860B;
+            font-weight: 700;
+        }
+
+        /* Top Locations Section */
+        .location-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .location-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid #C5A572;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+
+        .location-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(197, 165, 114, 0.3);
+        }
+
+        .location-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2C2C2C;
+            margin-bottom: 12px;
+        }
+
+        .location-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #7C878E;
+        }
+
+        .location-stats span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Chart Container */
+        .chart-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 40px;
+            border-top: 4px solid #C5A572;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 450px;
+            margin-top: 30px;
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background: linear-gradient(135deg, rgba(197, 165, 114, 0.15) 0%, rgba(212, 175, 55, 0.08) 100%);
+            border: 2px solid #C5A572;
+            border-radius: 25px;
+            padding: 50px;
+            margin-bottom: 40px;
+        }
+
+        .summary-title {
+            font-size: 32px;
+            font-weight: 800;
+            color: #2C2C2C;
+            margin-bottom: 30px;
+        }
+
+        .summary-list {
+            display: grid;
+            gap: 15px;
+        }
+
+        .summary-item {
+            background: white;
+            border-radius: 12px;
+            border-left: 4px solid #C5A572;
+            padding: 20px 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+            font-size: 17px;
+            line-height: 1.7;
+        }
+
+        .summary-item.warning {
+            border-left: 4px solid #B8860B;
+        }
+
+        .summary-item strong {
+            color: #B8860B;
+            font-weight: 700;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #1A1A1A 0%, #3D3D3D 50%, #C5A572 100%);
+            color: white;
+            border-radius: 30px;
+            padding: 60px 50px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .cta-title {
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            color: #D4AF37;
+        }
+
+        .cta-subtitle {
+            font-size: 20px;
+            opacity: 0.95;
+            max-width: 700px;
+            margin: 0 auto 35px;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #D4AF37;
+            color: #1A1A1A;
+            padding: 18px 40px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 16px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            background: #C5A572;
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
+        }
+
+        /* Footer */
+        .footer {
+            background: #1A1A1A;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-info {
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+
+        .footer-link {
+            color: #D4AF37;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-link:hover {
+            opacity: 0.8;
+        }
+
+        .footer-credit {
+            font-size: 13px;
+            opacity: 0.7;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 60px 20px 80px;
+            }
+
+            .campaign-comparison {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .comparison-arrow {
+                transform: rotate(90deg);
+                font-size: 36px;
+            }
+
+            .metric-card {
+                padding: 25px;
+            }
+
+            .summary-box {
+                padding: 30px 20px;
+            }
+
+            .cta-section {
+                padding: 40px 25px;
+            }
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-content">
+            <div class="hero-label">DIGITAL ADVERTISING PERFORMANCE</div>
+            <h1 class="hero-title">Toronto Gold Bullion Inc</h1>
+            <div class="hero-subtitle">Geo-Fencing Targeting Campaign</div>
+            <div class="hero-date">Greater Toronto Area (GTA) Focus | Campaign Period: September 5 - October 16, 2025</div>
+            <div class="hero-date">
+                <a href="https://torontogoldbullion.com/" target="_blank" class="hero-link">torontogoldbullion.com</a>
+            </div>
+
+            <div class="hero-stats">
+                <div class="hero-stat-card">
+                    <div class="hero-stat-value">72,737</div>
+                    <div class="hero-stat-label">Total Impressions</div>
+                </div>
+                <div class="hero-stat-card">
+                    <div class="hero-stat-value">947</div>
+                    <div class="hero-stat-label">Total Clicks</div>
+                </div>
+                <div class="hero-stat-card">
+                    <div class="hero-stat-value">1.30%</div>
+                    <div class="hero-stat-label">Overall CTR</div>
+                </div>
+                <div class="hero-stat-card">
+                    <div class="hero-stat-value">$294.07</div>
+                    <div class="hero-stat-label">Total Investment</div>
+                </div>
+                <div class="hero-stat-card">
+                    <div class="hero-stat-value">$0.31</div>
+                    <div class="hero-stat-label">Avg Cost Per Click</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Campaign Performance Metrics -->
+        <section class="section">
+            <h2 class="section-title">📊 Campaign Performance by Line Item</h2>
+
+            <!-- Campaign 1: Au Bullion & Meuzeum -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-icon">🏛️</span>
+                    <h3 class="metric-title">Au Bullion & Meuzeum</h3>
+                </div>
+                <div class="metric-subtitle">Bundled targeting: Two similar-sized stores in same area</div>
+
+                <div class="campaign-comparison">
+                    <div class="comparison-box">
+                        <div class="comparison-label">Impressions</div>
+                        <div class="comparison-value">10,064</div>
+                    </div>
+                    <div class="comparison-arrow">→</div>
+                    <div class="comparison-box highlight">
+                        <div class="comparison-label">Clicks</div>
+                        <div class="comparison-value">150</div>
+                    </div>
+                </div>
+
+                <div class="change-badge">
+                    <div class="change-percentage">1.49%</div>
+                    <div class="change-label">Click-Through Rate</div>
+                    <div class="change-sublabel">14% above campaign average</div>
+                </div>
+
+                <div class="insight-box">
+                    <strong>🏆 Top Performer:</strong> This bundled campaign achieved the highest CTR at <strong>1.49%</strong>, outperforming the overall average by 14%. Strong engagement from targeted geo-fencing. Cost efficiency: <strong>$0.28 per click</strong> — excellent value.
+                </div>
+            </div>
+
+            <!-- Campaign 2: World On Yonge -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-icon">🏪</span>
+                    <h3 class="metric-title">World On Yonge</h3>
+                </div>
+                <div class="metric-subtitle">High-traffic shopping center geo-targeting</div>
+
+                <div class="campaign-comparison">
+                    <div class="comparison-box">
+                        <div class="comparison-label">Impressions</div>
+                        <div class="comparison-value">11,034</div>
+                    </div>
+                    <div class="comparison-arrow">→</div>
+                    <div class="comparison-box highlight">
+                        <div class="comparison-label">Clicks</div>
+                        <div class="comparison-value">160</div>
+                    </div>
+                </div>
+
+                <div class="change-badge">
+                    <div class="change-percentage">1.45%</div>
+                    <div class="change-label">Click-Through Rate</div>
+                    <div class="change-sublabel">12% above campaign average</div>
+                </div>
+
+                <div class="insight-box">
+                    <strong>Strong Location-Based Results:</strong> World On Yonge delivered solid performance with <strong>1.45% CTR</strong>, proving geo-fencing effectiveness at this high-traffic retail location. Cost per click: <strong>$0.28</strong> — matching best-in-class efficiency.
+                </div>
+            </div>
+
+            <!-- Campaign 3: All Gold Stores Combined -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-icon">🎯</span>
+                    <h3 class="metric-title">All Gold Stores Combined</h3>
+                </div>
+                <div class="metric-subtitle">Broad audience: Anyone who visited any gold store</div>
+
+                <div class="campaign-comparison">
+                    <div class="comparison-box">
+                        <div class="comparison-label">Impressions</div>
+                        <div class="comparison-value">25,006</div>
+                    </div>
+                    <div class="comparison-arrow">→</div>
+                    <div class="comparison-box highlight">
+                        <div class="comparison-label">Clicks</div>
+                        <div class="comparison-value">339</div>
+                    </div>
+                </div>
+
+                <div class="change-badge">
+                    <div class="change-percentage">1.36%</div>
+                    <div class="change-label">Click-Through Rate</div>
+                    <div class="change-sublabel">5% above campaign average</div>
+                </div>
+
+                <div class="insight-box">
+                    <strong>Volume Leader:</strong> The broad targeting strategy captured the most impressions (<strong>25,006</strong>) and clicks (<strong>339</strong>) with above-average <strong>1.36% CTR</strong>. This validates the combined gold store visitor approach for scale. Cost efficiency: <strong>$0.30/click</strong>.
+                </div>
+            </div>
+
+            <!-- Campaign 4: Canadian PMX -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-icon">⚔️</span>
+                    <h3 class="metric-title">Canadian PMX (Competitor Conquest)</h3>
+                </div>
+                <div class="metric-subtitle">Targeting competitor store locations</div>
+
+                <div class="campaign-comparison">
+                    <div class="comparison-box">
+                        <div class="comparison-label">Impressions</div>
+                        <div class="comparison-value">26,633</div>
+                    </div>
+                    <div class="comparison-arrow">→</div>
+                    <div class="comparison-box highlight">
+                        <div class="comparison-label">Clicks</div>
+                        <div class="comparison-value">298</div>
+                    </div>
+                </div>
+
+                <div class="change-badge warning">
+                    <div class="change-percentage">1.12%</div>
+                    <div class="change-label">Click-Through Rate</div>
+                    <div class="change-sublabel">14% below campaign average</div>
+                </div>
+
+                <div class="insight-box warning">
+                    <strong>Optimization Opportunity:</strong> Competitor conquest generated highest impression volume (<strong>26,633</strong>) but CTR fell below average at <strong>1.12%</strong>. Higher cost per click at <strong>$0.36</strong> suggests creative refresh or audience refinement needed to improve efficiency.
+                </div>
+            </div>
+        </section>
+
+        <!-- Performance Chart -->
+        <div class="chart-container">
+            <h2 class="section-title">📈 Campaign Performance Comparison</h2>
+            <div class="chart-wrapper">
+                <canvas id="performanceChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Top Locations - GTA ONLY -->
+        <section class="section">
+            <h2 class="section-title">📍 Top Performing GTA Locations</h2>
+
+            <h3 style="margin: 30px 0 15px 0; font-size: 20px; font-weight: 700; color: #2C2C2C;">🏛️ Au Bullion & Meuzeum — Top 5 GTA</h3>
+            <div class="location-grid">
+                <div class="location-card">
+                    <div class="location-name">Toronto (M4C)</div>
+                    <div class="location-stats">
+                        <span>👁️ 1,572 impressions</span>
+                        <span>🖱️ 10 clicks</span>
+                    </div>
+                </div>
+                <div class="location-card">
+                    <div class="location-name">Brampton (L7A)</div>
+                    <div class="location-stats">
+                        <span>👁️ 348 impressions</span>
+                        <span>🖱️ 8 clicks</span>
+                    </div>
+                </div>
+                <div class="location-card">
+                    <div class="location-name">Oshawa (L1G)</div>
+                    <div class="location-stats">
+                        <span>👁️ 255 impressions</span>
+                        <span>🖱️ 8 clicks</span>
+                    </div>
+                </div>
+                <div class="location-card">
+                    <div class="location-name">Toronto (M4G)</div>
+                    <div class="location-stats">
+                        <span>👁️ 247 impressions</span>
+                        <span>🖱️ 1 clicks</span>
+                    </div>
+                </div>
+                <div class="location-card">
+                    <div class="location-name">Toronto (M4B)</div>
+                    <div class="location-stats">
+                        <span>👁️ 231 impressions</span>
+                        <span>🖱️ 1 clicks</span>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="margin: 40px 0 15px 0; font-size: 20px; font-weight: 700; color: #2C2C2C;">🏪 World On Yonge — Top 5 GTA</h3>
+            <div class="location-grid">
+                <div class="location-card">
+                    <div class="location-name">Toronto (M4C)</div>
+                    <div class="location-stats">
+                        <span>👁️ 1,327 impressions</span>
+                        <span>🖱️ 16 clicks</span>
+                    </div>
+                </div>
+                <div class="location-card">
+                    <div class="location-name">Thornhill (L4J)</div>
+                    <div class="location-stats">
+                        <span>👁️ 461 impressions</span>
+                        <span>🖱️ 10 clicks</span>
+                    </div>
+                </div>
+                <div class="location-card">
+                    <div class="location-name">Toronto (M5A)</div>
+                    <div class="location-stats">
+                        <span>👁️ 306 impressions</span>
+                        <span>🖱️ 1 clicks</span>
+                    </div>
+                </div>
+                <div class="location-card">
+                    <div class="location-name">Toronto (M4G)</div>
+                    <div class="location-stats">
+                        <span>👁️ 288 impressions</span>
+                        <span>🖱️ 2 clicks</span>
+                    </div>
+                </div>
+                <div class="location-card">
+                    <div class="location-name">Toronto (M6M)</div>
+                    <div class="location-stats">
+                        <span>👁️ 250 impressions</span>
+                        <span>🖱️ 1 clicks</span>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="margin: 40px 0 15px 0; font-size: 20px; font-weight: 700; color: #2C2C2C;">🎯 All Gold Stores Combined — Top 5 GTA</h3>
+            <div class="location-grid">
+                <div class="location-card">
+                    <div class="location-name">Richmond Hill (L4C)</div>
+                    <div class="location-stats">
+                        <span>👁️ 1,514 impressions</span>
+                        <span>🖱️ 11 clicks</span>
+                    </div>
+                </div>
+                <div class="location-card">
+                    <div class="location-name">Thornhill (L4J)</div>
+                    <div class="location-stats">
+                        <span>👁️ 1,071 impressions</span>
+                        <span>🖱️ 10 clicks</span>
+                    </div>
+                </div>
+                <div class="location-card">
+                    <div class="location-name">Toronto (M4C)</div>
+                    <div class="location-stats">
+                        <span>👁️ 808 impressions</span>
+                        <span>🖱️ 10 clicks</span>
+                    </div>
+                </div>
+                <div class="location-card">
+                    <div class="location-name">Brampton (L7A)</div>
+                    <div class="location-stats">
+                        <span>👁️ 492 impressions</span>
+                        <span>🖱️ 13 clicks</span>
+                    </div>
+                </div>
+                <div class="location-card">
+                    <div class="location-name">Maple (L6A)</div>
+                    <div class="location-stats">
+                        <span>👁️ 416 impressions</span>
+                        <span>🖱️ 4 clicks</span>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="margin: 40px 0 15px 0; font-size: 20px; font-weight: 700; color: #2C2C2C;">⚔️ Canadian PMX — Top 5 GTA</h3>
+            <div class="location-grid">
+                <div class="location-card">
+                    <div class="location-name">Richmond Hill (L4C)</div>
+                    <div class="location-stats">
+                        <span>👁️ 2,957 impressions</span>
+                        <span>🖱️ 61 clicks</span>
+                    </div>
+                </div>
+                <div class="location-card">
+                    <div class="location-name">Thornhill (L4J)</div>
+                    <div class="location-stats">
+                        <span>👁️ 1,876 impressions</span>
+                        <span>🖱️ 18 clicks</span>
+                    </div>
+                </div>
+                <div class="location-card">
+                    <div class="location-name">Thornhill (L3T)</div>
+                    <div class="location-stats">
+                        <span>👁️ 809 impressions</span>
+                        <span>🖱️ 2 clicks</span>
+                    </div>
+                </div>
+                <div class="location-card">
+                    <div class="location-name">Maple (L6A)</div>
+                    <div class="location-stats">
+                        <span>👁️ 797 impressions</span>
+                        <span>🖱️ 13 clicks</span>
+                    </div>
+                </div>
+                <div class="location-card">
+                    <div class="location-name">Richmond Hill (L4E)</div>
+                    <div class="location-stats">
+                        <span>👁️ 585 impressions</span>
+                        <span>🖱️ 7 clicks</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Summary Box -->
+        <div class="summary-box">
+            <h2 class="summary-title">🎯 Key Insights & Strategic Recommendations</h2>
+            <div class="summary-list">
+                <div class="summary-item">
+                    <strong>🏆 Best Performers:</strong> Au Bullion & Meuzeum (1.49% CTR) and World On Yonge (1.45% CTR) significantly outperform campaign average. These geo-fencing strategies prove highly effective for targeted GTA engagement at <strong>$0.28/click</strong>.
+                </div>
+                <div class="summary-item">
+                    <strong>📊 Volume + Quality Balance:</strong> "All Gold Stores Combined" delivers the perfect balance — highest click volume (339) with above-average CTR (1.36%). This broad audience approach scales effectively while maintaining quality.
+                </div>
+                <div class="summary-item">
+                    <strong>📍 Richmond Hill & Thornhill Hotspots:</strong> These GTA locations consistently appear in top 5 across multiple campaigns, indicating high-value audiences. Consider increasing geo-fencing radius in these postal codes (L4C, L4J, L3T) by 15-20%.
+                </div>
+                <div class="summary-item">
+                    <strong>🗺️ Toronto (M4C) Dominance:</strong> This postal code appears in top performers across 3 different campaigns with strong engagement. Priority location for future budget allocation within the GTA.
+                </div>
+                <div class="summary-item warning">
+                    <strong>⚠️ Canadian PMX Optimization Needed:</strong> While this campaign generates massive impression volume (26,633), the <strong>1.12% CTR</strong> and <strong>$0.36 CPC</strong> suggest creative fatigue or audience mismatch. Recommend A/B testing new creative formats or refining geo-parameters within 14 days.
+                </div>
+                <div class="summary-item">
+                    <strong>💰 Cost Efficiency Achievement:</strong> Overall CPC of <strong>$0.31</strong> is excellent for display geo-fencing campaigns. Top campaigns achieve even better efficiency at $0.28/click. Maintain current bid strategy while scaling proven winners.
+                </div>
+                <div class="summary-item">
+                    <strong>🚀 Scaling Opportunity:</strong> With proven CTR performance in Au Bullion & Meuzeum and World On Yonge campaigns, recommend increasing budget allocation by 30-40% to these line items to maximize qualified GTA traffic at optimal cost.
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="cta-section">
+            <h2 class="cta-title">Let's Optimize Your Next Campaign Phase</h2>
+            <p class="cta-subtitle">
+                Based on these insights from 72,737 impressions and 947 engaged users across the Greater Toronto Area, we've identified clear opportunities to scale your highest-performing campaigns while optimizing underperformers.
+            </p>
+            <a href="https://torontogoldbullion.com/" target="_blank" class="cta-button">
+                Visit Toronto Gold Bullion
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-content">
+            <div class="footer-info">
+                <strong>Toronto Gold Bullion Inc</strong><br>
+                <a href="https://torontogoldbullion.com/" target="_blank" class="footer-link">torontogoldbullion.com</a>
+            </div>
+            <div class="footer-credit">
+                Campaign Managed by Banoo Inc | Report Generated: October 21, 2025<br>
+                Data Period: September 5 - October 16, 2025 | Greater Toronto Area (GTA) Focus
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Chart.js Configuration with Gold Theme
+        const ctx = document.getElementById('performanceChart').getContext('2d');
+        
+        const campaigns = [
+            { name: 'Au Bullion &\nMeuzeum', ctr: 1.49, clicks: 150, impressions: 10064, color: 'rgba(197, 165, 114, 0.8)' },
+            { name: 'World On\nYonge', ctr: 1.45, clicks: 160, impressions: 11034, color: 'rgba(212, 175, 55, 0.8)' },
+            { name: 'All Gold Stores\nCombined', ctr: 1.36, clicks: 339, impressions: 25006, color: 'rgba(197, 165, 114, 0.6)' },
+            { name: 'Campaign\nAverage', ctr: 1.30, clicks: 0, impressions: 0, color: 'rgba(124, 135, 142, 0.5)' },
+            { name: 'Canadian PMX\n(Competitor)', ctr: 1.12, clicks: 298, impressions: 26633, color: 'rgba(184, 134, 11, 0.7)' }
+        ];
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: campaigns.map(c => c.name),
+                datasets: [
+                    {
+                        label: 'CTR (%)',
+                        data: campaigns.map(c => c.ctr),
+                        backgroundColor: campaigns.map(c => c.color),
+                        borderColor: campaigns.map(c => c.color.replace('0.8', '1').replace('0.7', '1').replace('0.6', '1').replace('0.5', '1')),
+                        borderWidth: 2,
+                        yAxisID: 'y'
+                    },
+                    {
+                        label: 'Clicks',
+                        data: campaigns.map(c => c.clicks),
+                        backgroundColor: 'rgba(184, 134, 11, 0.5)',
+                        borderColor: 'rgba(184, 134, 11, 1)',
+                        borderWidth: 2,
+                        yAxisID: 'y1'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            font: {
+                                size: 14,
+                                weight: '600'
+                            },
+                            color: '#2C2C2C'
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(26, 26, 26, 0.95)',
+                        padding: 15,
+                        titleFont: {
+                            size: 16,
+                            weight: 'bold'
+                        },
+                        bodyFont: {
+                            size: 14
+                        },
+                        callbacks: {
+                            label: function(context) {
+                                const campaign = campaigns[context.dataIndex];
+                                if (context.dataset.label === 'CTR (%)') {
+                                    return `CTR: ${context.parsed.y}% | ${campaign.impressions.toLocaleString()} impressions`;
+                                } else if (campaign.clicks > 0) {
+                                    return `Clicks: ${context.parsed.y}`;
+                                }
+                                return '';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'CTR (%)',
+                            font: {
+                                size: 14,
+                                weight: '600'
+                            },
+                            color: '#2C2C2C'
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            },
+                            font: {
+                                size: 13,
+                                weight: '600'
+                            },
+                            color: '#2C2C2C'
+                        },
+                        grid: {
+                            color: 'rgba(124, 135, 142, 0.1)'
+                        }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Clicks',
+                            font: {
+                                size: 14,
+                                weight: '600'
+                            },
+                            color: '#2C2C2C'
+                        },
+                        ticks: {
+                            font: {
+                                size: 13,
+                                weight: '600'
+                            },
+                            color: '#2C2C2C'
+                        },
+                        grid: {
+                            drawOnChartArea: false,
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            font: {
+                                size: 12,
+                                weight: '600'
+                            },
+                            color: '#2C2C2C'
+                        },
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // Intersection Observer for Fade-in Animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 100);
+                }
+            });
+        }, observerOptions);
+
+        // Observe all metric cards
+        document.querySelectorAll('.metric-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
