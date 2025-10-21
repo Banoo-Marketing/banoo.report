@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fosters Law | Annual Performance Report 2024-2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #051C2C;
+            --secondary: #7C878E;
+            --accent: #C8102E;
+            --accent-dark: #9A0C23;
+            --success: #30d158;
+            --warning: #ff9f0a;
+            --danger: #C8102E;
+            --bg: #F8F9FA;
+            --card: #ffffff;
+            --gray-light: #BAC0C3;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #051C2C 0%, #C8102E 100%);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="none"/><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></svg>') repeat;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            from { transform: translateY(0); }
+            to { transform: translateY(-100px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(48px, 8vw, 96px);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero .subtitle {
+            font-size: clamp(20px, 3vw, 28px);
+            font-weight: 300;
+            opacity: 0.95;
+            margin-bottom: 15px;
+            animation: fadeInUp 1s ease 0.2s backwards;
+        }
+
+        .hero .period {
+            font-size: clamp(16px, 2vw, 20px);
+            font-weight: 400;
+            opacity: 0.8;
+            animation: fadeInUp 1s ease 0.4s backwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Section */
+        .section {
+            padding: 120px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-header h2 {
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 20px;
+        }
+
+        .section-header p {
+            font-size: clamp(18px, 2vw, 24px);
+            color: var(--secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Executive Summary Cards */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .summary-card {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .summary-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #C8102E, #051C2C);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        }
+
+        .summary-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .summary-card .icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .summary-card h3 {
+            font-size: 20px;
+            color: var(--secondary);
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .summary-card .value {
+            font-size: clamp(36px, 4vw, 48px);
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #C8102E 0%, #051C2C 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .summary-card .description {
+            font-size: 16px;
+            color: var(--secondary);
+            line-height: 1.5;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 60px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 40px;
+            font-weight: 700;
+            color: var(--accent);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Progress Bars */
+        .progress-section {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 60px;
+        }
+
+        .progress-item {
+            margin-bottom: 30px;
+        }
+
+        .progress-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .progress-label {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .progress-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #f5f5f7;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #C8102E, #051C2C);
+            border-radius: 10px;
+            transition: width 1s ease;
+            width: 0;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 2px solid #f5f5f7;
+        }
+
+        td {
+            padding: 20px;
+            font-size: 16px;
+            border-bottom: 1px solid #f5f5f7;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: rgba(48, 209, 88, 0.1);
+            color: var(--success);
+        }
+
+        .badge-warning {
+            background: rgba(255, 159, 10, 0.1);
+            color: var(--warning);
+        }
+
+        .badge-danger {
+            background: rgba(255, 59, 48, 0.1);
+            color: var(--danger);
+        }
+
+        /* Bottleneck Cards */
+        .bottleneck-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .bottleneck-card {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border-left: 4px solid var(--danger);
+        }
+
+        .bottleneck-card h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .bottleneck-card .problem {
+            color: var(--danger);
+            font-size: 14px;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .bottleneck-card .solution {
+            color: var(--success);
+            font-size: 14px;
+            font-weight: 500;
+            padding: 15px;
+            background: rgba(48, 209, 88, 0.05);
+            border-radius: 10px;
+            border-left: 3px solid var(--success);
+        }
+
+        /* Action Plan */
+        .action-timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .action-timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, #C8102E, #051C2C);
+        }
+
+        .action-item {
+            position: relative;
+            background: var(--card);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .action-item::before {
+            content: '';
+            position: absolute;
+            left: -34px;
+            top: 35px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 3px solid var(--bg);
+        }
+
+        .action-item h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .action-item ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .action-item li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .action-item li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        /* ROI Calculator */
+        .roi-calculator {
+            background: linear-gradient(135deg, #051C2C 0%, #C8102E 100%);
+            border-radius: 20px;
+            padding: 50px;
+            color: white;
+            text-align: center;
+        }
+
+        .roi-calculator h3 {
+            font-size: 32px;
+            margin-bottom: 30px;
+        }
+
+        .roi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .roi-item {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+        }
+
+        .roi-item .label {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .roi-item .value {
+            font-size: 36px;
+            font-weight: 700;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #051C2C 0%, #C8102E 100%);
+            color: white;
+            border-radius: 30px;
+            margin: 60px 0;
+        }
+
+        .cta-section h2 {
+            font-size: clamp(32px, 4vw, 48px);
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            font-size: clamp(18px, 2vw, 24px);
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 18px 40px;
+            background: white;
+            color: #C8102E;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            background: #C8102E;
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--secondary);
+        }
+
+        footer .logo {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .section {
+                padding: 60px 0;
+            }
+            
+            .summary-grid,
+            .bottleneck-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-bar {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Annual Performance Report</h1>
+            <p class="subtitle">Fosters Law LLP</p>
+            <p class="period">September 2024 – September 2025</p>
+        </div>
+        <div class="scroll-indicator">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Executive Summary -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Executive Summary</h2>
+                <p>A comprehensive view of your marketing performance across all channels</p>
+            </div>
+
+            <div class="summary-grid">
+                <div class="summary-card fade-in">
+                    <div class="icon">🔍</div>
+                    <h3>Google Ads Investment</h3>
+                    <div class="value">$63,114</div>
+                    <p class="description">Across Search, PMax, and Display campaigns</p>
+                </div>
+
+                <div class="summary-card fade-in">
+                    <div class="icon">💬</div>
+                    <h3>Meta Ads Investment</h3>
+                    <div class="value">$18,540</div>
+                    <p class="description">Facebook & Instagram awareness + lead generation</p>
+                </div>
+
+                <div class="summary-card fade-in">
+                    <div class="icon">👁️</div>
+                    <h3>Total Impressions</h3>
+                    <div class="value">5.04M</div>
+                    <p class="description">Combined Google (592K) + Meta (4.45M) reach</p>
+                </div>
+
+                <div class="summary-card fade-in">
+                    <div class="icon">📞</div>
+                    <h3>Google Conversions</h3>
+                    <div class="value">513</div>
+                    <p class="description">Calls from Ads: 353 | Contact Forms: 160</p>
+                </div>
+
+                <div class="summary-card fade-in">
+                    <div class="icon">📊</div>
+                    <h3>HubSpot Leads</h3>
+                    <div class="value">265</div>
+                    <p class="description">Total contact records captured across all channels</p>
+                </div>
+
+                <div class="summary-card fade-in">
+                    <div class="icon">💎</div>
+                    <h3>Expected Clients</h3>
+                    <div class="value">13</div>
+                    <p class="description">Projected conversions at 5% close rate (265 × 5%)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Google Ads Performance -->
+    <section class="section" style="background: #fafafa;">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Google Ads Performance</h2>
+                <p>Detailed breakdown of your paid search campaigns</p>
+            </div>
+
+            <div class="stats-bar fade-in">
+                <div class="stat-item">
+                    <span class="stat-value">$63,114</span>
+                    <span class="stat-label">Total Spend</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">22,986</span>
+                    <span class="stat-label">Total Clicks</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">513</span>
+                    <span class="stat-label">Total Conversions</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">353</span>
+                    <span class="stat-label">Calls from Ads</span>
+                </div>
+            </div>
+
+            <div class="progress-section fade-in">
+                <h3 style="margin-bottom: 30px; font-size: 24px;">Channel Distribution</h3>
+                
+                <div class="progress-item">
+                    <div class="progress-header">
+                        <span class="progress-label">Search Partners</span>
+                        <span class="progress-value">72% of conversions</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="72"></div>
+                    </div>
+                </div>
+
+                <div class="progress-item">
+                    <div class="progress-header">
+                        <span class="progress-label">Google Search</span>
+                        <span class="progress-value">13% of conversions</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="13"></div>
+                    </div>
+                </div>
+
+                <div class="progress-item">
+                    <div class="progress-header">
+                        <span class="progress-label">Cross-Network (PMax)</span>
+                        <span class="progress-value">14% of conversions</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="14"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comparison-table fade-in" style="margin-top: 40px;">
+                <h3 style="margin-bottom: 30px; font-size: 24px;">Device Performance</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Device</th>
+                            <th>Conversions</th>
+                            <th>Conv. Rate</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Mobile</strong></td>
+                            <td>75%</td>
+                            <td>8.61%</td>
+                            <td><span class="badge badge-success">Excellent</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tablet</strong></td>
+                            <td>14%</td>
+                            <td>8-9%</td>
+                            <td><span class="badge badge-success">Good</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Desktop</strong></td>
+                            <td>11%</td>
+                            <td>~9%</td>
+                            <td><span class="badge badge-success">Stable</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Meta Ads Performance -->
+    <section class="section" style="background: #fafafa;">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Meta Ads Performance</h2>
+                <p>Facebook & Instagram advertising results across awareness and lead generation campaigns</p>
+            </div>
+
+            <div class="comparison-table fade-in">
+                <h3 style="margin-bottom: 30px; font-size: 24px;">Campaign Performance Breakdown</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Campaign</th>
+                            <th>Type</th>
+                            <th>Results</th>
+                            <th>Cost/Result</th>
+                            <th>Spend</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Video - Awareness/Homepage</strong></td>
+                            <td>Awareness</td>
+                            <td>385,465 Reach</td>
+                            <td>$6.24 CPM</td>
+                            <td>$2,400</td>
+                            <td><span class="badge badge-success">Strong</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Video Campaign (Engagement)</strong></td>
+                            <td>Traffic</td>
+                            <td>11,566 Clicks</td>
+                            <td>$0.20 CPC</td>
+                            <td>$2,288</td>
+                            <td><span class="badge badge-success">Excellent</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Custom Leadgen - Video</strong></td>
+                            <td>Lead Gen</td>
+                            <td>2 Leads</td>
+                            <td>$2,059</td>
+                            <td>$4,118</td>
+                            <td><span class="badge badge-danger">High CPL</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Custom Leadgen - Image</strong></td>
+                            <td>Lead Gen</td>
+                            <td>2 Leads</td>
+                            <td>$992</td>
+                            <td>$1,984</td>
+                            <td><span class="badge badge-warning">Optimize</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Video - Awareness</strong></td>
+                            <td>Awareness</td>
+                            <td>16,600 Reach</td>
+                            <td>$0.10 per result</td>
+                            <td>$1,579</td>
+                            <td><span class="badge badge-success">Efficient</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Statutes of Limitations</strong></td>
+                            <td>Awareness</td>
+                            <td>204,601 Reach</td>
+                            <td>$2.79 CPM</td>
+                            <td>$571</td>
+                            <td><span class="badge badge-success">Strong</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Reels & Stories Batch</strong></td>
+                            <td>Awareness</td>
+                            <td>284,409 Reach</td>
+                            <td>$5.29 CPM</td>
+                            <td>$3,011</td>
+                            <td><span class="badge badge-success">Good</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="progress-section fade-in" style="margin-top: 40px;">
+                <h3 style="margin-bottom: 30px; font-size: 24px;">Ad Format Performance</h3>
+                
+                <div class="progress-item">
+                    <div class="progress-header">
+                        <span class="progress-label">Video Ads (Awareness)</span>
+                        <span class="progress-value">$6,273 spend | Best engagement</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="68"></div>
+                    </div>
+                </div>
+
+                <div class="progress-item">
+                    <div class="progress-header">
+                        <span class="progress-label">Reels & Stories</span>
+                        <span class="progress-value">$3,011 spend | High retention</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="32"></div>
+                    </div>
+                </div>
+
+                <div class="progress-item">
+                    <div class="progress-header">
+                        <span class="progress-label">Image Lead Gen</span>
+                        <span class="progress-value">$1,984 spend | 2 leads</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="21"></div>
+                    </div>
+                </div>
+
+                <div class="progress-item">
+                    <div class="progress-header">
+                        <span class="progress-label">Video Lead Gen</span>
+                        <span class="progress-value">$4,118 spend | 2 leads (needs optimization)</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="44"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: var(--card); border-radius: 20px; padding: 40px; margin-top: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);" class="fade-in">
+                <h3 style="font-size: 24px; margin-bottom: 30px; color: #C8102E;">📊 Meta Ads Key Insights</h3>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px;">
+                    <div style="padding: 20px; background: #f8f9fa; border-radius: 12px; border-left: 4px solid #30d158;">
+                        <div style="font-size: 14px; color: #7C878E; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em;">✅ What's Working</div>
+                        <div style="font-size: 16px; color: #051C2C; line-height: 1.6;">
+                            <strong>Video engagement ads</strong> ($0.20 CPC) and <strong>Reels content</strong> ($5.29 CPM) deliver excellent reach at low cost
+                        </div>
+                    </div>
+                    
+                    <div style="padding: 20px; background: #f8f9fa; border-radius: 12px; border-left: 4px solid #ff9f0a;">
+                        <div style="font-size: 14px; color: #7C878E; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em;">⚠️ Needs Attention</div>
+                        <div style="font-size: 16px; color: #051C2C; line-height: 1.6;">
+                            <strong>Lead gen forms</strong> underperforming ($992-$2,059 CPL). Simplify forms and improve targeting
+                        </div>
+                    </div>
+                    
+                    <div style="padding: 20px; background: #f8f9fa; border-radius: 12px; border-left: 4px solid #C8102E;">
+                        <div style="font-size: 14px; color: #7C878E; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em;">🎯 Recommendation</div>
+                        <div style="font-size: 16px; color: #051C2C; line-height: 1.6;">
+                            Scale <strong>awareness campaigns</strong> (70% budget) and use <strong>call-based CTAs</strong> for higher-intent mobile users
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px; padding: 25px; background: rgba(200, 16, 46, 0.05); border-radius: 12px; border: 1px solid rgba(200, 16, 46, 0.1);">
+                    <h4 style="font-size: 18px; margin-bottom: 15px; color: #C8102E;">💡 Strategic Role of Meta Ads</h4>
+                    <p style="font-size: 16px; color: #051C2C; line-height: 1.7; margin-bottom: 12px;">
+                        Meta excels at <strong>top-to-mid funnel awareness</strong>, not final conversion. The platform introduces potential clients to your brand, warms them up with video content, then they convert via Google Search or direct calls.
+                    </p>
+                    <p style="font-size: 16px; color: #051C2C; line-height: 1.7;">
+                        <strong>Cross-platform synergy:</strong> Meta introduces → Google Search converts → Website/Call completes journey
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottlenecks -->
+    <section class="section" style="background: #fafafa;">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Critical Bottlenecks</h2>
+                <p>Key areas limiting conversion potential</p>
+            </div>
+
+            <div class="bottleneck-grid">
+                <div class="bottleneck-card fade-in">
+                    <h3>⚠️ Intake Coverage</h3>
+                    <p class="problem"><strong>Problem:</strong> Peak conversions 10am-8pm, but limited live answer. Mobile = 75% of leads.</p>
+                    <p class="solution"><strong>Fix:</strong> 24/7 VA/Call Center with <15min SLA + instant SMS fallback</p>
+                </div>
+
+                <div class="bottleneck-card fade-in">
+                    <h3>⚠️ Speed-to-Lead</h3>
+                    <p class="problem"><strong>Problem:</strong> 1-2 day gaps on responses. Industry best = <15 minutes.</p>
+                    <p class="solution"><strong>Fix:</strong> 5-touch sequence in 72hrs (Call+SMS+Email) via HubSpot automation</p>
+                </div>
+
+                <div class="bottleneck-card fade-in">
+                    <h3>⚠️ Measurement Noise</h3>
+                    <p class="problem"><strong>Problem:</strong> "All conversions" (4,293) vs real conversions (3,345) = micro-conversion pollution</p>
+                    <p class="solution"><strong>Fix:</strong> Redefine to qualified leads only + CallRail DNI + offline conversion import</p>
+                </div>
+
+                <div class="bottleneck-card fade-in">
+                    <h3>⚠️ SEO CTR Gap</h3>
+                    <p class="problem"><strong>Problem:</strong> 0.6% CTR vs 2-3% industry standard. Rankings improving but not clicking.</p>
+                    <p class="solution"><strong>Fix:</strong> Top-50 title/meta rewrites + FAQ schema + E-E-A-T signals</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ROI Projection -->
+    <!-- 90-Day Action Plan -->
+    <section class="section" style="background: #fafafa;">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>90-Day Action Plan</h2>
+                <p>Strategic roadmap to unlock maximum ROI</p>
+            </div>
+
+            <div class="action-timeline">
+                <div class="action-item fade-in">
+                    <h3>Week 1-2: Tracking Hygiene</h3>
+                    <ul>
+                        <li>Redefine conversions → qualified leads only</li>
+                        <li>Implement CallRail/DNI on all landing pages</li>
+                        <li>Map GA4 ⇄ HubSpot conversion sync</li>
+                        <li>Set up offline conversion import to Google Ads</li>
+                    </ul>
+                </div>
+
+                <div class="action-item fade-in">
+                    <h3>Week 3-4: Intake Upgrade</h3>
+                    <ul>
+                        <li>Launch 24/7 VA/Call Center pilot (bilingual)</li>
+                        <li>Implement <15min SLA with missed call SMS fallback</li>
+                        <li>Deploy whisper prompts for ad source attribution</li>
+                        <li>Create HubSpot dashboard for Time-to-First-Touch</li>
+                        <li>Add instant call-back automation for Meta lead forms</li>
+                    </ul>
+                </div>
+
+                <div class="action-item fade-in">
+                    <h3>Week 5-8: Paid Ads Optimization (Google + Meta)</h3>
+                    <ul>
+                        <li><strong>Google:</strong> Consolidate Search ad groups with exact/broad match mix</li>
+                        <li><strong>Google:</strong> Add call extensions + mobile bid adjustment +15%</li>
+                        <li><strong>Google:</strong> Implement geo-tiered bidding (London/Woodstock priority)</li>
+                        <li><strong>Meta:</strong> Reallocate budget to 70% awareness (Reels/Video), 30% retargeting</li>
+                        <li><strong>Meta:</strong> Simplify lead forms to 3 fields max + instant confirmation</li>
+                        <li><strong>Meta:</strong> Add click-to-call CTAs on all mobile ad placements</li>
+                        <li>Launch Local Service MCAs: MVA, Slip & Fall, Sports Injury</li>
+                        <li>Schedule bias: 10am-9pm peak, -25% overnight</li>
+                    </ul>
+                </div>
+
+                <div class="action-item fade-in">
+                    <h3>Week 9-12: SEO CTR Sprints</h3>
+                    <ul>
+                        <li>Rewrite top-50 title/meta descriptions (local modifiers + urgency)</li>
+                        <li>Implement FAQ + Review schema markup</li>
+                        <li>Refresh attorney bios with E-E-A-T signals</li>
+                        <li>Fix Core Web Vitals (LCP < 2.5s target)</li>
+                        <li>Launch 2 long-form guides/month content calendar</li>
+                    </ul>
+                </div>
+
+                <div class="action-item fade-in">
+                    <h3>Ongoing: Automation & Reporting</h3>
+                    <ul>
+                        <li>5-touch nurture sequence in 72hrs (HubSpot workflows)</li>
+                        <li>Weekly KPI dashboard: Cost/Lead, Lead→Booked, Booked→Signed</li>
+                        <li>Monthly executive deck with full funnel attribution</li>
+                        <li>A/B test landing pages + "No Fee Until We Win" messaging</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section">
+        <div class="container">
+            <div class="cta-section fade-in">
+                <h2>Ready to Unlock Your Revenue Potential?</h2>
+                <p>Let's implement these changes and double your client conversion rate</p>
+                <a href="#" class="cta-button">Talk to Amr & Emod</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="logo">Banoo Marketing</div>
+            <p>Prepared for Fosters Law LLP | October 20, 2025</p>
+            <p style="margin-top: 10px; font-size: 14px;">Emod Vafa | Founder</p>
+        </div>
+    </footer>
+
+    <script>
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // Animate progress bars when visible
+        const progressObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const fills = entry.target.querySelectorAll('.progress-fill');
+                    fills.forEach(fill => {
+                        const width = fill.dataset.width;
+                        setTimeout(() => {
+                            fill.style.width = width + '%';
+                        }, 200);
+                    });
+                    progressObserver.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.progress-section').forEach(el => progressObserver.observe(el));
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Add counting animation to stats
+        const animateValue = (element, start, end, duration) => {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const value = Math.floor(progress * (end - start) + start);
+                element.textContent = value.toLocaleString();
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        };
+
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statValue = entry.target.querySelector('.stat-value');
+                    if (statValue && !statValue.dataset.animated) {
+                        const text = statValue.textContent.replace(/[^0-9.]/g, '');
+                        const value = parseFloat(text);
+                        if (!isNaN(value)) {
+                            statValue.dataset.animated = 'true';
+                            animateValue(statValue, 0, value, 1500);
+                        }
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.stat-item').forEach(el => statsObserver.observe(el));
+    </script>
+</body>
+</html>
