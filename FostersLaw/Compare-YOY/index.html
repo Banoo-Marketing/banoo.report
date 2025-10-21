@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fosters Law - Agency Performance Comparison | Taco Media vs Goose Media</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #051C2C;
+            --secondary: #7C878E;
+            --accent: #C8102E;
+            --accent-dark: #9A0C23;
+            --success: #30d158;
+            --warning: #ff9f0a;
+            --danger: #C8102E;
+            --bg: #F8F9FA;
+            --card: #ffffff;
+            --gray-light: #BAC0C3;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--primary);
+            background: var(--bg);
+            overflow-x: hidden;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #051C2C 0%, #C8102E 100%);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding: 40px 20px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="none" width="1200" height="600"/><g fill="rgba(255,255,255,0.02)"><circle cx="100" cy="100" r="40"/><circle cx="300" cy="200" r="60"/><circle cx="600" cy="150" r="50"/><circle cx="900" cy="250" r="45"/><circle cx="1100" cy="100" r="55"/></g></svg>');
+            opacity: 0.3;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+        }
+
+        .logo-hero {
+            width: 180px;
+            height: auto;
+            margin-bottom: 30px;
+            filter: brightness(0) invert(1);
+        }
+
+        .hero h1 {
+            font-size: clamp(36px, 6vw, 68px);
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .hero .subtitle {
+            font-size: clamp(18px, 3vw, 28px);
+            opacity: 0.95;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .hero .date-range {
+            font-size: clamp(14px, 2vw, 18px);
+            opacity: 0.85;
+            margin-bottom: 40px;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+            max-width: 800px;
+        }
+
+        .hero-stat {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 25px 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .hero-stat:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .hero-stat-value {
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: #30d158;
+        }
+
+        .hero-stat-label {
+            font-size: 13px;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        .section {
+            padding: 60px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .section-header p {
+            font-size: 18px;
+            color: var(--secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .timeline-comparison {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 40px;
+            align-items: center;
+            margin: 60px 0;
+            padding: 40px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .timeline-period {
+            text-align: center;
+            padding: 30px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-period.old {
+            background: rgba(124, 135, 142, 0.1);
+            border: 2px solid var(--gray-light);
+        }
+
+        .timeline-period.new {
+            background: rgba(200, 16, 46, 0.05);
+            border: 2px solid var(--accent);
+            box-shadow: 0 8px 25px rgba(200, 16, 46, 0.15);
+        }
+
+        .timeline-period h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .timeline-period.old h3 {
+            color: var(--secondary);
+        }
+
+        .timeline-period.new h3 {
+            color: var(--accent);
+        }
+
+        .timeline-period .agency {
+            font-size: 32px;
+            font-weight: 800;
+            margin: 15px 0;
+        }
+
+        .timeline-period .dates {
+            font-size: 14px;
+            color: var(--secondary);
+            margin-top: 10px;
+        }
+
+        .vs-divider {
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--accent);
+            padding: 20px;
+        }
+
+        .comparison-grid {
+            display: grid;
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .metric-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        .metric-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .metric-icon {
+            font-size: 36px;
+        }
+
+        .metric-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .metric-comparison {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 25px;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .metric-value {
+            text-align: center;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .metric-value.old {
+            background: rgba(124, 135, 142, 0.08);
+        }
+
+        .metric-value.new {
+            background: rgba(200, 16, 46, 0.05);
+            border: 2px solid rgba(200, 16, 46, 0.2);
+        }
+
+        .metric-value .label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--secondary);
+            margin-bottom: 8px;
+        }
+
+        .metric-value .number {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .metric-arrow {
+            font-size: 32px;
+            color: var(--secondary);
+        }
+
+        .metric-change {
+            text-align: center;
+            padding: 20px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #30d158 0%, #28a745 100%);
+            color: white;
+        }
+
+        .metric-change.negative {
+            background: linear-gradient(135deg, #30d158 0%, #28a745 100%);
+        }
+
+        .metric-change .change-value {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .metric-change .change-label {
+            font-size: 14px;
+            opacity: 0.95;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .insight-box {
+            background: rgba(48, 209, 88, 0.08);
+            border-left: 4px solid #30d158;
+            padding: 20px 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .insight-box p {
+            color: var(--primary);
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .insight-box strong {
+            color: var(--accent);
+        }
+
+        .keyword-comparison {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin: 50px 0;
+        }
+
+        .keyword-comparison h3 {
+            font-size: 28px;
+            margin-bottom: 40px;
+            text-align: center;
+            color: var(--primary);
+        }
+
+        .keyword-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .keyword-column {
+            padding: 30px;
+            border-radius: 15px;
+        }
+
+        .keyword-column.old {
+            background: rgba(124, 135, 142, 0.05);
+            border: 2px solid var(--gray-light);
+        }
+
+        .keyword-column.new {
+            background: rgba(200, 16, 46, 0.03);
+            border: 2px solid rgba(200, 16, 46, 0.3);
+        }
+
+        .keyword-column h4 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .keyword-column.old h4 {
+            color: var(--secondary);
+        }
+
+        .keyword-column.new h4 {
+            color: var(--accent);
+        }
+
+        .keyword-list {
+            list-style: none;
+        }
+
+        .keyword-list li {
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background: white;
+            border-radius: 8px;
+            font-size: 15px;
+            border-left: 3px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .keyword-column.old .keyword-list li {
+            border-left-color: var(--gray-light);
+        }
+
+        .keyword-column.new .keyword-list li {
+            border-left-color: var(--accent);
+            font-weight: 600;
+        }
+
+        .keyword-list li:hover {
+            transform: translateX(5px);
+        }
+
+        .quality-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 20px;
+        }
+
+        .quality-badge.low {
+            background: rgba(124, 135, 142, 0.2);
+            color: var(--secondary);
+        }
+
+        .quality-badge.high {
+            background: rgba(48, 209, 88, 0.15);
+            color: #28a745;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #051C2C 0%, #C8102E 100%);
+            color: white;
+            border-radius: 30px;
+            margin: 60px 0;
+        }
+
+        .cta-section h2 {
+            font-size: clamp(32px, 5vw, 48px);
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .cta-section p {
+            font-size: 20px;
+            opacity: 0.95;
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 18px 40px;
+            background: white;
+            color: var(--accent);
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            background: var(--accent);
+            color: white;
+        }
+
+        .summary-box {
+            background: linear-gradient(135deg, rgba(48, 209, 88, 0.1) 0%, rgba(40, 167, 69, 0.05) 100%);
+            border: 2px solid #30d158;
+            border-radius: 20px;
+            padding: 50px;
+            margin: 60px 0;
+        }
+
+        .summary-box h3 {
+            font-size: 32px;
+            color: var(--primary);
+            margin-bottom: 30px;
+            font-weight: 800;
+        }
+
+        .summary-list {
+            list-style: none;
+        }
+
+        .summary-list li {
+            padding: 20px;
+            margin-bottom: 15px;
+            background: white;
+            border-radius: 12px;
+            font-size: 17px;
+            line-height: 1.7;
+            border-left: 4px solid #30d158;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .summary-list li strong {
+            color: var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            .timeline-comparison {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .vs-divider {
+                transform: rotate(90deg);
+            }
+
+            .keyword-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .metric-comparison {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .metric-arrow {
+                transform: rotate(90deg);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            background: var(--primary);
+            color: white;
+        }
+
+        footer p {
+            opacity: 0.8;
+            margin-bottom: 10px;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        footer a:hover {
+            color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div style="font-size: 14px; text-transform: uppercase; letter-spacing: 0.15em; opacity: 0.9; margin-bottom: 20px;">Performance Comparison Report</div>
+            <h1>The Taco Media Difference</h1>
+            <p class="subtitle">Side-by-side comparison of agency performance</p>
+            <p class="date-range">Fosters Law LLP | Google Ads Management | 2023-2025</p>
+
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="hero-stat-value">+224%</div>
+                    <div class="hero-stat-label">More Clicks</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value">+414%</div>
+                    <div class="hero-stat-label">More Impressions</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value">-73%</div>
+                    <div class="hero-stat-label">Lower CPC</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value">+366%</div>
+                    <div class="hero-stat-label">More Conversions</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Comparison -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Timeline Overview</h2>
+                <p>Comparing 13 months of Goose Media management vs 13 months of Taco Media management</p>
+            </div>
+
+            <div class="timeline-comparison fade-in">
+                <div class="timeline-period old">
+                    <h3>Previous Agency</h3>
+                    <div class="agency">Goose Media</div>
+                    <div class="dates">Aug 27, 2023 - Sep 12, 2024</div>
+                    <div class="dates" style="margin-top: 10px; font-weight: 600;">13 months</div>
+                </div>
+
+                <div class="vs-divider">VS</div>
+
+                <div class="timeline-period new">
+                    <h3>Current Agency</h3>
+                    <div class="agency">Taco Media</div>
+                    <div class="dates">Sep 13, 2024 - Sep 30, 2025</div>
+                    <div class="dates" style="margin-top: 10px; font-weight: 600;">13 months</div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px; padding: 25px; background: rgba(200, 16, 46, 0.05); border-radius: 15px;" class="fade-in">
+                <p style="font-size: 16px; color: var(--primary); line-height: 1.7;">
+                    <strong>Account Access:</strong> Taco Media (Emod Vafa) gained full account access on <strong>Sep 13, 2024</strong> via email: <code style="background: white; padding: 4px 8px; border-radius: 5px; font-size: 14px;">thomaslacerte5@gmail.com</code>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Metrics Comparison -->
+    <section class="section" style="background: var(--bg);">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Performance Metrics</h2>
+                <p>Direct comparison across all key Google Ads metrics</p>
+            </div>
+
+            <div class="comparison-grid">
+                <!-- Clicks -->
+                <div class="metric-card fade-in">
+                    <div class="metric-header">
+                        <div class="metric-icon">👆</div>
+                        <div class="metric-title">Total Clicks</div>
+                    </div>
+                    <div class="metric-comparison">
+                        <div class="metric-value old">
+                            <div class="label">Goose Media</div>
+                            <div class="number">9,935</div>
+                        </div>
+                        <div class="metric-arrow">→</div>
+                        <div class="metric-value new">
+                            <div class="label">Taco Media</div>
+                            <div class="number">32,159</div>
+                        </div>
+                    </div>
+                    <div class="metric-change">
+                        <div class="change-value">+223.69%</div>
+                        <div class="change-label">Improvement</div>
+                    </div>
+                    <div class="insight-box">
+                        <p><strong>3.2x more clicks</strong> generated with Taco Media's optimized targeting, ad copy, and keyword strategy.</p>
+                    </div>
+                </div>
+
+                <!-- Impressions -->
+                <div class="metric-card fade-in">
+                    <div class="metric-header">
+                        <div class="metric-icon">👁️</div>
+                        <div class="metric-title">Total Impressions</div>
+                    </div>
+                    <div class="metric-comparison">
+                        <div class="metric-value old">
+                            <div class="label">Goose Media</div>
+                            <div class="number">275,266</div>
+                        </div>
+                        <div class="metric-arrow">→</div>
+                        <div class="metric-value new">
+                            <div class="label">Taco Media</div>
+                            <div class="number">1,413,822</div>
+                        </div>
+                    </div>
+                    <div class="metric-change">
+                        <div class="change-value">+413.62%</div>
+                        <div class="change-label">Improvement</div>
+                    </div>
+                    <div class="insight-box">
+                        <p><strong>5.1x more visibility</strong> through strategic bid management and expanded keyword coverage.</p>
+                    </div>
+                </div>
+
+                <!-- Cost -->
+                <div class="metric-card fade-in">
+                    <div class="metric-header">
+                        <div class="metric-icon">💰</div>
+                        <div class="metric-title">Total Ad Spend</div>
+                    </div>
+                    <div class="metric-comparison">
+                        <div class="metric-value old">
+                            <div class="label">Goose Media</div>
+                            <div class="number">$73,918</div>
+                        </div>
+                        <div class="metric-arrow">→</div>
+                        <div class="metric-value new">
+                            <div class="label">Taco Media</div>
+                            <div class="number">$63,888</div>
+                        </div>
+                    </div>
+                    <div class="metric-change negative">
+                        <div class="change-value">-13.57%</div>
+                        <div class="change-label">Lower Spend</div>
+                    </div>
+                    <div class="insight-box">
+                        <p><strong>$10,030 saved</strong> while dramatically increasing performance — this is the power of efficient account management.</p>
+                    </div>
+                </div>
+
+                <!-- CPC -->
+                <div class="metric-card fade-in">
+                    <div class="metric-header">
+                        <div class="metric-icon">📉</div>
+                        <div class="metric-title">Cost Per Click (CPC)</div>
+                    </div>
+                    <div class="metric-comparison">
+                        <div class="metric-value old">
+                            <div class="label">Goose Media</div>
+                            <div class="number">$7.44</div>
+                        </div>
+                        <div class="metric-arrow">→</div>
+                        <div class="metric-value new">
+                            <div class="label">Taco Media</div>
+                            <div class="number">$1.99</div>
+                        </div>
+                    </div>
+                    <div class="metric-change negative">
+                        <div class="change-value">-73.30%</div>
+                        <div class="change-label">Reduction</div>
+                    </div>
+                    <div class="insight-box">
+                        <p><strong>Slashed CPC by 73%</strong> through Quality Score optimization, better targeting, and strategic bidding.</p>
+                    </div>
+                </div>
+
+                <!-- Conversions -->
+                <div class="metric-card fade-in">
+                    <div class="metric-header">
+                        <div class="metric-icon">🎯</div>
+                        <div class="metric-title">All Conversions</div>
+                    </div>
+                    <div class="metric-comparison">
+                        <div class="metric-value old">
+                            <div class="label">Goose Media</div>
+                            <div class="number">1,059</div>
+                        </div>
+                        <div class="metric-arrow">→</div>
+                        <div class="metric-value new">
+                            <div class="label">Taco Media</div>
+                            <div class="number">4,931</div>
+                        </div>
+                    </div>
+                    <div class="metric-change">
+                        <div class="change-value">+365.63%</div>
+                        <div class="change-label">Improvement</div>
+                    </div>
+                    <div class="insight-box">
+                        <p><strong>4.7x more conversions</strong> delivered through landing page optimization, better ad messaging, and conversion tracking setup.</p>
+                    </div>
+                </div>
+
+                <!-- Cost per Conversion -->
+                <div class="metric-card fade-in">
+                    <div class="metric-header">
+                        <div class="metric-icon">💎</div>
+                        <div class="metric-title">Cost Per Conversion</div>
+                    </div>
+                    <div class="metric-comparison">
+                        <div class="metric-value old">
+                            <div class="label">Goose Media</div>
+                            <div class="number">$133.67</div>
+                        </div>
+                        <div class="metric-arrow">→</div>
+                        <div class="metric-value new">
+                            <div class="label">Taco Media</div>
+                            <div class="number">$15.99</div>
+                        </div>
+                    </div>
+                    <div class="metric-change negative">
+                        <div class="change-value">-88.04%</div>
+                        <div class="change-label">Reduction</div>
+                    </div>
+                    <div class="insight-box">
+                        <p><strong>88% lower cost per conversion</strong> — from $133.67 down to just $15.99. This is game-changing efficiency.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Keyword Quality Comparison -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Keyword Quality Analysis</h2>
+                <p>The difference between generic targeting and strategic, high-intent keywords</p>
+            </div>
+
+            <div class="keyword-comparison fade-in">
+                <h3>Top Keywords by Click Volume</h3>
+                <div class="keyword-grid">
+                    <div class="keyword-column old">
+                        <h4>🟡 Goose Media Keywords</h4>
+                        <ul class="keyword-list">
+                            <li>"free consultation with lawyer ontario"</li>
+                            <li>"lawyers london ontario"</li>
+                            <li>"lawyers london"</li>
+                            <li>"free lawyer consultation"</li>
+                            <li>"best lawyers in london ontario"</li>
+                        </ul>
+                        <span class="quality-badge low">❌ Generic & Broad</span>
+                        <p style="margin-top: 20px; font-size: 14px; color: var(--secondary); line-height: 1.6;">
+                            These keywords attract tire-kickers and comparison shoppers, not ready-to-convert injury victims. High volume, low intent.
+                        </p>
+                    </div>
+
+                    <div class="keyword-column new">
+                        <h4>🔴 Taco Media Keywords</h4>
+                        <ul class="keyword-list">
+                            <li>"accident lawyer"</li>
+                            <li>"injury lawyer"</li>
+                            <li>"accident lawyer near me"</li>
+                            <li>"personal injury lawyer"</li>
+                            <li>"car accident injury attorney"</li>
+                            <li>"personal injury lawyer near me"</li>
+                        </ul>
+                        <span class="quality-badge high">✅ High-Intent & Niche</span>
+                        <p style="margin-top: 20px; font-size: 14px; color: var(--primary); line-height: 1.6; font-weight: 600;">
+                            These keywords target people actively seeking injury representation — higher conversion rates, better quality leads, stronger ROI.
+                        </p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 50px; padding: 30px; background: rgba(48, 209, 88, 0.08); border-radius: 15px; border-left: 4px solid #30d158;">
+                    <p style="font-size: 18px; color: var(--primary); line-height: 1.8; font-weight: 600;">
+                        <strong style="color: var(--accent);">The Keyword Strategy Shift:</strong> Taco Media moved from generic "lawyer" terms to specific, high-intent "injury" and "accident" keywords. This precision targeting is why CPC dropped 73% while conversions increased 366%.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Summary Section -->
+    <section class="section" style="background: var(--bg);">
+        <div class="container">
+            <div class="summary-box fade-in">
+                <h3>🏆 The Bottom Line: What Changed?</h3>
+                <ul class="summary-list">
+                    <li>
+                        <strong>Performance Explosion:</strong> Taco Media delivered 3.2x more clicks, 5.1x more impressions, and 4.7x more conversions — all while spending $10K less than Goose Media.
+                    </li>
+                    <li>
+                        <strong>Cost Efficiency Breakthrough:</strong> Cost per conversion dropped 88% (from $133.67 to $15.99) and CPC dropped 73% (from $7.44 to $1.99). Every dollar now works 8x harder.
+                    </li>
+                    <li>
+                        <strong>Strategic Keyword Overhaul:</strong> Moved from generic "lawyer" keywords to high-intent "injury" and "accident" terms, dramatically improving lead quality and conversion rates.
+                    </li>
+                    <li>
+                        <strong>Account Optimization:</strong> Quality Score improvements, ad copy testing, landing page optimization, and conversion tracking setup unlocked massive performance gains.
+                    </li>
+                    <li>
+                        <strong>Proof of Expertise:</strong> Same budget, same law firm, same market — the only variable that changed was the agency. The results speak for themselves.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section">
+        <div class="container">
+            <div class="cta-section fade-in">
+                <h2>Ready to See These Results for Your Firm?</h2>
+                <p>This is what happens when you work with a team that knows Google Ads inside and out. Let's talk about your goals.</p>
+                <a href="#" class="cta-button">Talk to Amr & Emod</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p><strong>Fosters Law LLP</strong> | 150 Dufferin Ave, London, ON N6A 5N6</p>
+        <p>Phone: (519) 672-5272 | <a href="https://fosterslaw.ca" target="_blank">fosterslaw.ca</a></p>
+        <p style="margin-top: 20px; font-size: 13px;">Report prepared by <strong>Taco Media</strong> | Data source: Google Ads performance data, Sep 2023 - Sep 2025</p>
+    </footer>
+
+    <script>
+        // Fade-in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.8s ease';
+            observer.observe(el);
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
