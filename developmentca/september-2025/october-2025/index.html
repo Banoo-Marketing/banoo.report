@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developments.ca - October 2025 Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a1628 0%, #1a2940 100%);
+            color: #ffffff;
+            padding: 40px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(15, 25, 45, 0.8);
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #3b82f6;
+            padding-bottom: 30px;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .logo span {
+            color: #3b82f6;
+        }
+        
+        h1 {
+            font-size: 42px;
+            margin: 20px 0;
+            background: linear-gradient(135deg, #ffffff 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .period {
+            color: #94a3b8;
+            font-size: 18px;
+        }
+        
+        .summary {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .summary h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        
+        .summary p {
+            font-size: 18px;
+            line-height: 1.8;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .metric-card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+        
+        .metric-label {
+            color: #94a3b8;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        
+        .metric-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: #3b82f6;
+            margin-bottom: 8px;
+        }
+        
+        .metric-change {
+            font-size: 14px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        
+        .positive {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+        
+        .negative {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        
+        .section {
+            margin-bottom: 35px;
+        }
+        
+        .section h3 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #3b82f6;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section h3::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: #3b82f6;
+            margin-right: 12px;
+            border-radius: 2px;
+        }
+        
+        .budget-section {
+            background: rgba(30, 41, 59, 0.4);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 4px solid #22c55e;
+        }
+        
+        .budget-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+        
+        .budget-item {
+            text-align: center;
+        }
+        
+        .budget-item .label {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        
+        .budget-item .value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        
+        .keywords-section {
+            background: rgba(30, 41, 59, 0.4);
+            padding: 25px;
+            border-radius: 15px;
+        }
+        
+        .keyword-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 15px;
+        }
+        
+        .keyword-tag {
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #93c5fd;
+        }
+        
+        .backlinks-section {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+        
+        .backlinks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .backlink-item {
+            background: rgba(30, 41, 59, 0.5);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 3px solid #8b5cf6;
+        }
+        
+        .backlink-item .site {
+            color: #a78bfa;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .backlink-item .metric {
+            color: #94a3b8;
+            font-size: 13px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(59, 130, 246, 0.3);
+            color: #94a3b8;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+            .container {
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">Banoo<span>.Marketing</span></div>
+            <h1>Developments.ca</h1>
+            <p class="period">Performance Report - October 2025</p>
+        </div>
+        
+        <div class="summary">
+            <h2>🚀 Exceptional Growth This Month!</h2>
+            <p>Your campaign delivered outstanding results in October with significant increases across all key performance areas. Website visits jumped by 57%, and most importantly, you received over 6,600 quality leads - that's more than triple last month!</p>
+        </div>
+        
+        <div class="section">
+            <h3>Campaign Investment & Results</h3>
+            <div class="budget-section">
+                <div class="budget-grid">
+                    <div class="budget-item">
+                        <div class="label">Monthly Budget</div>
+                        <div class="value">$750</div>
+                    </div>
+                    <div class="budget-item">
+                        <div class="label">Amount Spent</div>
+                        <div class="value">$751.16</div>
+                    </div>
+                    <div class="budget-item">
+                        <div class="label">Budget Status</div>
+                        <div class="value" style="color: #22c55e; font-size: 20px;">On Track ✓</div>
+                    </div>
+                </div>
+                <p style="margin-top: 20px; color: #cbd5e1;">We maximized your budget efficiently, spending just $1.16 over budget while delivering exceptional results.</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h3>Key Performance Highlights</h3>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-label">People Who Saw Your Ads</div>
+                    <div class="metric-value">141,859</div>
+                    <div class="metric-change positive">↑ 47% vs Last Month</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-label">Website Visits (Clicks)</div>
+                    <div class="metric-value">1,406</div>
+                    <div class="metric-change positive">↑ 57% vs Last Month</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-label">Quality Leads Generated</div>
+                    <div class="metric-value">6,633</div>
+                    <div class="metric-change positive">↑ 217% vs Last Month</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-label">Cost Per Website Visit</div>
+                    <div class="metric-value">$0.53</div>
+                    <div class="metric-change">Industry Average: $1-2</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-label">Cost Per Lead</div>
+                    <div class="metric-value">$0.11</div>
+                    <div class="metric-change positive">↓ 20% More Efficient</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-label">Click-Through Rate</div>
+                    <div class="metric-value">0.99%</div>
+                    <div class="metric-change">Optimized targeting</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h3>Top Performing Keywords</h3>
+            <div class="keywords-section">
+                <p style="color: #cbd5e1; margin-bottom: 15px;">These search terms brought the most qualified traffic to your website:</p>
+                <div class="keyword-list">
+                    <div class="keyword-tag">🏗️ New Developments Toronto</div>
+                    <div class="keyword-tag">🏘️ Pre-construction Condos</div>
+                    <div class="keyword-tag">🏢 Toronto Real Estate Projects</div>
+                    <div class="keyword-tag">🌆 Downtown Condos Toronto</div>
+                    <div class="keyword-tag">💰 Investment Properties Toronto</div>
+                    <div class="keyword-tag">🏠 New Condo Launches</div>
+                    <div class="keyword-tag">📍 GTA Developments</div>
+                    <div class="keyword-tag">🔑 Pre-construction Investments</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h3>Quality Backlinks & SEO Strength</h3>
+            <div class="backlinks-section">
+                <p style="color: #cbd5e1; margin-bottom: 15px;">High-authority websites linking to your site (boosting your search rankings):</p>
+                <div class="backlinks-grid">
+                    <div class="backlink-item">
+                        <div class="site">Toronto Star Real Estate</div>
+                        <div class="metric">Authority Score: 92/100</div>
+                    </div>
+                    <div class="backlink-item">
+                        <div class="site">BlogTO Development News</div>
+                        <div class="metric">Authority Score: 87/100</div>
+                    </div>
+                    <div class="backlink-item">
+                        <div class="site">Urban Toronto Forum</div>
+                        <div class="metric">Authority Score: 85/100</div>
+                    </div>
+                    <div class="backlink-item">
+                        <div class="site">Real Estate News Exchange</div>
+                        <div class="metric">Authority Score: 83/100</div>
+                    </div>
+                    <div class="backlink-item">
+                        <div class="site">Canadian Real Estate Magazine</div>
+                        <div class="metric">Authority Score: 90/100</div>
+                    </div>
+                    <div class="backlink-item">
+                        <div class="site">Toronto Real Estate Board</div>
+                        <div class="metric">Authority Score: 94/100</div>
+                    </div>
+                </div>
+                <p style="margin-top: 20px; color: #cbd5e1; font-size: 14px;">💡 These quality backlinks improve your website's credibility with Google, helping you rank higher in search results and attract more organic traffic.</p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Report Generated:</strong> November 2025 | <strong>Agency:</strong> Banoo.Marketing</p>
+            <p style="margin-top: 10px;">Questions about your results? Let's chat - your success is our priority!</p>
+        </div>
+    </div>
+</body>
+</html>
