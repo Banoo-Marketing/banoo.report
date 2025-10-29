@@ -1,0 +1,497 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Fosters Law | 12-Month Marketing Performance Report (Sep 2024 – Sep 2025)</title>
+<meta name="description" content="Past 12 months performance report for Fosters Law LLP covering Google Ads, Meta Ads, SEO, and Leads." />
+<style>
+/* ------------------  BRAND & LAYOUT  ------------------ */
+:root{
+  --navy:#051C2C;
+  --red:#C8102E;
+  --grey:#7C878E;
+  --ink:#111316;
+  --bg:#F6F7F9;
+  --card:#ffffff;
+  --ok:#25A45B;
+  --warn:#FF9F0A;
+  --bad:#C8102E;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI","Helvetica Neue",Arial,sans-serif;
+  background:var(--bg); color:var(--navy); line-height:1.6;
+}
+/* Top Nav */
+.header{
+  position:sticky; top:0; z-index:20; backdrop-filter:saturate(160%) blur(6px);
+  background:rgba(255,255,255,.9); border-bottom:1px solid #eaecef;
+}
+.nav{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:24px;padding:14px 20px}
+.brand{display:flex;align-items:center;gap:14px}
+.brand img{height:28px}
+.brand .meta{font-weight:700;letter-spacing:.2px;font-size:14px;color:var(--grey)}
+.nav a{color:var(--navy);text-decoration:none;font-weight:600;padding:8px 12px;border-radius:10px}
+.nav a:hover{background:#eef1f4}
+.rightnote{margin-left:auto;color:var(--grey);font-size:13px}
+.wrapper{max-width:1180px;margin:0 auto;padding:28px 20px 100px}
+
+/* Hero */
+.hero{
+  background: radial-gradient(1200px 600px at 85% -10%,rgba(200,16,46,.18),transparent 60%), 
+              radial-gradient(900px 500px at -5% -10%,rgba(5,28,44,.15),transparent 60%),
+              linear-gradient(180deg,#fff,rgba(255,255,255,.8) 80%,transparent 100%);
+  border:1px solid #e7e9ee; border-radius:20px; padding:36px 24px; margin-top:16px;
+}
+.hero h1{font-size:34px;letter-spacing:-.02em;margin:0 0 6px}
+.hero p{margin:2px 0;color:var(--grey)}
+.badge{display:inline-block;background:#eef1f4;border:1px solid #e3e6ea;color:#364150;font-size:12px;padding:4px 10px;border-radius:99px;margin-top:10px}
+
+/* Sections */
+.section{margin-top:42px}
+.section h2{font-size:26px;letter-spacing:-.01em;margin:0 0 6px}
+.section p.lead{color:var(--grey);margin:0 0 18px}
+
+/* Cards & grids */
+.grid{display:grid;gap:16px}
+.kpi{background:var(--card);border-radius:16px;border:1px solid #edf0f4;padding:18px}
+.kpi .label{font-size:12px;color:var(--grey);text-transform:uppercase;letter-spacing:.08em}
+.kpi .value{font-size:28px;font-weight:800;margin-top:6px}
+.kpi small{color:var(--grey)}
+.note{font-size:12px;color:var(--grey)}
+.row-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.row-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.row-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:920px){.row-4,.row-3,.row-2{grid-template-columns:1fr}}
+
+/* tables */
+.table{
+  width:100%;border-collapse:collapse;background:#fff;border:1px solid #edf0f4;border-radius:14px;overflow:hidden
+}
+.table th,.table td{padding:12px 14px;border-bottom:1px solid #f1f3f6;text-align:left;font-size:14px}
+.table tr:last-child td{border-bottom:none}
+.table th{font-size:12px;color:#6b7280;text-transform:uppercase;letter-spacing:.08em;background:#fafbfd}
+.tag{display:inline-block;padding:2px 8px;border-radius:99px;font-size:12px;border:1px solid #e5e7eb}
+.tag.ok{color:var(--ok);border-color:#cfe9db;background:#f3fbf7}
+.tag.bad{color:var(--bad);border-color:#f2c5cf;background:#fff5f7}
+.tag.neutral{color:#6b7280;border-color:#e5e7eb;background:#f9fafb}
+
+/* split card */
+.split{display:grid;grid-template-columns:1.1fr .9fr;gap:16px}
+@media (max-width:920px){.split{grid-template-columns:1fr}}
+
+/* chart panels */
+.panel{background:#fff;border:1px solid #edf0f4;border-radius:16px;padding:16px}
+.panel h3{margin:0 0 10px;font-size:18px}
+.canvas{width:100%;height:240px}
+
+/* list */
+ul.clean{margin:8px 0 0 18px}
+ul.clean li{margin:6px 0}
+
+/* footer */
+.footer{margin-top:40px;color:var(--grey);font-size:12px}
+.hr{height:1px;background:#eceff3;margin:20px 0}
+
+/* citation */
+.cite{font-size:11px;color:#9aa1a9;margin-top:6px}
+.sref{font-size:10px;vertical-align:super;color:#9aa1a9}
+
+/* CTA */
+.cta{margin-top:36px;background:linear-gradient(135deg,rgba(5,28,44,.95),rgba(200,16,46,.92));padding:22px;border-radius:16px;color:#fff;display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.cta a{background:#fff;color:var(--red);text-decoration:none;font-weight:700;border-radius:12px;padding:10px 14px}
+.cta small{opacity:.9}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <nav class="nav">
+    <div class="brand">
+      <img src="https://fosterslaw.ca/wp-content/uploads/2021/03/logo.svg" alt="Fosters Law logo" />
+      <div class="meta">12-Month Performance Report</div>
+    </div>
+    <a href="#exec">Executive Summary</a>
+    <a href="#ppc">Paid Ads</a>
+    <a href="#seo">SEO</a>
+    <a href="#leads">Leads</a>
+    <a href="#costs">Costs</a>
+    <a href="#recs">Key Lessons</a>
+    <div class="rightnote">Sept 2024 – Sept 2025</div>
+  </nav>
+</header>
+
+<main class="wrapper">
+
+  <!-- Hero -->
+  <section class="hero" id="exec">
+    <h1>Fosters Law LLP — Annual Marketing Performance</h1>
+    <p>Personal Injury Lawyers • London, Ontario • <a href="https://fosterslaw.ca/" target="_blank" rel="noopener">fosterslaw.ca</a></p>
+    <span class="badge">Period: Sep 1, 2024 – Sep 30, 2025</span>
+  </section>
+
+  <!-- Executive Summary -->
+  <section class="section">
+    <h2>Executive Summary</h2>
+    <p class="lead">A concise roll-up of paid media, organic visibility and lead capture. Data is taken only from the assets uploaded in this thread. Missing items are labeled <em>“Not Provided in Dataset.”</em></p>
+
+    <div class="grid row-4">
+      <div class="kpi">
+        <div class="label">Google Ads Spend</div>
+        <div class="value">CA$63,114 <sup class="sref">[S]</sup></div>
+        <small>Total across Search + Cross-Network</small>
+      </div>
+      <div class="kpi">
+        <div class="label">Google Ads Conversions</div>
+        <div class="value">3,345 <sup class="sref">[S]</sup></div>
+        <small>8.98% Conv. Rate, 22,986 clicks, 592k impressions</small>
+      </div>
+      <div class="kpi">
+        <div class="label">SEO Visibility</div>
+        <div class="value">21.1K clicks <sup class="sref">[S]</sup></div>
+        <small>3.54M impressions • 0.6% CTR • Avg. pos. 35</small>
+      </div>
+      <div class="kpi">
+        <div class="label">Leads in CRM</div>
+        <div class="value">≈300 <sup class="sref">[S]</sup></div>
+        <small>Annual leads noted in client message (HubSpot)</small>
+      </div>
+    </div>
+
+    <div class="split">
+      <div class="kpi">
+        <div class="label">Intake & Speed-to-Lead (Key Finding)</div>
+        <div class="value">Main Bottleneck</div>
+        <p class="note">Mobile drives ~75% of Google Ads conversions and conversions peak 10am–8pm <sup class="sref">[S]</sup>. Slow response/missed calls likely depress close rates.</p>
+      </div>
+      <div class="kpi">
+        <div class="label">Expected Client Conversions</div>
+        <div class="value">≈15 @ 5% <sup class="sref">[S]</sup></div>
+        <p class="note">If actual signed clients &lt;15, intake coverage and tracking hygiene need immediate upgrades.</p>
+      </div>
+    </div>
+    <div class="cite">[S] Source: Provided Client Data (screenshots, PDFs, and notes in this chat). Keyword details reference: “Search keyword report.pdf”.</div>
+  </section>
+
+  <!-- PPC Section -->
+  <section class="section" id="ppc">
+    <h2>Paid Advertising (PPC) – Deep Dive</h2>
+    <p class="lead">Google Ads and Meta Ads are reported separately. Meta totals show only what is visible in the uploaded screenshots; full account totals were not provided.</p>
+
+    <!-- Google Ads -->
+    <div class="panel">
+      <h3>Google Ads — Annual Overview</h3>
+      <div class="grid row-4">
+        <div class="kpi"><div class="label">Spend</div><div class="value">CA$63,114 <sup class="sref">[S]</sup></div><small>All campaigns</small></div>
+        <div class="kpi"><div class="label">Impressions</div><div class="value">592,449 <sup class="sref">[S]</sup></div><small>Total reach</small></div>
+        <div class="kpi"><div class="label">Clicks</div><div class="value">22,986 <sup class="sref">[S]</sup></div><small>Avg. CTR 3.88%</small></div>
+        <div class="kpi"><div class="label">Conv. &amp; CPL</div><div class="value">3,345 • CA$14.31 <sup class="sref">[S]</sup></div><small>Primary conversions only (All conv. 4,293 → includes micro-events)</small></div>
+      </div>
+
+      <div class="split" style="margin-top:8px">
+        <div class="panel">
+          <h3>Where conversions came from</h3>
+          <canvas class="canvas" id="gaChannels"></canvas>
+          <div class="note">Search Partners 72.5%, Google Search 13.2%, Cross-Network (PMax) 14.3% <sup class="sref">[S]</sup></div>
+        </div>
+        <div class="panel">
+          <h3>Device mix (by conversions)</h3>
+          <canvas class="canvas" id="gaDevices"></canvas>
+          <div class="note">Mobile ≈75%, Tablet ≈14%, Desktop ≈11% <sup class="sref">[S]</sup></div>
+        </div>
+      </div>
+
+      <div class="grid row-2" style="margin-top:12px">
+        <div class="kpi">
+          <div class="label">Peak Performance Window</div>
+          <div class="value">10am–8pm <sup class="sref">[S]</sup></div>
+          <p class="note">Recommend +20% bid bias in this window; lower bids overnight.</p>
+        </div>
+        <div class="kpi">
+          <div class="label">Tracking Hygiene</div>
+          <div class="value">Needs Tightening</div>
+          <p class="note">Large gap between “All conv.” (4,293) and “Conv.” (3,345) indicates micro-conversion pollution. Redefine conversion goals &amp; add DNI call tracking. <sup class="sref">[S]</sup></p>
+        </div>
+      </div>
+
+      <div class="hr"></div>
+      <h3>What Worked</h3>
+      <ul class="clean">
+        <li>Strong cost efficiency: CPL ≈ CA$14.31 across 3,345 primary conversions. <sup class="sref">[S]</sup></li>
+        <li>Search Partners delivered the majority of conversions at low cost. <sup class="sref">[S]</sup></li>
+        <li>Mobile traffic dominated conversion volume; landing experience is aligned to mobile behavior. <sup class="sref">[S]</sup></li>
+      </ul>
+
+      <h3 style="margin-top:14px">What Needed Work</h3>
+      <ul class="clean">
+        <li>Conversion taxonomy: “All conversions” inflates outcomes; optimize to <em>lead-only</em> events. <sup class="sref">[S]</sup></li>
+        <li>Speed-to-lead: With 75% mobile and daytime peaks, missed/slow responses will suppress close rates. <sup class="sref">[S]</sup></li>
+      </ul>
+    </div>
+
+    <!-- Meta Ads -->
+    <div class="panel" style="margin-top:16px">
+      <h3>Meta Ads (Facebook &amp; Instagram) — Reported Separately</h3>
+      <p class="note">Totals below reflect only values visible in screenshots shared in this thread; the account-wide 12-month total was <strong>Not Provided in Dataset</strong>.</p>
+
+      <table class="table" aria-label="Meta Ads campaign table">
+        <thead>
+          <tr>
+            <th>Campaign / Ad Set</th>
+            <th>Amount Spent</th>
+            <th>Key Result</th>
+            <th>Efficiency</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Meta-Custom-Leadgen-Video-Canada</td><td>CA$4,118.38 <sup class="sref">[S]</sup></td><td>2 Website Leads <sup class="sref">[S]</sup></td><td class="tag neutral">Leadgen</td><td>Completed</td></tr>
+          <tr><td>Meta-Custom-Leadgen-Image Ads-Canada</td><td>CA$1,984.34 <sup class="sref">[S]</sup></td><td>2 Website Leads <sup class="sref">[S]</sup></td><td class="tag neutral">Leadgen</td><td>Completed</td></tr>
+          <tr><td>Video Campaign – Awareness / Homepage Link</td><td>CA$2,405.31 <sup class="sref">[S]</sup></td><td>Reach 385,465 <sup class="sref">[S]</sup></td><td>~CA$6.24 CPM <sup class="sref">[S]</sup></td><td>Completed</td></tr>
+          <tr><td>Video Campaign</td><td>CA$2,288.13 <sup class="sref">[S]</sup></td><td>11,566 Link Clicks <sup class="sref">[S]</sup></td><td class="tag ok">~CA$0.20 CPC <sup class="sref">[S]</sup></td><td>Completed</td></tr>
+          <tr><td>Video – Awareness</td><td>CA$1,579.46 <sup class="sref">[S]</sup></td><td>Ad Recall 16,600 <sup class="sref">[S]</sup></td><td>~CA$0.10 / Recall Lift <sup class="sref">[S]</sup></td><td>Completed</td></tr>
+          <tr><td>Awareness – Statutes of Limitations</td><td>CA$571.07 <sup class="sref">[S]</sup></td><td>Reach 204,601 <sup class="sref">[S]</sup></td><td>~CA$2.79 CPM <sup class="sref">[S]</sup></td><td>Completed</td></tr>
+          <tr><td>Reels &amp; Stories Only Adset</td><td>CA$3,010.50 <sup class="sref">[S]</sup></td><td>110,090 Impr. / 38,722 Reach <sup class="sref">[S]</sup></td><td>Awareness</td><td>Completed</td></tr>
+          <tr><td>Lead video adset</td><td>CA$1,107.88 <sup class="sref">[S]</sup></td><td>—</td><td>Lead Objective</td><td>Completed</td></tr>
+          <tr><td>Batch Videos REELS ONLY</td><td>CA$899.88 <sup class="sref">[S]</sup></td><td>175,513 Reach <sup class="sref">[S]</sup></td><td>—</td><td>Completed</td></tr>
+          <tr><td>March 2025 – Maximize ad recall lift</td><td>CA$823.01 <sup class="sref">[S]</sup></td><td>520,433 Impr. <sup class="sref">[S]</sup></td><td>~CA$0.07 per est. lift <sup class="sref">[S]</sup></td><td>Completed</td></tr>
+          <tr><td>Reel Jan 2025 – Maximize reach of ads</td><td>CA$756.45 <sup class="sref">[S]</sup></td><td>279,276 Impr. <sup class="sref">[S]</sup></td><td>~CA$0.10 per est. lift <sup class="sref">[S]</sup></td><td>Completed</td></tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td><strong>Visible Subtotal (from screenshots)</strong></td>
+            <td><strong>CA$19,544.41</strong> <sup class="sref">[S]</sup></td>
+            <td colspan="3"><em>Account-wide 12-month totals Not Provided in Dataset.</em></td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <div class="hr"></div>
+      <h3>Meta – What Worked</h3>
+      <ul class="clean">
+        <li>Video Campaign delivered **11,566 link clicks** at ~**CA$0.20 CPC** — efficient site traffic driver <sup class="sref">[S]</sup>.</li>
+        <li>Awareness campaigns achieved economical CPMs (~CA$2.79–6.24) for broad reach <sup class="sref">[S]</sup>.</li>
+      </ul>
+      <h3 style="margin-top:12px">Meta – What Didn’t</h3>
+      <ul class="clean">
+        <li>Lead forms show **low tracked lead volume** in screenshots (2–4 visible leads). Full lead totals not supplied. <em>Recommendation:</em> prioritize call-based ads and on-site booking to reduce friction. <sup class="sref">[S]</sup></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SEO Section -->
+  <section class="section" id="seo">
+    <h2>SEO &amp; Organic Performance – Deep Dive</h2>
+    <div class="grid row-4">
+      <div class="kpi"><div class="label">Organic Clicks</div><div class="value">21.1K <sup class="sref">[S]</sup></div></div>
+      <div class="kpi"><div class="label">Impressions</div><div class="value">3.54M <sup class="sref">[S]</sup></div></div>
+      <div class="kpi"><div class="label">CTR</div><div class="value">0.6% <sup class="sref">[S]</sup></div></div>
+      <div class="kpi"><div class="label">Average Position</div><div class="value">35 <sup class="sref">[S]</sup></div></div>
+    </div>
+
+    <div class="grid row-2" style="margin-top:12px">
+      <div class="panel">
+        <h3>Year-over-Year Movement</h3>
+        <ul class="clean">
+          <li>Clicks: <strong>+18%</strong> <sup class="sref">[S]</sup></li>
+          <li>Impressions: <strong>+40%</strong> <sup class="sref">[S]</sup></li>
+          <li>Avg Position: <strong>+16%</strong> (from ~42 → 35) <sup class="sref">[S]</sup></li>
+          <li>CTR: <strong>Flat</strong> (biggest opportunity is title/meta CTR lifts) <sup class="sref">[S]</sup></li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>What Worked / What Needs Work</h3>
+        <ul class="clean">
+          <li><strong>Worked:</strong> Visibility expanded dramatically (impressions +40%); ranking improved late in the period. <sup class="sref">[S]</sup></li>
+          <li><strong>Needs Work:</strong> CTR is **0.6%** — well below industry norms. Implement top-50 title/meta rewrites with local modifiers and add FAQ/Review schema to lift CTR. <sup class="sref">[S]</sup></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Leads -->
+  <section class="section" id="leads">
+    <h2>Leads &amp; Conversions</h2>
+    <div class="grid row-3">
+      <div class="kpi">
+        <div class="label">Total Leads (HubSpot)</div>
+        <div class="value">≈300 <sup class="sref">[S]</sup></div>
+        <small>12-month total noted in client message. Breakdown by source was Not Provided in Dataset.</small>
+      </div>
+      <div class="kpi">
+        <div class="label">Expected Clients @ 5% Close</div>
+        <div class="value">≈15 <sup class="sref">[S]</sup></div>
+        <small>If actual signed matters &lt;15, intake &amp; follow-up are most likely bottlenecks.</small>
+      </div>
+      <div class="kpi">
+        <div class="label">Speed-to-Lead</div>
+        <div class="value">Target &lt; 15 mins</div>
+        <small>Recommend 24/7 bilingual VA/call center, SMS fallback, and one-click booking. <sup class="sref">[S]</sup></small>
+      </div>
+    </div>
+  </section>
+
+  <!-- Costs -->
+  <section class="section" id="costs">
+    <h2>Cost Analysis &amp; Budget Allocation</h2>
+    <p class="lead">The chart below uses <em>known</em> spend from provided artifacts. Meta &amp; SEO totals for the full period were not supplied.</p>
+
+    <div class="split">
+      <div class="panel">
+        <h3>Known Spend Split (from uploads)</h3>
+        <canvas class="canvas" id="spendPie"></canvas>
+        <div class="note">Included: Google Ads total (CA$63,114) and Meta Ads <em>visible subtotal</em> (CA$19,544.41). SEO investment: Not Provided in Dataset. <sup class="sref">[S]</sup></div>
+      </div>
+      <div class="panel">
+        <h3>Channel CPL (Known)</h3>
+        <table class="table">
+          <thead><tr><th>Channel</th><th>Spend</th><th>Leads</th><th>CPL</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Google Ads</td>
+              <td>CA$63,114 <sup class="sref">[S]</sup></td>
+              <td>3,345 (primary conversions) <sup class="sref">[S]</sup></td>
+              <td><strong>~CA$14.31</strong> <sup class="sref">[S]</sup></td>
+              <td class="tag ok">Robust efficiency</td>
+            </tr>
+            <tr>
+              <td>Meta Ads</td>
+              <td>CA$19,544.41 <em>(visible subtotal)</em> <sup class="sref">[S]</sup></td>
+              <td>4 <em>(visible leads)</em> <sup class="sref">[S]</sup></td>
+              <td><span class="tag bad">CPL not representative</span></td>
+              <td>Account total Not Provided in Dataset</td>
+            </tr>
+            <tr>
+              <td>SEO</td>
+              <td>Not Provided</td>
+              <td>—</td>
+              <td>—</td>
+              <td>Investment figure not in uploads</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lessons & Recommendations -->
+  <section class="section" id="recs">
+    <h2>Key Lessons &amp; Strategic Recommendations</h2>
+    <div class="grid row-2">
+      <div class="panel">
+        <h3>Lessons</h3>
+        <ul class="clean">
+          <li><strong>Google Ads is working efficiently</strong> — ~CA$14.31 CPL across 3,345 primary conversions. <sup class="sref">[S]</sup></li>
+          <li><strong>Intake &amp; speed-to-lead</strong> are the limiting factors; mobile-heavy traffic plus daytime peaks require live answer &amp; rapid follow-up. <sup class="sref">[S]</sup></li>
+          <li><strong>SEO visibility improved</strong> but CTR is low (0.6%); SERP copy and schema represent significant upside. <sup class="sref">[S]</sup></li>
+          <li><strong>Meta Ads</strong> produced efficient traffic (e.g., $0.20 CPC in video campaign), but tracked lead volume in screenshots is low; optimize flows to call/schedule. <sup class="sref">[S]</sup></li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>12-Month Recommendations</h3>
+        <ul class="clean">
+          <li><strong>Tracking Hygiene:</strong> Redefine conversions to qualified leads only; implement DNI (dynamic numbers) and push offline conversions from HubSpot back into Google Ads. <sup class="sref">[S]</sup></li>
+          <li><strong>Intake Upgrade:</strong> 24/7 VA/call center, &lt;15-min SLA, instant SMS fallback, and one-click booking (Calendly/LeadConnector). <sup class="sref">[S]</sup></li>
+          <li><strong>Google Ads Optimization:</strong> Increase bids 10am–8pm; lower overnight; maintain mobile +15%; continue leaning into Search Partners. <sup class="sref">[S]</sup></li>
+          <li><strong>SEO CTR Sprints:</strong> Rewrite top-50 titles/metas with local intent + urgency; add FAQ/Review schema; reinforce E-E-A-T with attorney bios &amp; case results. <sup class="sref">[S]</sup></li>
+          <li><strong>Meta Strategy:</strong> Shift spend toward call-based and site-booking objectives; keep high-CTR video for upper funnel; retarget site visitors.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="cta">
+      <div>
+        <strong>Next Action:</strong> Approve tracking + intake pilot. We’ll return a 30-day readout with Cost/Lead and Cost/Client benchmarks grounded in CRM outcomes.
+        <div><small>Address: 150 Dufferin Ave, London, ON N6A 5N6 • Phone: (519) 672-5272 • 4.8★ Google reviews</small></div>
+      </div>
+      <a href="mailto:info@banoo.marketing?subject=Fosters Law – Next Steps">Schedule Strategy Call</a>
+    </div>
+
+    <div class="footer">
+      <div class="hr"></div>
+      <div>[S] Source: Provided Client Data (this chat’s screenshots/CSVs/PDFs). Keyword reference file: “Search keyword report.pdf”.</div>
+      <div style="margin-top:6px">Prepared by Banoo Marketing • Generated: <script>document.write(new Date().toLocaleDateString())</script></div>
+    </div>
+  </section>
+</main>
+
+<!-- Minimal chart utilities - no external libraries -->
+<script>
+function barChart(el, labels, values, colors){
+  const c = document.getElementById(el); const ctx = c.getContext('2d');
+  const W = c.width = c.clientWidth, H = c.height = c.clientHeight;
+  const pad = 28, max = Math.max(...values) * 1.15;
+  const bw = (W - pad*2)/values.length;
+  ctx.clearRect(0,0,W,H);
+  ctx.font = "12px -apple-system, Segoe UI, Helvetica";
+  // axes
+  ctx.strokeStyle = "#e7ebf1"; ctx.beginPath();
+  ctx.moveTo(pad, H-pad); ctx.lineTo(W-pad, H-pad); ctx.stroke();
+  values.forEach((v,i)=>{
+    const x = pad + bw*i + bw*0.15;
+    const h = (H-pad*2)*(v/max);
+    const y = H-pad-h;
+    ctx.fillStyle = colors[i]||"#2d6cdf";
+    ctx.fillRect(x,y,bw*0.7,h);
+    ctx.fillStyle="#62707c";
+    ctx.fillText(labels[i], x, H-pad+14);
+    ctx.fillText(v+"%", x, y-6);
+  });
+}
+
+function doughnut(el, labels, values, colors){
+  const c = document.getElementById(el); const ctx = c.getContext('2d');
+  const W = c.width = c.clientWidth, H = c.height = c.clientHeight;
+  ctx.clearRect(0,0,W,H);
+  const cx=W/2, cy=H/2, r=Math.min(W,H)/2 - 16; const ir=r*0.62;
+  const sum = values.reduce((a,b)=>a+b,0);
+  let a0 = -Math.PI/2;
+  values.forEach((v,i)=>{
+    const a1 = a0 + (sum? (v/sum)*Math.PI*2:0);
+    ctx.beginPath(); ctx.moveTo(cx,cy);
+    ctx.fillStyle = colors[i]||"#2d6cdf";
+    ctx.arc(cx,cy,r,a0,a1); ctx.lineTo(cx,cy); ctx.fill();
+    a0=a1;
+  });
+  // hole
+  ctx.globalCompositeOperation='destination-out';
+  ctx.beginPath(); ctx.arc(cx,cy,ir,0,Math.PI*2); ctx.fill(); ctx.globalCompositeOperation='source-over';
+  // legend
+  ctx.font="12px -apple-system, Segoe UI, Helvetica";
+  let ly = 14;
+  labels.forEach((l,i)=>{
+    ctx.fillStyle = colors[i]||"#2d6cdf";
+    ctx.fillRect(10, ly-9, 10,10);
+    ctx.fillStyle="#5b6570";
+    ctx.fillText(l + (sum? ` – ${Math.round(values[i]/sum*100)}%`:""), 26, ly);
+    ly+=16;
+  });
+}
+
+/* ---- Render charts with provided numbers ---- */
+// Google Ads – channel share of conversions
+barChart("gaChannels",
+  ["Search Partners","Google Search","PMax Cross-Net"],
+  [72.5,13.2,14.3],
+  ["#184B6B","#C8102E","#7C878E"]
+);
+// Google Ads – device mix by conversions
+barChart("gaDevices",
+  ["Mobile","Tablet","Desktop"],
+  [75,14,11],
+  ["#184B6B","#7C878E","#C8102E"]
+);
+// Spend split (known)
+doughnut("spendPie",
+  ["Google Ads (known)","Meta Ads (visible subtotal)"],
+  [63114,19544.41],
+  ["#184B6B","#C8102E"]
+);
+</script>
+</body>
+</html>
+```

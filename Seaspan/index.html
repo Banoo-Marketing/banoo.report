@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seaspan Performance Report</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+/* --- Password Gate (overlay) --- */
+#gateOverlay{
+  position:fixed; inset:0; z-index:9999;
+  display:flex; align-items:center; justify-content:center;
+  background:rgba(0,0,0,0.75); backdrop-filter:blur(8px);
+}
+.gate-card{
+  width:100%; max-width:420px; padding:32px; border-radius:16px;
+  background:#1a1a1a; border:1px solid rgba(255,255,255,.08);
+  box-shadow:0 20px 60px rgba(0,0,0,.6); text-align:center;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+.gate-card h2{font-size:1.25rem; margin-bottom:8px;}
+.gate-card p{color:#c0c0c0; margin-bottom:18px;}
+.gate-input{width:100%; padding:12px 14px; border-radius:10px; border:1px solid #2a2a2a; background:#0f0f0f; color:#fff;}
+.gate-btn{margin-top:14px; width:100%; padding:12px 14px; border:0; border-radius:10px; cursor:pointer;
+  background:#ffffff; color:#000; font-weight:700;}
+.gate-err{display:none; color:#ff6b6b; margin-top:10px; font-size:.9rem;}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #000000;
+            --silver: #c0c0c0;
+            --silver-light: #e8e8e8;
+            --silver-dark: #888888;
+            --white: #ffffff;
+            --gray-900: #0a0a0a;
+            --gray-800: #1a1a1a;
+            --gray-700: #2a2a2a;
+            --gray-600: #3a3a3a;
+            --gray-400: #6a6a6a;
+            --accent: #ffffff;
+        }
+
+        @font-face {
+            font-family: 'SF Pro Display';
+            src: local('SF Pro Display'), local('Helvetica Neue'), local('Arial');
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--black);
+            color: var(--white);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 4rem 2rem;
+            background: radial-gradient(ellipse at center, var(--gray-800) 0%, var(--black) 70%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(192, 192, 192, 0.03) 0%, transparent 70%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.8; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            letter-spacing: -0.05em;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--white) 0%, var(--silver) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.25rem, 3vw, 1.75rem);
+            font-weight: 300;
+            color: var(--silver);
+            margin-bottom: 3rem;
+            letter-spacing: 0.02em;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-stat {
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            backdrop-filter: blur(20px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hero-stat:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .hero-stat-value {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--white) 0%, var(--silver) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-stat-label {
+            font-size: 0.875rem;
+            color: var(--silver-dark);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 500;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            padding: 8rem 0;
+            position: relative;
+        }
+
+        .section-header {
+            margin-bottom: 4rem;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+
+        .section-subtitle {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--silver);
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .metric-card {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-700);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--silver), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .metric-card:hover {
+            border-color: var(--silver-dark);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .metric-card:hover::before {
+            opacity: 1;
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            color: var(--silver-dark);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .metric-change {
+            font-size: 0.875rem;
+            color: var(--silver);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .chart-section {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-700);
+            border-radius: 24px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            transition: all 0.4s ease;
+        }
+
+        .chart-section:hover {
+            border-color: var(--gray-600);
+        }
+
+        .chart-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            color: var(--white);
+            letter-spacing: -0.02em;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 400px;
+            width: 100%;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            border-bottom: 1px solid var(--gray-700);
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab {
+            padding: 1rem 2rem;
+            background: none;
+            border: none;
+            color: var(--silver-dark);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+            letter-spacing: 0.02em;
+        }
+
+        .tab:hover {
+            color: var(--silver);
+        }
+
+        .tab.active {
+            color: var(--white);
+            border-bottom-color: var(--white);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .insight-card {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-700);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .insight-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--silver), transparent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .insight-card:hover {
+            border-color: var(--silver-dark);
+            transform: translateY(-6px);
+        }
+
+        .insight-card:hover::after {
+            transform: scaleX(1);
+        }
+
+        .insight-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .insight-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--white);
+            letter-spacing: -0.01em;
+        }
+
+        .insight-text {
+            color: var(--silver);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            background: var(--gray-900);
+            border: 1px solid var(--gray-700);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        th {
+            background: var(--gray-800);
+            color: var(--silver);
+            padding: 1.25rem 1.5rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border-bottom: 1px solid var(--gray-700);
+        }
+
+        th:first-child {
+            border-radius: 12px 0 0 0;
+        }
+
+        th:last-child {
+            border-radius: 0 12px 0 0;
+        }
+
+        td {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--gray-800);
+            color: var(--white);
+            font-size: 0.95rem;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .footer {
+            padding: 4rem 0;
+            text-align: center;
+            border-top: 1px solid var(--gray-800);
+            background: var(--gray-900);
+        }
+
+        .footer-text {
+            color: var(--silver-dark);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-branding {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray-800);
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--white) 0%, var(--silver) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer a:hover {
+            background: rgba(255, 255, 255, 0.1) !important;
+            transform: translateY(-2px);
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--silver);
+            font-size: 0.875rem;
+            animation: bounce 2s infinite;
+            cursor: pointer;
+            z-index: 100;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--silver);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+
+        .line-items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .line-item-card {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-700);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .line-item-card:hover {
+            border-color: var(--silver-dark);
+            transform: scale(1.02);
+        }
+
+        .line-item-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+
+        .line-item-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .line-item-stat {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.875rem;
+        }
+
+        .line-item-stat-label {
+            color: var(--silver-dark);
+        }
+
+        .line-item-stat-value {
+            color: var(--silver);
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .section {
+                padding: 4rem 0;
+            }
+
+            .metrics-grid,
+            .insights-grid,
+            .line-items-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-wrapper {
+                height: 300px;
+            }
+
+            .chart-section {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: var(--gray-800);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--silver), var(--white));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+<!-- Password Gate Overlay -->
+<div id="gateOverlay">
+  <div class="gate-card">
+    <h2>🔒 Protected Report</h2>
+    <p>Please enter the password to view this page.</p>
+    <input class="gate-input" type="password" id="gatePass" placeholder="Enter password" autocomplete="current-password" />
+    <button class="gate-btn" onclick="unlockGate()">Unlock</button>
+    <div id="gateErr" class="gate-err">Incorrect password. Try again.</div>
+  </div>
+</div>
+
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="badge">Performance Report</div>
+            <h1 class="hero-title">Seaspan</h1>
+            <p class="hero-subtitle">Recruitment Campaign • July – September 2025</p>
+            
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="hero-stat-value" id="heroImpressions">-</div>
+                    <div class="hero-stat-label">Total Impressions</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value" id="heroClicks">-</div>
+                    <div class="hero-stat-label">Total Clicks</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value" id="heroCost">-</div>
+                    <div class="hero-stat-label">Total Cost</div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator" onclick="document.querySelector('.section').scrollIntoView({behavior: 'smooth'})">
+            ↓ Scroll to explore
+        </div>
+    </section>
+
+    <div class="container">
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Monthly Breakdown</h2>
+                <p class="section-subtitle">Detailed performance metrics by month</p>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Month</th>
+                            <th>Impressions</th>
+                            <th>Clicks</th>
+                            <th>Cost</th>
+                            <th>CTR</th>
+                            <th>CPM</th>
+                        </tr>
+                    </thead>
+                    <tbody id="monthlyTable">
+                        <!-- Dynamic content -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Key Metrics</h2>
+                <p class="section-subtitle">Real-time performance indicators across all campaigns</p>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-label">Impressions</div>
+                    <div class="metric-value" id="totalImpressions">-</div>
+                    <div class="metric-change">Campaign reach</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Clicks</div>
+                    <div class="metric-value" id="totalClicks">-</div>
+                    <div class="metric-change">Engagement actions</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Cost</div>
+                    <div class="metric-value" id="totalCost">-</div>
+                    <div class="metric-change">Generated value</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">CTR</div>
+                    <div class="metric-value" id="avgCTR">-</div>
+                    <div class="metric-change">Click performance</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">CPM</div>
+                    <div class="metric-value" id="avgCPM">-</div>
+                    <div class="metric-change">Cost per 1K impressions</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Growth</div>
+                    <div class="metric-value" id="monthlyGrowth">+21%</div>
+                    <div class="metric-change">Aug to Sep impressions</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Performance Analytics</h2>
+                <p class="section-subtitle">Deep dive into campaign metrics and trends</p>
+            </div>
+
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('monthly')">Monthly Overview</button>
+                <button class="tab" onclick="switchTab('cost')">Cost Analysis</button>
+                <button class="tab" onclick="switchTab('engagement')">Engagement Metrics</button>
+            </div>
+
+            <div id="monthly" class="tab-content active">
+                <div class="chart-section">
+                    <h3 class="chart-title">Monthly Performance</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="monthlyChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div id="cost" class="tab-content">
+                <div class="chart-section">
+                    <h3 class="chart-title">Cost by Month</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="costChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div id="engagement" class="tab-content">
+                <div class="chart-section">
+                    <h3 class="chart-title">CTR & CPM Trends</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="engagementChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Line Item Performance</h2>
+                <p class="section-subtitle">Top performing campaigns by cost contribution</p>
+            </div>
+
+            <div class="line-items-grid" id="lineItemsGrid">
+                <!-- Dynamic content -->
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Strategic Insights</h2>
+                <p class="section-subtitle">Actionable recommendations for optimization</p>
+            </div>
+
+            <div class="insights-grid">
+                <div class="insight-card">
+                    <div class="insight-icon">📈</div>
+                    <h3 class="insight-title">July Peak Performance</h3>
+                    <p class="insight-text">July generated the highest impressions (70K+) and cost ($492.80) with $7.03 CPM and 58% CTR, establishing benchmark performance standards.</p>
+                </div>
+                <div class="insight-card">
+                    <div class="insight-icon">🎯</div>
+                    <h3 class="insight-title">Welders Line Items</h3>
+                    <p class="insight-text">Welder campaigns drove 48% of total cost (Welders 1: 25%, Welders 2: 23%). Strong targeting opportunity for scale and optimization.</p>
+                </div>
+                <div class="insight-card">
+                    <div class="insight-icon">💡</div>
+                    <h3 class="insight-title">CTR Performance</h3>
+                    <p class="insight-text">Average 50.7% CTR across all months demonstrates strong audience targeting and creative effectiveness.</p>
+                </div>
+                <div class="insight-card">
+                    <div class="insight-icon">✅</div>
+                    <h3 class="insight-title">Consistent Engagement</h3>
+                    <p class="insight-text">All months maintained strong CTR ranging from 39% to 58%, ensuring sustained campaign engagement throughout the period.</p>
+                </div>
+                <div class="insight-card">
+                    <div class="insight-icon">📊</div>
+                    <h3 class="insight-title">Impression Growth</h3>
+                    <p class="insight-text">21% impression growth from August to September demonstrates effective campaign scaling and reach expansion.</p>
+                </div>
+                <div class="insight-card">
+                    <div class="insight-icon">🔄</div>
+                    <h3 class="insight-title">Next Steps</h3>
+                    <p class="insight-text">Scale Welder line items (48% of cost), replicate July's high CTR tactics (58%), and maintain premium CPM strategy for maximum impact.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <p class="footer-text">Generated on <span id="currentDate"></span></p>
+        <p class="footer-text" style="opacity: 0.5; margin-top: 0.5rem;">Seaspan Campaign Performance Analysis</p>
+        <div class="footer-branding">
+            <div class="footer-logo">Banoo Inc.</div>
+            <p class="footer-text" style="opacity: 0.7; margin-bottom: 1.5rem;">Performance Analytics & Optimization</p>
+            <div style="color: var(--silver-dark); font-size: 0.875rem; line-height: 1.8;">
+                <p><strong style="color: var(--silver);">Emod Vafa</strong></p>
+                <p>Founder & Marketing Director</p>
+                <p style="margin-top: 0.5rem;">
+                    <a href="mailto:emod@banoo.marketing" style="color: var(--silver); text-decoration: none;">emod@banoo.marketing</a>
+                </p>
+                <p style="margin-top: 0.5rem;">
+                    <a href="https://cal.com/emodvafa" target="_blank" style="color: var(--white); text-decoration: none; background: rgba(255, 255, 255, 0.05); padding: 0.5rem 1rem; border-radius: 8px; display: inline-block; margin-top: 0.5rem; transition: all 0.3s ease;">
+                        📅 Schedule a Meeting
+                    </a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Data from uploaded charts (Revenue renamed to Cost, expense data removed)
+        const data = {
+            months: ["July 2025", "August 2025", "September 2025"],
+            impressions: [70114, 29402, 35739],
+            clicks: [40672, 14011, 13949],
+            cost: [492.80, 118.09, 143.29],
+            ctr: [58.0, 47.6, 39.0],
+            cpm: [7.03, 4.02, 4.01],
+            totals: {
+                impressions: 135255,
+                clicks: 68632,
+                cost: 754.18,
+                ctr: 50.7,
+                cpm: 5.58
+            },
+            lineItems: [
+                { name: "Welders 1", impressions: 40672, cost: 187.76, percentage: 25 },
+                { name: "Welders 2", impressions: 40318, cost: 177.0, percentage: 23 },
+                { name: "Steamfitter 2", impressions: 14011, cost: 135.13, percentage: 18 },
+                { name: "Steamfitter 1", impressions: 13949, cost: 121.50, percentage: 16 },
+                { name: "Metal Fabricator 1", impressions: 13590, cost: 68.34, percentage: 9 },
+                { name: "Fabricator 2", impressions: 12715, cost: 64.45, percentage: 9 }
+            ]
+        };
+
+        // Format numbers
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        // Animate counter
+        function animateCounter(element, target, prefix = '', suffix = '', decimals = 0) {
+            let current = 0;
+            const increment = target / 60;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                const value = decimals > 0 ? current.toFixed(decimals) : Math.floor(current);
+                element.textContent = prefix + formatNumber(value) + suffix;
+            }, 16);
+        }
+
+        // Initialize
+        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        // Hero stats
+        animateCounter(document.getElementById('heroImpressions'), data.totals.impressions / 1000, '', 'K');
+        animateCounter(document.getElementById('heroClicks'), data.totals.clicks / 1000, '', 'K');
+        animateCounter(document.getElementById('heroCost'), data.totals.cost, '$', '', 2);
+
+        // Key metrics
+        animateCounter(document.getElementById('totalImpressions'), data.totals.impressions);
+        animateCounter(document.getElementById('totalClicks'), data.totals.clicks);
+        animateCounter(document.getElementById('totalCost'), data.totals.cost, '$', '', 2);
+        animateCounter(document.getElementById('avgCTR'), data.totals.ctr, '', '%', 2);
+        animateCounter(document.getElementById('avgCPM'), data.totals.cpm, '$', '', 2);
+
+        // Populate monthly table
+        const tableBody = document.getElementById('monthlyTable');
+        data.months.forEach((month, i) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><strong>${month}</strong></td>
+                <td>${formatNumber(data.impressions[i])}</td>
+                <td>${formatNumber(data.clicks[i])}</td>
+                <td>$${data.cost[i].toFixed(2)}</td>
+                <td>${data.ctr[i]}%</td>
+                <td>$${data.cpm[i].toFixed(2)}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+
+        // Populate line items
+        const lineItemsGrid = document.getElementById('lineItemsGrid');
+        data.lineItems.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'line-item-card';
+            card.innerHTML = `
+                <div class="line-item-name">${item.name}</div>
+                <div class="line-item-stats">
+                    <div class="line-item-stat">
+                        <span class="line-item-stat-label">Impressions</span>
+                        <span class="line-item-stat-value">${formatNumber(item.impressions)}</span>
+                    </div>
+                    <div class="line-item-stat">
+                        <span class="line-item-stat-label">Cost</span>
+                        <span class="line-item-stat-value">$${item.cost.toFixed(2)}</span>
+                    </div>
+                    <div class="line-item-stat">
+                        <span class="line-item-stat-label">% of Total</span>
+                        <span class="line-item-stat-value">${item.percentage}%</span>
+                    </div>
+                </div>
+            `;
+            lineItemsGrid.appendChild(card);
+        });
+
+        // Chart.js configuration
+        Chart.defaults.color = '#888888';
+        Chart.defaults.font.family = "'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+        Chart.defaults.borderColor = '#2a2a2a';
+
+        // Monthly Chart
+        const monthlyCtx = document.getElementById('monthlyChart').getContext('2d');
+        new Chart(monthlyCtx, {
+            type: 'bar',
+            data: {
+                labels: data.months,
+                datasets: [{
+                    label: 'Impressions',
+                    data: data.impressions,
+                    backgroundColor: 'rgba(192, 192, 192, 0.8)',
+                    borderColor: 'rgba(192, 192, 192, 1)',
+                    borderWidth: 2,
+                    borderRadius: 8,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                        padding: 16,
+                        borderColor: 'rgba(192, 192, 192, 0.3)',
+                        borderWidth: 1,
+                        titleFont: { size: 14, weight: 'bold' },
+                        bodyFont: { size: 13 },
+                        callbacks: {
+                            label: (context) => `Impressions: ${formatNumber(context.parsed.y)}`
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                        ticks: { callback: (value) => formatNumber(value) }
+                    },
+                    x: { grid: { display: false } }
+                },
+                animation: { duration: 1500, easing: 'easeOutQuart' }
+            }
+        });
+
+        // Cost Chart
+        const costCtx = document.getElementById('costChart').getContext('2d');
+        new Chart(costCtx, {
+            type: 'line',
+            data: {
+                labels: data.months,
+                datasets: [{
+                    label: 'Cost',
+                    data: data.cost,
+                    borderColor: 'rgba(255, 255, 255, 0.9)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 6,
+                    pointBackgroundColor: '#ffffff',
+                    pointBorderColor: '#000000',
+                    pointBorderWidth: 2,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                        padding: 16,
+                        borderColor: 'rgba(192, 192, 192, 0.3)',
+                        borderWidth: 1,
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                        ticks: { callback: (value) => '$' + value }
+                    },
+                    x: { grid: { display: false } }
+                },
+                animation: { duration: 1500, easing: 'easeOutQuart' }
+            }
+        });
+
+        // Engagement Chart
+        const engagementCtx = document.getElementById('engagementChart').getContext('2d');
+        new Chart(engagementCtx, {
+            type: 'line',
+            data: {
+                labels: data.months,
+                datasets: [
+                    {
+                        label: 'CTR (%)',
+                        data: data.ctr,
+                        borderColor: 'rgba(192, 192, 192, 0.9)',
+                        backgroundColor: 'rgba(192, 192, 192, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        yAxisID: 'y',
+                        pointRadius: 6,
+                        pointBackgroundColor: '#c0c0c0',
+                    },
+                    {
+                        label: 'CPM ($)',
+                        data: data.cpm,
+                        borderColor: 'rgba(255, 255, 255, 0.9)',
+                        backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        yAxisID: 'y1',
+                        pointRadius: 6,
+                        pointBackgroundColor: '#ffffff',
+                        pointBorderColor: '#000000',
+                        pointBorderWidth: 2,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    legend: {
+                        display: true,
+                        labels: { color: '#888888', padding: 20, font: { size: 12 } }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                        padding: 16,
+                        borderColor: 'rgba(192, 192, 192, 0.3)',
+                        borderWidth: 1,
+                    }
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        position: 'left',
+                        title: { display: true, text: 'CTR (%)', color: '#888888' },
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                    },
+                    y1: {
+                        type: 'linear',
+                        position: 'right',
+                        title: { display: true, text: 'CPM ($)', color: '#888888' },
+                        grid: { drawOnChartArea: false }
+                    },
+                    x: { grid: { display: false } }
+                },
+                animation: { duration: 1500, easing: 'easeOutQuart' }
+            }
+        });
+
+        // Tab switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Scroll progress
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressFill').style.width = scrolled + '%';
+            
+            // Hide scroll indicator
+            if (winScroll > 100) {
+                document.querySelector('.scroll-indicator').style.opacity = '0';
+            } else {
+                document.querySelector('.scroll-indicator').style.opacity = '1';
+            }
+        });
+    </script>
+<script>
+  // Simple front-end gate (remembered for the session)
+  const REQUIRED_PASSWORD = "123";
+
+  function unlockGate(){
+    const input = document.getElementById('gatePass').value.trim();
+    if (input === REQUIRED_PASSWORD){
+      sessionStorage.setItem('seaspan_report_unlocked', '1');
+      document.getElementById('gateOverlay').style.display = 'none';
+    } else {
+      const err = document.getElementById('gateErr');
+      err.style.display = 'block';
+      setTimeout(()=>{ err.style.display='none'; }, 2000);
+    }
+  }
+
+  // Auto-unlock if already validated in this tab
+  (function(){
+    if (sessionStorage.getItem('seaspan_report_unlocked') === '1'){
+      const overlay = document.getElementById('gateOverlay');
+      if (overlay) overlay.style.display = 'none';
+    }
+  })();
+</script>
+</body>
+</html>
