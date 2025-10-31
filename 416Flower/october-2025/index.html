@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>416 Flowers - October 2025 Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #fff;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid rgba(79, 123, 255, 0.3);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .logo .banoo {
+            color: #4f7bff;
+        }
+
+        .client-name {
+            font-size: 42px;
+            font-weight: 800;
+            margin: 20px 0 10px 0;
+            background: linear-gradient(135deg, #fff 0%, #4f7bff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .report-period {
+            font-size: 18px;
+            color: #a0aec0;
+            font-weight: 500;
+        }
+
+        .intro {
+            background: rgba(79, 123, 255, 0.1);
+            border-left: 4px solid #4f7bff;
+            padding: 25px;
+            margin-bottom: 40px;
+            border-radius: 12px;
+            font-size: 16px;
+            color: #e2e8f0;
+        }
+
+        .section {
+            margin-bottom: 35px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #4f7bff;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .icon {
+            width: 32px;
+            height: 32px;
+            background: rgba(79, 123, 255, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .achievement-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .achievement-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(79, 123, 255, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            cursor: pointer;
+        }
+
+        .achievement-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(79, 123, 255, 0.2);
+            border-color: #4f7bff;
+            background: rgba(79, 123, 255, 0.1);
+        }
+
+        .achievement-number {
+            font-size: 48px;
+            font-weight: 800;
+            color: #4f7bff;
+            margin-bottom: 10px;
+        }
+
+        .achievement-label {
+            font-size: 16px;
+            color: #cbd5e0;
+            font-weight: 500;
+        }
+
+        .achievement-desc {
+            font-size: 14px;
+            color: #a0aec0;
+            margin-top: 8px;
+        }
+
+        .detail-box {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(79, 123, 255, 0.2);
+        }
+
+        .detail-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .detail-text {
+            font-size: 15px;
+            color: #cbd5e0;
+            line-height: 1.7;
+        }
+
+        .impact-box {
+            background: linear-gradient(135deg, rgba(79, 123, 255, 0.15) 0%, rgba(79, 123, 255, 0.05) 100%);
+            border: 1px solid rgba(79, 123, 255, 0.3);
+            border-radius: 16px;
+            padding: 30px;
+            margin-top: 40px;
+        }
+
+        .impact-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #4f7bff;
+        }
+
+        .impact-text {
+            font-size: 16px;
+            color: #e2e8f0;
+            line-height: 1.8;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid rgba(79, 123, 255, 0.3);
+            color: #a0aec0;
+            font-size: 14px;
+        }
+
+        .checkmark {
+            color: #4f7bff;
+            margin-right: 8px;
+        }
+
+        @media print {
+            body {
+                background: white;
+                color: #000;
+            }
+            .container {
+                box-shadow: none;
+                background: white;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <span class="banoo">Banoo</span>.Marketing
+            </div>
+            <h1 class="client-name">416 Flowers</h1>
+            <p class="report-period">Monthly Growth Report • October 2025</p>
+        </div>
+
+        <div class="intro">
+            <strong>This Month's Focus:</strong> We've been working hard to strengthen your online presence and make it easier for customers to find you. Here's what we accomplished this month to help your business grow.
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">📈</span>
+                Key Achievements
+            </h2>
+            <div class="achievement-grid">
+                <a href="https://docs.google.com/spreadsheets/d/1qvjdYl6FKELE5VEf3uHzM6j4E3XZ9wTBrIXwKyb4eyg/edit?gid=0#gid=0" target="_blank" class="achievement-card">
+                    <div class="achievement-number">100</div>
+                    <div class="achievement-label">Quality Backlinks</div>
+                    <div class="achievement-desc">Built 100 high-quality connections from trusted websites to boost your authority</div>
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/1QSiCv0nrZCROEMxW7BxThskwgImg04gePgiB6qsG0CQ/edit?gid=735557687#gid=735557687" target="_blank" class="achievement-card">
+                    <div class="achievement-number">38</div>
+                    <div class="achievement-label">Pages on Google</div>
+                    <div class="achievement-desc">Successfully indexed pages so customers can find you on Google search</div>
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/1QSiCv0nrZCROEMxW7BxThskwgImg04gePgiB6qsG0CQ/edit?gid=735557687#gid=735557687" target="_blank" class="achievement-card">
+                    <div class="achievement-number">546</div>
+                    <div class="achievement-label">Pages on Bing</div>
+                    <div class="achievement-desc">Expanded your reach to Bing users searching for flower services</div>
+                </a>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">🔗</span>
+                Building Your Online Authority
+            </h2>
+            <div class="detail-box">
+                <div class="detail-title"><span class="checkmark">✓</span> 100 Quality Backlinks Completed</div>
+                <div class="detail-text">
+                    Think of backlinks as recommendations from other websites. We've secured 100 high-quality connections from reputable sites in your industry. These act like digital word-of-mouth, telling Google that your business is trustworthy and relevant. This helps you rank higher when people search for flower delivery services.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">🔍</span>
+                Making You Easier to Find
+            </h2>
+            <div class="detail-box">
+                <div class="detail-title"><span class="checkmark">✓</span> Search Engine Visibility Improved</div>
+                <div class="detail-text">
+                    We've made sure your website shows up properly in search results. Your pages are now visible on both Google (38 pages) and Bing (546 pages), making it easier for potential customers to discover your flower services when they're searching online.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">🛠️</span>
+                Website Health & Optimization
+            </h2>
+            <div class="detail-box">
+                <div class="detail-title"><span class="checkmark">✓</span> Technical Issues Identified & Documented</div>
+                <div class="detail-text">
+                    We've run a comprehensive health check on your website and identified any technical issues that could be holding you back. We've compiled a complete list of problems and created a roadmap to fix them.
+                </div>
+            </div>
+            <div class="detail-box">
+                <div class="detail-title"><span class="checkmark">✓</span> Broken Links Fixed</div>
+                <div class="detail-text">
+                    We found and documented all broken links (404 errors) on your site and mapped out where they should redirect. This ensures visitors never hit a dead end and have a smooth experience browsing your website.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">📝</span>
+                Content Strategy Development
+            </h2>
+            <div class="detail-box">
+                <div class="detail-title"><span class="checkmark">✓</span> Blog Expansion Analysis</div>
+                <div class="detail-text">
+                    We've analyzed your entire website structure and identified new blog opportunities to share valuable content with your customers. These will help establish you as the go-to flower expert in your area while bringing in more organic traffic.
+                </div>
+            </div>
+        </div>
+
+        <div class="impact-box">
+            <div class="impact-title">What This Means for Your Business</div>
+            <div class="impact-text">
+                All of these improvements work together to increase your online visibility, bring more qualified traffic to your website, and ultimately help more customers discover 416 Flowers. You're building a stronger foundation for long-term growth in the competitive Toronto flower market.
+            </div>
+        </div>
+
+        <div class="footer">
+            Questions about this report? We're here to help.<br>
+            Let's discuss your next growth milestone.
+        </div>
+    </div>
+</body>
+</html>
