@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMMC Emergency Certification | Petronella Tech | Get Certified in 7 Days</title>
+    <meta name="description" content="CMMC Phase 1 enforcement active. Defense contractors: Get certified in 7-14 days or lose DoD contracts. 100% C3PAO pass rate. Free gap assessment.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        .urgent-banner {
+            background: linear-gradient(90deg, #c62828 0%, #d32f2f 100%);
+            color: white;
+            padding: 16px 20px;
+            text-align: center;
+            font-weight: 700;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            font-size: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.9; }
+        }
+        
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        
+        .hero {
+            background: white;
+            border-radius: 16px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 32px;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: #0d47a1;
+            font-weight: 800;
+        }
+        
+        .subhead {
+            font-size: 18px;
+            color: #424242;
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+        
+        .cta-primary {
+            display: block;
+            background: linear-gradient(135deg, #2e7d32 0%, #388e3c 100%);
+            color: white;
+            text-align: center;
+            padding: 20px 30px;
+            font-size: 20px;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+        }
+        
+        .cta-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(46, 125, 50, 0.4);
+        }
+        
+        .cta-phone {
+            display: block;
+            background: linear-gradient(135deg, #1565c0 0%, #1976d2 100%);
+            color: white;
+            text-align: center;
+            padding: 18px 30px;
+            font-size: 18px;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 12px;
+            margin: 15px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(25, 118, 210, 0.3);
+        }
+        
+        .cta-phone:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(25, 118, 210, 0.4);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        
+        .stat-number {
+            font-size: 36px;
+            font-weight: 800;
+            color: #2e7d32;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+            margin-top: 8px;
+        }
+        
+        .pain-section, .benefit-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 25px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        
+        .pain-section {
+            border-left: 6px solid #d32f2f;
+        }
+        
+        .benefit-section {
+            border-left: 6px solid #2e7d32;
+        }
+        
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .pain-item, .benefit-item {
+            padding: 12px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        
+        .icon {
+            font-size: 20px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .trust-badges {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .badge {
+            background: linear-gradient(135deg, #0d47a1 0%, #1976d2 100%);
+            color: white;
+            padding: 15px 10px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(13, 71, 161, 0.2);
+        }
+        
+        .form-section {
+            background: white;
+            border-radius: 12px;
+            padding: 35px 30px;
+            margin: 30px 0;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.12);
+        }
+        
+        .form-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-align: center;
+            color: #0d47a1;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 15px;
+            color: #333;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #1976d2;
+            box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+        }
+        
+        .testimonial {
+            background: linear-gradient(135deg, #fff8e1 0%, #fff3e0 100%);
+            padding: 30px;
+            border-radius: 12px;
+            margin: 25px 0;
+            border-left: 6px solid #ff9800;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        
+        .testimonial-text {
+            font-size: 17px;
+            line-height: 1.7;
+            color: #424242;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+        
+        .testimonial-author {
+            font-weight: 700;
+            font-style: normal;
+            font-size: 15px;
+            color: #f57c00;
+        }
+        
+        .faq-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 25px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        
+        .faq-item {
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .faq-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+        
+        .faq-q {
+            font-weight: 700;
+            font-size: 17px;
+            margin-bottom: 10px;
+            color: #0d47a1;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .faq-a {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #555;
+            padding-left: 20px;
+        }
+        
+        .whatsapp-float {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: #25d366;
+            color: white;
+            padding: 18px 24px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 16px;
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .whatsapp-float:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.5);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 640px) {
+            h1 { font-size: 26px; }
+            .subhead { font-size: 16px; }
+            .hero { padding: 30px 20px; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .stat-number { font-size: 28px; }
+            .whatsapp-float { 
+                padding: 15px 20px;
+                font-size: 14px;
+                bottom: 15px;
+                right: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Urgent Banner -->
+<div class="urgent-banner">
+    ⚠️ CMMC Phase 1 Enforcement Active — Nov 10, 2025 | Only 3 Gap Assessment Slots Available
+</div>
+
+<!-- Main Container -->
+<div class="container">
+    
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>CMMC Deadline Hit Nov 10. Get Certified in 7 Days or Lose Your DoD Contracts</h1>
+        
+        <p class="subhead">
+            We've certified 400+ defense contractors with <strong>100% C3PAO pass rate</strong>. 
+            AI-powered compliance saves you 100+ hours vs. doing it yourself.
+        </p>
+        
+        <a href="tel:+19193484912" class="cta-phone">
+            📞 Call Craig Now: (919) 348-4912
+        </a>
+        
+        <a href="#form" class="cta-primary">
+            Book Free 15-Min Gap Assessment
+        </a>
+    </div>
+    
+    <!-- Stats -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <span class="stat-number">400+</span>
+            <div class="stat-label">Contractors Certified</div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">100%</span>
+            <div class="stat-label">Audit Pass Rate</div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">7-14</span>
+            <div class="stat-label">Days to Certified</div>
+        </div>
+    </div>
+    
+    <!-- Pain Points -->
+    <div class="pain-section">
+        <div class="section-title">
+            <span>⚠️</span> The Risk (If You're Not CMMC Certified)
+        </div>
+        <div class="pain-item">
+            <span class="icon">❌</span>
+            <span><strong>No CMMC = ALL DoD contracts canceled</strong></span>
+        </div>
+        <div class="pain-item">
+            <span class="icon">❌</span>
+            <span>67% of your revenue at risk overnight</span>
+        </div>
+        <div class="pain-item">
+            <span class="icon">❌</span>
+            <span>C3PAO auditors booked 6+ months out</span>
+        </div>
+        <div class="pain-item">
+            <span class="icon">❌</span>
+            <span>Prime contractors dropping non-compliant subs immediately</span>
+        </div>
+    </div>
+    
+    <!-- Benefits -->
+    <div class="benefit-section">
+        <div class="section-title">
+            <span>✅</span> Why Petronella Technology Group
+        </div>
+        <div class="benefit-item">
+            <span class="icon">✅</span>
+            <span><strong>100% C3PAO audit pass rate</strong> (400+ contractors certified)</span>
+        </div>
+        <div class="benefit-item">
+            <span class="icon">✅</span>
+            <span><strong>7-14 days to audit-ready</strong> (not 6 months)</span>
+        </div>
+        <div class="benefit-item">
+            <span class="icon">✅</span>
+            <span>Full NIST 800-171 compliance guaranteed</span>
+        </div>
+        <div class="benefit-item">
+            <span class="icon">✅</span>
+            <span>All 110 controls mapped to YOUR business</span>
+        </div>
+        <div class="benefit-item">
+            <span class="icon">✅</span>
+            <span>SSP + POA&M written FOR you</span>
+        </div>
+        <div class="benefit-item">
+            <span class="icon">✅</span>
+            <span>Complete C3PAO audit prep included</span>
+        </div>
+    </div>
+    
+    <!-- Trust Badges -->
+    <div class="trust-badges">
+        <div class="badge">🎓 MIT Certified</div>
+        <div class="badge">🛡️ CMMC-RP</div>
+        <div class="badge">🔒 Licensed DFE</div>
+        <div class="badge">✓ Cyber-AB Member</div>
+    </div>
+    
+    <!-- Testimonial -->
+    <div class="testimonial">
+        <div class="testimonial-text">
+            "Petronella got us CMMC Level 2 certified in 10 days. Our prime contractor said it was the fastest they'd ever seen. We kept our $6M contract and didn't lose a single day of production."
+        </div>
+        <div class="testimonial-author">
+            — Tom B., Defense Contractor, Raleigh NC
+        </div>
+    </div>
+    
+    <!-- Form Section -->
+    <div class="form-section" id="form">
+        <h2 class="form-title">Get Your Free Gap Assessment</h2>
+        <p style="text-align: center; margin-bottom: 25px; color: #666;">
+            Know exactly where you stand in 15 minutes. No cost, no commitment.
+        </p>
+        
+        <form id="contact-form">
+            <div class="form-group">
+                <label for="name">Full Name *</label>
+                <input type="text" id="name" name="name" required placeholder="John Smith">
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Work Email *</label>
+                <input type="email" id="email" name="email" required placeholder="john@company.com">
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">Phone Number *</label>
+                <input type="tel" id="phone" name="phone" required placeholder="(919) 555-0100">
+            </div>
+            
+            <input type="hidden" name="utm_source" id="utm_source">
+            <input type="hidden" name="utm_campaign" id="utm_campaign">
+            <input type="hidden" name="utm_medium" id="utm_medium">
+            
+            <button type="submit" class="cta-primary">
+                Get My Free Gap Assessment
+            </button>
+        </form>
+        
+        <p style="text-align: center; margin-top: 20px; font-size: 15px; color: #666;">
+            Or call/text: <a href="tel:+19193484912" style="color: #1976d2; font-weight: 700; text-decoration: none;">
+                (919) 348-4912
+            </a>
+        </p>
+    </div>
+    
+    <!-- FAQ -->
+    <div class="faq-section">
+        <h2 style="font-size: 26px; margin-bottom: 25px; color: #0d47a1; text-align: center;">
+            Frequently Asked Questions
+        </h2>
+        
+        <div class="faq-item">
+            <div class="faq-q">
+                Q: How long does CMMC certification take?
+            </div>
+            <div class="faq-a">
+                <strong>A:</strong> 7-14 days with our fast-track process vs. 6 months if you do it yourself. 
+                We handle all 110 NIST 800-171 controls, write your SSP and POA&M, and prep you for the C3PAO audit.
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-q">
+                Q: What if we fail the C3PAO audit?
+            </div>
+            <div class="faq-a">
+                <strong>A:</strong> We've had 100% pass rate across 400+ contractors. If you follow our process exactly, 
+                you WILL pass. We guarantee it.
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-q">
+                Q: How much does CMMC certification cost?
+            </div>
+            <div class="faq-a">
+                <strong>A:</strong> $15K-$40K depending on your gap analysis. Our free 30-min assessment tells you 
+                your exact cost and timeline. No surprises, no hidden fees.
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-q">
+                Q: Can you help if we're already behind schedule?
+            </div>
+            <div class="faq-a">
+                <strong>A:</strong> YES. Emergency fast-track available. We've gotten contractors certified in as little 
+                as 7 days when deadlines were urgent. Call now: (919) 348-4912
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-q">
+                Q: Do you work with contractors outside North Carolina?
+            </div>
+            <div class="faq-a">
+                <strong>A:</strong> Absolutely. We serve defense contractors nationwide (VA, TX, CA, MD, AL, CO, OH, FL 
+                and all 50 states). Virtual and in-person options available.
+            </div>
+        </div>
+    </div>
+    
+    <!-- Final CTA -->
+    <div class="hero">
+        <h2 style="font-size: 24px; margin-bottom: 15px; text-align: center; color: #0d47a1;">
+            Don't Risk Losing Your DoD Contracts
+        </h2>
+        <p style="text-align: center; margin-bottom: 25px; color: #666;">
+            Book your free gap assessment now. Know exactly what you need in 15 minutes.
+        </p>
+        <a href="#form" class="cta-primary">Book Free Assessment Now</a>
+        <a href="tel:+19193484912" class="cta-phone">📞 Or Call: (919) 348-4912</a>
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer">
+        <p><strong>Petronella Technology Group, Inc.</strong></p>
+        <p>5540 Centerview Dr, Suite 200, Raleigh, NC 27606</p>
+        <p>📧 craig@petronellatech.com | 📞 (919) 348-4912</p>
+        <p style="margin-top: 15px; font-size: 13px;">
+            © 2025 Petronella Technology Group. All rights reserved.
+        </p>
+    </div>
+    
+</div>
+
+<!-- WhatsApp Float Button -->
+<a href="https://wa.me/19193484912?text=Hi%20Craig,%20I%20need%20CMMC%20help%20urgently" 
+   class="whatsapp-float" 
+   target="_blank"
+   rel="noopener">
+    💬 WhatsApp
+</a>
+
+<!-- JavaScript -->
+<script>
+    // Capture UTM parameters from URL
+    function getURLParameter(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name) || '';
+    }
+    
+    document.getElementById('utm_source').value = getURLParameter('utm_source');
+    document.getElementById('utm_campaign').value = getURLParameter('utm_campaign');
+    document.getElementById('utm_medium').value = getURLParameter('utm_medium');
+    
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+    
+    // Form submission (replace with your actual endpoint)
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = {
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            utm_source: document.getElementById('utm_source').value,
+            utm_campaign: document.getElementById('utm_campaign').value,
+            utm_medium: document.getElementById('utm_medium').value,
+            timestamp: new Date().toISOString()
+        };
+        
+        // Replace this with your actual form endpoint (GHL, Zapier, etc.)
+        console.log('Form submitted:', formData);
+        
+        // Show success message
+        alert('Thank you! We\'ll call you within 2 hours to schedule your free gap assessment.');
+        
+        // Optional: redirect to thank you page
+        // window.location.href = '/thank-you';
+        
+        // Optional: Send to your CRM/backend
+        // fetch('YOUR_ENDPOINT_HERE', {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify(formData)
+        // });
+    });
+</script>
+
+</body>
+</html>
+```
+
+---
+
+## 🚀 GITHUB DEPLOYMENT INSTRUCTIONS
+
+1. **Create new repository:**
+   - Go to GitHub.com
+   - Click "New Repository"
+   - Name: `cmmc-emergency-landing`
+   - Public/Private: Your choice
+   - Initialize with README: No
+
+2. **Upload file:**
+   - Click "Add file" → "Create new file"
+   - Name it: `index.html`
+   - Copy/paste the code above
+   - Commit directly to main
+
+3. **Enable GitHub Pages:**
+   - Go to Settings → Pages
+   - Source: Deploy from a branch
+   - Branch: main / (root)
+   - Save
+
+4. **Your live URL will be:**
+```
+   https://[your-username].github.io/cmmc-emergency-landing/
