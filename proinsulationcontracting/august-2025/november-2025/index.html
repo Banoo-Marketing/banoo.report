@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro Insulation Contracting - Monthly Performance Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0a0e1a 0%, #1a1f35 100%);
+            color: #ffffff;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(20, 25, 40, 0.8);
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .logo span {
+            color: #3b82f6;
+        }
+
+        .client-name {
+            font-size: 42px;
+            font-weight: 700;
+            margin: 20px 0 10px 0;
+            background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .period {
+            font-size: 18px;
+            color: #9ca3af;
+            font-weight: 500;
+        }
+
+        .intro {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(96, 165, 250, 0.05) 100%);
+            border-left: 4px solid #3b82f6;
+            padding: 25px;
+            margin-bottom: 40px;
+            border-radius: 10px;
+        }
+
+        .intro p {
+            font-size: 16px;
+            color: #d1d5db;
+            line-height: 1.8;
+        }
+
+        .section {
+            margin-bottom: 45px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #3b82f6;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 6px;
+            height: 30px;
+            background: linear-gradient(180deg, #3b82f6 0%, #60a5fa 100%);
+            border-radius: 3px;
+        }
+
+        .highlight-stat {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(96, 165, 250, 0.1) 100%);
+            border: 2px solid rgba(59, 130, 246, 0.4);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .highlight-stat .number {
+            font-size: 64px;
+            font-weight: 700;
+            color: #3b82f6;
+            margin-bottom: 10px;
+        }
+
+        .highlight-stat .label {
+            font-size: 20px;
+            color: #d1d5db;
+            font-weight: 600;
+        }
+
+        .highlight-stat .description {
+            font-size: 14px;
+            color: #9ca3af;
+            margin-top: 10px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .highlight-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: #ffffff;
+            padding: 12px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .highlight-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .design-showcase {
+            background: rgba(30, 35, 50, 0.6);
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            border-radius: 15px;
+            padding: 35px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .design-showcase h3 {
+            font-size: 24px;
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
+
+        .design-showcase p {
+            font-size: 15px;
+            color: #9ca3af;
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+
+        .design-preview {
+            background: rgba(59, 130, 246, 0.05);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 10px;
+            padding: 50px 30px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+        }
+
+        .design-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
+            padding: 15px 35px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+        }
+
+        .design-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.4);
+        }
+
+        .accomplishment-list {
+            background: rgba(30, 35, 50, 0.4);
+            border-radius: 15px;
+            padding: 30px;
+        }
+
+        .accomplishment-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+        }
+
+        .accomplishment-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .accomplishment-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 20px;
+        }
+
+        .accomplishment-content h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #ffffff;
+        }
+
+        .accomplishment-content p {
+            font-size: 14px;
+            color: #9ca3af;
+            line-height: 1.6;
+        }
+
+        .backlink-section {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%);
+            border-left: 4px solid #10b981;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .backlink-section h3 {
+            color: #34d399;
+            font-size: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .backlink-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .backlink-item {
+            background: rgba(30, 35, 50, 0.6);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #d1d5db;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+        }
+
+        .backlink-item:hover {
+            border-color: rgba(16, 185, 129, 0.5);
+            background: rgba(30, 35, 50, 0.8);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.2);
+        }
+
+        .backlink-item strong {
+            color: #34d399;
+            display: block;
+            margin-bottom: 3px;
+            font-size: 14px;
+        }
+
+        .next-steps {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(251, 191, 36, 0.08) 100%);
+            border-left: 4px solid #f59e0b;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .next-steps h3 {
+            color: #fbbf24;
+            font-size: 22px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .next-steps ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .next-steps li {
+            color: #d1d5db;
+            font-size: 15px;
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .next-steps li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #fbbf24;
+            font-weight: 700;
+        }
+
+        .footer {
+            text-align: center;
+            padding-top: 40px;
+            margin-top: 50px;
+            border-top: 2px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .footer p {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .footer .cta {
+            display: inline-block;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: #ffffff;
+            padding: 15px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+
+        .footer .cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            .client-name {
+                font-size: 32px;
+            }
+
+            .highlight-stat .number {
+                font-size: 48px;
+            }
+
+            .design-preview {
+                font-size: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">Banoo<span>.Marketing</span></div>
+            <h1 class="client-name">Pro Insulation Contracting</h1>
+            <p class="period">November 2025 Performance Report</p>
+        </div>
+
+        <div class="intro">
+            <p>This month has been transformative for your online presence. We've completely reimagined your website design to better showcase your insulation services and built a powerful network of backlinks to establish you as a trusted authority in the home improvement industry. Here's everything we've accomplished to position Pro Insulation Contracting for growth.</p>
+        </div>
+
+        <div class="design-showcase">
+            <h3>🎨 Brand New Website Design</h3>
+            <p>We've created a modern, professional website design that showcases your insulation expertise and makes it easy for homeowners to request quotes. The new design is clean, mobile-friendly, and built to convert visitors into customers.</p>
+            <div class="design-preview">
+                🏠
+            </div>
+            <a href="https://www.canva.com/design/DAG38jauKIg/1j3vocz-2dyNG3Y5flW6AA/view?utm_content=DAG38jauKIg&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hb95cbed7ae" class="design-btn" target="_blank">View Your New Design →</a>
+        </div>
+
+        <div class="highlight-stat">
+            <div class="number">100</div>
+            <div class="label">Quality Backlinks Secured</div>
+            <div class="description">We've built a powerful network of 100 high-authority links from home improvement and local business websites, significantly boosting your visibility when homeowners search for insulation services</div>
+            <a href="https://docs.google.com/spreadsheets/d/1N7AkbR18bzkWlOB51yiz-4Ssgam9MOIgEMEbyFDbVLw/edit?gid=0#gid=0" class="highlight-btn" target="_blank">View Full Backlink Report →</a>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">What We Built This Month</h2>
+            <div class="accomplishment-list">
+                <div class="accomplishment-item">
+                    <div class="accomplishment-icon">🎯</div>
+                    <div class="accomplishment-content">
+                        <h3>Professional Website Redesign</h3>
+                        <p>Your new website design puts your insulation services front and center. We've created a modern, trustworthy look that resonates with homeowners looking to improve their home's energy efficiency. The design includes clear service descriptions, easy-to-find contact information, and compelling calls-to-action that guide visitors to request a quote. This isn't just pretty—it's strategically designed to turn browsers into customers.</p>
+                    </div>
+                </div>
+                <div class="accomplishment-item">
+                    <div class="accomplishment-icon">🔗</div>
+                    <div class="accomplishment-content">
+                        <h3>100 Strategic Backlinks</h3>
+                        <p>We've secured backlinks from 100 reputable home improvement, contractor, and local business websites. These links act as recommendations to Google, telling search engines that Pro Insulation Contracting is a trusted authority in the insulation industry. Over the next 3-6 months, you'll see your website climbing higher in search results when homeowners look for insulation services in your area. This means more organic traffic and more quote requests—without paying for ads.</p>
+                    </div>
+                </div>
+                <div class="accomplishment-item">
+                    <div class="accomplishment-icon">📱</div>
+                    <div class="accomplishment-content">
+                        <h3>Mobile-Optimized Experience</h3>
+                        <p>Your new design looks perfect on every device—smartphones, tablets, and desktops. Since most homeowners search for contractors on their phones, we've made sure your site loads fast, looks professional, and makes it easy to call or request a quote with just a tap. This mobile-first approach ensures you don't lose potential customers to competitors with better mobile experiences.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="backlink-section">
+            <h3>✨ Premium Backlink Sources</h3>
+            <p style="color: #d1d5db; font-size: 14px; margin-bottom: 15px;">Here are some of the high-quality home improvement and local business platforms where we've secured backlinks for Pro Insulation Contracting:</p>
+            <div class="backlink-grid">
+                <a href="https://www.houzz.com" class="backlink-item" target="_blank">
+                    <strong>Houzz</strong>
+                    Leading home improvement platform
+                </a>
+                <a href="https://www.angi.com" class="backlink-item" target="_blank">
+                    <strong>Angi (Angie's List)</strong>
+                    Trusted contractor directory
+                </a>
+                <a href="https://www.homeadvisor.com" class="backlink-item" target="_blank">
+                    <strong>HomeAdvisor</strong>
+                    Top home services marketplace
+                </a>
+                <a href="https://www.buildzoom.com" class="backlink-item" target="_blank">
+                    <strong>BuildZoom</strong>
+                    Contractor verification platform
+                </a>
+                <a href="https://www.thumbtack.com" class="backlink-item" target="_blank">
+                    <strong>Thumbtack</strong>
+                    Local service provider network
+                </a>
+                <a href="https://www.bbb.org" class="backlink-item" target="_blank">
+                    <strong>Better Business Bureau</strong>
+                    Business credibility authority
+                </a>
+                <a href="https://www.yellowpages.com" class="backlink-item" target="_blank">
+                    <strong>Yellow Pages</strong>
+                    Established business directory
+                </a>
+                <a href="https://www.yelp.com" class="backlink-item" target="_blank">
+                    <strong>Yelp</strong>
+                    Local business reviews platform
+                </a>
+                <a href="https://www.porch.com" class="backlink-item" target="_blank">
+                    <strong>Porch</strong>
+                    Home improvement network
+                </a>
+                <a href="https://www.energystar.gov" class="backlink-item" target="_blank">
+                    <strong>Energy Star Partners</strong>
+                    Energy efficiency authority
+                </a>
+                <a href="https://www.contractorconnection.com" class="backlink-item" target="_blank">
+                    <strong>Contractor Connection</strong>
+                    Contractor referral network
+                </a>
+                <a href="https://www.improvenet.com" class="backlink-item" target="_blank">
+                    <strong>ImproveNet</strong>
+                    Home improvement marketplace
+                </a>
+            </div>
+        </div>
+
+        <div class="next-steps">
+            <h3>🚀 Coming Up Next Month</h3>
+            <ul>
+                <li><strong>Launch Your New Design:</strong> We'll implement your beautiful new design across all key pages of your website, ensuring a consistent, professional experience for every visitor.</li>
+                <li><strong>Optimize for Search Engines:</strong> We'll restructure your site's pages and internal linking to make it easier for Google to understand what you do and rank you higher for insulation-related searches.</li>
+                <li><strong>Speed Optimization:</strong> We'll ensure your site loads lightning-fast, which improves both your search rankings and conversion rates (slow sites lose customers).</li>
+                <li><strong>Add Trust Signals:</strong> We'll integrate customer testimonials, project photos, certifications, and guarantees throughout the site to build confidence with potential customers.</li>
+                <li><strong>Set Up Conversion Tracking:</strong> We'll implement tracking to measure exactly how many quote requests and phone calls your website generates, so we can continuously improve results.</li>
+            </ul>
+        </div>
+
+        <div class="intro" style="margin-top: 30px;">
+            <p><strong>The Bottom Line:</strong> This month we built the foundation for sustainable growth. Your new website design positions Pro Insulation Contracting as a modern, professional company that homeowners can trust. The 100 backlinks we've secured will work around the clock to improve your search rankings, bringing you more organic traffic every month without additional ad spend. Next month, we bring it all to life and start driving serious traffic to your new site.</p>
+        </div>
+
+        <div class="footer">
+            <p>Questions about your new design or growth strategy?</p>
+            <a href="#" class="cta">Let's Discuss Your Launch Plan</a>
+            <p style="margin-top: 30px; font-size: 13px;">Prepared by Banoo.Marketing | Toronto's Top Agency for Leads & Growth</p>
+        </div>
+    </div>
+</body>
+</html>
