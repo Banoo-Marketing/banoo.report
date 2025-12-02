@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vegain Campaign Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0e27;
+            padding: 30px 20px;
+            min-height: 100vh;
+            color: #fff;
+        }
+        
+        .report-container {
+            background: linear-gradient(135deg, #0f1729 0%, #1a1f3a 100%);
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 50px 45px;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+        }
+        
+        .header {
+            border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+            padding-bottom: 25px;
+            margin-bottom: 35px;
+            text-align: center;
+        }
+        
+        .logo {
+            color: #3b82f6;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+        
+        .logo span {
+            color: #fff;
+        }
+        
+        .client-name {
+            color: #3b82f6;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .header h1 {
+            color: #fff;
+            font-size: 32px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header h1 .highlight {
+            color: #3b82f6;
+        }
+        
+        .header p {
+            color: #9ca3af;
+            font-size: 15px;
+        }
+        
+        .report-date {
+            color: #6b7280;
+            font-size: 13px;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+        
+        .comparison-notice {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #60a5fa;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .monthly-comparison {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .month-card {
+            background: rgba(15, 23, 41, 0.4);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            border-radius: 12px;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .month-card:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.15);
+        }
+        
+        .month-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(59, 130, 246, 0.2);
+        }
+        
+        .month-title {
+            color: #3b82f6;
+            font-size: 22px;
+            font-weight: 700;
+        }
+        
+        .winner-badge {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        
+        .metric-grid {
+            display: grid;
+            gap: 15px;
+        }
+        
+        .metric-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .metric-item:last-child {
+            border-bottom: none;
+        }
+        
+        .metric-label {
+            color: #9ca3af;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .metric-icon {
+            margin-right: 8px;
+            font-size: 16px;
+        }
+        
+        .metric-value {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        .metric-value.positive {
+            color: #10b981;
+        }
+        
+        .section-title {
+            color: #fff;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 28px;
+            background: #3b82f6;
+            margin-right: 12px;
+            border-radius: 2px;
+        }
+        
+        .insights-section {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            margin-bottom: 30px;
+        }
+        
+        .insights-title {
+            color: #fff;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .insights-title::before {
+            content: '💡';
+            margin-right: 10px;
+            font-size: 24px;
+        }
+        
+        .insights-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .insights-list li {
+            color: #d1d5db;
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 15px;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .insights-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #3b82f6;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .insights-list strong {
+            color: #fff;
+        }
+        
+        .key-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .key-metric-card {
+            background: rgba(15, 23, 41, 0.6);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 12px;
+            padding: 25px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .key-metric-card:hover {
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.05);
+            transform: translateY(-2px);
+        }
+        
+        .key-metric-icon {
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+        
+        .key-metric-value {
+            color: #3b82f6;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .key-metric-label {
+            color: #9ca3af;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        .recommendations {
+            background: rgba(15, 23, 41, 0.4);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-left: 4px solid #10b981;
+            border-radius: 12px;
+            padding: 30px;
+        }
+        
+        .recommendations h3 {
+            color: #10b981;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .recommendations h3::before {
+            content: '🚀';
+            margin-right: 10px;
+            font-size: 24px;
+        }
+        
+        .recommendations ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .recommendations li {
+            color: #d1d5db;
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 12px;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .recommendations li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        @media (max-width: 768px) {
+            .monthly-comparison {
+                grid-template-columns: 1fr;
+            }
+            
+            .key-metrics {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media print {
+            body {
+                background: white;
+                color: #000;
+            }
+            
+            .report-container {
+                box-shadow: none;
+                background: white;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="report-container">
+        <div class="header">
+            <div class="logo">Banoo<span>.Marketing</span></div>
+            <div class="client-name">VEGAIN</div>
+            <h1>Campaign <span class="highlight">Performance</span></h1>
+            <p>AI-Powered Marketing Results</p>
+            <div class="report-date">October - November 2024</div>
+        </div>
+        
+        <div class="comparison-notice">
+            📊 Comparing October vs November Campaign Performance
+        </div>
+        
+        <h2 class="section-title">November Highlights</h2>
+        <div class="key-metrics">
+            <div class="key-metric-card">
+                <div class="key-metric-icon">🎯</div>
+                <div class="key-metric-value">304</div>
+                <div class="key-metric-label">Total Conversions</div>
+            </div>
+            <div class="key-metric-card">
+                <div class="key-metric-icon">💰</div>
+                <div class="key-metric-value">$5.85</div>
+                <div class="key-metric-label">Cost Per Result</div>
+            </div>
+            <div class="key-metric-card">
+                <div class="key-metric-icon">📈</div>
+                <div class="key-metric-value">1,221%</div>
+                <div class="key-metric-label">Conversion Growth</div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">Monthly Performance Comparison</h2>
+        <div class="monthly-comparison">
+            <div class="month-card">
+                <div class="month-header">
+                    <h3 class="month-title">October</h3>
+                </div>
+                <div class="metric-grid">
+                    <div class="metric-item">
+                        <span class="metric-label"><span class="metric-icon">👁️</span>People Reached</span>
+                        <span class="metric-value">462,633</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label"><span class="metric-icon">👆</span>Clicks</span>
+                        <span class="metric-value">3,704</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label"><span class="metric-icon">📊</span>Engagement Rate</span>
+                        <span class="metric-value">0.80%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label"><span class="metric-icon">💵</span>Investment</span>
+                        <span class="metric-value">$1,691.97</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label"><span class="metric-icon">✨</span>Conversions</span>
+                        <span class="metric-value">23</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label"><span class="metric-icon">💎</span>Cost Per Result</span>
+                        <span class="metric-value">$73.56</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="month-card">
+                <div class="month-header">
+                    <h3 class="month-title">November</h3>
+                    <span class="winner-badge">⭐ Best Month</span>
+                </div>
+                <div class="metric-grid">
+                    <div class="metric-item">
+                        <span class="metric-label"><span class="metric-icon">👁️</span>People Reached</span>
+                        <span class="metric-value">251,526</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label"><span class="metric-icon">👆</span>Clicks</span>
+                        <span class="metric-value">3,360</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label"><span class="metric-icon">📊</span>Engagement Rate</span>
+                        <span class="metric-value">1.34%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label"><span class="metric-icon">💵</span>Investment</span>
+                        <span class="metric-value">$1,779.29</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label"><span class="metric-icon">✨</span>Conversions</span>
+                        <span class="metric-value positive">304</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label"><span class="metric-icon">💎</span>Cost Per Result</span>
+                        <span class="metric-value positive">$5.85</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="insights-section">
+            <h3 class="insights-title">What This Means for Your Business</h3>
+            <ul class="insights-list">
+                <li><strong>Explosive Conversion Growth:</strong> November saw a remarkable 1,221% increase in conversions (from 23 to 304), showing your messaging and targeting have hit the sweet spot with your vegan audience.</li>
+                <li><strong>Cost Efficiency Breakthrough:</strong> Your cost per conversion dropped from $73.56 to just $5.85 – that's a 92% reduction! This means you're now getting 12.5x more results for the same investment.</li>
+                <li><strong>Smarter Audience Targeting:</strong> While reaching fewer people (251K vs 462K), you achieved better results. This shows you're now focusing on the right audience – quality over quantity wins.</li>
+                <li><strong>Higher Engagement:</strong> Your engagement rate improved from 0.80% to 1.34%, meaning more people are taking action when they see your ads. Your creative content is resonating strongly.</li>
+                <li><strong>Budget Optimization:</strong> With similar spending but vastly better results, November proves your campaign optimization is working perfectly. Every dollar is now working 12x harder.</li>
+            </ul>
+        </div>
+        
+        <div class="recommendations">
+            <h3>Next Steps for Continued Growth</h3>
+            <ul>
+                <li><strong>Scale November's Success:</strong> Double down on the strategies that worked in November – increase budget allocation to these high-performing campaigns.</li>
+                <li><strong>Audience Analysis:</strong> Document exactly what made November's audience targeting so successful and replicate it across all campaigns.</li>
+                <li><strong>Creative Refresh:</strong> Your November ads clearly connected with viewers – create more content in this winning style and test variations.</li>
+                <li><strong>Expand Reach Strategically:</strong> Now that you have a proven formula, gradually expand your reach to similar audiences while maintaining this conversion efficiency.</li>
+                <li><strong>Track & Optimize:</strong> Monitor your cost per conversion closely – aim to maintain it below $10 as you scale up your campaigns.</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
