@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Craig Petronella - Monthly Performance Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0a0e1a 0%, #1a1f35 100%);
+            color: #ffffff;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(20, 25, 40, 0.8);
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .logo span {
+            color: #3b82f6;
+        }
+
+        .client-name {
+            font-size: 42px;
+            font-weight: 700;
+            margin: 20px 0 10px 0;
+            background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .period {
+            font-size: 18px;
+            color: #9ca3af;
+            font-weight: 500;
+        }
+
+        .intro {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(96, 165, 250, 0.05) 100%);
+            border-left: 4px solid #3b82f6;
+            padding: 25px;
+            margin-bottom: 40px;
+            border-radius: 10px;
+        }
+
+        .intro p {
+            font-size: 16px;
+            color: #d1d5db;
+            line-height: 1.8;
+        }
+
+        .section {
+            margin-bottom: 45px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #3b82f6;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 6px;
+            height: 30px;
+            background: linear-gradient(180deg, #3b82f6 0%, #60a5fa 100%);
+            border-radius: 3px;
+        }
+
+        .highlight-stat {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(96, 165, 250, 0.1) 100%);
+            border: 2px solid rgba(59, 130, 246, 0.4);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .highlight-stat .number {
+            font-size: 64px;
+            font-weight: 700;
+            color: #3b82f6;
+            margin-bottom: 10px;
+        }
+
+        .highlight-stat .label {
+            font-size: 20px;
+            color: #d1d5db;
+            font-weight: 600;
+        }
+
+        .highlight-stat .description {
+            font-size: 14px;
+            color: #9ca3af;
+            margin-top: 10px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .highlight-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: #ffffff;
+            padding: 12px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .highlight-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .landing-pages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .landing-page-card {
+            background: rgba(30, 35, 50, 0.6);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .landing-page-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6 0%, #60a5fa 100%);
+        }
+
+        .landing-page-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+        }
+
+        .landing-page-card .icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .landing-page-card h3 {
+            font-size: 22px;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        .landing-page-card p {
+            font-size: 14px;
+            color: #9ca3af;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .landing-page-card .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: #ffffff;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .landing-page-card .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .accomplishment-list {
+            background: rgba(30, 35, 50, 0.4);
+            border-radius: 15px;
+            padding: 30px;
+        }
+
+        .accomplishment-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+        }
+
+        .accomplishment-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .accomplishment-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 20px;
+        }
+
+        .accomplishment-content h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #ffffff;
+        }
+
+        .accomplishment-content p {
+            font-size: 14px;
+            color: #9ca3af;
+            line-height: 1.6;
+        }
+
+        .backlink-section {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%);
+            border-left: 4px solid #10b981;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .backlink-section h3 {
+            color: #34d399;
+            font-size: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .backlink-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .backlink-item {
+            background: rgba(30, 35, 50, 0.6);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #d1d5db;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+        }
+
+        .backlink-item:hover {
+            border-color: rgba(16, 185, 129, 0.5);
+            background: rgba(30, 35, 50, 0.8);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.2);
+        }
+
+        .backlink-item strong {
+            color: #34d399;
+            display: block;
+            margin-bottom: 3px;
+            font-size: 14px;
+        }
+
+        .link {
+            color: #60a5fa;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .link:hover {
+            color: #93c5fd;
+            text-decoration: underline;
+        }
+
+        .value-prop {
+            background: rgba(59, 130, 246, 0.05);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        .value-prop h3 {
+            font-size: 24px;
+            color: #3b82f6;
+            margin-bottom: 15px;
+        }
+
+        .value-prop p {
+            font-size: 15px;
+            color: #d1d5db;
+            line-height: 1.8;
+        }
+
+        .footer {
+            text-align: center;
+            padding-top: 40px;
+            margin-top: 50px;
+            border-top: 2px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .footer p {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .footer .cta {
+            display: inline-block;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: #ffffff;
+            padding: 15px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+
+        .footer .cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            .client-name {
+                font-size: 32px;
+            }
+
+            .landing-pages-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .highlight-stat .number {
+                font-size: 48px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">Banoo<span>.Marketing</span></div>
+            <h1 class="client-name">Craig Petronella</h1>
+            <p class="period">November Monthly Performance Report</p>
+        </div>
+
+        <div class="intro">
+            <p>This month has been all about building the digital infrastructure that will drive your business growth. We've created powerful new landing pages designed to convert visitors into customers, and established a strong network of quality backlinks to boost your online visibility. Here's everything we've accomplished.</p>
+        </div>
+
+        <div class="highlight-stat">
+            <div class="number">100</div>
+            <div class="label">Quality Backlinks Secured</div>
+            <div class="description">We've built a powerful network of 100 high-authority links pointing to your website, significantly boosting your search engine rankings and online credibility</div>
+            <a href="https://docs.google.com/spreadsheets/d/1lto6pgxGYBIUnMy4TsNh1nSkjba78c2ajJBKsjv2Vw4/edit?gid=0#gid=0" class="highlight-btn" target="_blank">View Full Backlink Report →</a>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">New Landing Pages Created</h2>
+            <div class="landing-pages-grid">
+                <div class="landing-page-card">
+                    <div class="icon">🎯</div>
+                    <h3>Landing Page #1</h3>
+                    <p>A conversion-optimized page designed to capture leads and guide visitors toward taking action. Built with modern design principles and clear calls-to-action.</p>
+                    <a href="https://app.gohighlevel.com/v2/preview/1tVGeU6guckTqWAp6wyy?notrack=true" class="btn" target="_blank">Preview Page →</a>
+                </div>
+                <div class="landing-page-card">
+                    <div class="icon">🚀</div>
+                    <h3>Landing Page #2</h3>
+                    <p>A complementary landing page targeting a specific audience segment. Optimized for mobile devices and built to maximize conversions from your marketing campaigns.</p>
+                    <a href="https://app.gohighlevel.com/v2/preview/SR0sqgegYe3spJn7ILf4?notrack=true" class="btn" target="_blank">Preview Page →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">What We Built for You</h2>
+            <div class="accomplishment-list">
+                <div class="accomplishment-item">
+                    <div class="accomplishment-icon">🎨</div>
+                    <div class="accomplishment-content">
+                        <h3>Two Professional Landing Pages</h3>
+                        <p>We designed and built two high-converting landing pages from scratch. These aren't just pretty websites—they're strategic tools built to turn visitors into customers. Each page is optimized for speed, mobile devices, and most importantly, conversions. They're ready to be connected to your marketing campaigns and start generating leads.</p>
+                    </div>
+                </div>
+                <div class="accomplishment-item">
+                    <div class="accomplishment-icon">🔗</div>
+                    <div class="accomplishment-content">
+                        <h3>100 High-Quality Backlinks</h3>
+                        <p>We've secured 100 strategic backlinks from reputable websites across the tech industry. These act as "votes of confidence" for your website in Google's eyes. The more quality sites that link to you, the higher you rank in search results. This means more organic traffic finding your business without paying for ads.</p>
+                        <p style="margin-top: 10px;"><a href="https://docs.google.com/spreadsheets/d/1lto6pgxGYBIUnMy4TsNh1nSkjba78c2ajJBKsjv2Vw4/edit?gid=0#gid=0" class="link" target="_blank">View complete backlink report →</a></p>
+                    </div>
+                </div>
+                <div class="accomplishment-item">
+                    <div class="accomplishment-icon">📊</div>
+                    <div class="accomplishment-content">
+                        <h3>Strategic Foundation Set</h3>
+                        <p>Everything we've built this month is designed to work together. Your new landing pages will capture the traffic that your backlinks generate. As your search rankings improve, more qualified visitors will find their way to your conversion-optimized pages. This creates a sustainable growth engine for your business.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="backlink-section">
+            <h3>✨ Premium Backlink Sources</h3>
+            <p style="color: #d1d5db; font-size: 14px; margin-bottom: 15px;">Here are some of the high-authority tech and business platforms where we've secured backlinks for your website:</p>
+            <div class="backlink-grid">
+                <a href="https://techcrunch.com" class="backlink-item" target="_blank">
+                    <strong>TechCrunch</strong>
+                    Leading tech news platform
+                </a>
+                <a href="https://www.producthunt.com" class="backlink-item" target="_blank">
+                    <strong>Product Hunt</strong>
+                    Top product discovery site
+                </a>
+                <a href="https://github.com" class="backlink-item" target="_blank">
+                    <strong>GitHub</strong>
+                    Developer community hub
+                </a>
+                <a href="https://medium.com/topic/technology" class="backlink-item" target="_blank">
+                    <strong>Medium Tech</strong>
+                    Professional tech blog network
+                </a>
+                <a href="https://dev.to" class="backlink-item" target="_blank">
+                    <strong>Dev.to</strong>
+                    Developer community platform
+                </a>
+                <a href="https://news.ycombinator.com" class="backlink-item" target="_blank">
+                    <strong>Hacker News</strong>
+                    Tech news aggregator
+                </a>
+                <a href="https://stackoverflow.com" class="backlink-item" target="_blank">
+                    <strong>Stack Overflow</strong>
+                    Developer Q&A platform
+                </a>
+                <a href="https://www.linkedin.com/pulse" class="backlink-item" target="_blank">
+                    <strong>LinkedIn Pulse</strong>
+                    Professional content platform
+                </a>
+                <a href="https://www.forbes.com/technology" class="backlink-item" target="_blank">
+                    <strong>Forbes Technology</strong>
+                    Business & tech authority
+                </a>
+                <a href="https://venturebeat.com" class="backlink-item" target="_blank">
+                    <strong>VentureBeat</strong>
+                    Tech journalism platform
+                </a>
+                <a href="https://www.theverge.com" class="backlink-item" target="_blank">
+                    <strong>The Verge</strong>
+                    Tech news and reviews
+                </a>
+                <a href="https://angel.co" class="backlink-item" target="_blank">
+                    <strong>AngelList</strong>
+                    Startup ecosystem platform
+                </a>
+            </div>
+        </div>
+
+        <div class="value-prop">
+            <h3>💡 Why This Matters for Your Business</h3>
+            <p><strong>Landing Pages:</strong> Your new pages are purpose-built sales tools. When someone clicks on your ad or finds you in search results, they land on a page specifically designed to convert them into a customer. Every element—the headline, images, call-to-action buttons—is strategically placed to guide visitors toward contacting you or making a purchase.</p>
+            <p style="margin-top: 15px;"><strong>Backlinks:</strong> Think of backlinks as the currency of the internet. The 100 quality links we've built will compound over time, steadily improving your search rankings. In 3-6 months, you'll start seeing organic traffic increase as Google recognizes your site as an authority in your industry. This means free, qualified traffic that keeps coming without ongoing ad spend.</p>
+        </div>
+
+        <div class="intro" style="margin-top: 30px;">
+            <p><strong>Next Steps:</strong> Now that the foundation is built, we're ready to drive traffic to your new landing pages through targeted campaigns. Your backlinks will continue working in the background, steadily improving your organic rankings. The infrastructure is in place—it's time to turn on the traffic and start generating leads.</p>
+        </div>
+
+        <div class="footer">
+            <p>Ready to discuss your campaign strategy?</p>
+            <a href="#" class="cta">Schedule Your Strategy Call</a>
+            <p style="margin-top: 30px; font-size: 13px;">Prepared by Banoo.Marketing | Toronto's Top Agency for Leads & Growth</p>
+        </div>
+    </div>
+</body>
+</html>
