@@ -405,3 +405,111 @@ async def send_approved_email(action_id: int, body: SendEmailRequest):
         raise HTTPException(400, str(e))
     except Exception as e:
         raise HTTPException(500, str(e))
+
+
+# ── SEMrush ───────────────────────────────────────────────────────────────────
+
+@app.get("/semrush/domain/{domain}")
+def semrush_domain(domain: str):
+    from semrush_connector import get_domain_overview, get_top_keywords
+    try:
+        overview = get_domain_overview(domain)
+        keywords = get_top_keywords(domain, limit=10)
+        return {"overview": overview, "top_keywords": keywords}
+    except Exception as e:
+        raise HTTPException(400, str(e))
+
+@app.post("/semrush/enrich/{contact_id}")
+def semrush_enrich_contact(contact_id: str):
+    from semrush_connector import get_client_seo_health
+    try:
+        return get_client_seo_health(contact_id)
+    except Exception as e:
+        raise HTTPException(400, str(e))
+
+@app.post("/semrush/enrich-all")
+def semrush_enrich_all():
+    from semrush_connector import enrich_all_contacts
+    try:
+        results = enrich_all_contacts()
+        return {"enriched": len(results), "results": results}
+    except Exception as e:
+        raise HTTPException(400, str(e))
+
+
+# ── Stripe ────────────────────────────────────────────────────────────────────
+
+@app.get("/stripe/health")
+def stripe_health():
+    from stripe_connector import get_mrr
+    try:
+        return get_mrr()
+    except Exception as e:
+        raise HTTPException(400, str(e))
+
+@app.post("/stripe/sync")
+async def stripe_sync():
+    from stripe_connector import sync_all
+    try:
+        result = sync_all()
+        if result.get("failed_payments"):
+            await broadcast({"type": "new_alerts", "count": result["failed_payments"]})
+        return result
+    except Exception as e:
+        raise HTTPException(400, str(e))
+
+@app.get("/stripe/subscriptions")
+def stripe_subscriptions():
+    from stripe_connector import get_subscription_health
+    try:
+        return {"subscriptions": get_subscription_health()}
+    except Exception as e:
+        raise HTTPException(400, str(e))
+
+
+# ── X / Twitter ───────────────────────────────────────────────────────────────
+
+@app.post("/x/draft-win-tweet/{deal_id}")
+async def draft_win_tweet(deal_id: str):
+    from x_connector import draft_and_queue_win_tweet
+    try:
+        result = draft_and_queue_win_tweet(deal_id)
+        await broadcast({"type": "new_alerts", "count": 1})
+        return result
+    except Exception as e:
+        raise HTTPException(400, str(e))
+
+@app.post("/x/post/{action_id}")
+async def post_approved_tweet(action_id: int):
+    from x_connector import execute_approved_tweet
+    try:
+        result = execute_approved_tweet(action_id)
+        return result
+    except PermissionError as e:
+        raise HTTPException(403, str(e))
+    except Exception as e:
+        raise HTTPException(400, str(e))
+
+@app.post("/x/scan-wins")
+async def scan_deal_wins():
+    """Draft tweets for all recently closed deals that don't have a tweet queued."""
+    import database as db
+    from x_connector import draft_and_queue_win_tweet
+    deals = db.fetchall(
+        "SELECT id FROM deals WHERE stage='closed_won' ORDER BY created_at DESC LIMIT 5"
+    )
+    queued = []
+    for d in deals:
+        existing = db.fetchone(
+            "SELECT id FROM action_queue WHERE deal_id=%s AND action_type='post_tweet' AND status IN ('PENDING_APPROVAL','APPROVED','EXECUTED')",
+            (d["id"],)
+        )
+        if not existing:
+            try:
+                result = draft_and_queue_win_tweet(d["id"])
+                queued.append(result)
+            except Exception as e:
+                print(f"  Tweet draft failed for {d['id']}: {e}")
+    if queued:
+        await broadcast({"type": "new_alerts", "count": len(queued)})
+    return {"queued": len(queued), "drafts": queued}

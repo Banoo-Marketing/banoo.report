@@ -29,3 +29,6 @@ google-api-python-client>=2.130.0
 
 # Desktop notifications (optional, fallback to WS)
 plyer>=2.1.0
+
+# Stripe billing integration
+stripe>=8.0.0
