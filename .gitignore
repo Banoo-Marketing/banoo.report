@@ -1,2 +1,6 @@
 .claude/settings.local.json
 company-brain/.env
+company-brain/.gmail_token.json
+company-brain/backend/__pycache__/
+company-brain/frontend/node_modules/
+company-brain/frontend/package-lock.json
