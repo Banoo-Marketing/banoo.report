@@ -1,5 +1,10 @@
 """Central config – reads from .env file or environment variables."""
+from pathlib import Path
 from pydantic_settings import BaseSettings
+
+# .env may live in backend/ OR one level up (company-brain/)
+_HERE = Path(__file__).parent
+_ENV_PATHS = [_HERE / ".env", _HERE.parent / ".env"]
 
 
 class Settings(BaseSettings):
@@ -15,9 +20,11 @@ class Settings(BaseSettings):
     google_client_id: str = ""
     google_client_secret: str = ""
 
-    class Config:
-        env_file = ".env"
-        case_sensitive = False
+    model_config = {
+        "env_file": [str(p) for p in _ENV_PATHS if p.exists()],
+        "case_sensitive": False,
+        "extra": "ignore",
+    }
 
 
 settings = Settings()
