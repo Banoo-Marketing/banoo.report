@@ -1,0 +1,25 @@
+anthropic>=0.40.0
+fastapi>=0.111.0
+uvicorn[standard]>=0.30.0
+websockets>=12.0
+
+# Database
+psycopg2-binary>=2.9.9
+pgvector>=0.3.0
+
+# Task queue
+celery>=5.4.0
+redis>=5.0.0
+
+# HTTP / utils
+httpx>=0.27.0
+python-dotenv>=1.0.0
+python-multipart>=0.0.9
+pydantic>=2.7.0
+pydantic-settings>=2.2.0
+
+# Scheduling (Celery Beat)
+celery[redis]>=5.4.0
+
+# Desktop notifications (optional, fallback to WS)
+plyer>=2.1.0
