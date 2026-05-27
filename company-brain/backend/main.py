@@ -12,6 +12,17 @@ Endpoints:
   POST /scan/renewals        → manually trigger renewal scan
   POST /scan/agent           → manually trigger agent decision loop
   WS   /ws/alerts            → real-time WebSocket push to dashboard
+
+  Gmail OAuth:
+  GET  /auth/google           → redirect to Google consent screen
+  GET  /auth/google/callback  → handle OAuth callback, store token
+  GET  /auth/google/status    → check if Gmail is connected
+  POST /auth/google/test      → send test email
+  DELETE /auth/google         → disconnect / revoke token
+
+  Gmail actions:
+  GET  /gmail/unread          → fetch + analyse unread emails for renewal signals
+  POST /gmail/send/{alert_id} → send approved email (requires APPROVED status)
 """
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
@@ -20,12 +31,26 @@ from typing import Any
 import json
 import asyncio
 
+from fastapi.responses import RedirectResponse
 import database as db
 from config import settings
 import renewal_engine
 import clv_engine
 import agent_loop
 from tasks import execute_approved_action
+
+# Gmail modules imported lazily inside routes to avoid cryptography conflicts
+def _gmail_auth():
+    import gmail_auth
+    return gmail_auth
+
+def _gmail_reader():
+    import gmail_reader
+    return gmail_reader
+
+def _gmail_sender():
+    import gmail_sender
+    return gmail_sender
 
 app = FastAPI(
     title="Company Brain API",
@@ -262,3 +287,121 @@ def get_audit_log(deal_id: str | None = None, limit: int = 100):
             (limit,),
         )
     return {"logs": rows, "count": len(rows)}
+
+
+# ── Gmail OAuth ────────────────────────────────────────────────────────────────
+
+@app.get("/auth/google")
+def google_auth_start():
+    """Redirect user to Google's OAuth consent screen."""
+    if not settings.google_client_id:
+        raise HTTPException(
+            400,
+            "GOOGLE_CLIENT_ID not set. Add it to .env (get from console.cloud.google.com).",
+        )
+    auth_url = _gmail_auth().get_auth_url()
+    return RedirectResponse(auth_url)
+
+
+@app.get("/auth/google/callback")
+def google_auth_callback(code: str, error: str | None = None):
+    """Handle OAuth callback from Google. Stores tokens and redirects to dashboard."""
+    if error:
+        raise HTTPException(400, f"Google OAuth error: {error}")
+    try:
+        token_data = _gmail_auth().exchange_code(code)
+        db.execute(
+            "INSERT INTO audit_log (action_type, actor, details) VALUES ('gmail_connected', 'user', %s)",
+            (json.dumps({"scopes": token_data.get("scopes", [])}),),
+        )
+        return RedirectResponse("http://localhost:3000?gmail=connected")
+    except Exception as e:
+        raise HTTPException(500, f"Token exchange failed: {e}")
+
+
+@app.get("/auth/google/status")
+def google_auth_status():
+    """Check if Gmail is connected and working."""
+    connected = _gmail_auth().is_connected()
+    return {
+        "connected": connected,
+        "message": "Gmail connected ✅" if connected else (
+            "Not connected. Visit /auth/google to connect your Gmail account."
+            if settings.google_client_id
+            else "Set GOOGLE_CLIENT_ID + GOOGLE_CLIENT_SECRET in .env first."
+        ),
+    }
+
+
+@app.delete("/auth/google")
+def google_auth_disconnect():
+    """Revoke and delete stored Gmail token."""
+    ga = _gmail_auth()
+    if ga._TOKEN_FILE.exists():
+        ga._TOKEN_FILE.unlink()
+        db.execute(
+            "INSERT INTO audit_log (action_type, actor, details) VALUES ('gmail_disconnected', 'user', '{}')",
+        )
+    return {"disconnected": True}
+
+
+class TestEmailRequest(BaseModel):
+    to: str
+
+
+@app.post("/auth/google/test")
+def gmail_test(body: TestEmailRequest):
+    """Send a test email to verify the Gmail connection works."""
+    try:
+        result = _gmail_sender().send_test_email(body.to)
+        return result
+    except RuntimeError as e:
+        raise HTTPException(400, str(e))
+
+
+# ── Gmail Actions ──────────────────────────────────────────────────────────────
+
+@app.get("/gmail/unread")
+def read_unread_emails(max_results: int = 50):
+    """Fetch unread emails and extract renewal signals via Claude."""
+    try:
+        gr = _gmail_reader()
+        emails = gr.get_unread_emails(max_results)
+        signals = gr.extract_renewal_signals(emails)
+        return {
+            "emails_scanned": len(emails),
+            "renewal_signals": len(signals),
+            "signals": signals,
+        }
+    except RuntimeError as e:
+        raise HTTPException(400, str(e))
+    except Exception as e:
+        raise HTTPException(500, str(e))
+
+
+class SendEmailRequest(BaseModel):
+    to: str
+    subject: str
+    body: str
+    deal_id: str
+
+
+@app.post("/gmail/send/{action_id}")
+async def send_approved_email(action_id: int, body: SendEmailRequest):
+    """Send an approved email (requires APPROVED status in action_queue)."""
+    try:
+        result = _gmail_sender().send_approved_email(
+            action_id=action_id,
+            to=body.to,
+            subject=body.subject,
+            body_html=body.body,
+            deal_id=body.deal_id,
+        )
+        await broadcast({"type": "email_sent", "action_id": action_id, "to": body.to})
+        return result
+    except PermissionError as e:
+        raise HTTPException(403, str(e))
+    except RuntimeError as e:
+        raise HTTPException(400, str(e))
+    except Exception as e:
+        raise HTTPException(500, str(e))
