@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chief of Staff</title>
+<style>
+  :root{--bg:#0f0f0f;--card:#1a1a1a;--border:#2a2a2a;--text:#e0e0e0;--muted:#888;
+    --accent:#3b82f6;--green:#22c55e;--yellow:#eab308;--red:#ef4444;--purple:#a855f7}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.5}
+  header{background:var(--card);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;gap:1rem}
+  header h1{font-size:1.2rem;font-weight:700}
+  header .sub{color:var(--muted);font-size:0.85rem}
+  .tabs{display:flex;gap:0;border-bottom:1px solid var(--border);padding:0 2rem;background:var(--card)}
+  .tab{padding:0.75rem 1.25rem;cursor:pointer;border-bottom:2px solid transparent;color:var(--muted);font-size:0.875rem;transition:all .2s}
+  .tab.active,.tab:hover{color:var(--text);border-bottom-color:var(--accent)}
+  .page{display:none;padding:2rem;max-width:1200px;margin:0 auto}
+  .page.active{display:block}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:2rem}
+  .stat{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.25rem}
+  .stat .val{font-size:2rem;font-weight:700;color:var(--accent)}
+  .stat .lbl{color:var(--muted);font-size:0.75rem;text-transform:uppercase;letter-spacing:.05em}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.25rem;margin-bottom:1rem}
+  .card h3{font-size:0.95rem;margin-bottom:0.5rem}
+  .card .meta{color:var(--muted);font-size:0.8rem}
+  .badge{display:inline-block;padding:.2rem .5rem;border-radius:4px;font-size:.7rem;font-weight:700;text-transform:uppercase}
+  .hi{background:#450a0a;color:var(--red)}.med{background:#451a03;color:var(--yellow)}.lo{background:#052e16;color:var(--green)}
+  .rel-fam{color:#f0abfc}.rel-friend{color:#93c5fd}.rel-biz{color:#6ee7b7}.rel-lead{color:#fde68a}
+  .rel-mentor{color:#c4b5fd}.rel-vendor{color:#94a3b8}.rel-rekindle{color:#fb923c}
+  .strength-bar{height:6px;background:#222;border-radius:3px;margin-top:6px}
+  .strength-fill{height:100%;border-radius:3px;background:var(--accent);transition:width .3s}
+  .section-title{font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:1rem;margin-top:1.5rem}
+  .action-item{border-left:3px solid var(--border);padding:.5rem .75rem;margin-bottom:.5rem;border-radius:0 6px 6px 0}
+  .action-item.HIGH{border-color:var(--red)}.action-item.MEDIUM{border-color:var(--yellow)}.action-item.LOW{border-color:var(--green)}
+  .brief-box{background:linear-gradient(135deg,#1e3a5f,#0f0f0f);border:1px solid #2563eb;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
+  .brief-box h2{color:#93c5fd;font-size:1rem;margin-bottom:.75rem}
+  .brief-task{padding:.5rem;background:#0f172a;border-radius:6px;margin-bottom:.5rem}
+  .score-bar{display:inline-flex;gap:1px;align-items:center}
+  .score-dot{width:6px;height:6px;border-radius:50%;background:#222}
+  .score-dot.on{background:var(--accent)}
+  button.refresh{background:var(--accent);color:white;border:none;padding:.4rem .75rem;border-radius:6px;cursor:pointer;font-size:.8rem}
+  input.search{background:#111;border:1px solid var(--border);color:var(--text);padding:.4rem .75rem;border-radius:6px;font-size:.85rem;width:240px;margin-bottom:1rem}
+  .empty{color:var(--muted);text-align:center;padding:2rem;font-size:.9rem}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>🧠 Chief of Staff</h1>
+    <div class="sub" id="last-updated">Loading...</div>
+  </div>
+  <button class="refresh" style="margin-left:auto" onclick="loadAll()">↻ Refresh</button>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab('brief')">Daily Brief</div>
+  <div class="tab" onclick="showTab('contacts')">Contacts</div>
+  <div class="tab" onclick="showTab('actions')">Actions</div>
+  <div class="tab" onclick="showTab('nurture')">Nurture Leads</div>
+  <div class="tab" onclick="showTab('reconnect')">Reconnect</div>
+  <div class="tab" onclick="showTab('calendar')">Calendar</div>
+</div>
+
+<!-- BRIEF -->
+<div id="tab-brief" class="page active">
+  <div id="stats-grid" class="grid"></div>
+  <div id="brief-content"><div class="empty">Loading brief...</div></div>
+</div>
+
+<!-- CONTACTS -->
+<div id="tab-contacts" class="page">
+  <input class="search" placeholder="Search name or email..." id="contact-search" oninput="filterContacts()">
+  <div id="contacts-list"></div>
+</div>
+
+<!-- ACTIONS -->
+<div id="tab-actions" class="page">
+  <div id="actions-list"></div>
+</div>
+
+<!-- NURTURE -->
+<div id="tab-nurture" class="page">
+  <div id="nurture-list"></div>
+</div>
+
+<!-- RECONNECT -->
+<div id="tab-reconnect" class="page">
+  <div id="reconnect-list"></div>
+</div>
+
+<!-- CALENDAR -->
+<div id="tab-calendar" class="page">
+  <div id="calendar-list"></div>
+</div>
+
+<script>
+let _contacts = [];
+let _actions = [];
+
+function showTab(name){
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active', ['brief','contacts','actions','nurture','reconnect','calendar'][i]===name));
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+}
+
+async function api(path){const r=await fetch('/api'+path);return r.json();}
+
+function relColor(rel){
+  const m={'Family':'rel-fam','Close friend':'rel-friend','Key business partner':'rel-biz',
+    'Client (Banoo)':'rel-biz','Lead (business owner)':'rel-lead','Mentor/Advisor':'rel-mentor',
+    'Vendor':'rel-vendor','Needs rekindling':'rel-rekindle'};
+  return m[rel]||'';
+}
+
+function scoreDots(n,max=10){
+  let h='<span class="score-bar">';
+  for(let i=0;i<max;i++)h+=`<span class="score-dot${i<Math.round(n)?'  on':''}"></span>`;
+  return h+'</span>';
+}
+
+async function loadStats(){
+  const d=await api('/stats');
+  document.getElementById('stats-grid').innerHTML=`
+    <div class="stat"><div class="val">${(d.emails_total||0).toLocaleString()}</div><div class="lbl">Emails Fetched</div></div>
+    <div class="stat"><div class="val">${(d.contacts||0).toLocaleString()}</div><div class="lbl">Contacts</div></div>
+    <div class="stat"><div class="val">${(d.actions_open||0).toLocaleString()}</div><div class="lbl">Open Actions</div></div>
+    <div class="stat"><div class="val">${(d.calendar_events||0).toLocaleString()}</div><div class="lbl">Cal Events</div></div>
+  `;
+}
+
+async function loadBrief(){
+  try{
+    const d=await api('/brief');
+    let h=`<div class="brief-box"><h2>☀️ ${d.greeting||'Good morning!'}</h2>
+      <p>${d.calendar_summary||''}</p></div>`;
+    if(d.top_3_tasks?.length){
+      h+=`<div class="section-title">🎯 Top Tasks Today</div>`;
+      d.top_3_tasks.forEach((t,i)=>{
+        h+=`<div class="brief-task"><strong>${i+1}. ${t.title}</strong><br>
+          <span style="color:var(--muted);font-size:.8rem">${t.why}</span><br>
+          <span style="color:#93c5fd;font-size:.8rem">→ ${t.action}</span></div>`;
+      });
+    }
+    if(d.people_to_contact?.length){
+      h+=`<div class="section-title">🤝 People to Contact</div>`;
+      d.people_to_contact.forEach(p=>{
+        h+=`<div class="card"><h3>${p.name} <span style="color:var(--accent);font-size:.8rem">${p.email}</span></h3>
+          <div class="meta">${p.reason}</div>
+          ${p.suggested_message?`<div style="margin-top:.5rem;color:#ccc;font-style:italic;font-size:.85rem">"${p.suggested_message}"</div>`:''}
+        </div>`;
+      });
+    }
+    if(d.dormant_alert){
+      h+=`<div class="section-title">⚠️ Reconnect Alert</div>
+        <div class="card" style="border-color:var(--yellow)"><p>${d.dormant_alert}</p></div>`;
+    }
+    if(d.strategic_reminder){
+      h+=`<div class="section-title">🔭 Strategic Reminder</div>
+        <div class="card" style="border-color:var(--purple)"><p>${d.strategic_reminder}</p></div>`;
+    }
+    document.getElementById('brief-content').innerHTML=h;
+  }catch(e){document.getElementById('brief-content').innerHTML=`<div class="empty">Brief unavailable: ${e.message}</div>`;}
+}
+
+async function loadContacts(){
+  const d=await api('/contacts?limit=100');
+  _contacts=d.contacts||[];
+  renderContacts(_contacts);
+}
+
+function filterContacts(){
+  const q=document.getElementById('contact-search').value.toLowerCase();
+  renderContacts(q?_contacts.filter(c=>(c.name||'').toLowerCase().includes(q)||(c.email||'').toLowerCase().includes(q)):_contacts);
+}
+
+function renderContacts(list){
+  if(!list.length){document.getElementById('contacts-list').innerHTML='<div class="empty">No contacts yet. Run: chief sync</div>';return;}
+  document.getElementById('contacts-list').innerHTML=list.map(c=>`
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div>
+          <h3>${c.name||c.email} <span class="meta ${relColor(c.relationship)}">${c.relationship||'?'}</span></h3>
+          <div class="meta">${c.email}${c.company?' · '+c.company:''}</div>
+        </div>
+        <div style="text-align:right;font-size:.8rem">
+          ${scoreDots(c.strength)}
+          <div class="meta">${c.email_count||0} emails</div>
+        </div>
+      </div>
+      ${c.how_we_met?`<div class="meta" style="margin-top:.4rem">${c.how_we_met}</div>`:''}
+      ${c.last_contact?`<div class="meta">Last: ${(c.last_contact||'').slice(0,10)}</div>`:''}
+      ${c.suggested_action?`<div style="color:#93c5fd;font-size:.8rem;margin-top:.4rem">→ ${c.suggested_action}</div>`:''}
+    </div>`).join('');
+}
+
+async function loadActions(){
+  const d=await api('/actions?limit=50');
+  _actions=d.actions||[];
+  if(!_actions.length){document.getElementById('actions-list').innerHTML='<div class="empty">No open actions. Run: chief sync</div>';return;}
+  const grouped={HIGH:[],MEDIUM:[],LOW:[]};
+  _actions.forEach(a=>grouped[a.priority||'MEDIUM'].push(a));
+  let h='';
+  ['HIGH','MEDIUM','LOW'].forEach(p=>{
+    if(!grouped[p].length)return;
+    const icon={HIGH:'🔴',MEDIUM:'🟡',LOW:'🟢'}[p];
+    h+=`<div class="section-title">${icon} ${p} Priority (${grouped[p].length})</div>`;
+    grouped[p].forEach(a=>{
+      const type_icon={'followup':'↩','promise':'🤝','decision':'🤔','task':'✓'}[a.action_type]||'•';
+      h+=`<div class="action-item ${p}">
+        <div><strong>${type_icon} ${a.title}</strong>${a.deadline?` <span class="meta">by ${a.deadline}</span>`:''}</div>
+        <div class="meta">From: ${a.from_name||'?'}</div>
+        ${a.suggested_next?`<div style="color:#6ee7b7;font-size:.8rem">→ ${a.suggested_next}</div>`:''}
+      </div>`;
+    });
+  });
+  document.getElementById('actions-list').innerHTML=h;
+}
+
+async function loadNurture(){
+  const d=await api('/contacts/nurture');
+  const leads=d.leads||[];
+  if(!leads.length){document.getElementById('nurture-list').innerHTML='<div class="empty">No nurture leads yet. Run: chief sync</div>';return;}
+  document.getElementById('nurture-list').innerHTML=`
+    <div class="section-title">🎯 Business Owners — Nurture for Banoo (${leads.length})</div>`+
+    leads.map((c,i)=>`<div class="card">
+      <div style="display:flex;justify-content:space-between">
+        <h3>${i+1}. ${c.name||c.email}</h3>
+        <div class="meta">Score: ${scoreDots(c.nurture_score)}</div>
+      </div>
+      <div class="meta">${c.email}${c.company?' · '+c.company:''}</div>
+      ${c.nurture_notes?`<div style="margin-top:.4rem;color:#fde68a;font-size:.85rem">${c.nurture_notes}</div>`:''}
+      ${c.suggested_action?`<div style="color:#93c5fd;font-size:.8rem;margin-top:.3rem">→ ${c.suggested_action}</div>`:''}
+    </div>`).join('');
+}
+
+async function loadReconnect(){
+  const d=await api('/contacts/reconnect');
+  const cs=d.contacts||[];
+  if(!cs.length){document.getElementById('reconnect-list').innerHTML='<div class="empty">No dormant contacts found.</div>';return;}
+  document.getElementById('reconnect-list').innerHTML=`
+    <div class="section-title">🌱 Dormant Valuable Contacts (${cs.length})</div>`+
+    cs.map(c=>`<div class="card">
+      <h3>${c.name||c.email} <span class="meta rel-rekindle">Needs rekindling</span></h3>
+      <div class="meta">${c.email}${c.company?' · '+c.company:''}</div>
+      <div class="meta">Last contact: ${(c.last_contact||'unknown').slice(0,10)} · ${c.email_count||0} emails total</div>
+      ${c.how_we_met?`<div class="meta" style="margin-top:.3rem">${c.how_we_met}</div>`:''}
+      ${c.suggested_action?`<div style="color:#93c5fd;font-size:.8rem;margin-top:.3rem">→ ${c.suggested_action}</div>`:''}
+    </div>`).join('');
+}
+
+async function loadCalendar(){
+  const d=await api('/calendar?days=14');
+  const evts=d.events||[];
+  if(!evts.length){document.getElementById('calendar-list').innerHTML='<div class="empty">No upcoming events. Sync calendar first.</div>';return;}
+  document.getElementById('calendar-list').innerHTML=`
+    <div class="section-title">📅 Next 14 Days (${evts.length} events)</div>`+
+    evts.map(e=>{
+      let att=[];try{att=JSON.parse(e.attendees||'[]');}catch(x){}
+      const names=att.slice(0,4).map(a=>a.name||a.email).filter(Boolean).join(', ')||'No attendees';
+      const dt=e.start_time?e.start_time.slice(0,16).replace('T',' '):'';
+      return `<div class="card">
+        <h3>${e.title}</h3>
+        <div class="meta">${dt}${e.location?' · '+e.location:''}</div>
+        <div class="meta">With: ${names}</div>
+        ${e.description?`<div class="meta" style="margin-top:.3rem">${e.description.slice(0,100)}</div>`:''}
+      </div>`;
+    }).join('');
+}
+
+async function loadAll(){
+  document.getElementById('last-updated').textContent='Refreshing...';
+  await Promise.all([loadStats(),loadBrief(),loadContacts(),loadActions(),loadNurture(),loadReconnect(),loadCalendar()]);
+  document.getElementById('last-updated').textContent='Last updated: '+new Date().toLocaleTimeString();
+}
+
+loadAll();
+setInterval(loadAll, 5*60*1000); // auto-refresh every 5 min
+</script>
+</body>
+</html>

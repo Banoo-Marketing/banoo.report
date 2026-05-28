@@ -1,0 +1,42 @@
+## Chief of Staff — Configuration
+## Edit this file to customise sync intervals, notifications, and priority rules.
+
+# ── Sync ──────────────────────────────────────────────────────────────────────
+sync:
+  email_interval_minutes: 15       # how often to pull new Gmail
+  calendar_interval_minutes: 30    # how often to pull Calendar
+  process_batch_size: 20           # emails per Claude call
+  lookback_years: 10               # historical email depth
+
+# ── Notifications ─────────────────────────────────────────────────────────────
+notifications:
+  daily_brief_time: "08:00"        # local time for morning brief (HH:MM)
+  timezone: "America/Toronto"      # your timezone
+  email_reminders: true            # send reminders via Gmail
+  cli_reminders: true              # print reminders to console
+
+# ── Priority rules ────────────────────────────────────────────────────────────
+priority:
+  # Contacts whose emails are always HIGH priority
+  vip_domains: []                  # e.g. ["importantcorp.com"]
+  vip_emails: []                   # e.g. ["boss@company.com"]
+  # Follow-up SLA (days before flagging as overdue)
+  follow_up_sla_days: 3
+  lead_follow_up_sla_days: 5
+
+# ── Relationship tiers ────────────────────────────────────────────────────────
+relationships:
+  rekindling_threshold_days: 180   # 6 months = "needs rekindling"
+  dormant_threshold_days: 365      # 1 year = "dormant"
+
+# ── Banoo business context ────────────────────────────────────────────────────
+business:
+  company_name: "Banoo"
+  services: ["digital marketing", "lead generation", "SEO", "web design", "content marketing"]
+  target_industries: ["real estate", "retail", "professional services", "healthcare", "construction"]
+
+# ── Dashboard ─────────────────────────────────────────────────────────────────
+dashboard:
+  host: "127.0.0.1"
+  port: 8001
+  auto_open_browser: false
