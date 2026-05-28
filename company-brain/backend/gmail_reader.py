@@ -19,10 +19,13 @@ RENEWAL_KEYWORDS = [
 
 def get_gmail_service():
     from googleapiclient.discovery import build
+    import httplib2
+    from google_auth_httplib2 import AuthorizedHttp
     creds = gmail_auth.load_credentials()
     if not creds:
         raise RuntimeError("Gmail not connected. Visit /auth/google to connect.")
-    return build("gmail", "v1", credentials=creds)
+    http = AuthorizedHttp(creds, http=httplib2.Http(disable_ssl_certificate_validation=True))
+    return build("gmail", "v1", http=http)
 
 
 def get_unread_emails(max_results: int = 50) -> list[dict]:

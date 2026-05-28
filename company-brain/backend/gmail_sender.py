@@ -42,11 +42,14 @@ def send_approved_email(
 
     # ── Build the email ────────────────────────────────────────────────────
     from googleapiclient.discovery import build
+    import httplib2
+    from google_auth_httplib2 import AuthorizedHttp
     creds = gmail_auth.load_credentials()
     if not creds:
         raise RuntimeError("Gmail not connected. Visit /auth/google to connect.")
 
-    service = build("gmail", "v1", credentials=creds)
+    http = AuthorizedHttp(creds, http=httplib2.Http(disable_ssl_certificate_validation=True))
+    service = build("gmail", "v1", http=http)
 
     message = MIMEMultipart("alternative")
     message["to"] = to
