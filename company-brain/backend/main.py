@@ -361,6 +361,17 @@ def gmail_test(body: TestEmailRequest):
 
 # ── Gmail Actions ──────────────────────────────────────────────────────────────
 
+@app.post("/gmail/scan")
+async def trigger_gmail_scan():
+    """Manually trigger the Gmail inbox scan (also runs automatically every hour)."""
+    import gmail_inbox_scanner
+    result = gmail_inbox_scanner.run_inbox_scan()
+    total_queued = result.get("renewal_signals_queued", 0) + result.get("touchbase_emails_queued", 0)
+    if total_queued > 0:
+        await broadcast({"type": "new_alerts", "count": total_queued})
+    return result
+
+
 @app.get("/gmail/unread")
 def read_unread_emails(max_results: int = 50):
     """Fetch unread emails and extract renewal signals via Claude."""

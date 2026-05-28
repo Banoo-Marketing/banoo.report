@@ -32,5 +32,10 @@ celery.conf.update(
             "task": "tasks.run_agent_loop_task",
             "schedule": crontab(minute=0),
         },
+        # Scan Gmail inbox every hour for renewal signals + follow-up gaps
+        "gmail-inbox-hourly": {
+            "task": "tasks.scan_gmail_inbox_task",
+            "schedule": crontab(minute=30),  # runs at :30 past each hour
+        },
     },
 )

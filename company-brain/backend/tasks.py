@@ -35,6 +35,17 @@ def run_agent_loop_task(self):
         raise self.retry(exc=exc, countdown=120)
 
 
+@celery.task(name="tasks.scan_gmail_inbox_task", bind=True, max_retries=2)
+def scan_gmail_inbox_task(self):
+    """Scan Gmail inbox for renewal signals and follow-up gaps. Queues actions for approval."""
+    try:
+        import gmail_inbox_scanner
+        result = gmail_inbox_scanner.run_inbox_scan()
+        return result
+    except Exception as exc:
+        raise self.retry(exc=exc, countdown=300)
+
+
 @celery.task(name="tasks.execute_approved_action", bind=True, max_retries=2)
 def execute_approved_action(self, action_id: int):
     """
