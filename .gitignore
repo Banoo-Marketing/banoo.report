@@ -4,3 +4,6 @@ company-brain/.gmail_token.json
 company-brain/backend/__pycache__/
 company-brain/frontend/node_modules/
 company-brain/frontend/package-lock.json
+company-brain/email-analyzer/__pycache__/
+company-brain/email-analyzer/email_cache.db
+company-brain/email-analyzer/reports/
