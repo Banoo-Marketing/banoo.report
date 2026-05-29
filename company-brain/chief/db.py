@@ -217,6 +217,24 @@ def init():
 
         CREATE INDEX IF NOT EXISTS idx_agent_outputs_agent ON agent_outputs(agent_id, ran_at DESC);
         CREATE INDEX IF NOT EXISTS idx_agent_outputs_escalation ON agent_outputs(has_escalation, status);
+
+        CREATE TABLE IF NOT EXISTS action_queue (
+            id              INTEGER PRIMARY KEY AUTOINCREMENT,
+            action_type     TEXT NOT NULL,
+            permission_level INTEGER NOT NULL DEFAULT 2,
+            payload         TEXT NOT NULL,          -- JSON
+            source_agent    TEXT DEFAULT '',
+            rationale       TEXT DEFAULT '',
+            status          TEXT DEFAULT 'pending', -- pending|approved|executed|rejected|failed
+            created_at      TEXT DEFAULT (datetime('now')),
+            approved_at     TEXT,
+            executed_at     TEXT,
+            result          TEXT,
+            rejected_reason TEXT
+        );
+
+        CREATE INDEX IF NOT EXISTS idx_action_queue_status ON action_queue(status, created_at DESC);
+        CREATE INDEX IF NOT EXISTS idx_action_queue_type ON action_queue(action_type, status);
         """)
 
 
@@ -325,6 +343,25 @@ def add_action(a: dict) -> int:
             a.get("priority","MEDIUM"), a.get("action_type","task"),
             a.get("suggested_next",""),
         ))
+        return cur.lastrowid
+
+
+def create_action(a: dict) -> int:
+    """Insert a new action item. Returns the new row id."""
+    # Compose suggested_next from notes if provided (actions table has no notes column)
+    suggested = a.get("suggested_next") or a.get("notes") or ""
+    with _conn() as c:
+        cur = c.execute("""
+            INSERT INTO actions
+              (title, from_name, deadline, priority, status, action_type, suggested_next)
+            VALUES (?, ?, ?, ?, ?, ?, ?)""",
+            (a.get("title", ""),
+             a.get("contact_name", ""),
+             a.get("due_date") or a.get("deadline"),
+             (a.get("priority", "MEDIUM") or "MEDIUM").upper(),
+             a.get("status", "OPEN"),
+             a.get("action_type", "task"),
+             suggested))
         return cur.lastrowid
 
 
@@ -736,6 +773,77 @@ def get_agent_history(agent_name: str, limit: int = 10) -> list[dict]:
 def mark_escalation_reviewed(output_id: int):
     with _conn() as c:
         c.execute("UPDATE agent_outputs SET status='reviewed' WHERE id=?", (output_id,))
+
+
+# ── Action Queue ─────────────────────────────────────────────────────────────
+
+def queue_action(a: dict) -> int:
+    """Insert a new action into the queue. Returns the new row id."""
+    with _conn() as c:
+        cur = c.execute("""
+            INSERT INTO action_queue
+              (action_type, permission_level, payload, source_agent, rationale, status)
+            VALUES (?, ?, ?, ?, ?, ?)""",
+            (a["action_type"],
+             a.get("permission_level", 2),
+             json.dumps(a.get("payload", {}), default=str),
+             a.get("source_agent", ""),
+             a.get("rationale", ""),
+             a.get("status", "pending")))
+        return cur.lastrowid
+
+
+def get_pending_actions(limit: int = 50) -> list[dict]:
+    with _conn() as c:
+        rows = c.execute("""SELECT * FROM action_queue
+            WHERE status IN ('pending','approved')
+            ORDER BY permission_level ASC, created_at ASC LIMIT ?""", (limit,)).fetchall()
+    return [dict(r) for r in rows]
+
+
+def get_queued_action(action_id: int) -> dict | None:
+    with _conn() as c:
+        row = c.execute("SELECT * FROM action_queue WHERE id=?", (action_id,)).fetchone()
+    return dict(row) if row else None
+
+
+def approve_action(action_id: int) -> bool:
+    with _conn() as c:
+        cur = c.execute("""UPDATE action_queue
+            SET status='approved', approved_at=datetime('now')
+            WHERE id=? AND status='pending'""", (action_id,))
+        return cur.rowcount > 0
+
+
+def reject_action(action_id: int, reason: str = "") -> bool:
+    with _conn() as c:
+        cur = c.execute("""UPDATE action_queue
+            SET status='rejected', rejected_reason=?
+            WHERE id=? AND status='pending'""", (reason, action_id))
+        return cur.rowcount > 0
+
+
+def mark_action_executed(action_id: int, result: str = "") -> bool:
+    with _conn() as c:
+        cur = c.execute("""UPDATE action_queue
+            SET status='executed', executed_at=datetime('now'), result=?
+            WHERE id=?""", (result[:2000], action_id))
+        return cur.rowcount > 0
+
+
+def mark_action_failed(action_id: int, error: str = "") -> bool:
+    with _conn() as c:
+        cur = c.execute("""UPDATE action_queue
+            SET status='failed', result=?
+            WHERE id=?""", (f"ERROR: {error}"[:2000], action_id))
+        return cur.rowcount > 0
+
+
+def get_action_queue_stats() -> dict:
+    with _conn() as c:
+        rows = c.execute("""SELECT status, COUNT(*) as n
+            FROM action_queue GROUP BY status""").fetchall()
+    return {r["status"]: r["n"] for r in rows}
 
 
 # ── Stats ─────────────────────────────────────────────────────────────────────

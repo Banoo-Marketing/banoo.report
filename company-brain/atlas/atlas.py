@@ -67,6 +67,14 @@ Usage:
   atlas runtime emit <TYPE>      Emit a manual event (test or trigger)
   atlas runtime status           Show event log stats (last 24h)
   atlas runtime log [n]          Show last N processed events
+
+  ── Execution Layer (Action Queue + Approval) ─────────────────────
+  atlas approve list             Show all actions pending your approval
+  atlas approve status           Queue stats: pending / executed / rejected counts
+  atlas approve <id>             Approve and execute a specific action
+  atlas approve reject <id>      Reject an action (with optional reason)
+  atlas approve all              Approve and execute ALL pending (prompts for confirm)
+  atlas queue <type> <json>      Manually queue an action for testing
 """
 import sys
 import json
@@ -755,6 +763,118 @@ def main():
                 print(f"  Invalid escalation ID: {args[2]}")
         else:
             print("Usage: atlas tower [brief [--skip-run] | weekly | decisions | workforce | resolve <id>]")
+
+    # ── Approval / Execution Layer ────────────────────────────────
+    elif cmd == "approve":
+        import db as _db
+        _db.init()
+
+        sub = args[1] if len(args) > 1 else "list"
+
+        if sub == "list":
+            pending = _db.get_pending_actions(limit=50)
+            if not pending:
+                print("\n  No actions pending approval. Queue is clear.")
+            else:
+                print(f"\n  Action Queue — {len(pending)} pending\n  {'═'*62}")
+                for a in pending:
+                    level = a.get("permission_level", 2)
+                    icons = {0:"🟢", 1:"🔵", 2:"🟡", 3:"🔴"}
+                    labels = {0:"AUTO", 1:"LOG", 2:"APPROVE", 3:"MANUAL"}
+                    icon = icons.get(level,"?")
+                    label = labels.get(level,"?")
+                    payload_str = json.dumps(json.loads(a["payload"]) if isinstance(a["payload"],str) else a["payload"])
+                    agent = a.get("source_agent","?") or "?"
+                    print(f"\n  {icon} [{label}] id={a['id']}  agent={agent}  type={a['action_type']}")
+                    print(f"     {a.get('rationale','')[:70]}")
+                    print(f"     Payload: {payload_str[:90]}")
+                    print(f"     → atlas approve {a['id']}  |  atlas approve reject {a['id']}")
+
+        elif sub == "status":
+            stats = _db.get_action_queue_stats()
+            total = sum(stats.values())
+            print(f"\n  Action Queue Stats (total: {total})\n  {'─'*40}")
+            for status, count in sorted(stats.items()):
+                icon = {"pending":"🟡","approved":"🔵","executed":"🟢","failed":"🔴","rejected":"✗"}.get(status,"?")
+                print(f"  {icon} {status:<12} {count}")
+
+        elif sub == "all":
+            pending = [a for a in _db.get_pending_actions(limit=50) if a.get("permission_level",2) == 2]
+            if not pending:
+                print("\n  No APPROVE-level actions pending.")
+            else:
+                print(f"\n  About to approve and execute {len(pending)} action(s):")
+                for a in pending:
+                    print(f"    [{a['action_type']}] {a.get('rationale','')[:60]}")
+                confirm = input("\n  Type 'yes' to confirm: ").strip().lower()
+                if confirm == "yes":
+                    from execution.executor import execute_approved
+                    for a in pending:
+                        _db.approve_action(a["id"])
+                        result = execute_approved(a["id"])
+                        status = "✓" if result.get("success") else "✗"
+                        print(f"  {status} id={a['id']}: {result.get('result') or result.get('error','')[:60]}")
+                else:
+                    print("  Cancelled.")
+
+        elif sub == "reject":
+            if len(args) < 3:
+                print("Usage: atlas approve reject <id> [reason]")
+            else:
+                try:
+                    action_id = int(args[2])
+                    reason = " ".join(args[3:]) if len(args) > 3 else ""
+                    ok = _db.reject_action(action_id, reason)
+                    if ok:
+                        print(f"  Action {action_id} rejected. {reason}")
+                    else:
+                        print(f"  Action {action_id} not found or already processed.")
+                except ValueError:
+                    print(f"  Invalid id: {args[2]}")
+
+        else:
+            # Try to parse sub as an action id to approve
+            try:
+                action_id = int(sub)
+                ok = _db.approve_action(action_id)
+                if not ok:
+                    print(f"  Action {action_id} not found or already processed.")
+                else:
+                    from execution.executor import execute_approved
+                    result = execute_approved(action_id)
+                    if result.get("success"):
+                        print(f"  ✓ Approved and executed: {result.get('result','')}")
+                    else:
+                        print(f"  ✗ Execution failed: {result.get('error','')}")
+            except ValueError:
+                print(f"  Unknown approve sub-command '{sub}'. Usage: atlas approve [list|status|<id>|reject <id>|all]")
+
+    elif cmd == "queue":
+        # Manual action queuing for testing: atlas queue email_draft '{"to":"x@y.com","subject":"Test","body":"Hello"}'
+        if len(args) < 3:
+            print("Usage: atlas queue <action_type> <json_payload> [rationale]")
+        else:
+            from execution.action_schema import AtlasAction
+            from execution.executor import submit_action
+            try:
+                payload = json.loads(args[2])
+            except json.JSONDecodeError:
+                print(f"  Invalid JSON payload: {args[2]}")
+                sys.exit(1)
+            rationale = args[3] if len(args) > 3 else ""
+            action = AtlasAction(
+                action_type=args[1],
+                payload=payload,
+                source_agent="manual",
+                rationale=rationale,
+            )
+            import db as _db2
+            _db2.init()
+            result = submit_action(action)
+            if result.get("queued"):
+                print(f"\n  Queued for approval (id={result['db_id']}). Run: atlas approve {result['db_id']}")
+            else:
+                print(f"\n  Executed immediately: {result.get('result','')}")
 
     # ── Event Runtime commands ────────────────────────────────────
     elif cmd == "runtime":
