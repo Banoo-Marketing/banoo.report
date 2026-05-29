@@ -143,22 +143,29 @@ if __name__ == "__main__":
         hours = 0.0
         switches = 0
         interruptions = 0
-        for i, a in enumerate(args[1:], 1):
-            if a == "--hours" and i < len(args):
+        log_args = args[1:]
+        i = 0
+        while i < len(log_args):
+            a = log_args[i]
+            if a == "--hours" and i + 1 < len(log_args):
                 try:
-                    hours = float(args[i])
-                except (ValueError, IndexError):
+                    hours = float(log_args[i + 1])
+                    i += 1
+                except ValueError:
                     pass
-            elif a == "--switches" and i < len(args):
+            elif a == "--switches" and i + 1 < len(log_args):
                 try:
-                    switches = int(args[i])
-                except (ValueError, IndexError):
+                    switches = int(log_args[i + 1])
+                    i += 1
+                except ValueError:
                     pass
-            elif a == "--interruptions" and i < len(args):
+            elif a == "--interruptions" and i + 1 < len(log_args):
                 try:
-                    interruptions = int(args[i])
-                except (ValueError, IndexError):
+                    interruptions = int(log_args[i + 1])
+                    i += 1
+                except ValueError:
                     pass
+            i += 1
         log_daily_attention(interruptions=interruptions, task_switches=switches, deep_work_hrs=hours)
         print(f"  Logged: {hours}h deep work, {switches} switches, {interruptions} interruptions.")
         _print_status()
