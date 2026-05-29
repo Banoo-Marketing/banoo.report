@@ -36,21 +36,26 @@ WEIGHTS = {
     "time":       0.20,
     "risk":       0.25,
     "strategic":  0.15,
-    "urgency":    0.10,
+    "urgency":    0.05,
+    "stress_cost": 0.05,
 }
 
 # ── Agent baseline scores (business knowledge, not DB-driven) ─────────────────
 # Keys match agent.name exactly. Unknown agents get DEFAULT_BASELINE.
 
 _AGENT_BASELINES: dict[str, dict[str, float]] = {
-    "relay":  {"revenue": 8.0, "time": 7.0, "risk": 3.0, "strategic": 6.0},
-    "pulse":  {"revenue": 9.0, "time": 6.0, "risk": 7.0, "strategic": 8.0},
-    "ledger": {"revenue": 8.0, "time": 5.0, "risk": 9.0, "strategic": 7.0},
-    "broker": {"revenue": 6.0, "time": 4.0, "risk": 8.0, "strategic": 7.0},
-    "scout":  {"revenue": 7.0, "time": 5.0, "risk": 3.0, "strategic": 9.0},
+    "relay":  {"revenue": 8.0, "time": 7.0, "risk": 3.0, "strategic": 6.0, "stress_cost": 3.0},
+    "pulse":  {"revenue": 9.0, "time": 6.0, "risk": 7.0, "strategic": 8.0, "stress_cost": 4.0},
+    "ledger": {"revenue": 8.0, "time": 5.0, "risk": 9.0, "strategic": 7.0, "stress_cost": 5.0},
+    "broker": {"revenue": 6.0, "time": 4.0, "risk": 8.0, "strategic": 7.0, "stress_cost": 6.0},
+    "scout":  {"revenue": 7.0, "time": 5.0, "risk": 3.0, "strategic": 9.0, "stress_cost": 3.0},
+    "relationship":         {"revenue": 7.0, "time": 5.0, "risk": 6.0, "strategic": 8.0, "stress_cost": 2.0},
+    "parenting":            {"revenue": 2.0, "time": 3.0, "risk": 4.0, "strategic": 9.0, "stress_cost": 1.0},
+    "relationship_steward": {"revenue": 3.0, "time": 4.0, "risk": 7.0, "strategic": 9.0, "stress_cost": 1.0},
+    "revenue_continuity":   {"revenue": 9.0, "time": 5.0, "risk": 6.0, "strategic": 7.0, "stress_cost": 3.0},
 }
 
-_DEFAULT_BASELINE: dict[str, float] = {"revenue": 5.0, "time": 5.0, "risk": 5.0, "strategic": 5.0}
+_DEFAULT_BASELINE: dict[str, float] = {"revenue": 5.0, "time": 5.0, "risk": 5.0, "strategic": 5.0, "stress_cost": 5.0}
 
 # ── Frequency thresholds (mirror of scheduler.py — keep in sync) ──────────────
 _FREQUENCY_THRESHOLDS: dict[str, timedelta] = {
@@ -67,6 +72,7 @@ class PriorityScore:
     risk_reduction:  float
     strategic_value: float
     urgency:         float
+    stress_cost:     float   # 0-10: cognitive/emotional cost (higher = more draining)
     total:           float   # weighted composite, clamped 0–10
     tier:            str     # CRITICAL | HIGH | MEDIUM | LOW
     rationale:       str     # 1-line explanation
@@ -171,6 +177,7 @@ def score_agent(agent: dict) -> PriorityScore:
     time_lev = baseline["time"]
     risk     = baseline["risk"]
     strat    = baseline["strategic"]
+    stress   = baseline.get("stress_cost", 5.0)
     urgency  = _compute_urgency(agent)
 
     raw_total = (
@@ -178,7 +185,8 @@ def score_agent(agent: dict) -> PriorityScore:
         time_lev * WEIGHTS["time"] +
         risk     * WEIGHTS["risk"] +
         strat    * WEIGHTS["strategic"] +
-        urgency  * WEIGHTS["urgency"]
+        urgency  * WEIGHTS["urgency"] -
+        stress   * WEIGHTS["stress_cost"]   # stress is a penalty
     )
 
     modifier = _feedback_modifier(name)
@@ -207,6 +215,7 @@ def score_agent(agent: dict) -> PriorityScore:
         risk_reduction=risk,
         strategic_value=strat,
         urgency=urgency,
+        stress_cost=stress,
         total=round(total, 2),
         tier=tier,
         rationale=rationale,
@@ -278,14 +287,14 @@ def _print_ranked_table():
     scored = score_all_agents()
     print(f"\n  Atlas Priority Kernel — {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M')} UTC")
     print(f"  {'─'*72}")
-    print(f"  {'RANK':<5} {'AGENT':<10} {'TIER':<10} {'TOTAL':>5}  {'REV':>4} {'TIME':>4} {'RISK':>4} {'STRAT':>5} {'URG':>4}  RATIONALE")
+    print(f"  {'RANK':<5} {'AGENT':<10} {'TIER':<10} {'TOTAL':>5}  {'REV':>4} {'TIME':>4} {'RISK':>4} {'STRAT':>5} {'URG':>4} {'SC':>4}  RATIONALE")
     print(f"  {'─'*72}")
     for i, (agent, ps) in enumerate(scored, 1):
         tier_icon = {"CRITICAL": "🔴", "HIGH": "🟠", "MEDIUM": "🟡", "LOW": "⚪"}.get(ps.tier, "?")
         print(
             f"  {i:<5} {agent['name']:<10} {tier_icon}{ps.tier:<9} {ps.total:>5.1f}"
             f"  {ps.revenue_score:>4.1f} {ps.time_leverage:>4.1f} {ps.risk_reduction:>4.1f}"
-            f" {ps.strategic_value:>5.1f} {ps.urgency:>4.1f}  {ps.rationale}"
+            f" {ps.strategic_value:>5.1f} {ps.urgency:>4.1f} {ps.stress_cost:>4.1f}  {ps.rationale}"
         )
 
 

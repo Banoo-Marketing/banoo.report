@@ -170,6 +170,15 @@ def generate_daily_brief(run_agents: bool = True) -> str:
     """Generate the daily control tower brief. Optionally runs agents first."""
     escalation_items = []
 
+    # Strategic context injection
+    try:
+        from context.strategic_context import context_summary, is_high_stress
+        strategic_ctx = context_summary()
+        high_stress = is_high_stress()
+    except Exception:
+        strategic_ctx = ""
+        high_stress = False
+
     if run_agents:
         print("  Running agent workforce...\n")
         results = run_all_agents()
@@ -193,6 +202,13 @@ def generate_daily_brief(run_agents: bool = True) -> str:
 
     ctx = _get_live_context()
 
+    # Build strategic context block
+    context_block = ""
+    if strategic_ctx:
+        context_block = f"\nSTRATEGIC CONTEXT:\n{strategic_ctx}"
+        if high_stress:
+            context_block += "\nHIGH STRESS / FINANCIAL PRESSURE — filter harder, only critical escalations."
+
     # Build the tower input
     tower_input = f"""Agent run complete. Synthesize into CEO brief.
 
@@ -206,7 +222,7 @@ LIVE CONTEXT:
 - Active initiatives: {ctx['initiative_count']}/3 {"⚠️ AT CAPACITY" if ctx['initiative_count'] >= 3 else ""}
 - Monthly revenue: ${ctx['monthly_revenue']:,.0f}
 - High-priority actions: {len(ctx['high_priority_actions'])}
-{json.dumps(ctx['high_priority_actions'][:5], indent=2, default=str)}
+{json.dumps(ctx['high_priority_actions'][:5], indent=2, default=str)}{context_block}
 
 Produce the CEO brief now."""
 
@@ -231,6 +247,17 @@ def generate_weekly_brief() -> str:
     except Exception:
         feedback_data = {}
 
+    try:
+        from relationships.relationship_agent import detect_decay
+        decaying_rels = detect_decay(days=14)[:3]
+    except Exception:
+        decaying_rels = []
+
+    try:
+        parenting_history = db.get_agent_history("parenting", limit=1)
+    except Exception:
+        parenting_history = []
+
     workforce_input = f"""Weekly workforce review. Produce CEO briefing.
 
 WORKFORCE DATA:
@@ -251,6 +278,12 @@ AGENT PERFORMANCE FEEDBACK (last 7 days):
 BUSINESS CONTEXT:
 - Monthly revenue: ${ctx['monthly_revenue']:,.0f}
 - Active initiatives: {ctx['initiative_count']}/3
+
+RELATIONSHIP DECAY ALERTS (top 3):
+{json.dumps([{"name":r["name"],"type":r.get("type"),"risk":r.get("risk_of_decay",0),"days":r.get("days_since_contact")} for r in decaying_rels], indent=2)}
+
+PARENTING + FAMILY:
+{json.dumps(parenting_history, indent=2, default=str)}
 
 Produce the weekly workforce report now."""
 

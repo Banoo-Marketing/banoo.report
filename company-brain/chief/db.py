@@ -251,6 +251,60 @@ def init():
 
         CREATE INDEX IF NOT EXISTS idx_feedback_agent ON feedback_log(source_agent, created_at DESC);
         CREATE INDEX IF NOT EXISTS idx_feedback_outcome ON feedback_log(outcome, created_at DESC);
+
+        CREATE TABLE IF NOT EXISTS strategic_context (
+            id                INTEGER PRIMARY KEY DEFAULT 1,
+            life_phase        TEXT DEFAULT 'young_family_stabilization',
+            primary_goal      TEXT DEFAULT 'stable recurring income',
+            active_focus      TEXT DEFAULT '[]',
+            deprioritized     TEXT DEFAULT '[]',
+            stress_tolerance  TEXT DEFAULT 'medium_low',
+            financial_pressure TEXT DEFAULT 'high',
+            current_constraints TEXT DEFAULT '[]',
+            last_date_night   TEXT,
+            updated_at        TEXT DEFAULT (datetime('now'))
+        );
+
+        CREATE TABLE IF NOT EXISTS relationship_memory (
+            id                 INTEGER PRIMARY KEY AUTOINCREMENT,
+            name               TEXT NOT NULL UNIQUE,
+            type               TEXT DEFAULT 'client',
+            organization       TEXT,
+            last_contact       TEXT,
+            relationship_score REAL DEFAULT 5.0,
+            warmth_score       REAL DEFAULT 5.0,
+            notes              TEXT,
+            next_touchpoint    TEXT,
+            cadence_days       INTEGER DEFAULT 30,
+            tags               TEXT DEFAULT '[]',
+            risk_of_decay      REAL DEFAULT 0.0,
+            opportunity_score  REAL DEFAULT 0.0,
+            created_at         TEXT DEFAULT (datetime('now')),
+            updated_at         TEXT DEFAULT (datetime('now'))
+        );
+
+        CREATE TABLE IF NOT EXISTS child_profiles (
+            id                    INTEGER PRIMARY KEY AUTOINCREMENT,
+            child_name            TEXT NOT NULL UNIQUE,
+            birth_date            TEXT NOT NULL,
+            developmental_stage   TEXT,
+            milestones            TEXT DEFAULT '[]',
+            current_focus         TEXT,
+            recommended_activities TEXT DEFAULT '[]',
+            notes                 TEXT,
+            updated_at            TEXT DEFAULT (datetime('now'))
+        );
+
+        CREATE TABLE IF NOT EXISTS attention_log (
+            id            INTEGER PRIMARY KEY AUTOINCREMENT,
+            date          TEXT DEFAULT (date('now')),
+            interruptions INTEGER DEFAULT 0,
+            task_switches INTEGER DEFAULT 0,
+            deep_work_hrs REAL DEFAULT 0,
+            agent_alerts  INTEGER DEFAULT 0,
+            overload_flag INTEGER DEFAULT 0,
+            notes         TEXT
+        );
         """)
 
 
@@ -916,3 +970,180 @@ def stats() -> dict:
             "calendar_events": c.execute("SELECT COUNT(*) FROM calendar_events").fetchone()[0],
             "briefs": c.execute("SELECT COUNT(*) FROM briefs").fetchone()[0],
         }
+
+
+# ── Strategic Context ─────────────────────────────────────────────────────────
+
+_DEFAULT_CTX_VALUES = {
+    "life_phase": "young_family_stabilization",
+    "primary_goal": "stable recurring income — $15,000+/month",
+    "active_focus": '["cashflow", "family stability", "time leverage", "Banoo agency growth"]',
+    "deprioritized": '["high-risk speculative projects", "new platforms before current stable"]',
+    "stress_tolerance": "medium_low",
+    "financial_pressure": "high",
+    "current_constraints": '["twin infants (Diyar + Dario)", "RBC low balance", "218 Wilfred legal active"]',
+}
+
+
+def get_strategic_context() -> dict:
+    """Return the single strategic context row, seeding defaults if empty."""
+    with _conn() as c:
+        row = c.execute("SELECT * FROM strategic_context WHERE id=1").fetchone()
+        if row:
+            return dict(row)
+        # Seed defaults
+        c.execute("""INSERT OR IGNORE INTO strategic_context
+            (id, life_phase, primary_goal, active_focus, deprioritized,
+             stress_tolerance, financial_pressure, current_constraints)
+            VALUES (1, ?, ?, ?, ?, ?, ?, ?)""",
+            (_DEFAULT_CTX_VALUES["life_phase"], _DEFAULT_CTX_VALUES["primary_goal"],
+             _DEFAULT_CTX_VALUES["active_focus"], _DEFAULT_CTX_VALUES["deprioritized"],
+             _DEFAULT_CTX_VALUES["stress_tolerance"], _DEFAULT_CTX_VALUES["financial_pressure"],
+             _DEFAULT_CTX_VALUES["current_constraints"]))
+        row = c.execute("SELECT * FROM strategic_context WHERE id=1").fetchone()
+        return dict(row) if row else dict(_DEFAULT_CTX_VALUES)
+
+
+def upsert_strategic_context(updates: dict):
+    """Update specific fields of the strategic context (id=1)."""
+    with _conn() as c:
+        # Ensure row exists
+        c.execute("""INSERT OR IGNORE INTO strategic_context (id) VALUES (1)""")
+        for field, value in updates.items():
+            if field in ("id", "updated_at"):
+                continue
+            if isinstance(value, (list, dict)):
+                value = json.dumps(value)
+            c.execute(f"UPDATE strategic_context SET {field}=?, updated_at=datetime('now') WHERE id=1",
+                      (value,))
+
+
+# ── Relationship Memory ───────────────────────────────────────────────────────
+
+def upsert_relationship(r: dict) -> int:
+    """Insert or update a relationship record by name."""
+    with _conn() as c:
+        existing = c.execute("SELECT id FROM relationship_memory WHERE name=?", (r["name"],)).fetchone()
+        if isinstance(r.get("tags"), list):
+            r = dict(r)
+            r["tags"] = json.dumps(r["tags"])
+        if existing:
+            c.execute("""UPDATE relationship_memory SET
+                type=COALESCE(?,type), organization=COALESCE(NULLIF(?,""),organization),
+                last_contact=COALESCE(NULLIF(?,""),last_contact),
+                relationship_score=COALESCE(?,relationship_score),
+                warmth_score=COALESCE(?,warmth_score),
+                notes=COALESCE(NULLIF(?,""),notes),
+                next_touchpoint=COALESCE(NULLIF(?,""),next_touchpoint),
+                cadence_days=COALESCE(?,cadence_days),
+                tags=COALESCE(NULLIF(?,""),tags),
+                risk_of_decay=COALESCE(?,risk_of_decay),
+                opportunity_score=COALESCE(?,opportunity_score),
+                updated_at=datetime('now')
+                WHERE name=?""",
+                (r.get("type"), r.get("organization"), r.get("last_contact"),
+                 r.get("relationship_score"), r.get("warmth_score"), r.get("notes"),
+                 r.get("next_touchpoint"), r.get("cadence_days"), r.get("tags"),
+                 r.get("risk_of_decay"), r.get("opportunity_score"), r["name"]))
+            return existing[0]
+        cur = c.execute("""INSERT INTO relationship_memory
+            (name, type, organization, last_contact, relationship_score, warmth_score,
+             notes, next_touchpoint, cadence_days, tags, risk_of_decay, opportunity_score)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?)""",
+            (r["name"], r.get("type","client"), r.get("organization",""),
+             r.get("last_contact"), r.get("relationship_score", 5.0),
+             r.get("warmth_score", 5.0), r.get("notes",""), r.get("next_touchpoint",""),
+             r.get("cadence_days", 30), r.get("tags", "[]"),
+             r.get("risk_of_decay", 0.0), r.get("opportunity_score", 0.0)))
+        return cur.lastrowid
+
+
+def get_relationships(type: str = None, limit: int = 50) -> list[dict]:
+    with _conn() as c:
+        if type:
+            rows = c.execute(
+                "SELECT * FROM relationship_memory WHERE type=? ORDER BY risk_of_decay DESC LIMIT ?",
+                (type, limit)).fetchall()
+        else:
+            rows = c.execute(
+                "SELECT * FROM relationship_memory ORDER BY risk_of_decay DESC LIMIT ?",
+                (limit,)).fetchall()
+    return [dict(r) for r in rows]
+
+
+def get_decaying_relationships(threshold: float = 0.6) -> list[dict]:
+    with _conn() as c:
+        rows = c.execute(
+            "SELECT * FROM relationship_memory WHERE risk_of_decay >= ? ORDER BY risk_of_decay DESC",
+            (threshold,)).fetchall()
+    return [dict(r) for r in rows]
+
+
+def update_relationship_decay(name: str, risk_of_decay: float):
+    with _conn() as c:
+        c.execute("UPDATE relationship_memory SET risk_of_decay=?, updated_at=datetime('now') WHERE name=?",
+                  (min(1.0, max(0.0, risk_of_decay)), name))
+
+
+# ── Child Profiles ────────────────────────────────────────────────────────────
+
+def get_child_profile(name: str) -> dict | None:
+    with _conn() as c:
+        row = c.execute("SELECT * FROM child_profiles WHERE child_name=?", (name,)).fetchone()
+    return dict(row) if row else None
+
+
+def upsert_child_profile(p: dict):
+    with _conn() as c:
+        for key in ("milestones", "recommended_activities"):
+            if isinstance(p.get(key), list):
+                p = dict(p)
+                p[key] = json.dumps(p[key])
+        existing = c.execute("SELECT id FROM child_profiles WHERE child_name=?", (p["child_name"],)).fetchone()
+        if existing:
+            c.execute("""UPDATE child_profiles SET
+                birth_date=COALESCE(?,birth_date),
+                developmental_stage=COALESCE(NULLIF(?,""),developmental_stage),
+                milestones=COALESCE(NULLIF(?,""),milestones),
+                current_focus=COALESCE(NULLIF(?,""),current_focus),
+                recommended_activities=COALESCE(NULLIF(?,""),recommended_activities),
+                notes=COALESCE(NULLIF(?,""),notes),
+                updated_at=datetime('now')
+                WHERE child_name=?""",
+                (p.get("birth_date"), p.get("developmental_stage",""),
+                 p.get("milestones"), p.get("current_focus",""),
+                 p.get("recommended_activities"), p.get("notes",""), p["child_name"]))
+        else:
+            c.execute("""INSERT INTO child_profiles
+                (child_name, birth_date, developmental_stage, milestones, current_focus,
+                 recommended_activities, notes)
+                VALUES (?,?,?,?,?,?,?)""",
+                (p["child_name"], p.get("birth_date",""), p.get("developmental_stage",""),
+                 p.get("milestones", "[]"), p.get("current_focus",""),
+                 p.get("recommended_activities","[]"), p.get("notes","")))
+
+
+def get_all_child_profiles() -> list[dict]:
+    with _conn() as c:
+        rows = c.execute("SELECT * FROM child_profiles ORDER BY child_name").fetchall()
+    return [dict(r) for r in rows]
+
+
+# ── Attention Log ─────────────────────────────────────────────────────────────
+
+def log_attention(entry: dict):
+    with _conn() as c:
+        c.execute("""INSERT OR REPLACE INTO attention_log
+            (date, interruptions, task_switches, deep_work_hrs, agent_alerts, overload_flag, notes)
+            VALUES (COALESCE(?,date('now')),?,?,?,?,?,?)""",
+            (entry.get("date"), entry.get("interruptions", 0), entry.get("task_switches", 0),
+             entry.get("deep_work_hrs", 0), entry.get("agent_alerts", 0),
+             1 if entry.get("overload_flag") else 0, entry.get("notes","")))
+
+
+def get_attention_log(days: int = 7) -> list[dict]:
+    with _conn() as c:
+        rows = c.execute("""SELECT * FROM attention_log
+            WHERE date >= date('now', ?) ORDER BY date DESC""",
+            (f"-{days} days",)).fetchall()
+    return [dict(r) for r in rows]

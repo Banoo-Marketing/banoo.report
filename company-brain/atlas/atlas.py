@@ -93,6 +93,18 @@ Usage:
   atlas optimize plan            Optimization plan (promote/suppress/kill recs)
   atlas optimize apply           Apply the plan (adjusts agent frequencies)
   atlas optimize explain         English summary of current system state
+
+  ── Personal Chief of Staff ───────────────────────────────────────
+  atlas context                  Show current strategic context
+  atlas context update <json>    Update context fields (stress, focus, etc.)
+  atlas relationships list       All relationships with decay scores
+  atlas relationships decay      Relationships at risk (decay > 0.7)
+  atlas relationships sync       Run relationship agent now
+  atlas parenting                Show Diyar + Dario developmental summaries
+  atlas parenting update         Run parenting agent now
+  atlas attention status         Focus/attention score + recommendation
+  atlas attention log <hours>    Log today's deep work hours
+  atlas steward status           Marriage + emotional bandwidth check
 """
 import sys
 import json
@@ -1085,6 +1097,111 @@ def main():
 
         else:
             print("Usage: atlas optimize [status | plan | apply | explain]")
+
+    elif cmd == "context":
+        from context.strategic_context import _print_context, update_context
+        import db as _db
+        _db.init()
+        sub = args[1] if len(args) > 1 else "show"
+        if sub == "update":
+            if len(args) < 3:
+                print("Usage: atlas context update '<json>'")
+            else:
+                try:
+                    updates = json.loads(args[2])
+                    update_context(updates)
+                    print("  Context updated.")
+                    _print_context()
+                except json.JSONDecodeError as e:
+                    print(f"  Invalid JSON: {e}")
+        else:
+            _print_context()
+
+    elif cmd == "relationships":
+        import db as _db
+        _db.init()
+        sub = args[1] if len(args) > 1 else "list"
+
+        if sub == "list":
+            rels = _db.get_relationships(limit=30)
+            print(f"\n  Relationships ({len(rels)})\n  {'─'*56}")
+            if not rels:
+                print("  No relationships tracked. Add via atlas relationships or the DB.")
+            for r in rels:
+                risk = r.get("risk_of_decay", 0)
+                icon = "HIGH" if risk >= 0.8 else "WARN" if risk >= 0.5 else "OK"
+                last = (r.get("last_contact") or "never")[:10]
+                print(f"  [{icon}] {r['name']:<18} [{r.get('type','?'):<8}] decay={risk:.0%}  last={last}")
+
+        elif sub == "decay":
+            rels = _db.get_decaying_relationships(threshold=0.7)
+            print(f"\n  Relationships at Risk (decay > 70%)\n  {'─'*52}")
+            if not rels:
+                print("  No high-risk relationships. Good.")
+            for r in rels:
+                print(f"  [HIGH] {r['name']} [{r.get('type')}] — {r.get('risk_of_decay',0):.0%} decay  last: {(r.get('last_contact') or 'never')[:10]}")
+
+        elif sub == "sync":
+            from relationships.relationship_agent import run_pipeline
+            result = run_pipeline()
+            print(f"\n  {result['summary']}")
+            for d in result.get("outreach_drafts", []):
+                print(f"\n  [{d['name']} — decay {d['risk']:.0%}]")
+                print(f"  {d['draft']}")
+
+        else:
+            print("Usage: atlas relationships [list | decay | sync]")
+
+    elif cmd == "parenting":
+        import db as _db
+        _db.init()
+        sub = args[1] if len(args) > 1 else "show"
+
+        if sub == "update":
+            from personal.parenting_agent import run_pipeline
+            result = run_pipeline()
+            print(f"\n  {result['summary']}")
+        else:
+            from personal.parenting_agent import _print_summary
+            _print_summary()
+
+    elif cmd == "attention":
+        sub = args[1] if len(args) > 1 else "status"
+
+        if sub == "status":
+            from attention_engine import _print_status
+            _print_status()
+
+        elif sub == "log":
+            from attention_engine import log_daily_attention, _print_status
+            hours = 0.0
+            switches = 0
+            try:
+                if len(args) > 2:
+                    hours = float(args[2])
+                if len(args) > 3:
+                    switches = int(args[3])
+            except ValueError:
+                pass
+            log_daily_attention(deep_work_hrs=hours, task_switches=switches)
+            print(f"  Logged: {hours}h deep work, {switches} task switches.")
+            _print_status()
+
+        else:
+            print("Usage: atlas attention [status | log <hours> [switches]]")
+
+    elif cmd == "steward":
+        import db as _db
+        _db.init()
+        from personal.relationship_steward_agent import run_pipeline
+        result = run_pipeline()
+        h = result.get("health", {})
+        icon = {"low": "OK", "medium": "WARN", "high": "HIGH"}.get(h.get("risk_level", "low"), "?")
+        print(f"\n  Relationship Steward\n  {'─'*48}")
+        print(f"  [{icon}] Risk: {h.get('risk_level','?').upper()}")
+        print(f"  Overload days (7d): {h.get('overload_days_7d', 0)}")
+        print(f"  Days since date night: {h.get('days_since_date_night') or 'unknown'}")
+        print(f"\n  {h.get('suggestion','')}")
 
     else:
         print(f"Atlas: Unknown command '{cmd}'. Run 'atlas help' to see all commands.")
