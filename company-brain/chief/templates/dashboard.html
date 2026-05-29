@@ -3,167 +3,1161 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Chief of Staff</title>
+<title>Atlas — Chief of Staff</title>
 <style>
-  :root{--bg:#0f0f0f;--card:#1a1a1a;--border:#2a2a2a;--text:#e0e0e0;--muted:#888;
-    --accent:#3b82f6;--green:#22c55e;--yellow:#eab308;--red:#ef4444;--purple:#a855f7}
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.5}
-  header{background:var(--card);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;gap:1rem}
-  header h1{font-size:1.2rem;font-weight:700}
-  header .sub{color:var(--muted);font-size:0.85rem}
-  .tabs{display:flex;gap:0;border-bottom:1px solid var(--border);padding:0 2rem;background:var(--card)}
-  .tab{padding:0.75rem 1.25rem;cursor:pointer;border-bottom:2px solid transparent;color:var(--muted);font-size:0.875rem;transition:all .2s}
-  .tab.active,.tab:hover{color:var(--text);border-bottom-color:var(--accent)}
-  .page{display:none;padding:2rem;max-width:1200px;margin:0 auto}
-  .page.active{display:block}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:2rem}
-  .stat{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.25rem}
-  .stat .val{font-size:2rem;font-weight:700;color:var(--accent)}
-  .stat .lbl{color:var(--muted);font-size:0.75rem;text-transform:uppercase;letter-spacing:.05em}
-  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.25rem;margin-bottom:1rem}
-  .card h3{font-size:0.95rem;margin-bottom:0.5rem}
-  .card .meta{color:var(--muted);font-size:0.8rem}
-  .badge{display:inline-block;padding:.2rem .5rem;border-radius:4px;font-size:.7rem;font-weight:700;text-transform:uppercase}
-  .hi{background:#450a0a;color:var(--red)}.med{background:#451a03;color:var(--yellow)}.lo{background:#052e16;color:var(--green)}
-  .rel-fam{color:#f0abfc}.rel-friend{color:#93c5fd}.rel-biz{color:#6ee7b7}.rel-lead{color:#fde68a}
-  .rel-mentor{color:#c4b5fd}.rel-vendor{color:#94a3b8}.rel-rekindle{color:#fb923c}
-  .strength-bar{height:6px;background:#222;border-radius:3px;margin-top:6px}
-  .strength-fill{height:100%;border-radius:3px;background:var(--accent);transition:width .3s}
-  .section-title{font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:1rem;margin-top:1.5rem}
-  .action-item{border-left:3px solid var(--border);padding:.5rem .75rem;margin-bottom:.5rem;border-radius:0 6px 6px 0}
-  .action-item.HIGH{border-color:var(--red)}.action-item.MEDIUM{border-color:var(--yellow)}.action-item.LOW{border-color:var(--green)}
-  .brief-box{background:linear-gradient(135deg,#1e3a5f,#0f0f0f);border:1px solid #2563eb;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
-  .brief-box h2{color:#93c5fd;font-size:1rem;margin-bottom:.75rem}
-  .brief-task{padding:.5rem;background:#0f172a;border-radius:6px;margin-bottom:.5rem}
-  .score-bar{display:inline-flex;gap:1px;align-items:center}
-  .score-dot{width:6px;height:6px;border-radius:50%;background:#222}
-  .score-dot.on{background:var(--accent)}
-  button.refresh{background:var(--accent);color:white;border:none;padding:.4rem .75rem;border-radius:6px;cursor:pointer;font-size:.8rem}
-  input.search{background:#111;border:1px solid var(--border);color:var(--text);padding:.4rem .75rem;border-radius:6px;font-size:.85rem;width:240px;margin-bottom:1rem}
-  .empty{color:var(--muted);text-align:center;padding:2rem;font-size:.9rem}
+:root{
+  --bg:#080808;--surface:#111;--surface2:#161616;--border:#1f1f1f;--border2:#2a2a2a;
+  --text:#e2e2e2;--muted:#666;--muted2:#888;
+  --blue:#3b82f6;--green:#22c55e;--yellow:#eab308;--red:#ef4444;--purple:#a855f7;
+  --green-dim:#052e16;--yellow-dim:#422006;--red-dim:#450a0a;--blue-dim:#172554;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',sans-serif;font-size:13px;line-height:1.5}
+
+/* ── North Star bar ── */
+#northstar{position:sticky;top:0;z-index:100;background:#0c1628;border-bottom:1px solid #1d3a6e;padding:.6rem 1.5rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap}
+.ns-mission{color:#93c5fd;font-size:.8rem;font-weight:600;flex:1;min-width:200px}
+.ns-stats{display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap}
+.ns-stat{text-align:center}
+.ns-stat .v{font-size:1.05rem;font-weight:700;color:#e2e2e2}
+.ns-stat .l{font-size:.65rem;color:var(--muted2);text-transform:uppercase;letter-spacing:.05em}
+.ns-gap .v{color:var(--red)}
+.status-pill{display:inline-block;padding:.15rem .5rem;border-radius:20px;font-size:.65rem;font-weight:700;letter-spacing:.05em}
+.status-GREEN{background:var(--green-dim);color:var(--green)}
+.status-YELLOW{background:var(--yellow-dim);color:var(--yellow)}
+.status-RED{background:var(--red-dim);color:var(--red)}
+
+/* ── Nav tabs ── */
+nav{background:var(--surface);border-bottom:1px solid var(--border);display:flex;padding:0 1.5rem;gap:0;overflow-x:auto}
+.tab{padding:.65rem 1rem;cursor:pointer;border-bottom:2px solid transparent;color:var(--muted2);font-size:.8rem;white-space:nowrap;transition:all .15s}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--text);border-bottom-color:var(--blue)}
+
+/* ── Layout ── */
+.page{display:none;padding:1.25rem 1.5rem;max-width:1400px;margin:0 auto}
+.page.active{display:block}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem}
+@media(max-width:900px){.grid2,.grid3,.grid4{grid-template-columns:1fr}}
+
+/* ── Cards ── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem}
+.card-title{font-size:.7rem;font-weight:600;color:var(--muted2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.75rem;display:flex;justify-content:space-between;align-items:center}
+.stat-big{font-size:1.8rem;font-weight:700;line-height:1}
+.stat-sub{font-size:.75rem;color:var(--muted2);margin-top:.25rem}
+
+/* ── Revenue rows ── */
+.stream-row{border:1px solid var(--border);border-radius:6px;padding:.65rem .75rem;margin-bottom:.5rem;display:grid;grid-template-columns:1fr auto auto auto auto;gap:.75rem;align-items:center}
+.stream-name{font-weight:600;font-size:.85rem}
+.stream-type{font-size:.7rem;color:var(--muted2);background:var(--surface2);padding:.1rem .4rem;border-radius:3px}
+.stream-rev{font-size:1rem;font-weight:700;color:var(--green)}
+.roi-badge{font-size:.7rem;padding:.15rem .4rem;border-radius:4px}
+.roi-hi{background:#052e16;color:var(--green)}
+.roi-med{background:#422006;color:var(--yellow)}
+.roi-lo{background:var(--red-dim);color:var(--red)}
+
+/* ── Initiative rows ── */
+.init-row{border:1px solid var(--border);border-radius:6px;padding:.65rem .75rem;margin-bottom:.5rem}
+.init-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.3rem}
+.init-name{font-weight:600;font-size:.85rem}
+.init-obj{font-size:.75rem;color:var(--muted2)}
+.init-meta{display:flex;gap:.75rem;margin-top:.35rem;flex-wrap:wrap}
+.init-meta span{font-size:.7rem;color:var(--muted)}
+.killed-row{opacity:.5;text-decoration:line-through}
+
+/* ── Pipeline funnel ── */
+.funnel-row{display:flex;justify-content:space-between;align-items:center;padding:.4rem 0;border-bottom:1px solid var(--border)}
+.funnel-row:last-child{border:none}
+.funnel-label{font-size:.8rem;color:var(--muted2)}
+.funnel-val{font-size:1.1rem;font-weight:700}
+.funnel-rate{font-size:.7rem;color:var(--muted)}
+
+/* ── Risk panel ── */
+.risk-row{display:flex;justify-content:space-between;align-items:center;padding:.45rem 0;border-bottom:1px solid var(--border)}
+.risk-row:last-child{border:none}
+.risk-label{font-size:.8rem}
+.risk-right{display:flex;align-items:center;gap:.5rem}
+
+/* ── Buttons ── */
+btn,.btn{background:transparent;border:1px solid var(--border2);color:var(--muted2);padding:.3rem .6rem;border-radius:5px;cursor:pointer;font-size:.75rem;transition:all .15s}
+.btn:hover,.btn-primary{background:var(--blue);border-color:var(--blue);color:white}
+.btn-primary:hover{opacity:.85}
+.btn-danger{background:transparent;border-color:var(--red-dim);color:var(--red)}
+.btn-danger:hover{background:var(--red-dim)}
+.btn-sm{padding:.2rem .45rem;font-size:.7rem}
+.btn-kill{background:transparent;border:1px solid #450a0a;color:#f87171;font-size:.7rem;padding:.15rem .4rem;border-radius:4px;cursor:pointer}
+.btn-kill:hover{background:#450a0a}
+
+/* ── Forms / modals ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:1.5rem;width:480px;max-width:95vw;max-height:90vh;overflow-y:auto}
+.modal h3{font-size:.95rem;margin-bottom:1rem}
+.field{margin-bottom:.75rem}
+.field label{display:block;font-size:.72rem;color:var(--muted2);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.05em}
+.field input,.field select,.field textarea{width:100%;background:#0d0d0d;border:1px solid var(--border2);color:var(--text);padding:.45rem .6rem;border-radius:5px;font-size:.82rem;font-family:inherit}
+.field textarea{resize:vertical;min-height:60px}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--blue)}
+.modal-actions{display:flex;gap:.5rem;justify-content:flex-end;margin-top:1rem;padding-top:.75rem;border-top:1px solid var(--border)}
+
+/* ── Queue ── */
+.queue-item{display:flex;align-items:center;gap:.6rem;padding:.5rem .6rem;border:1px solid var(--border);border-radius:6px;margin-bottom:.4rem}
+.queue-num{width:18px;height:18px;border-radius:50%;background:var(--blue-dim);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0}
+.queue-title{flex:1;font-size:.82rem}
+.queue-impact{font-size:.65rem;padding:.1rem .3rem;border-radius:3px}
+.impact-direct{background:#052e16;color:var(--green)}
+.impact-indirect{background:#1e2a3a;color:#60a5fa}
+.impact-none{background:#1a1a1a;color:var(--muted)}
+.queue-done{opacity:.4;text-decoration:line-through}
+
+/* ── Decision log ── */
+.decision-row{border-left:3px solid var(--blue);padding:.6rem .75rem;margin-bottom:.5rem;background:var(--surface2);border-radius:0 6px 6px 0}
+.decision-title{font-weight:600;font-size:.82rem}
+.decision-meta{font-size:.72rem;color:var(--muted2);margin-top:.2rem}
+.decision-outcome{font-size:.75rem;color:#86efac;margin-top:.3rem;font-style:italic}
+
+/* ── Systems ── */
+.system-row{border:1px solid var(--border);border-radius:6px;padding:.6rem .75rem;margin-bottom:.4rem;display:flex;justify-content:space-between;align-items:center}
+.sys-name{font-size:.82rem;font-weight:600}
+.sys-cat{font-size:.65rem;color:var(--muted);background:var(--surface2);padding:.1rem .35rem;border-radius:3px;margin-left:.4rem}
+.auto-badge{font-size:.65rem;padding:.15rem .4rem;border-radius:10px;font-weight:600}
+.auto-manual{background:#1a1a1a;color:var(--muted2)}
+.auto-semi{background:#422006;color:var(--yellow)}
+.auto-automated{background:var(--green-dim);color:var(--green)}
+
+/* ── Contacts (existing) ── */
+.rel-fam{color:#f0abfc}.rel-friend{color:#93c5fd}.rel-biz{color:#6ee7b7}.rel-lead{color:#fde68a}
+.rel-mentor{color:#c4b5fd}.rel-vendor{color:#94a3b8}.rel-rekindle{color:#fb923c}
+.contact-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.85rem;margin-bottom:.5rem}
+.strength-bar{height:4px;background:#1a1a1a;border-radius:2px;margin-top:.4rem}
+.strength-fill{height:100%;border-radius:2px;background:var(--blue);transition:width .3s}
+.action-item{border-left:3px solid var(--border2);padding:.4rem .6rem;margin-bottom:.4rem;border-radius:0 5px 5px 0;background:var(--surface2)}
+.action-item.HIGH{border-color:var(--red)}.action-item.MEDIUM{border-color:var(--yellow)}.action-item.LOW{border-color:var(--green)}
+
+/* ── Misc ── */
+.empty{color:var(--muted);text-align:center;padding:2rem;font-size:.82rem}
+.section-hd{font-size:.72rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin:1.25rem 0 .6rem}
+.overload-warn{background:var(--red-dim);border:1px solid var(--red);border-radius:6px;padding:.5rem .75rem;font-size:.78rem;color:var(--red);margin-bottom:.75rem}
+.at-limit-warn{background:var(--yellow-dim);border:1px solid var(--yellow);border-radius:6px;padding:.5rem .75rem;font-size:.78rem;color:var(--yellow);margin-bottom:.75rem}
+.atlas-rule{background:#0d1520;border:1px solid #1d3a6e;border-radius:6px;padding:.5rem .75rem;font-size:.75rem;color:#93c5fd;margin-bottom:.75rem}
+input.search{background:#0d0d0d;border:1px solid var(--border2);color:var(--text);padding:.4rem .65rem;border-radius:5px;font-size:.82rem;width:220px;margin-bottom:.75rem}
+.divider{height:1px;background:var(--border);margin:1rem 0}
+.lbl{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.refresh-btn{background:transparent;border:1px solid var(--border2);color:var(--muted2);padding:.3rem .6rem;border-radius:5px;cursor:pointer;font-size:.75rem;margin-left:auto}
+.refresh-btn:hover{border-color:var(--blue);color:var(--blue)}
 </style>
 </head>
 <body>
 
-<header>
-  <div>
-    <h1>🧠 Chief of Staff</h1>
-    <div class="sub" id="last-updated">Loading...</div>
+<!-- NORTH STAR (always visible) -->
+<div id="northstar">
+  <div class="ns-mission">🎯 REACH $15,000/MONTH STABLE RECURRING INCOME FROM AI + MARKETING SYSTEMS</div>
+  <div class="ns-stats">
+    <div class="ns-stat">
+      <div class="v" id="ns-current">—</div>
+      <div class="l">Current MRR</div>
+    </div>
+    <div class="ns-stat ns-gap">
+      <div class="v" id="ns-gap">—</div>
+      <div class="l">Gap to Close</div>
+    </div>
+    <div class="ns-stat">
+      <div class="v" id="ns-focus-count">—</div>
+      <div class="l">Initiatives</div>
+    </div>
+    <div class="ns-stat">
+      <span id="ns-focus-status" class="status-pill">—</span>
+      <div class="l" style="margin-top:.2rem">Focus Load</div>
+    </div>
   </div>
-  <button class="refresh" style="margin-left:auto" onclick="loadAll()">↻ Refresh</button>
-</header>
+</div>
 
-<div class="tabs">
-  <div class="tab active" onclick="showTab('brief')">Daily Brief</div>
+<!-- NAV -->
+<nav>
+  <div class="tab active" onclick="showTab('command')">Command</div>
+  <div class="tab" onclick="showTab('focus')">Focus</div>
+  <div class="tab" onclick="showTab('pipeline')">Pipeline</div>
+  <div class="tab" onclick="showTab('systems')">Systems</div>
+  <div class="tab" onclick="showTab('strategy')">Strategy</div>
   <div class="tab" onclick="showTab('contacts')">Contacts</div>
   <div class="tab" onclick="showTab('actions')">Actions</div>
-  <div class="tab" onclick="showTab('nurture')">Nurture Leads</div>
-  <div class="tab" onclick="showTab('reconnect')">Reconnect</div>
-  <div class="tab" onclick="showTab('calendar')">Calendar</div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════ COMMAND ═══ -->
+<div id="tab-command" class="page active">
+  <div class="grid2">
+
+    <!-- Revenue Engine -->
+    <div>
+      <div class="card">
+        <div class="card-title">
+          B. Revenue Engine
+          <button class="btn btn-sm" onclick="openModal('modal-revenue')">+ Add Stream</button>
+        </div>
+        <div id="revenue-streams-list"><div class="empty">No revenue streams tracked yet.</div></div>
+        <div class="divider"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:.8rem">
+          <span style="color:var(--muted)">Total MRR</span>
+          <span id="rev-total" style="font-size:1.1rem;font-weight:700;color:var(--green)">$0</span>
+        </div>
+        <div id="rev-roi-warn" style="display:none;margin-top:.5rem" class="atlas-rule">
+          ⚠️ Any stream with ROI &lt; 6 should be questioned or removed.
+        </div>
+      </div>
+
+      <!-- Quick Risk -->
+      <div class="card" style="margin-top:1rem">
+        <div class="card-title">J. Risk Panel</div>
+        <div id="risk-panel"><div class="empty">Loading...</div></div>
+      </div>
+    </div>
+
+    <!-- Right column: Execution Queue + Weekly snapshot -->
+    <div>
+      <div class="card">
+        <div class="card-title">
+          E. Daily Execution Queue
+          <button class="btn btn-sm" onclick="openModal('modal-queue')">+ Add Task</button>
+        </div>
+        <div class="atlas-rule">Max 3 tasks. Each must: generate revenue, move pipeline, or build a system.</div>
+        <div id="queue-overload-warn" style="display:none" class="overload-warn">🔴 OVERLOAD — 3 tasks already queued. Complete one before adding more.</div>
+        <div id="daily-queue-list"><div class="empty">Queue is empty. Add up to 3 tasks for today.</div></div>
+      </div>
+
+      <!-- Weekly Execution Metrics -->
+      <div class="card" style="margin-top:1rem">
+        <div class="card-title">
+          E. This Week's Output
+          <button class="btn btn-sm" onclick="openModal('modal-weekly')">Update</button>
+        </div>
+        <div id="weekly-snapshot"><div class="empty">No data this week yet.</div></div>
+      </div>
+    </div>
+
+  </div>
 </div>
 
-<!-- BRIEF -->
-<div id="tab-brief" class="page active">
-  <div id="stats-grid" class="grid"></div>
-  <div id="brief-content"><div class="empty">Loading brief...</div></div>
+<!-- ═══════════════════════════════════════════════ FOCUS ═══ -->
+<div id="tab-focus" class="page">
+  <div class="grid2">
+    <div>
+      <div class="card">
+        <div class="card-title">
+          D. Active Initiatives <span id="focus-count-badge" style="color:var(--muted)"></span>
+          <button class="btn btn-sm" onclick="openModal('modal-initiative')">+ Add</button>
+        </div>
+        <div class="atlas-rule">Maximum 3 active initiatives. Kill discipline is not optional.</div>
+        <div id="init-overload-warn" style="display:none" class="overload-warn">🔴 FOCUS OVERLOAD — You have more than 3 active initiatives. Kill the lowest ROI one now.</div>
+        <div id="initiatives-active-list"><div class="empty">No active initiatives.</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">Kill List</div>
+        <div class="atlas-rule">Atlas kills at least 1 thing every week — even when things are "working."</div>
+        <div id="initiatives-killed-list"><div class="empty">Nothing killed yet this cycle.</div></div>
+      </div>
+      <div class="card" style="margin-top:1rem">
+        <div class="card-title">
+          G. Attention & Energy
+          <button class="btn btn-sm" onclick="openModal('modal-weekly')">Update</button>
+        </div>
+        <div id="attention-panel"><div class="empty">Update weekly metrics to see energy and focus scores.</div></div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<!-- CONTACTS -->
+<!-- ═══════════════════════════════════════════════ PIPELINE ═══ -->
+<div id="tab-pipeline" class="page">
+  <div class="grid2">
+    <div>
+      <div class="card">
+        <div class="card-title">
+          C. Pipeline Funnel — This Week
+          <button class="btn btn-sm" onclick="openModal('modal-pipeline')">Update</button>
+        </div>
+        <div id="pipeline-funnel"><div class="empty">No pipeline data this week. Click Update to enter numbers.</div></div>
+      </div>
+      <div class="card" style="margin-top:1rem">
+        <div class="card-title">Cash Flow Forecast (90 days)</div>
+        <div id="cashflow-forecast"><div class="empty">Based on current MRR trend.</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">Pipeline History (8 weeks)</div>
+        <div id="pipeline-history"><div class="empty">No history yet.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ SYSTEMS ═══ -->
+<div id="tab-systems" class="page">
+  <div class="grid2">
+    <div>
+      <div class="card">
+        <div class="card-title">
+          F. Systems & Leverage
+          <button class="btn btn-sm" onclick="openModal('modal-system')">+ Add</button>
+        </div>
+        <div class="atlas-rule">Goal: increase automation ratio over time. Manual → Semi-auto → Automated.</div>
+        <div id="systems-list"><div class="empty">No systems tracked yet.</div></div>
+        <div id="systems-automation-summary" style="margin-top:.75rem;font-size:.75rem;color:var(--muted)"></div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">Leverage Stats</div>
+        <div id="leverage-stats"><div class="empty">Track systems to see leverage metrics.</div></div>
+      </div>
+      <div class="card" style="margin-top:1rem">
+        <div class="card-title">
+          G. Weekly Energy & Focus
+          <button class="btn btn-sm" onclick="openModal('modal-weekly')">Update</button>
+        </div>
+        <div id="energy-panel2"><div class="empty">Update weekly metrics to see energy data.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ STRATEGY ═══ -->
+<div id="tab-strategy" class="page">
+  <div class="grid2">
+    <div>
+      <div class="card">
+        <div class="card-title">
+          H. Strategic Options
+          <button class="btn btn-sm" onclick="openModal('modal-option')">+ Add</button>
+        </div>
+        <div class="atlas-rule">Anything not actionable in 30–90 days is deprioritized. Score ruthlessly.</div>
+        <div id="strategic-options-list"><div class="empty">No strategic options tracked.</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">
+          I. Decision Log
+          <button class="btn btn-sm" onclick="openModal('modal-decision')">+ Log</button>
+        </div>
+        <div id="decision-log-list"><div class="empty">No decisions logged. Every major decision should be recorded.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ CONTACTS ═══ -->
 <div id="tab-contacts" class="page">
   <input class="search" placeholder="Search name or email..." id="contact-search" oninput="filterContacts()">
   <div id="contacts-list"></div>
 </div>
 
-<!-- ACTIONS -->
+<!-- ═══════════════════════════════════════════════ ACTIONS ═══ -->
 <div id="tab-actions" class="page">
   <div id="actions-list"></div>
 </div>
 
-<!-- NURTURE -->
-<div id="tab-nurture" class="page">
-  <div id="nurture-list"></div>
+<!-- ═══════════════════════════════════════════════ MODALS ═══ -->
+
+<!-- Revenue stream modal -->
+<div class="modal-overlay" id="modal-revenue" onclick="closeModalOutside(event,'modal-revenue')">
+  <div class="modal">
+    <h3>Revenue Stream</h3>
+    <input type="hidden" id="rev-id">
+    <div class="field"><label>Stream name</label><input id="rev-name" placeholder="e.g. Banoo Agency Retainer"></div>
+    <div class="grid2">
+      <div class="field"><label>Type</label>
+        <select id="rev-type">
+          <option value="retainer">Retainer</option>
+          <option value="project">Project</option>
+          <option value="investment">Investment</option>
+          <option value="product">Product</option>
+          <option value="commission">Commission</option>
+        </select>
+      </div>
+      <div class="field"><label>Monthly revenue ($)</label><input id="rev-revenue" type="number" placeholder="0"></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>Growth rate (% MoM)</label><input id="rev-growth" type="number" placeholder="0" step="0.1"></div>
+      <div class="field"><label>Time cost (hrs/week)</label><input id="rev-time" type="number" placeholder="0" step="0.5"></div>
+    </div>
+    <div class="field"><label>ROI Score (1–10)</label><input id="rev-roi" type="number" min="1" max="10" placeholder="5"></div>
+    <div class="field"><label>Notes</label><textarea id="rev-notes" rows="2"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('modal-revenue')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveRevenue()">Save</button>
+    </div>
+  </div>
 </div>
 
-<!-- RECONNECT -->
-<div id="tab-reconnect" class="page">
-  <div id="reconnect-list"></div>
+<!-- Initiative modal -->
+<div class="modal-overlay" id="modal-initiative" onclick="closeModalOutside(event,'modal-initiative')">
+  <div class="modal">
+    <h3>Initiative</h3>
+    <input type="hidden" id="init-id">
+    <div class="field"><label>Initiative name</label><input id="init-name" placeholder="e.g. AI Growth Partner outreach"></div>
+    <div class="field"><label>Objective (what does success look like?)</label><textarea id="init-obj" rows="2"></textarea></div>
+    <div class="grid2">
+      <div class="field"><label>Expected ROI</label>
+        <select id="init-roi-level">
+          <option value="high">High</option>
+          <option value="medium" selected>Medium</option>
+          <option value="low">Low</option>
+        </select>
+      </div>
+      <div class="field"><label>ROI score (1–10)</label><input id="init-roi" type="number" min="1" max="10" placeholder="5"></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>Time cost (hrs/week)</label><input id="init-time" type="number" placeholder="0" step="0.5"></div>
+      <div class="field"><label>Deadline</label><input id="init-deadline" type="date"></div>
+    </div>
+    <div class="field"><label>Kill condition (when do we stop?)</label><input id="init-kill" placeholder="e.g. No revenue in 30 days"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('modal-initiative')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveInitiative()">Save</button>
+    </div>
+  </div>
 </div>
 
-<!-- CALENDAR -->
-<div id="tab-calendar" class="page">
-  <div id="calendar-list"></div>
+<!-- Queue modal -->
+<div class="modal-overlay" id="modal-queue" onclick="closeModalOutside(event,'modal-queue')">
+  <div class="modal">
+    <h3>Add Task to Today's Queue</h3>
+    <div class="field"><label>Task</label><input id="q-title" placeholder="What will you complete today?"></div>
+    <div class="field"><label>Expected outcome</label><input id="q-outcome" placeholder="What does done look like?"></div>
+    <div class="field"><label>Revenue impact</label>
+      <select id="q-impact">
+        <option value="direct">Direct — generates cash</option>
+        <option value="indirect" selected>Indirect — moves pipeline/builds system</option>
+        <option value="none">None — admin/maintenance</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('modal-queue')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveQueueItem()">Add Task</button>
+    </div>
+  </div>
+</div>
+
+<!-- Weekly metrics modal -->
+<div class="modal-overlay" id="modal-weekly" onclick="closeModalOutside(event,'modal-weekly')">
+  <div class="modal">
+    <h3>Weekly Metrics</h3>
+    <p style="font-size:.75rem;color:var(--muted2);margin-bottom:.75rem">Week of <span id="wm-week-label"></span></p>
+    <div class="grid2">
+      <div class="field"><label>Revenue produced ($)</label><input id="wm-rev" type="number" placeholder="0"></div>
+      <div class="field"><label>Deep work hours</label><input id="wm-hours" type="number" placeholder="0" step="0.5"></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>Tasks completed</label><input id="wm-tasks" type="number" placeholder="0"></div>
+      <div class="field"><label>Bottlenecks resolved</label><input id="wm-bottlenecks" type="number" placeholder="0"></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>Systems improved</label><input id="wm-systems" type="number" placeholder="0"></div>
+      <div class="field"><label>Context switches/day</label><input id="wm-switches" type="number" placeholder="0"></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>Energy score (1–10)</label><input id="wm-energy" type="number" min="1" max="10" placeholder="5"></div>
+      <div class="field"><label>Focus score (1–10)</label><input id="wm-focus" type="number" min="1" max="10" placeholder="5"></div>
+    </div>
+    <div class="field"><label>Notes</label><textarea id="wm-notes" rows="2"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('modal-weekly')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveWeeklyMetrics()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Pipeline modal -->
+<div class="modal-overlay" id="modal-pipeline" onclick="closeModalOutside(event,'modal-pipeline')">
+  <div class="modal">
+    <h3>Pipeline Metrics — This Week</h3>
+    <div class="grid2">
+      <div class="field"><label>Leads generated</label><input id="pl-leads" type="number" placeholder="0"></div>
+      <div class="field"><label>Calls booked</label><input id="pl-booked" type="number" placeholder="0"></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>Calls completed</label><input id="pl-calls" type="number" placeholder="0"></div>
+      <div class="field"><label>Proposals sent</label><input id="pl-proposals" type="number" placeholder="0"></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>Deals closed</label><input id="pl-closed" type="number" placeholder="0"></div>
+      <div class="field"><label>Revenue closed ($)</label><input id="pl-revenue" type="number" placeholder="0"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('modal-pipeline')">Cancel</button>
+      <button class="btn btn-primary" onclick="savePipeline()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- System modal -->
+<div class="modal-overlay" id="modal-system" onclick="closeModalOutside(event,'modal-system')">
+  <div class="modal">
+    <h3>System / Leverage Asset</h3>
+    <input type="hidden" id="sys-id">
+    <div class="field"><label>System name</label><input id="sys-name" placeholder="e.g. Lead generation outreach"></div>
+    <div class="grid2">
+      <div class="field"><label>Category</label>
+        <select id="sys-cat">
+          <option value="lead_gen">Lead Generation</option>
+          <option value="automation">Automation</option>
+          <option value="sales">Sales Pipeline</option>
+          <option value="content">Content/Distribution</option>
+          <option value="onboarding">Client Onboarding</option>
+          <option value="admin">Admin</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="field"><label>Automation status</label>
+        <select id="sys-auto">
+          <option value="manual">Manual</option>
+          <option value="semi-auto">Semi-automated</option>
+          <option value="automated">Fully automated</option>
+        </select>
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>ROI score (1–10)</label><input id="sys-roi" type="number" min="1" max="10" placeholder="5"></div>
+      <div class="field"><label>Dependency risk</label>
+        <select id="sys-dep">
+          <option value="low">Low</option>
+          <option value="medium" selected>Medium</option>
+          <option value="high">High</option>
+        </select>
+      </div>
+    </div>
+    <div class="field"><label>Monthly maintenance hours</label><input id="sys-maint" type="number" placeholder="0" step="0.5"></div>
+    <div class="field"><label>Notes</label><textarea id="sys-notes" rows="2"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('modal-system')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveSystem()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Strategic option modal -->
+<div class="modal-overlay" id="modal-option" onclick="closeModalOutside(event,'modal-option')">
+  <div class="modal">
+    <h3>Strategic Option</h3>
+    <input type="hidden" id="opt-id">
+    <div class="field"><label>Opportunity name</label><input id="opt-name" placeholder="e.g. Fractional CMO offering"></div>
+    <div class="grid2">
+      <div class="field"><label>ROI potential (1–10)</label><input id="opt-roi" type="number" min="1" max="10" placeholder="5"></div>
+      <div class="field"><label>Days to first revenue</label><input id="opt-days" type="number" placeholder="90"></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>Complexity (1–10)</label><input id="opt-complexity" type="number" min="1" max="10" placeholder="5"></div>
+      <div class="field"><label>Fit score (1–10)</label><input id="opt-fit" type="number" min="1" max="10" placeholder="5"></div>
+    </div>
+    <div class="field"><label>Status</label>
+      <select id="opt-status">
+        <option value="watching">Watching</option>
+        <option value="active">Active</option>
+        <option value="killed">Killed</option>
+      </select>
+    </div>
+    <div class="field"><label>Notes</label><textarea id="opt-notes" rows="2"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('modal-option')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveOption()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Decision modal -->
+<div class="modal-overlay" id="modal-decision" onclick="closeModalOutside(event,'modal-decision')">
+  <div class="modal">
+    <h3>Log a Decision</h3>
+    <div class="field"><label>Decision</label><input id="dec-title" placeholder="What was decided?"></div>
+    <div class="field"><label>Reason</label><textarea id="dec-reason" rows="2" placeholder="Why this decision?"></textarea></div>
+    <div class="field"><label>Expected outcome</label><input id="dec-outcome" placeholder="What should happen as a result?"></div>
+    <div class="field"><label>Risk</label><input id="dec-risk" placeholder="What could go wrong?"></div>
+    <div class="field"><label>Review date</label><input id="dec-review" type="date"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('modal-decision')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveDecision()">Log Decision</button>
+    </div>
+  </div>
+</div>
+
+<!-- Kill initiative confirmation -->
+<div class="modal-overlay" id="modal-kill" onclick="closeModalOutside(event,'modal-kill')">
+  <div class="modal">
+    <h3>Kill Initiative</h3>
+    <p style="font-size:.82rem;color:var(--muted2);margin-bottom:.75rem">Killing: <strong id="kill-name-display"></strong></p>
+    <div class="field"><label>Kill reason (required)</label><textarea id="kill-reason-input" rows="2" placeholder="Why is this being killed? ROI too low? Distraction? Not aligned?"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('modal-kill')">Cancel</button>
+      <button class="btn btn-danger" onclick="confirmKill()">Kill It</button>
+    </div>
+  </div>
 </div>
 
 <script>
-let _contacts = [];
-let _actions = [];
+let _contacts=[], _actions=[], _snap={}, _killTarget=null;
 
+// ── Tabs ──────────────────────────────────────────────────────────
 function showTab(name){
-  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active', ['brief','contacts','actions','nurture','reconnect','calendar'][i]===name));
+  const tabs=['command','focus','pipeline','systems','strategy','contacts','actions'];
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',tabs[i]===name));
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('tab-'+name).classList.add('active');
 }
 
-async function api(path){const r=await fetch('/api'+path);return r.json();}
-
-function relColor(rel){
-  const m={'Family':'rel-fam','Close friend':'rel-friend','Key business partner':'rel-biz',
-    'Client (Banoo)':'rel-biz','Lead (business owner)':'rel-lead','Mentor/Advisor':'rel-mentor',
-    'Vendor':'rel-vendor','Needs rekindling':'rel-rekindle'};
-  return m[rel]||'';
+// ── API ───────────────────────────────────────────────────────────
+async function api(path,method='GET',body=null){
+  const opts={method,headers:{'Content-Type':'application/json'}};
+  if(body)opts.body=JSON.stringify(body);
+  const r=await fetch('/api'+path,opts);
+  if(!r.ok){const e=await r.json();throw new Error(e.detail||'Error');}
+  return r.json();
 }
 
-function scoreDots(n,max=10){
-  let h='<span class="score-bar">';
-  for(let i=0;i<max;i++)h+=`<span class="score-dot${i<Math.round(n)?'  on':''}"></span>`;
-  return h+'</span>';
+// ── Modals ────────────────────────────────────────────────────────
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+function closeModalOutside(e,id){if(e.target.id===id)closeModal(id);}
+function clearForm(...ids){ids.forEach(id=>{const el=document.getElementById(id);if(el)el.value='';})}
+
+// ── Helpers ───────────────────────────────────────────────────────
+const fmt$=(n)=>'$'+(n||0).toLocaleString('en-CA',{minimumFractionDigits:0,maximumFractionDigits:0});
+const fmtPct=(n)=>(n||0).toFixed(1)+'%';
+function statusPill(s){return `<span class="status-pill status-${s}">${s}</span>`;}
+function roiBadge(score){
+  const s=parseFloat(score)||0;
+  const cls=s>=7?'roi-hi':s>=5?'roi-med':'roi-lo';
+  return `<span class="roi-badge ${cls}">ROI ${s}/10</span>`;
 }
 
-async function loadStats(){
-  const d=await api('/stats');
-  document.getElementById('stats-grid').innerHTML=`
-    <div class="stat"><div class="val">${(d.emails_total||0).toLocaleString()}</div><div class="lbl">Emails Fetched</div></div>
-    <div class="stat"><div class="val">${(d.contacts||0).toLocaleString()}</div><div class="lbl">Contacts</div></div>
-    <div class="stat"><div class="val">${(d.actions_open||0).toLocaleString()}</div><div class="lbl">Open Actions</div></div>
-    <div class="stat"><div class="val">${(d.calendar_events||0).toLocaleString()}</div><div class="lbl">Cal Events</div></div>
-  `;
-}
-
-async function loadBrief(){
+// ── Snapshot / North Star ─────────────────────────────────────────
+async function loadSnapshot(){
   try{
-    const d=await api('/brief');
-    let h=`<div class="brief-box"><h2>☀️ ${d.greeting||'Good morning!'}</h2>
-      <p>${d.calendar_summary||''}</p></div>`;
-    if(d.top_3_tasks?.length){
-      h+=`<div class="section-title">🎯 Top Tasks Today</div>`;
-      d.top_3_tasks.forEach((t,i)=>{
-        h+=`<div class="brief-task"><strong>${i+1}. ${t.title}</strong><br>
-          <span style="color:var(--muted);font-size:.8rem">${t.why}</span><br>
-          <span style="color:#93c5fd;font-size:.8rem">→ ${t.action}</span></div>`;
-      });
-    }
-    if(d.people_to_contact?.length){
-      h+=`<div class="section-title">🤝 People to Contact</div>`;
-      d.people_to_contact.forEach(p=>{
-        h+=`<div class="card"><h3>${p.name} <span style="color:var(--accent);font-size:.8rem">${p.email}</span></h3>
-          <div class="meta">${p.reason}</div>
-          ${p.suggested_message?`<div style="margin-top:.5rem;color:#ccc;font-style:italic;font-size:.85rem">"${p.suggested_message}"</div>`:''}
-        </div>`;
-      });
-    }
-    if(d.dormant_alert){
-      h+=`<div class="section-title">⚠️ Reconnect Alert</div>
-        <div class="card" style="border-color:var(--yellow)"><p>${d.dormant_alert}</p></div>`;
-    }
-    if(d.strategic_reminder){
-      h+=`<div class="section-title">🔭 Strategic Reminder</div>
-        <div class="card" style="border-color:var(--purple)"><p>${d.strategic_reminder}</p></div>`;
-    }
-    document.getElementById('brief-content').innerHTML=h;
-  }catch(e){document.getElementById('brief-content').innerHTML=`<div class="empty">Brief unavailable: ${e.message}</div>`;}
+    _snap=await api('/snapshot');
+    document.getElementById('ns-current').textContent=fmt$(_snap.current_mrr);
+    document.getElementById('ns-gap').textContent=fmt$(_snap.gap);
+    document.getElementById('ns-focus-count').textContent=(_snap.initiative_count||0)+'/3';
+    document.getElementById('ns-focus-status').textContent=_snap.focus_status;
+    document.getElementById('ns-focus-status').className='status-pill status-'+_snap.focus_status;
+    renderRiskPanel();
+  }catch(e){console.error('Snapshot error',e);}
 }
 
+function renderRiskPanel(){
+  const s=_snap;
+  if(!s||!Object.keys(s).length)return;
+  const rows=[
+    {label:'Income dependency (single client %)', status: s.income_dep_risk},
+    {label:`Cash runway (${s.runway_months}x monthly obligations)`, status: s.runway_status},
+    {label:`Initiative overload (${s.initiative_count}/3 active)`, status: s.focus_status},
+    {label:'Pipeline health', status: s.pipeline_status},
+    {label:`Energy score (${s.energy_score||'—'}/10)`, status: s.energy_score>=7?'GREEN':s.energy_score>=4?'YELLOW':'RED'},
+  ];
+  document.getElementById('risk-panel').innerHTML=rows.map(r=>`
+    <div class="risk-row">
+      <span class="risk-label">${r.label}</span>
+      <div class="risk-right">${statusPill(r.status)}</div>
+    </div>`).join('');
+}
+
+// ── Revenue ───────────────────────────────────────────────────────
+async function loadRevenue(){
+  const d=await api('/revenue');
+  const active=d.active||[];
+  const total=active.reduce((s,r)=>s+(r.monthly_revenue||0),0);
+  document.getElementById('rev-total').textContent=fmt$(total);
+  const lowRoi=active.some(r=>(r.roi_score||0)<6);
+  document.getElementById('rev-roi-warn').style.display=lowRoi?'block':'none';
+  if(!active.length){
+    document.getElementById('revenue-streams-list').innerHTML='<div class="empty">No active revenue streams. Add your first stream.</div>';
+    return;
+  }
+  document.getElementById('revenue-streams-list').innerHTML=active.map(r=>`
+    <div class="stream-row">
+      <div>
+        <div class="stream-name">${r.name}</div>
+        <span class="stream-type">${r.stream_type||'retainer'}</span>
+        ${r.time_hours?`<span class="stream-type" style="margin-left:.3rem">${r.time_hours}h/wk</span>`:''}
+      </div>
+      <div class="stream-rev">${fmt$(r.monthly_revenue)}/mo</div>
+      ${r.growth_rate?`<div style="font-size:.75rem;color:${r.growth_rate>0?'var(--green)':'var(--red)'}">${r.growth_rate>0?'+':''}${r.growth_rate}%</div>`:'<div></div>'}
+      ${roiBadge(r.roi_score)}
+      <button class="btn-kill" onclick="killRevenue(${r.id})">Kill</button>
+    </div>`).join('');
+}
+
+async function saveRevenue(){
+  const data={
+    name:document.getElementById('rev-name').value.trim(),
+    stream_type:document.getElementById('rev-type').value,
+    monthly_revenue:parseFloat(document.getElementById('rev-revenue').value)||0,
+    growth_rate:parseFloat(document.getElementById('rev-growth').value)||0,
+    time_hours:parseFloat(document.getElementById('rev-time').value)||0,
+    roi_score:parseFloat(document.getElementById('rev-roi').value)||5,
+    notes:document.getElementById('rev-notes').value.trim(),
+  };
+  if(!data.name)return alert('Stream name required');
+  const id=document.getElementById('rev-id').value;
+  if(id)data.id=parseInt(id);
+  await api('/revenue',id?'PUT':'POST',data).catch(e=>alert(e.message));
+  closeModal('modal-revenue');
+  clearForm('rev-id','rev-name','rev-revenue','rev-growth','rev-time','rev-roi','rev-notes');
+  await loadRevenue();await loadSnapshot();
+}
+
+async function killRevenue(id){
+  if(!confirm('Remove this revenue stream?'))return;
+  await api('/revenue/'+id,'DELETE');
+  await loadRevenue();await loadSnapshot();
+}
+
+// ── Initiatives ───────────────────────────────────────────────────
+async function loadInitiatives(){
+  const d=await api('/initiatives');
+  const active=d.active||[];
+  const killed=d.killed||[];
+  const overloaded=active.length>3;
+  const atLimit=active.length===3;
+  document.getElementById('init-overload-warn').style.display=overloaded?'flex':'none';
+  document.getElementById('focus-count-badge').textContent=`(${active.length}/3)`;
+  if(!active.length){
+    document.getElementById('initiatives-active-list').innerHTML='<div class="empty">No active initiatives. Max 3 allowed.</div>';
+  }else{
+    document.getElementById('initiatives-active-list').innerHTML=active.map(i=>`
+      <div class="init-row ${overloaded&&i.roi_score===Math.min(...active.map(x=>x.roi_score))?'':''}">
+        <div class="init-header">
+          <span class="init-name">${i.name}</span>
+          <div style="display:flex;gap:.4rem;align-items:center">
+            ${roiBadge(i.roi_score)}
+            <button class="btn-kill" onclick="openKillModal(${i.id},'${i.name.replace(/'/g,"\\'")}')">Kill</button>
+          </div>
+        </div>
+        ${i.objective?`<div class="init-obj">${i.objective}</div>`:''}
+        <div class="init-meta">
+          <span>ROI: ${i.roi_level||'?'}</span>
+          ${i.time_hours?`<span>${i.time_hours}h/wk</span>`:''}
+          ${i.deadline?`<span>→ ${i.deadline}</span>`:''}
+          ${i.kill_condition?`<span style="color:var(--red-dim)">Kill if: ${i.kill_condition}</span>`:''}
+        </div>
+      </div>`).join('');
+  }
+  if(!killed.length){
+    document.getElementById('initiatives-killed-list').innerHTML='<div class="empty" style="font-size:.75rem">Nothing killed yet this cycle.</div>';
+  }else{
+    document.getElementById('initiatives-killed-list').innerHTML=`
+      <div class="lbl" style="margin-bottom:.5rem">Killed this cycle (${killed.length})</div>`+
+      killed.slice(0,5).map(i=>`
+        <div class="init-row killed-row">
+          <div class="init-header">
+            <span class="init-name">${i.name}</span>
+            <span style="font-size:.7rem;color:var(--red)">Killed</span>
+          </div>
+          ${i.kill_reason?`<div class="init-obj" style="color:var(--muted)">↳ ${i.kill_reason}</div>`:''}
+        </div>`).join('');
+  }
+}
+
+async function saveInitiative(){
+  const active=await api('/initiatives').then(d=>d.active||[]);
+  const id=document.getElementById('init-id').value;
+  if(!id&&active.length>=3){
+    if(!confirm('You already have 3 active initiatives. Add anyway?'))return;
+  }
+  const data={
+    name:document.getElementById('init-name').value.trim(),
+    objective:document.getElementById('init-obj').value.trim(),
+    roi_level:document.getElementById('init-roi-level').value,
+    roi_score:parseFloat(document.getElementById('init-roi').value)||5,
+    time_hours:parseFloat(document.getElementById('init-time').value)||0,
+    deadline:document.getElementById('init-deadline').value,
+    kill_condition:document.getElementById('init-kill').value.trim(),
+    force:true,
+  };
+  if(!data.name)return alert('Initiative name required');
+  if(id)data.id=parseInt(id);
+  await api('/initiatives',id?'PUT':'POST',data).catch(e=>alert(e.message));
+  closeModal('modal-initiative');
+  clearForm('init-id','init-name','init-obj','init-roi','init-time','init-deadline','init-kill');
+  await loadInitiatives();await loadSnapshot();
+}
+
+function openKillModal(id,name){
+  _killTarget=id;
+  document.getElementById('kill-name-display').textContent=name;
+  document.getElementById('kill-reason-input').value='';
+  openModal('modal-kill');
+}
+
+async function confirmKill(){
+  const reason=document.getElementById('kill-reason-input').value.trim();
+  if(!reason)return alert('Kill reason required — Atlas enforces learning.');
+  await api('/initiatives/'+_killTarget+'/kill','POST',{reason});
+  closeModal('modal-kill');
+  _killTarget=null;
+  await loadInitiatives();await loadSnapshot();
+}
+
+// ── Daily queue ───────────────────────────────────────────────────
+async function loadQueue(){
+  const d=await api('/queue');
+  const items=d.items||[];
+  const overloaded=d.overloaded;
+  document.getElementById('queue-overload-warn').style.display=overloaded?'block':'none';
+  if(!items.length){
+    document.getElementById('daily-queue-list').innerHTML='<div class="empty">Queue empty. Add up to 3 tasks.</div>';
+    return;
+  }
+  let n=0;
+  document.getElementById('daily-queue-list').innerHTML=items.map(i=>{
+    if(i.status==='pending')n++;
+    const impCls={'direct':'impact-direct','indirect':'impact-indirect','none':'impact-none'}[i.rev_impact]||'impact-indirect';
+    return `<div class="queue-item ${i.status==='done'?'queue-done':''}">
+      <div class="queue-num">${i.status==='done'?'✓':n}</div>
+      <div class="queue-title">
+        ${i.title}
+        ${i.outcome?`<div style="font-size:.72rem;color:var(--muted2)">${i.outcome}</div>`:''}
+      </div>
+      <span class="queue-impact ${impCls}">${i.rev_impact}</span>
+      ${i.status==='pending'?`<button class="btn btn-sm" onclick="markQueueDone(${i.id})">Done</button>`:''}
+      <button class="btn btn-sm btn-danger" onclick="deleteQueueItem(${i.id})">×</button>
+    </div>`;
+  }).join('');
+}
+
+async function saveQueueItem(){
+  const data={
+    title:document.getElementById('q-title').value.trim(),
+    outcome:document.getElementById('q-outcome').value.trim(),
+    rev_impact:document.getElementById('q-impact').value,
+    force:false,
+  };
+  if(!data.title)return alert('Task required');
+  try{
+    await api('/queue','POST',data);
+  }catch(e){
+    if(!confirm(e.message+'\n\nAdd anyway?'))return;
+    data.force=true;
+    await api('/queue','POST',data);
+  }
+  closeModal('modal-queue');
+  clearForm('q-title','q-outcome');
+  await loadQueue();
+}
+
+async function markQueueDone(id){
+  await api('/queue/'+id+'/done','PUT');
+  await loadQueue();
+}
+
+async function deleteQueueItem(id){
+  await api('/queue/'+id,'DELETE');
+  await loadQueue();
+}
+
+// ── Weekly metrics ────────────────────────────────────────────────
+function weekStart(){
+  const d=new Date();
+  d.setDate(d.getDate()-d.getDay()+1);
+  return d.toISOString().slice(0,10);
+}
+
+async function loadWeeklySnapshot(){
+  const d=await api('/metrics/weekly');
+  const weeks=d.weeks||[];
+  const w=weeks[0];
+  document.getElementById('wm-week-label').textContent=weekStart();
+  if(!w){
+    document.getElementById('weekly-snapshot').innerHTML='<div class="empty" style="font-size:.75rem">No data this week. Click Update.</div>';
+    return;
+  }
+  const rows=[
+    {l:'Revenue produced',v:fmt$(w.revenue_produced)},
+    {l:'Deep work hours',v:(w.deep_work_hours||0)+'h'},
+    {l:'Tasks completed',v:w.tasks_completed||0},
+    {l:'Bottlenecks resolved',v:w.bottlenecks||0},
+    {l:'Systems improved',v:w.systems_improved||0},
+  ];
+  document.getElementById('weekly-snapshot').innerHTML=`<div class="grid2" style="gap:.5rem">`+
+    rows.map(r=>`<div><div class="lbl">${r.l}</div><div style="font-size:.95rem;font-weight:600">${r.v}</div></div>`).join('')+
+    `</div>${w.notes?`<div class="init-obj" style="margin-top:.5rem">${w.notes}</div>`:''}`;
+  renderAttentionPanel(w);
+  renderEnergyPanel2(w);
+}
+
+function renderAttentionPanel(w){
+  if(!w){return;}
+  const rows=[
+    {l:'Context switches/day',v:w.context_switches||0,warn:w.context_switches>10},
+    {l:'Deep work hours/week',v:(w.deep_work_hours||0)+'h',warn:w.deep_work_hours<10},
+    {l:'Energy score',v:(w.energy_score||0)+'/10',warn:w.energy_score<5},
+    {l:'Focus score',v:(w.focus_score||0)+'/10',warn:w.focus_score<5},
+  ];
+  document.getElementById('attention-panel').innerHTML=rows.map(r=>`
+    <div class="risk-row">
+      <span class="risk-label">${r.l}</span>
+      <div style="display:flex;align-items:center;gap:.4rem">
+        <strong>${r.v}</strong>
+        ${r.warn?statusPill('RED'):statusPill('GREEN')}
+      </div>
+    </div>`).join('');
+}
+
+function renderEnergyPanel2(w){
+  if(!w){return;}
+  document.getElementById('energy-panel2').innerHTML=`
+    <div class="grid2" style="gap:.5rem">
+      <div><div class="lbl">Energy</div><div style="font-size:1.2rem;font-weight:700">${w.energy_score||'—'}/10</div></div>
+      <div><div class="lbl">Focus</div><div style="font-size:1.2rem;font-weight:700">${w.focus_score||'—'}/10</div></div>
+      <div><div class="lbl">Context switches</div><div style="font-size:1rem;font-weight:600">${w.context_switches||0}/day</div></div>
+      <div><div class="lbl">Deep work</div><div style="font-size:1rem;font-weight:600">${w.deep_work_hours||0}h/wk</div></div>
+    </div>`;
+}
+
+async function saveWeeklyMetrics(){
+  const data={
+    week_start:weekStart(),
+    revenue_produced:parseFloat(document.getElementById('wm-rev').value)||0,
+    deep_work_hours:parseFloat(document.getElementById('wm-hours').value)||0,
+    tasks_completed:parseInt(document.getElementById('wm-tasks').value)||0,
+    bottlenecks:parseInt(document.getElementById('wm-bottlenecks').value)||0,
+    systems_improved:parseInt(document.getElementById('wm-systems').value)||0,
+    context_switches:parseInt(document.getElementById('wm-switches').value)||0,
+    energy_score:parseInt(document.getElementById('wm-energy').value)||5,
+    focus_score:parseInt(document.getElementById('wm-focus').value)||5,
+    notes:document.getElementById('wm-notes').value.trim(),
+  };
+  await api('/metrics/weekly','POST',data);
+  closeModal('modal-weekly');
+  await loadWeeklySnapshot();await loadSnapshot();
+}
+
+// ── Pipeline ──────────────────────────────────────────────────────
+async function loadPipeline(){
+  const d=await api('/pipeline');
+  const weeks=d.weeks||[];
+  const w=weeks[0];
+  if(!w){
+    document.getElementById('pipeline-funnel').innerHTML='<div class="empty">No data. Click Update.</div>';
+  }else{
+    const conv=w.leads_generated>0?((w.deals_closed/w.leads_generated)*100).toFixed(1):0;
+    const callRate=w.calls_booked>0?((w.calls_completed/w.calls_booked)*100).toFixed(0):0;
+    const closeRate=w.proposals_sent>0?((w.deals_closed/w.proposals_sent)*100).toFixed(0):0;
+    document.getElementById('pipeline-funnel').innerHTML=`
+      <div class="funnel-row"><span class="funnel-label">Leads generated</span><strong class="funnel-val">${w.leads_generated}</strong><span class="funnel-rate"></span></div>
+      <div class="funnel-row"><span class="funnel-label">Calls booked</span><strong class="funnel-val">${w.calls_booked}</strong><span class="funnel-rate">${callRate}% show rate</span></div>
+      <div class="funnel-row"><span class="funnel-label">Calls completed</span><strong class="funnel-val">${w.calls_completed}</strong></div>
+      <div class="funnel-row"><span class="funnel-label">Proposals sent</span><strong class="funnel-val">${w.proposals_sent}</strong></div>
+      <div class="funnel-row"><span class="funnel-label">Deals closed</span><strong class="funnel-val" style="color:var(--green)">${w.deals_closed}</strong><span class="funnel-rate">${closeRate}% close</span></div>
+      <div class="funnel-row"><span class="funnel-label">Revenue closed</span><strong class="funnel-val" style="color:var(--green)">${fmt$(w.revenue_closed)}</strong><span class="funnel-rate">${conv}% lead→close</span></div>`;
+    // Pre-populate pipeline modal
+    document.getElementById('pl-leads').value=w.leads_generated||0;
+    document.getElementById('pl-booked').value=w.calls_booked||0;
+    document.getElementById('pl-calls').value=w.calls_completed||0;
+    document.getElementById('pl-proposals').value=w.proposals_sent||0;
+    document.getElementById('pl-closed').value=w.deals_closed||0;
+    document.getElementById('pl-revenue').value=w.revenue_closed||0;
+  }
+  // Cash flow forecast
+  const mrr=_snap.current_mrr||0;
+  const gap=_snap.gap||0;
+  document.getElementById('cashflow-forecast').innerHTML=`
+    <div class="grid3" style="gap:.5rem;text-align:center">
+      <div style="background:var(--surface2);border-radius:6px;padding:.6rem">
+        <div class="lbl">Conservative (flat)</div>
+        <div style="font-size:1rem;font-weight:700;margin-top:.3rem;color:var(--yellow)">${fmt$(mrr*3)}</div>
+        <div class="lbl">90 days</div>
+      </div>
+      <div style="background:var(--surface2);border-radius:6px;padding:.6rem">
+        <div class="lbl">Base (+5%/mo)</div>
+        <div style="font-size:1rem;font-weight:700;margin-top:.3rem">${fmt$(mrr*1.05+mrr*1.1+mrr*1.157)}</div>
+        <div class="lbl">90 days</div>
+      </div>
+      <div style="background:var(--surface2);border-radius:6px;padding:.6rem">
+        <div class="lbl">Upside (+20%/mo)</div>
+        <div style="font-size:1rem;font-weight:700;margin-top:.3rem;color:var(--green)">${fmt$(mrr*1.2+mrr*1.44+mrr*1.728)}</div>
+        <div class="lbl">90 days</div>
+      </div>
+    </div>
+    <div style="margin-top:.75rem;font-size:.75rem;color:var(--muted)">Survival line: $1,428/mo (mortgage). Gap to close: ${fmt$(gap)}/mo.</div>`;
+  // History
+  if(weeks.length>1){
+    document.getElementById('pipeline-history').innerHTML=`
+      <table style="width:100%;border-collapse:collapse;font-size:.75rem">
+        <tr style="color:var(--muted);font-size:.7rem">${['Week','Leads','Proposals','Closed','Revenue'].map(h=>`<th style="text-align:left;padding:.3rem .4rem">${h}</th>`).join('')}</tr>`+
+      weeks.slice(0,8).map(w=>`<tr style="border-top:1px solid var(--border)">
+        <td style="padding:.3rem .4rem;color:var(--muted)">${w.week_start}</td>
+        <td style="padding:.3rem .4rem">${w.leads_generated}</td>
+        <td style="padding:.3rem .4rem">${w.proposals_sent}</td>
+        <td style="padding:.3rem .4rem;color:var(--green)">${w.deals_closed}</td>
+        <td style="padding:.3rem .4rem;color:var(--green)">${fmt$(w.revenue_closed)}</td>
+      </tr>`).join('')+'</table>';
+  }
+}
+
+async function savePipeline(){
+  const data={
+    leads_generated:parseInt(document.getElementById('pl-leads').value)||0,
+    calls_booked:parseInt(document.getElementById('pl-booked').value)||0,
+    calls_completed:parseInt(document.getElementById('pl-calls').value)||0,
+    proposals_sent:parseInt(document.getElementById('pl-proposals').value)||0,
+    deals_closed:parseInt(document.getElementById('pl-closed').value)||0,
+    revenue_closed:parseFloat(document.getElementById('pl-revenue').value)||0,
+  };
+  await api('/pipeline','POST',data);
+  closeModal('modal-pipeline');
+  await loadPipeline();await loadSnapshot();
+}
+
+// ── Systems ───────────────────────────────────────────────────────
+async function loadSystems(){
+  const d=await api('/systems');
+  const systems=d.systems||[];
+  if(!systems.length){
+    document.getElementById('systems-list').innerHTML='<div class="empty">No systems tracked. Add your first.</div>';
+    document.getElementById('leverage-stats').innerHTML='<div class="empty">Track systems to see leverage metrics.</div>';
+    return;
+  }
+  const total=systems.length;
+  const automated=systems.filter(s=>s.auto_status==='automated').length;
+  const semi=systems.filter(s=>s.auto_status==='semi-auto').length;
+  const manual=systems.filter(s=>s.auto_status==='manual').length;
+  const autoRatio=Math.round((automated/total)*100);
+  document.getElementById('systems-automation-summary').textContent=
+    `Automation ratio: ${autoRatio}% | Automated: ${automated} | Semi: ${semi} | Manual: ${manual}`;
+  const catLabels={lead_gen:'Lead Gen',automation:'Automation',sales:'Sales',content:'Content',onboarding:'Onboarding',admin:'Admin',other:'Other'};
+  document.getElementById('systems-list').innerHTML=systems.map(s=>`
+    <div class="system-row">
+      <div>
+        <span class="sys-name">${s.name}</span>
+        <span class="sys-cat">${catLabels[s.category]||s.category}</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.5rem">
+        <span class="auto-badge auto-${s.auto_status}">${s.auto_status}</span>
+        ${roiBadge(s.roi_score)}
+        <span style="font-size:.7rem;color:${s.dep_risk==='high'?'var(--red)':s.dep_risk==='medium'?'var(--yellow)':'var(--green)'}">dep:${s.dep_risk}</span>
+      </div>
+    </div>`).join('');
+  document.getElementById('leverage-stats').innerHTML=`
+    <div class="grid2" style="gap:.5rem">
+      <div style="text-align:center;background:var(--surface2);border-radius:6px;padding:.75rem">
+        <div style="font-size:1.8rem;font-weight:700;color:${autoRatio>=50?'var(--green)':'var(--yellow)'}">${autoRatio}%</div>
+        <div class="lbl">Automation ratio</div>
+      </div>
+      <div style="text-align:center;background:var(--surface2);border-radius:6px;padding:.75rem">
+        <div style="font-size:1.8rem;font-weight:700">${total}</div>
+        <div class="lbl">Systems tracked</div>
+      </div>
+    </div>
+    <div style="margin-top:.5rem">
+      ${[{l:'Fully automated',n:automated,c:'var(--green)'},{l:'Semi-automated',n:semi,c:'var(--yellow)'},{l:'Manual',n:manual,c:'var(--muted)'}]
+        .map(r=>`<div style="display:flex;justify-content:space-between;padding:.3rem 0;border-bottom:1px solid var(--border);font-size:.8rem"><span>${r.l}</span><strong style="color:${r.c}">${r.n}</strong></div>`).join('')}
+    </div>`;
+}
+
+async function saveSystem(){
+  const data={
+    name:document.getElementById('sys-name').value.trim(),
+    category:document.getElementById('sys-cat').value,
+    auto_status:document.getElementById('sys-auto').value,
+    roi_score:parseInt(document.getElementById('sys-roi').value)||5,
+    dep_risk:document.getElementById('sys-dep').value,
+    maint_hours:parseFloat(document.getElementById('sys-maint').value)||0,
+    notes:document.getElementById('sys-notes').value.trim(),
+  };
+  if(!data.name)return alert('System name required');
+  const id=document.getElementById('sys-id').value;
+  if(id)data.id=parseInt(id);
+  await api('/systems',id?'PUT':'POST',data);
+  closeModal('modal-system');
+  clearForm('sys-id','sys-name','sys-roi','sys-maint','sys-notes');
+  await loadSystems();
+}
+
+// ── Strategic options ─────────────────────────────────────────────
+async function loadStrategicOptions(){
+  const d=await api('/strategic-options');
+  const opts=d.options||[];
+  if(!opts.length){
+    document.getElementById('strategic-options-list').innerHTML='<div class="empty">No strategic options tracked. Score everything ruthlessly.</div>';
+    return;
+  }
+  const active=opts.filter(o=>o.status!=='killed');
+  const statusLabels={watching:'👁 Watching',active:'⚡ Active',killed:'💀 Killed',validated:'✓ Validated'};
+  document.getElementById('strategic-options-list').innerHTML=active.map(o=>`
+    <div class="card" style="margin-bottom:.5rem;padding:.75rem">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <strong style="font-size:.85rem">${o.name}</strong>
+        <span style="font-size:.7rem;color:var(--muted2)">${statusLabels[o.status]||o.status}</span>
+      </div>
+      <div class="init-meta" style="margin-top:.3rem">
+        <span>ROI: ${o.roi_potential}/10</span>
+        <span>${o.time_to_revenue}d to revenue</span>
+        <span>Complexity: ${o.complexity}/10</span>
+        <span>Fit: ${o.fit_score}/10</span>
+      </div>
+      ${o.notes?`<div class="init-obj" style="margin-top:.3rem">${o.notes}</div>`:''}
+    </div>`).join('');
+}
+
+async function saveOption(){
+  const data={
+    name:document.getElementById('opt-name').value.trim(),
+    roi_potential:parseInt(document.getElementById('opt-roi').value)||5,
+    time_to_revenue:parseInt(document.getElementById('opt-days').value)||90,
+    complexity:parseInt(document.getElementById('opt-complexity').value)||5,
+    fit_score:parseInt(document.getElementById('opt-fit').value)||5,
+    status:document.getElementById('opt-status').value,
+    notes:document.getElementById('opt-notes').value.trim(),
+  };
+  if(!data.name)return alert('Name required');
+  const id=document.getElementById('opt-id').value;
+  if(id)data.id=parseInt(id);
+  await api('/strategic-options',id?'PUT':'POST',data);
+  closeModal('modal-option');
+  clearForm('opt-id','opt-name','opt-roi','opt-days','opt-complexity','opt-fit','opt-notes');
+  await loadStrategicOptions();
+}
+
+// ── Decisions ─────────────────────────────────────────────────────
+async function loadDecisions(){
+  const d=await api('/decisions');
+  const decs=d.decisions||[];
+  if(!decs.length){
+    document.getElementById('decision-log-list').innerHTML='<div class="empty">No decisions logged. Every major decision should be recorded.</div>';
+    return;
+  }
+  document.getElementById('decision-log-list').innerHTML=decs.map(d=>`
+    <div class="decision-row">
+      <div class="decision-title">${d.title}</div>
+      <div class="decision-meta">
+        ${d.created_at?d.created_at.slice(0,10):''}
+        ${d.review_date?` · Review: ${d.review_date}`:''}
+        ${d.risk?` · Risk: ${d.risk}`:''}
+      </div>
+      ${d.reason?`<div class="init-obj" style="margin-top:.2rem">${d.reason}</div>`:''}
+      ${d.outcome?`<div class="decision-outcome">↳ ${d.outcome}</div>`:''}
+    </div>`).join('');
+}
+
+async function saveDecision(){
+  const data={
+    title:document.getElementById('dec-title').value.trim(),
+    reason:document.getElementById('dec-reason').value.trim(),
+    expected_outcome:document.getElementById('dec-outcome').value.trim(),
+    risk:document.getElementById('dec-risk').value.trim(),
+    review_date:document.getElementById('dec-review').value,
+  };
+  if(!data.title)return alert('Decision required');
+  await api('/decisions','POST',data);
+  closeModal('modal-decision');
+  clearForm('dec-title','dec-reason','dec-outcome','dec-risk','dec-review');
+  await loadDecisions();
+}
+
+// ── Contacts / Actions (existing) ─────────────────────────────────
 async function loadContacts(){
   const d=await api('/contacts?limit=100');
   _contacts=d.contacts||[];
@@ -175,23 +1169,27 @@ function filterContacts(){
   renderContacts(q?_contacts.filter(c=>(c.name||'').toLowerCase().includes(q)||(c.email||'').toLowerCase().includes(q)):_contacts);
 }
 
+const relColor=rel=>{
+  const m={'Family':'rel-fam','Close friend':'rel-friend','Key business partner':'rel-biz',
+    'Client (Banoo)':'rel-biz','Lead (business owner)':'rel-lead','Mentor/Advisor':'rel-mentor',
+    'Vendor':'rel-vendor','Needs rekindling':'rel-rekindle'};
+  return m[rel]||'';
+};
+
 function renderContacts(list){
   if(!list.length){document.getElementById('contacts-list').innerHTML='<div class="empty">No contacts yet. Run: chief sync</div>';return;}
   document.getElementById('contacts-list').innerHTML=list.map(c=>`
-    <div class="card">
+    <div class="contact-card">
       <div style="display:flex;justify-content:space-between;align-items:flex-start">
         <div>
-          <h3>${c.name||c.email} <span class="meta ${relColor(c.relationship)}">${c.relationship||'?'}</span></h3>
-          <div class="meta">${c.email}${c.company?' · '+c.company:''}</div>
+          <strong>${c.name||c.email}</strong>
+          <span style="font-size:.72rem;margin-left:.5rem" class="${relColor(c.relationship)}">${c.relationship||'?'}</span>
+          <div style="font-size:.75rem;color:var(--muted)">${c.email}${c.company?' · '+c.company:''}</div>
         </div>
-        <div style="text-align:right;font-size:.8rem">
-          ${scoreDots(c.strength)}
-          <div class="meta">${c.email_count||0} emails</div>
-        </div>
+        <div style="text-align:right;font-size:.72rem;color:var(--muted)">${c.email_count||0} emails</div>
       </div>
-      ${c.how_we_met?`<div class="meta" style="margin-top:.4rem">${c.how_we_met}</div>`:''}
-      ${c.last_contact?`<div class="meta">Last: ${(c.last_contact||'').slice(0,10)}</div>`:''}
-      ${c.suggested_action?`<div style="color:#93c5fd;font-size:.8rem;margin-top:.4rem">→ ${c.suggested_action}</div>`:''}
+      <div class="strength-bar"><div class="strength-fill" style="width:${(c.strength||0)*10}%"></div></div>
+      ${c.suggested_action?`<div style="color:#93c5fd;font-size:.75rem;margin-top:.4rem">→ ${c.suggested_action}</div>`:''}
     </div>`).join('');
 }
 
@@ -205,78 +1203,37 @@ async function loadActions(){
   ['HIGH','MEDIUM','LOW'].forEach(p=>{
     if(!grouped[p].length)return;
     const icon={HIGH:'🔴',MEDIUM:'🟡',LOW:'🟢'}[p];
-    h+=`<div class="section-title">${icon} ${p} Priority (${grouped[p].length})</div>`;
+    h+=`<div style="font-size:.7rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin:1rem 0 .5rem">${icon} ${p} (${grouped[p].length})</div>`;
     grouped[p].forEach(a=>{
-      const type_icon={'followup':'↩','promise':'🤝','decision':'🤔','task':'✓'}[a.action_type]||'•';
       h+=`<div class="action-item ${p}">
-        <div><strong>${type_icon} ${a.title}</strong>${a.deadline?` <span class="meta">by ${a.deadline}</span>`:''}</div>
-        <div class="meta">From: ${a.from_name||'?'}</div>
-        ${a.suggested_next?`<div style="color:#6ee7b7;font-size:.8rem">→ ${a.suggested_next}</div>`:''}
+        <strong>${a.title}</strong>${a.deadline?` <span style="font-size:.72rem;color:var(--muted)">→ ${a.deadline}</span>`:''}
+        <div style="font-size:.72rem;color:var(--muted)">From: ${a.from_name||'?'}</div>
+        ${a.suggested_next?`<div style="font-size:.75rem;color:#6ee7b7;margin-top:.2rem">→ ${a.suggested_next}</div>`:''}
       </div>`;
     });
   });
   document.getElementById('actions-list').innerHTML=h;
 }
 
-async function loadNurture(){
-  const d=await api('/contacts/nurture');
-  const leads=d.leads||[];
-  if(!leads.length){document.getElementById('nurture-list').innerHTML='<div class="empty">No nurture leads yet. Run: chief sync</div>';return;}
-  document.getElementById('nurture-list').innerHTML=`
-    <div class="section-title">🎯 Business Owners — Nurture for Banoo (${leads.length})</div>`+
-    leads.map((c,i)=>`<div class="card">
-      <div style="display:flex;justify-content:space-between">
-        <h3>${i+1}. ${c.name||c.email}</h3>
-        <div class="meta">Score: ${scoreDots(c.nurture_score)}</div>
-      </div>
-      <div class="meta">${c.email}${c.company?' · '+c.company:''}</div>
-      ${c.nurture_notes?`<div style="margin-top:.4rem;color:#fde68a;font-size:.85rem">${c.nurture_notes}</div>`:''}
-      ${c.suggested_action?`<div style="color:#93c5fd;font-size:.8rem;margin-top:.3rem">→ ${c.suggested_action}</div>`:''}
-    </div>`).join('');
-}
-
-async function loadReconnect(){
-  const d=await api('/contacts/reconnect');
-  const cs=d.contacts||[];
-  if(!cs.length){document.getElementById('reconnect-list').innerHTML='<div class="empty">No dormant contacts found.</div>';return;}
-  document.getElementById('reconnect-list').innerHTML=`
-    <div class="section-title">🌱 Dormant Valuable Contacts (${cs.length})</div>`+
-    cs.map(c=>`<div class="card">
-      <h3>${c.name||c.email} <span class="meta rel-rekindle">Needs rekindling</span></h3>
-      <div class="meta">${c.email}${c.company?' · '+c.company:''}</div>
-      <div class="meta">Last contact: ${(c.last_contact||'unknown').slice(0,10)} · ${c.email_count||0} emails total</div>
-      ${c.how_we_met?`<div class="meta" style="margin-top:.3rem">${c.how_we_met}</div>`:''}
-      ${c.suggested_action?`<div style="color:#93c5fd;font-size:.8rem;margin-top:.3rem">→ ${c.suggested_action}</div>`:''}
-    </div>`).join('');
-}
-
-async function loadCalendar(){
-  const d=await api('/calendar?days=14');
-  const evts=d.events||[];
-  if(!evts.length){document.getElementById('calendar-list').innerHTML='<div class="empty">No upcoming events. Sync calendar first.</div>';return;}
-  document.getElementById('calendar-list').innerHTML=`
-    <div class="section-title">📅 Next 14 Days (${evts.length} events)</div>`+
-    evts.map(e=>{
-      let att=[];try{att=JSON.parse(e.attendees||'[]');}catch(x){}
-      const names=att.slice(0,4).map(a=>a.name||a.email).filter(Boolean).join(', ')||'No attendees';
-      const dt=e.start_time?e.start_time.slice(0,16).replace('T',' '):'';
-      return `<div class="card">
-        <h3>${e.title}</h3>
-        <div class="meta">${dt}${e.location?' · '+e.location:''}</div>
-        <div class="meta">With: ${names}</div>
-        ${e.description?`<div class="meta" style="margin-top:.3rem">${e.description.slice(0,100)}</div>`:''}
-      </div>`;
-    }).join('');
-}
-
+// ── Load all ──────────────────────────────────────────────────────
 async function loadAll(){
-  document.getElementById('last-updated').textContent='Refreshing...';
-  await Promise.all([loadStats(),loadBrief(),loadContacts(),loadActions(),loadNurture(),loadReconnect(),loadCalendar()]);
-  document.getElementById('last-updated').textContent='Last updated: '+new Date().toLocaleTimeString();
+  await Promise.allSettled([
+    loadSnapshot(),
+    loadRevenue(),
+    loadInitiatives(),
+    loadQueue(),
+    loadWeeklySnapshot(),
+    loadPipeline(),
+    loadSystems(),
+    loadStrategicOptions(),
+    loadDecisions(),
+    loadContacts(),
+    loadActions(),
+  ]);
 }
 
 loadAll();
-setInterval(loadAll, 5*60*1000); // auto-refresh every 5 min
+setInterval(loadAll, 5*60*1000);
 </script>
 </body>
 </html>

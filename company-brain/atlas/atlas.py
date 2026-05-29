@@ -34,6 +34,16 @@ Usage:
   atlas scout questions <role>   Generate interview questions
   atlas scout outreach <n> <r>   Draft first-touch outreach to a candidate
   atlas scout teardown <role>    Tear down a role before hiring for it
+
+  ── Weekly Execution Loop (Single-Thread Sprint) ──────────────────
+  atlas daily-start              Morning context reset + today's 3 tasks
+  atlas execute ["update"]       Execute mode — focus enforcement, scope check
+  atlas realign                  Stuck or drifted? Re-prioritize and reset
+  atlas pipeline                 Pipeline status — funnel, conversion, next actions
+  atlas kill-review              What must stop — kill list + ROI freed
+  atlas week-start               Begin the sprint — target, 2 engines, kill mandate
+  atlas week-review              Weekly closeout — revenue, focus, system progress
+  atlas reality-check            Brutal strategic audit — no comfort
 """
 import sys
 import json
@@ -602,6 +612,32 @@ def main():
         else:
             print("Usage: atlas scout [scan | jd <role> | screen <info> [role] |")
             print("                    questions <role> | outreach <name> <role> | teardown <role>]")
+
+    # ── Execution Loop commands ───────────────────────────────────
+    elif cmd in ("daily-start", "execute", "realign", "pipeline",
+                 "kill-review", "week-start", "week-review", "reality-check"):
+        import execution_loop as el
+        _div = "\n  " + "─" * 60
+        titles = {
+            "daily-start":   "Daily Start — Context reset + today's 3 tasks",
+            "execute":       "Execute Mode — Focus enforcement",
+            "realign":       "Realign — Re-prioritize, reduce scope, reset",
+            "pipeline":      "Pipeline Check",
+            "kill-review":   "Kill Review — What must stop",
+            "week-start":    "Week Start — Single-Thread Sprint",
+            "week-review":   "Week Review — Closeout",
+            "reality-check": "Reality Check — Brutal strategic audit",
+        }
+        print(f"\n  Atlas: {titles[cmd]}{_div}\n")
+        if cmd == "daily-start":     print(el.run_daily_start())
+        elif cmd == "execute":       print(el.run_execute_mode(args[1] if len(args) > 1 else ""))
+        elif cmd == "realign":       print(el.run_realign())
+        elif cmd == "pipeline":      print(el.run_pipeline_check())
+        elif cmd == "kill-review":   print(el.run_kill_review())
+        elif cmd == "week-start":    print(el.run_week_start())
+        elif cmd == "week-review":   print(el.run_week_review())
+        elif cmd == "reality-check": print(el.run_reality_check())
+        print()
 
     else:
         print(f"Atlas: Unknown command '{cmd}'. Run 'atlas help' to see all commands.")
