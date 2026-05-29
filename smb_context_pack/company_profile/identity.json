@@ -1,7 +1,20 @@
 {
-  "company_name": "",
-  "what_we_do": "",
-  "main_offer": "",
-  "target_customers": "",
-  "tone": "direct"
+  "company_name": "Banoo Inc",
+  "what_we_do": "We manage paid advertising and lead generation for small and mid-size businesses",
+  "main_offer": "Google Ads and Meta ads retainers — full management, optimization, and monthly reporting",
+  "target_customers": "Local and regional service businesses that need measurable growth from paid advertising",
+  "tone": "direct",
+  "current_focus": "Retain existing clients and close 2-3 new retainers to close the $12,000/month revenue gap",
+  "top_priorities": [
+    "Reactivate AngeLink and retain Crestview Realty before end of Q2",
+    "Close 2 new retainers from referral pipeline",
+    "Expand Greenline HVAC to Meta ads"
+  ],
+  "active_risks": [
+    "Crestview Realty — budget cut request + competitor proposal, churn risk within 30 days",
+    "AngeLink — 79+ days silent, campaign paused, needs direct founder outreach",
+    "Revenue at $3,000/month vs $15,000 target — cashflow pressure"
+  ],
+  "revenue_target_monthly": 15000,
+  "current_revenue_monthly": 3000
 }

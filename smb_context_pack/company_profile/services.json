@@ -1,5 +1,10 @@
 {
-  "core_services": [],
-  "delivery_model": "",
-  "pricing_model": ""
+  "core_services": [
+    "Google Ads management — campaign setup, optimization, monthly reporting",
+    "Meta ads (Facebook/Instagram) — creative strategy and performance management",
+    "SEO and lead generation — organic growth with measurable lead targets",
+    "Fractional marketing support — strategy and execution for growing businesses"
+  ],
+  "delivery_model": "Monthly retainer",
+  "pricing_model": "$1,500–$5,000/month depending on scope and channels"
 }

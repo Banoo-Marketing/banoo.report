@@ -1,4 +1,23 @@
 {
-  "active": [],
-  "prospects": []
+  "active": [
+    {
+      "name": "Greenline HVAC",
+      "health": "ok",
+      "note": "Active retainer — Google Ads + Meta, regular check-ins"
+    },
+    {
+      "name": "AngeLink",
+      "health": "at_risk",
+      "note": "Gone silent — 79+ days no response, last meeting cancelled"
+    },
+    {
+      "name": "Crestview Realty",
+      "health": "at_risk",
+      "note": "Budget cut request + competitor proposal received — churn risk"
+    }
+  ],
+  "prospects": [
+    "RBC mortgage referral — warm intro pending",
+    "Soclogix — proposal sent, awaiting decision"
+  ]
 }

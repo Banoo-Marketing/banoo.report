@@ -1,7 +1,4 @@
 {
   "style": "direct, simple, founder-level",
-  "avoid": [
-    "corporate language",
-    "long explanations"
-  ]
+  "avoid": ["corporate fluff", "long explanations", "buzzwords", "over-promising"]
 }
