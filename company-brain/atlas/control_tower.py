@@ -200,6 +200,14 @@ def generate_daily_brief(run_agents: bool = True) -> str:
         ]
         all_summaries = []
 
+    # Compress escalations before passing to LLM
+    try:
+        from attention.compression.notification_compressor import filter_alerts, cluster_alerts
+        escalation_items = filter_alerts(escalation_items, max_alerts=10)
+        escalation_items = cluster_alerts(escalation_items)
+    except Exception:
+        pass
+
     ctx = _get_live_context()
 
     # Build strategic context block
@@ -258,6 +266,12 @@ def generate_weekly_brief() -> str:
     except Exception:
         parenting_history = []
 
+    try:
+        from trajectory.forecast_engine import generate_trajectory_report
+        traj_report = generate_trajectory_report()
+    except Exception:
+        traj_report = ""
+
     workforce_input = f"""Weekly workforce review. Produce CEO briefing.
 
 WORKFORCE DATA:
@@ -284,6 +298,9 @@ RELATIONSHIP DECAY ALERTS (top 3):
 
 PARENTING + FAMILY:
 {json.dumps(parenting_history, indent=2, default=str)}
+
+TRAJECTORY REPORT (11 domains):
+{traj_report}
 
 Produce the weekly workforce report now."""
 

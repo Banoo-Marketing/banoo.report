@@ -305,6 +305,25 @@ def init():
             overload_flag INTEGER DEFAULT 0,
             notes         TEXT
         );
+
+        CREATE TABLE IF NOT EXISTS trajectory_state (
+            id               INTEGER PRIMARY KEY AUTOINCREMENT,
+            domain           TEXT NOT NULL,
+            metric_name      TEXT NOT NULL,
+            current_value    REAL,
+            previous_value   REAL,
+            trend_direction  TEXT,
+            trajectory_score REAL,
+            risk_level       TEXT,
+            projected_7d     REAL,
+            projected_30d    REAL,
+            projected_90d    REAL,
+            confidence_score REAL,
+            updated_at       TEXT DEFAULT (datetime('now')),
+            UNIQUE(domain, metric_name)
+        );
+
+        CREATE INDEX IF NOT EXISTS idx_trajectory_domain ON trajectory_state(domain);
         """)
 
 
@@ -1146,4 +1165,52 @@ def get_attention_log(days: int = 7) -> list[dict]:
         rows = c.execute("""SELECT * FROM attention_log
             WHERE date >= date('now', ?) ORDER BY date DESC""",
             (f"-{days} days",)).fetchall()
+    return [dict(r) for r in rows]
+
+
+# ── Trajectory State ──────────────────────────────────────────────────────────
+
+def upsert_trajectory_state(row: dict) -> int:
+    with _conn() as c:
+        cur = c.execute("""
+            INSERT INTO trajectory_state
+              (domain, metric_name, current_value, previous_value, trend_direction,
+               trajectory_score, risk_level, projected_7d, projected_30d, projected_90d,
+               confidence_score, updated_at)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,datetime('now'))
+            ON CONFLICT(domain, metric_name) DO UPDATE SET
+              previous_value   = current_value,
+              current_value    = excluded.current_value,
+              trend_direction  = excluded.trend_direction,
+              trajectory_score = excluded.trajectory_score,
+              risk_level       = excluded.risk_level,
+              projected_7d     = excluded.projected_7d,
+              projected_30d    = excluded.projected_30d,
+              projected_90d    = excluded.projected_90d,
+              confidence_score = excluded.confidence_score,
+              updated_at       = datetime('now')
+        """, (
+            row["domain"], row.get("metric_name", row["domain"]),
+            row.get("current_value"), row.get("previous_value"),
+            row.get("trend_direction", "unknown"),
+            row.get("trajectory_score", 0.0), row.get("risk_level", "low"),
+            row.get("projected_7d"), row.get("projected_30d"), row.get("projected_90d"),
+            row.get("confidence_score", 0.0),
+        ))
+        return cur.lastrowid
+
+
+def get_trajectory_state(domain: str) -> dict | None:
+    with _conn() as c:
+        row = c.execute(
+            "SELECT * FROM trajectory_state WHERE domain=? ORDER BY updated_at DESC LIMIT 1",
+            (domain,)).fetchone()
+    return dict(row) if row else None
+
+
+def get_all_trajectory_states() -> list[dict]:
+    with _conn() as c:
+        rows = c.execute(
+            "SELECT * FROM trajectory_state ORDER BY domain ASC"
+        ).fetchall()
     return [dict(r) for r in rows]
