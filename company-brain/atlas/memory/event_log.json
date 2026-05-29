@@ -1,0 +1,119 @@
+[
+  {
+    "event": {
+      "type": "EMAIL_RECEIVED",
+      "source": "manual",
+      "payload": {
+        "sender": "test@example.com",
+        "subject": "Invoice #1042 overdue - $3,200",
+        "body_preview": "Hi Emod, your invoice from last month is still outstanding."
+      },
+      "priority": "medium",
+      "id": "7d84c920",
+      "timestamp": "2026-05-29T03:04:41.821267+00:00"
+    },
+    "classification": {
+      "category": "finance",
+      "urgency": 7,
+      "requires_agent": true,
+      "suggested_agent": "ledger",
+      "summary": "Invoice #1042 for $3,200 is overdue and outstanding from last month.",
+      "escalate_to_emod": true,
+      "escalation_reason": "Overdue invoice exceeds $500 threshold and represents a receivables risk requiring timely follow-up or payment action."
+    },
+    "decision": {
+      "action": "ESCALATE",
+      "reason": "Overdue invoice exceeds $500 threshold and represents a receivables risk requiring timely follow-up or payment action."
+    },
+    "result": null,
+    "processed_at": "2026-05-29T03:04:45.433553+00:00"
+  },
+  {
+    "event": {
+      "type": "TASK_OVERDUE",
+      "source": "manual",
+      "payload": {
+        "title": "Follow up with AngeLink on deliverable",
+        "due_date": "2026-05-20",
+        "days_overdue": 9
+      },
+      "priority": "medium",
+      "id": "347d9914",
+      "timestamp": "2026-05-29T03:04:49.810147+00:00"
+    },
+    "classification": {
+      "category": "client",
+      "urgency": 7,
+      "requires_agent": true,
+      "suggested_agent": "pulse",
+      "summary": "A follow-up task with AngeLink regarding a deliverable is 9 days overdue with no resolution recorded.",
+      "escalate_to_emod": true,
+      "escalation_reason": "Active client deliverable follow-up is 9 days overdue \u2014 potential churn signal if AngeLink is a paying client and communication has lapsed this long without action."
+    },
+    "decision": {
+      "action": "ESCALATE",
+      "reason": "Active client deliverable follow-up is 9 days overdue \u2014 potential churn signal if AngeLink is a paying client and communication has lapsed this long without action."
+    },
+    "result": null,
+    "processed_at": "2026-05-29T03:04:53.215961+00:00"
+  },
+  {
+    "event": {
+      "type": "EMAIL_RECEIVED",
+      "source": "manual",
+      "payload": {
+        "sender": "newsletter@marketingtech.io",
+        "subject": "5 AI tools you need to try this week",
+        "body_preview": "Discover the latest AI marketing tools..."
+      },
+      "priority": "medium",
+      "id": "153bf615",
+      "timestamp": "2026-05-29T03:04:57.585523+00:00"
+    },
+    "classification": {
+      "category": "admin",
+      "urgency": 1,
+      "requires_agent": false,
+      "suggested_agent": "null",
+      "summary": "Promotional newsletter from marketingtech.io listing AI marketing tools.",
+      "escalate_to_emod": false,
+      "escalation_reason": null
+    },
+    "decision": {
+      "action": "LOG_ONLY"
+    },
+    "result": null,
+    "processed_at": "2026-05-29T03:04:59.963477+00:00"
+  },
+  {
+    "event": {
+      "type": "EMAIL_RECEIVED",
+      "source": "manual",
+      "payload": {
+        "sender": "candidate@gmail.com",
+        "subject": "Application - Senior PPC Manager",
+        "body_preview": "Hi, I am applying for the Senior PPC Manager role at Banoo Marketing. I have 6 years experience..."
+      },
+      "priority": "medium",
+      "id": "92ac0533",
+      "timestamp": "2026-05-29T03:05:05.516980+00:00"
+    },
+    "classification": {
+      "category": "admin",
+      "urgency": 4,
+      "requires_agent": true,
+      "suggested_agent": "scout",
+      "summary": "Inbound job application for Senior PPC Manager role from a candidate claiming 6 years of experience.",
+      "escalate_to_emod": false,
+      "escalation_reason": null
+    },
+    "decision": {
+      "action": "EXECUTE",
+      "agent": "scout",
+      "module": "scout",
+      "fn": "run_pipeline_scan"
+    },
+    "result": "error: unhashable type: 'dict'",
+    "processed_at": "2026-05-29T03:05:08.022413+00:00"
+  }
+]
