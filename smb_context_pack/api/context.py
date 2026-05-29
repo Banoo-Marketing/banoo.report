@@ -3,21 +3,19 @@ api/context.py — Context Injection API.
 
 THE PRODUCT INTERFACE.
 
-Any AI system calls build_context() or get_context_string() and
-immediately becomes company-aware, tone-aware, client-aware, priority-aware.
-
 Usage (Python):
-    import sys
-    sys.path.insert(0, "/path/to/smb_context_pack")
     from api.context import build_context, get_context_string
 
-    ctx    = build_context()           # full structured dict
-    prompt = get_context_string()      # paste into any AI system prompt
+    ctx    = build_context()                  # full structured dict
+    prompt = get_context_string()             # default format
+    prompt = get_context_string(fmt="claude") # claude / chatgpt / gemini
 
 Usage (CLI):
-    python api/context.py          # Formatted summary
-    python api/context.py --json   # Raw JSON
-    python api/context.py --prompt # Prompt-ready string
+    python api/context.py                # Formatted summary
+    python api/context.py --json         # Raw JSON
+    python api/context.py --chatgpt      # ChatGPT-optimized string
+    python api/context.py --claude       # Claude-optimized string
+    python api/context.py --gemini       # Gemini compact string
 """
 import json
 import sys
@@ -43,7 +41,7 @@ def get_constraints() -> dict:
 
 def build_context(memory_limit: int = 20) -> dict:
     """
-    Full context package for AI integration.
+    Full context package.
 
     {
         "company_profile": all company_profile JSON files,
@@ -60,38 +58,52 @@ def build_context(memory_limit: int = 20) -> dict:
     }
 
 
-def get_context_string(memory_limit: int = 10) -> str:
-    """
-    Prompt-ready context string.
-    Prepend to any AI system prompt to make it instantly company-aware.
-    """
-    ctx         = build_context(memory_limit=memory_limit)
+# ── Format renderers ───────────────────────────────────────────────────────────
+
+def _resolve(ctx: dict) -> tuple:
+    """Extract commonly used values from context dict."""
     state       = ctx["context"]
     profile     = ctx["company_profile"]
     identity    = profile.get("identity", {})
     tone_data   = profile.get("tone", {})
     constraints = ctx["constraints"]
 
-    s        = state.get("state", {})
-    clients  = state.get("clients", [])
-    at_risk  = [c for c in clients if c.get("health") == "at_risk"]
+    s       = state.get("state", {})
+    clients = state.get("clients", [])
+    at_risk = [c for c in clients if c.get("health") == "at_risk"]
 
-    lines = [
-        f"COMPANY: {state.get('company', '')}",
-        f"MISSION: {identity.get('mission', '')}",
-        f"POSITIONING: {identity.get('positioning', '')}",
+    # what_we_do / target_customers are the onboarding field names;
+    # mission / positioning are the legacy field names — support both
+    mission     = identity.get("mission") or identity.get("what_we_do", "")
+    positioning = identity.get("positioning") or identity.get("target_customers", "")
+
+    return state, s, clients, at_risk, mission, positioning, tone_data, constraints
+
+
+def _fmt_default(ctx: dict) -> str:
+    """Clean labeled text — works with any AI."""
+    state, s, clients, at_risk, mission, positioning, tone_data, constraints = _resolve(ctx)
+
+    lines = [f"COMPANY: {state.get('company', '')}"]
+    if mission:
+        lines.append(f"WHAT WE DO: {mission}")
+    if positioning:
+        lines.append(f"CUSTOMERS: {positioning}")
+
+    lines += [
         "",
         "CURRENT STATE:",
         f"  Focus: {state.get('focus', '')}",
         f"  Revenue: {s.get('revenue', '').upper()}",
         f"  Operations: {s.get('operations', '').upper()}",
-        f"  Relationships: {s.get('relationships', '').upper()}",
-        f"  Active clients: {len(clients)} ({len(at_risk)} at risk)",
-        "",
-        "TOP PRIORITIES:",
+        f"  Clients: {len(clients)} active ({len(at_risk)} at risk)",
     ]
-    for i, p in enumerate(state.get("top_priorities", []), 1):
-        lines.append(f"  {i}. {p}")
+
+    priorities = state.get("top_priorities", [])
+    if priorities:
+        lines += ["", "TOP PRIORITIES:"]
+        for i, p in enumerate(priorities, 1):
+            lines.append(f"  {i}. {p}")
 
     risks = state.get("risks", [])
     if risks:
@@ -100,9 +112,9 @@ def get_context_string(memory_limit: int = 10) -> str:
             lines.append(f"  - {r}")
 
     avoid = tone_data.get("avoid", [])
-    lines += ["", "TONE:", f"  Style: {state.get('tone', '')}"]
+    lines += ["", f"TONE: {state.get('tone', '')}"]
     if avoid:
-        lines.append(f"  Avoid: {', '.join(avoid[:3])}")
+        lines.append(f"AVOID: {', '.join(avoid[:3])}")
 
     forbidden = constraints.get("forbidden_behaviors", [])
     if forbidden:
@@ -115,11 +127,163 @@ def get_context_string(memory_limit: int = 10) -> str:
 
     recent = ctx["memory"][:5]
     if recent:
-        lines += ["", "RECENT CONTEXT:"]
+        lines += ["", "RECENT:"]
         for e in recent:
-            lines.append(f"  [{e.get('entity', '?')}] {e.get('content', '')[:120]}")
+            lines.append(f"  [{e.get('entity', '?')}] {e.get('content', '')[:100]}")
 
     return "\n".join(lines)
+
+
+def _fmt_chatgpt(ctx: dict) -> str:
+    """Markdown format — optimized for ChatGPT."""
+    state, s, clients, at_risk, mission, positioning, tone_data, _ = _resolve(ctx)
+
+    lines = [f"### Business Context: {state.get('company', '')}"]
+    if mission:
+        lines.append(f"**What we do:** {mission}")
+    if positioning:
+        lines.append(f"**Customers:** {positioning}")
+    if state.get("focus"):
+        lines.append(f"**Current focus:** {state['focus']}")
+
+    lines += [
+        "",
+        f"**State:** Revenue {s.get('revenue','').upper()} | "
+        f"Operations {s.get('operations','').upper()} | "
+        f"Clients {len(clients)} active ({len(at_risk)} at risk)",
+    ]
+
+    priorities = state.get("top_priorities", [])
+    if priorities:
+        lines += ["", "**Top priorities:**"]
+        for i, p in enumerate(priorities, 1):
+            lines.append(f"{i}. {p}")
+
+    risks = state.get("risks", [])
+    if risks:
+        lines += ["", "**Active risks:**"]
+        for r in risks:
+            lines.append(f"- {r}")
+
+    avoid = tone_data.get("avoid", [])
+    tone_line = f"**Tone:** {state.get('tone', '')}"
+    if avoid:
+        tone_line += f" | Avoid: {', '.join(avoid[:3])}"
+    lines += ["", tone_line]
+
+    recent = ctx["memory"][:5]
+    if recent:
+        lines += ["", "**Recent:**"]
+        for e in recent:
+            lines.append(f"- [{e.get('entity','?')}] {e.get('content','')[:100]}")
+
+    return "\n".join(lines)
+
+
+def _fmt_claude(ctx: dict) -> str:
+    """XML-tagged format — optimized for Claude."""
+    state, s, clients, at_risk, mission, positioning, tone_data, _ = _resolve(ctx)
+
+    avoid = ", ".join(tone_data.get("avoid", [])[:3])
+    lines = [f'<business_context company="{state.get("company", "")}">']
+
+    lines.append("  <identity>")
+    if mission:
+        lines.append(f"    <what_we_do>{mission}</what_we_do>")
+    if positioning:
+        lines.append(f"    <customers>{positioning}</customers>")
+    if state.get("focus"):
+        lines.append(f"    <focus>{state['focus']}</focus>")
+    lines.append("  </identity>")
+
+    lines.append(
+        f'  <state revenue="{s.get("revenue","")}" '
+        f'operations="{s.get("operations","")}" '
+        f'clients="{len(clients)} active, {len(at_risk)} at risk" />'
+    )
+
+    priorities = state.get("top_priorities", [])
+    if priorities:
+        lines.append("  <priorities>")
+        for p in priorities:
+            lines.append(f"    <item>{p}</item>")
+        lines.append("  </priorities>")
+
+    risks = state.get("risks", [])
+    if risks:
+        lines.append("  <risks>")
+        for r in risks:
+            lines.append(f"    <item>{r}</item>")
+        lines.append("  </risks>")
+
+    lines.append(f'  <tone style="{state.get("tone","")}" avoid="{avoid}" />')
+
+    recent = ctx["memory"][:5]
+    if recent:
+        lines.append("  <memory>")
+        for e in recent:
+            lines.append(
+                f'    <event entity="{e.get("entity","")}">'
+                f'{e.get("content","")[:100]}</event>'
+            )
+        lines.append("  </memory>")
+
+    lines.append("</business_context>")
+    return "\n".join(lines)
+
+
+def _fmt_gemini(ctx: dict) -> str:
+    """Compact key-value format — token-efficient for Gemini."""
+    state, s, clients, at_risk, mission, positioning, tone_data, _ = _resolve(ctx)
+
+    header_parts = [
+        f"COMPANY:{state.get('company','')}",
+        f"FOCUS:{state.get('focus','')}",
+        f"REVENUE:{s.get('revenue','').upper()}",
+        f"CLIENTS:{len(clients)}({len(at_risk)} at risk)",
+        f"TONE:{state.get('tone','')}",
+    ]
+    lines = ["|".join(p for p in header_parts if not p.endswith(":"))]
+
+    if mission:
+        lines.append(f"WHAT WE DO: {mission}")
+    if positioning:
+        lines.append(f"CUSTOMERS: {positioning}")
+
+    for i, p in enumerate(state.get("top_priorities", []), 1):
+        lines.append(f"PRIORITY{i}: {p}")
+
+    for r in state.get("risks", []):
+        lines.append(f"RISK: {r}")
+
+    avoid = tone_data.get("avoid", [])
+    if avoid:
+        lines.append(f"AVOID: {', '.join(avoid[:3])}")
+
+    for e in ctx["memory"][:5]:
+        lines.append(f"MEMORY: [{e.get('entity','?')}] {e.get('content','')[:100]}")
+
+    return "\n".join(lines)
+
+
+_RENDERERS = {
+    "default": _fmt_default,
+    "chatgpt": _fmt_chatgpt,
+    "claude":  _fmt_claude,
+    "gemini":  _fmt_gemini,
+}
+
+
+# ── Public API ─────────────────────────────────────────────────────────────────
+
+def get_context_string(memory_limit: int = 10, fmt: str = "default") -> str:
+    """
+    Prompt-ready context string. Prepend to any AI system prompt.
+
+    fmt: "default" | "chatgpt" | "claude" | "gemini"
+    """
+    ctx = build_context(memory_limit=memory_limit)
+    return _RENDERERS.get(fmt, _fmt_default)(ctx)
 
 
 # ── CLI ────────────────────────────────────────────────────────────────────────
@@ -127,12 +291,16 @@ def get_context_string(memory_limit: int = 10) -> str:
 if __name__ == "__main__":
     args = sys.argv[1:]
 
+    fmt = "default"
+    for flag in ("--chatgpt", "--claude", "--gemini"):
+        if flag in args:
+            fmt = flag.lstrip("-")
+            break
+
     if "--json" in args:
         print(json.dumps(build_context(), indent=2, default=str))
-
-    elif "--prompt" in args:
-        print(get_context_string())
-
+    elif "--prompt" in args or any(f in args for f in ("--chatgpt", "--claude", "--gemini")):
+        print(get_context_string(fmt=fmt))
     else:
         ctx     = build_context()
         state   = ctx["context"]
@@ -142,36 +310,25 @@ if __name__ == "__main__":
         at_risk = [c for c in clients if c.get("health") == "at_risk"]
 
         print(f"\n  SMB Context Pack — {state.get('company') or '(company not set)'}")
-        print(f"  {'═' * 56}")
-        print(f"\n  STATE")
-        print(f"  {'─' * 40}")
+        print(f"  {'═' * 50}")
         print(f"  Company       : {state.get('company') or '(not set)'}")
         print(f"  Focus         : {state.get('focus') or '(not set)'}")
-        print(f"  Revenue       : {s.get('revenue', '').upper()}")
-        print(f"  Operations    : {s.get('operations', '').upper()}")
-        print(f"  Relationships : {s.get('relationships', '').upper()}")
+        print(f"  Revenue       : {s.get('revenue','').upper()}")
+        print(f"  Operations    : {s.get('operations','').upper()}")
+        print(f"  Relationships : {s.get('relationships','').upper()}")
         print(f"  Clients       : {len(clients)} active / {len(at_risk)} at risk")
-        print(f"  Tone          : {state.get('tone', '')}")
-
+        print(f"  Tone          : {state.get('tone','')}")
         if state.get("top_priorities"):
-            print(f"\n  PRIORITIES")
-            print(f"  {'─' * 40}")
+            print(f"\n  Priorities:")
             for i, p in enumerate(state["top_priorities"], 1):
-                print(f"  {i}. {p}")
-
+                print(f"    {i}. {p}")
         if state.get("risks"):
-            print(f"\n  RISKS")
-            print(f"  {'─' * 40}")
+            print(f"\n  Risks:")
             for r in state["risks"]:
-                print(f"  - {r}")
-
-        print(f"\n  MEMORY ({len(memory)} entries)")
-        print(f"  {'─' * 40}")
+                print(f"    - {r}")
+        print(f"\n  Memory: {len(memory)} entries")
         if memory:
-            for e in memory[:5]:
-                print(f"  [{e.get('type', '?')}/{e.get('entity', '?')}] {e.get('content', '')[:80]}")
-        else:
-            print("  (empty — add entries with: python memory/log.py)")
-
-        print(f"\n  → build_context()      — full dict for AI integration")
-        print(f"  → get_context_string() — prompt-ready string injection")
+            for e in memory[:3]:
+                print(f"    [{e.get('entity','?')}] {e.get('content','')[:70]}")
+        print(f"\n  get_context_string()        — default")
+        print(f"  get_context_string(fmt=...) — chatgpt / claude / gemini")
