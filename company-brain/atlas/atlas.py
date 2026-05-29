@@ -75,6 +75,17 @@ Usage:
   atlas approve reject <id>      Reject an action (with optional reason)
   atlas approve all              Approve and execute ALL pending (prompts for confirm)
   atlas queue <type> <json>      Manually queue an action for testing
+
+  ── Agent Scheduler ───────────────────────────────────────────────
+  atlas schedule status          Show due/not-due status for all agents
+  atlas schedule run             Run all due agents now (one-shot)
+  atlas schedule run --dry       Show what would run without executing
+  atlas schedule loop            Start continuous scheduler loop (30 min)
+
+  ── Feedback Loop ─────────────────────────────────────────────────
+  atlas feedback status          Agent performance scores (last 7 days)
+  atlas feedback agent <name>    Performance breakdown for one agent
+  atlas feedback tune            Show tuning recommendations
 """
 import sys
 import json
@@ -826,6 +837,11 @@ def main():
                     reason = " ".join(args[3:]) if len(args) > 3 else ""
                     ok = _db.reject_action(action_id, reason)
                     if ok:
+                        try:
+                            from feedback import log_feedback
+                            log_feedback(action_id, "rejected", rejection_reason=reason)
+                        except Exception:
+                            pass
                         print(f"  Action {action_id} rejected. {reason}")
                     else:
                         print(f"  Action {action_id} not found or already processed.")
@@ -941,6 +957,62 @@ def main():
 
         else:
             print("Usage: atlas runtime [start [--no-sources] | emit <TYPE> | status | log [n]]")
+
+    elif cmd == "schedule":
+        from scheduler import run_due_agents, show_status, schedule_loop
+        sub = args[1] if len(args) > 1 else "status"
+
+        if sub == "status":
+            show_status()
+
+        elif sub == "run":
+            dry = "--dry" in args
+            print(f"\n  Scheduler: {'dry run — ' if dry else ''}checking due agents...\n")
+            result = run_due_agents(dry_run=dry)
+            if not dry:
+                ran = result.get("ran", [])
+                esc = result.get("escalations", 0)
+                errs = result.get("errors", [])
+                print(f"\n  Ran: {ran or 'none'}")
+                if esc:
+                    print(f"  Escalations: {esc} — run 'atlas tower decisions' to review")
+                if errs:
+                    print(f"  Errors: {errs}")
+
+        elif sub == "loop":
+            interval = 30
+            for a in args[2:]:
+                if a.startswith("--interval"):
+                    try:
+                        interval = int(a.split("=")[-1]) if "=" in a else int(args[args.index(a) + 1])
+                    except (ValueError, IndexError):
+                        pass
+            schedule_loop(interval_minutes=interval)
+
+        else:
+            print("Usage: atlas schedule [status | run [--dry] | loop [--interval N]]")
+
+    elif cmd == "feedback":
+        from feedback import _print_summary, _print_agent, _print_tune
+        import db as _db
+        _db.init()
+        sub = args[1] if len(args) > 1 else "status"
+
+        if sub == "status":
+            days = int(args[2]) if len(args) > 2 else 7
+            _print_summary(days=days)
+
+        elif sub == "agent":
+            if len(args) < 3:
+                print("Usage: atlas feedback agent <name>")
+            else:
+                _print_agent(args[2])
+
+        elif sub == "tune":
+            _print_tune()
+
+        else:
+            print("Usage: atlas feedback [status [days] | agent <name> | tune]")
 
     else:
         print(f"Atlas: Unknown command '{cmd}'. Run 'atlas help' to see all commands.")

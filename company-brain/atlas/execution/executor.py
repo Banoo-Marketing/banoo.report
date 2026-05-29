@@ -30,6 +30,18 @@ from .action_schema import AtlasAction, ActionType, PermissionLevel
 from .permission_engine import apply_permission, explain_permission
 
 
+def _log_feedback(action_id: int | None, outcome: str, rejection_reason: str | None = None, result: str | None = None):
+    """Fire-and-forget feedback logger — never raises."""
+    if not action_id:
+        return
+    try:
+        sys.path.insert(0, str(_HERE))
+        from feedback import log_feedback
+        log_feedback(action_id, outcome, rejection_reason=rejection_reason, result=result)
+    except Exception:
+        pass
+
+
 # ── Connector dispatch ────────────────────────────────────────────────────────
 
 def _run_connector(action: AtlasAction) -> dict:
@@ -153,8 +165,10 @@ def submit_action(action: AtlasAction) -> dict:
         })
         if result["success"]:
             db.mark_action_executed(db_id, result.get("result", ""))
+            _log_feedback(db_id, "executed", result=result.get("result", ""))
         else:
             db.mark_action_failed(db_id, result.get("error", ""))
+            _log_feedback(db_id, "failed")
 
         status = "executed" if result["success"] else "failed"
         print(f"  {icon} [{label}] {action.describe()} → {status}")
@@ -216,15 +230,18 @@ def execute_approved(action_id: int) -> dict:
         result = _run_connector(action)
         if result["success"]:
             db.mark_action_executed(action_id, result.get("result", ""))
+            _log_feedback(action_id, "executed", result=result.get("result", ""))
             print(f"  ✓ Executed action {action_id}: {result.get('result','')}")
         else:
             db.mark_action_failed(action_id, result.get("error", ""))
+            _log_feedback(action_id, "failed")
             print(f"  ✗ Action {action_id} failed: {result.get('error','')}")
 
         return result
 
     except Exception as e:
         db.mark_action_failed(action_id, str(e))
+        _log_feedback(action_id, "failed")
         return {"success": False, "result": "", "error": str(e)}
 
 
@@ -285,9 +302,12 @@ def _execute_record_directly(record: dict) -> dict:
         result = run_action(action)
         if result["success"]:
             db.mark_action_executed(record["id"], result.get("result", ""))
+            _log_feedback(record["id"], "executed", result=result.get("result", ""))
         else:
             db.mark_action_failed(record["id"], result.get("error", ""))
+            _log_feedback(record["id"], "failed")
         return result
     except Exception as e:
         db.mark_action_failed(record["id"], str(e))
+        _log_feedback(record["id"], "failed")
         return {"success": False, "error": str(e)}

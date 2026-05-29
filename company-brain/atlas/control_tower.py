@@ -225,6 +225,12 @@ def generate_weekly_brief() -> str:
     """Generate weekly workforce + automation report."""
     ctx = _get_weekly_context()
 
+    try:
+        from feedback import get_feedback_summary
+        feedback_data = get_feedback_summary(days=7)
+    except Exception:
+        feedback_data = {}
+
     workforce_input = f"""Weekly workforce review. Produce CEO briefing.
 
 WORKFORCE DATA:
@@ -238,6 +244,9 @@ KILL CANDIDATES:
 
 PENDING ESCALATIONS (unreviewed):
 {json.dumps(ctx['escalations'][:10], indent=2, default=str)}
+
+AGENT PERFORMANCE FEEDBACK (last 7 days):
+{json.dumps(feedback_data, indent=2)}
 
 BUSINESS CONTEXT:
 - Monthly revenue: ${ctx['monthly_revenue']:,.0f}

@@ -235,6 +235,22 @@ def init():
 
         CREATE INDEX IF NOT EXISTS idx_action_queue_status ON action_queue(status, created_at DESC);
         CREATE INDEX IF NOT EXISTS idx_action_queue_type ON action_queue(action_type, status);
+
+        CREATE TABLE IF NOT EXISTS feedback_log (
+            id              INTEGER PRIMARY KEY AUTOINCREMENT,
+            action_id       INTEGER,
+            action_type     TEXT,
+            source_agent    TEXT,
+            outcome         TEXT,          -- executed|rejected|failed
+            rejection_reason TEXT,
+            execution_result TEXT,
+            permission_level INTEGER,
+            signal          TEXT,          -- positive|negative|neutral
+            created_at      TEXT DEFAULT (datetime('now'))
+        );
+
+        CREATE INDEX IF NOT EXISTS idx_feedback_agent ON feedback_log(source_agent, created_at DESC);
+        CREATE INDEX IF NOT EXISTS idx_feedback_outcome ON feedback_log(outcome, created_at DESC);
         """)
 
 
@@ -844,6 +860,42 @@ def get_action_queue_stats() -> dict:
         rows = c.execute("""SELECT status, COUNT(*) as n
             FROM action_queue GROUP BY status""").fetchall()
     return {r["status"]: r["n"] for r in rows}
+
+
+# ── Feedback Log ─────────────────────────────────────────────────────────────
+
+def insert_feedback(f: dict) -> int:
+    """Insert a feedback_log row. Returns new row id."""
+    with _conn() as c:
+        cur = c.execute("""
+            INSERT INTO feedback_log
+              (action_id, action_type, source_agent, outcome,
+               rejection_reason, execution_result, permission_level, signal)
+            VALUES (?,?,?,?,?,?,?,?)""",
+            (f.get("action_id"), f.get("action_type", ""), f.get("source_agent", ""),
+             f.get("outcome", ""), f.get("rejection_reason", ""),
+             f.get("execution_result", ""), f.get("permission_level", 2),
+             f.get("signal", "neutral")))
+        return cur.lastrowid
+
+
+def get_feedback_for_agent(agent_name: str, days: int = 30) -> list[dict]:
+    with _conn() as c:
+        rows = c.execute("""SELECT * FROM feedback_log
+            WHERE source_agent=?
+              AND created_at >= datetime('now', ?)
+            ORDER BY created_at DESC""",
+            (agent_name, f"-{days} days")).fetchall()
+    return [dict(r) for r in rows]
+
+
+def get_all_feedback(days: int = 7) -> list[dict]:
+    with _conn() as c:
+        rows = c.execute("""SELECT * FROM feedback_log
+            WHERE created_at >= datetime('now', ?)
+            ORDER BY created_at DESC""",
+            (f"-{days} days",)).fetchall()
+    return [dict(r) for r in rows]
 
 
 # ── Stats ─────────────────────────────────────────────────────────────────────
