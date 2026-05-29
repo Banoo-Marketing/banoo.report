@@ -115,6 +115,20 @@ def run_pipeline_scan() -> str:
     actions = _get_hiring_actions()
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
+    actions_json = json.dumps([{
+        'title': a['title'],
+        'priority': a['priority'],
+        'deadline': a.get('deadline'),
+        'next_step': a.get('suggested_next')
+    } for a in actions], indent=2)
+
+    emails_json = json.dumps([{
+        'sender': e['sender'],
+        'subject': e['subject'],
+        'date': e['date_str'],
+        'preview': (e.get('body_text') or '')[:300]
+    } for e in emails[:40]], indent=2)
+
     client = anthropic.Anthropic()
     resp = client.messages.create(
         model="claude-sonnet-4-6",
@@ -125,20 +139,10 @@ def run_pipeline_scan() -> str:
             "content": f"""Today is {today}. Run a full hiring pipeline scan for Banoo Marketing.
 
 Open hiring-related action items:
-{json.dumps([{{
-    'title': a['title'],
-    'priority': a['priority'],
-    'deadline': a.get('deadline'),
-    'next_step': a.get('suggested_next')
-}} for a in actions], indent=2)}
+{actions_json}
 
 Hiring-related emails:
-{json.dumps([{{
-    'sender': e['sender'],
-    'subject': e['subject'],
-    'date': e['date_str'],
-    'preview': (e.get('body_text') or '')[:300]
-}} for e in emails[:40]], indent=2)}
+{emails_json}
 
 Produce a structured report:
 1. 🎯 OPEN ROLES — positions actively being filled
