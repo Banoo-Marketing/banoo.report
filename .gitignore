@@ -1,4 +1,5 @@
 .claude/settings.local.json
+.claude/worktrees/
 company-brain/.env
 company-brain/.gmail_token.json
 company-brain/backend/__pycache__/
