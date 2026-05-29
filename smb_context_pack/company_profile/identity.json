@@ -1,10 +1,7 @@
 {
   "company_name": "",
-  "mission": "",
-  "positioning": "",
-  "current_focus": "",
-  "top_priorities": [],
-  "active_risks": [],
-  "revenue_target_monthly": 0,
-  "current_revenue_monthly": 0
+  "what_we_do": "",
+  "main_offer": "",
+  "target_customers": "",
+  "tone": "direct"
 }
