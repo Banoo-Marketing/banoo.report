@@ -86,6 +86,13 @@ Usage:
   atlas feedback status          Agent performance scores (last 7 days)
   atlas feedback agent <name>    Performance breakdown for one agent
   atlas feedback tune            Show tuning recommendations
+
+  ── Priority Kernel + Global Optimizer ────────────────────────────
+  atlas schedule priority        Show agents ranked by priority score
+  atlas optimize status          System allocation (run_now/today/defer/suppress)
+  atlas optimize plan            Optimization plan (promote/suppress/kill recs)
+  atlas optimize apply           Apply the plan (adjusts agent frequencies)
+  atlas optimize explain         English summary of current system state
 """
 import sys
 import json
@@ -989,8 +996,16 @@ def main():
                         pass
             schedule_loop(interval_minutes=interval)
 
+        elif sub == "priority":
+            from priority import score_all_agents
+            scored = score_all_agents()
+            print(f"\n  Agent Priority Ranking\n  {'─'*50}")
+            for i, (agent, ps) in enumerate(scored, 1):
+                tier_icon = {"CRITICAL": "🔴", "HIGH": "🟠", "MEDIUM": "🟡", "LOW": "⚪"}.get(ps.tier, "?")
+                print(f"  {i}. {tier_icon} {agent['name']:<10} [{ps.tier:<8}] {ps.total:.1f}/10  {ps.rationale}")
+
         else:
-            print("Usage: atlas schedule [status | run [--dry] | loop [--interval N]]")
+            print("Usage: atlas schedule [status | run [--dry] | loop [--interval N] | priority]")
 
     elif cmd == "feedback":
         from feedback import _print_summary, _print_agent, _print_tune
@@ -1013,6 +1028,63 @@ def main():
 
         else:
             print("Usage: atlas feedback [status [days] | agent <name> | tune]")
+
+    elif cmd == "optimize":
+        sub = args[1] if len(args) > 1 else "status"
+
+        if sub == "status":
+            from priority import get_system_allocation, score_all_agents
+            import db as _db2
+            _db2.init()
+            alloc = get_system_allocation()
+            scored = score_all_agents()
+            scored_map = {a["name"]: ps for a, ps in scored}
+
+            print(f"\n  Atlas System Allocation\n  {'─'*50}")
+            for bucket, label, icon in [
+                ("run_now",   "RUN NOW   (overdue/critical)", "🔴"),
+                ("run_today", "RUN TODAY (high priority)",    "🟠"),
+                ("defer",     "DEFER     (medium/low)",       "🟡"),
+                ("suppress",  "SUPPRESS  (score<3 or over-triggering)", "⚪"),
+            ]:
+                agents_in_bucket = alloc.get(bucket, [])
+                if agents_in_bucket:
+                    print(f"\n  {icon} {label}:")
+                    for name in agents_in_bucket:
+                        ps = scored_map.get(name)
+                        score_str = f"{ps.total:.1f}" if ps else "?"
+                        print(f"    • {name:<12} score={score_str}")
+
+        elif sub == "plan":
+            from global_optimizer import compute_optimization_plan, print_plan
+            plan = compute_optimization_plan(dry_run=True)
+            print_plan(plan)
+
+        elif sub == "apply":
+            from global_optimizer import compute_optimization_plan, apply_optimization_plan, print_plan
+            import db as _db2
+            _db2.init()
+            plan = compute_optimization_plan()
+            print_plan(plan)
+            if plan["promote"] or plan["suppress"]:
+                confirm = input("\n  Apply these changes? (yes/no): ").strip().lower()
+                if confirm == "yes":
+                    result = apply_optimization_plan(plan)
+                    for line in result["applied"]:
+                        print(f"  ✓ {line}")
+                    for line in result["skipped"]:
+                        print(f"  · {line}")
+                else:
+                    print("  Cancelled.")
+            else:
+                print("  Nothing to apply.")
+
+        elif sub == "explain":
+            from global_optimizer import explain_system_state
+            print(f"\n  {explain_system_state()}\n")
+
+        else:
+            print("Usage: atlas optimize [status | plan | apply | explain]")
 
     else:
         print(f"Atlas: Unknown command '{cmd}'. Run 'atlas help' to see all commands.")

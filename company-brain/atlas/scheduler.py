@@ -120,6 +120,15 @@ def run_due_agents(dry_run: bool = False) -> dict:
     due = [a for a in agents if is_due(a)]
     skipped = [a["name"] for a in agents if not is_due(a)]
 
+    # Sort due agents by priority score (highest first)
+    try:
+        from priority import get_execution_order
+        order = get_execution_order()
+        order_map = {name: i for i, name in enumerate(order)}
+        due.sort(key=lambda a: order_map.get(a["name"], 999))
+    except Exception:
+        pass  # fallback to DB order if priority unavailable
+
     if not due:
         return {"ran": [], "skipped": skipped, "escalations": 0, "errors": []}
 
@@ -146,6 +155,49 @@ def run_due_agents(dry_run: bool = False) -> dict:
     return {
         "ran": ran,
         "skipped": skipped,
+        "escalations": report.get("escalations", 0),
+        "errors": errors,
+        "report": report,
+    }
+
+
+def run_priority_agents(top_n: int = 3) -> dict:
+    """
+    Run the top N agents by priority score regardless of is_due().
+    Used for daily focus mode or resource-constrained execution.
+    Returns: {ran: [names], escalations: int, errors: [names]}
+    """
+    db.init()
+    try:
+        from priority import get_execution_order
+        ordered = get_execution_order()
+    except Exception:
+        agents = db.get_agents("active")
+        ordered = [a["name"] for a in agents]
+
+    top_names = ordered[:top_n]
+    agents_map = {a["name"]: a for a in db.get_agents("active")}
+    to_run = [agents_map[n] for n in top_names if n in agents_map]
+
+    if not to_run:
+        return {"ran": [], "escalations": 0, "errors": []}
+
+    from agent_monitor import run_agent, build_monitor_report
+
+    ran = []
+    errors = []
+    results = []
+    for agent in to_run:
+        triage = run_agent(agent)
+        results.append(triage)
+        if triage.get("agent_name") and "error" not in triage.get("summary", "").lower()[:20]:
+            ran.append(agent["name"])
+        else:
+            errors.append(agent["name"])
+
+    report = build_monitor_report(results)
+    return {
+        "ran": ran,
         "escalations": report.get("escalations", 0),
         "errors": errors,
         "report": report,
@@ -229,5 +281,13 @@ if __name__ == "__main__":
                     pass
         schedule_loop(interval_minutes=interval)
 
+    elif cmd == "priority":
+        from priority import score_all_agents
+        scored = score_all_agents()
+        print(f"\n  Agent Priority Ranking\n  {'─'*50}")
+        for i, (agent, ps) in enumerate(scored, 1):
+            tier_icon = {"CRITICAL": "🔴", "HIGH": "🟠", "MEDIUM": "🟡", "LOW": "⚪"}.get(ps.tier, "?")
+            print(f"  {i}. {tier_icon} {agent['name']:<10} [{ps.tier:<8}] {ps.total:.1f}/10  {ps.rationale}")
+
     else:
-        print("Usage: scheduler.py [status | run [--dry] | loop [--interval N]]")
+        print("Usage: scheduler.py [status | run [--dry] | loop [--interval N] | priority]")

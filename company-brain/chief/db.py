@@ -756,6 +756,13 @@ def kill_agent(agent_name: str, reason: str = ""):
             updated_at=datetime('now') WHERE name=?""", (reason, agent_name))
 
 
+def update_agent_frequency(agent_name: str, new_frequency: str) -> bool:
+    with _conn() as c:
+        cur = c.execute("""UPDATE agents SET frequency=?, updated_at=datetime('now')
+            WHERE name=? AND status='active'""", (new_frequency, agent_name))
+        return cur.rowcount > 0
+
+
 def log_agent_output(agent_name: str, output: str = "", exceptions: str = None,
                      has_escalation: bool = False, escalation_reason: str = "") -> int:
     with _conn() as c:
