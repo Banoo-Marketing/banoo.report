@@ -1,0 +1,47 @@
+{
+  "core_services": [
+    {
+      "name": "Google Ads Management",
+      "description": "Full-funnel paid search campaigns — strategy, build, optimization, reporting",
+      "delivery": "monthly retainer",
+      "best_for": "businesses with proven offer, $3k+ monthly ad spend"
+    },
+    {
+      "name": "SEO",
+      "description": "Technical SEO, content strategy, local and national ranking",
+      "delivery": "monthly retainer",
+      "best_for": "businesses targeting long-term organic growth"
+    },
+    {
+      "name": "Programmatic / DSP",
+      "description": "Display and video campaigns via demand-side platforms",
+      "delivery": "monthly retainer",
+      "best_for": "brand awareness, retargeting, high-volume advertisers"
+    },
+    {
+      "name": "Lead Generation Systems",
+      "description": "End-to-end lead gen: ads, landing pages, CRM integration, follow-up sequences",
+      "delivery": "project or retainer",
+      "best_for": "service businesses, real estate, professional services"
+    }
+  ],
+  "emerging_services": [
+    {
+      "name": "AI-Powered Growth Systems",
+      "description": "Custom AI workflows for marketing, outreach, content, and operations",
+      "delivery": "project or fractional",
+      "status": "active development"
+    },
+    {
+      "name": "Fractional CMO / Growth Partner",
+      "description": "Strategic marketing leadership for founders who need senior guidance without a full-time hire",
+      "delivery": "monthly retainer",
+      "status": "available"
+    }
+  ],
+  "not_offered": [
+    "social media management (organic)",
+    "graphic design only",
+    "low-budget campaigns under $1,000/month ad spend"
+  ]
+}

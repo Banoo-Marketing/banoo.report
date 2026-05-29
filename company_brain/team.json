@@ -1,0 +1,21 @@
+{
+  "founder": {
+    "name": "Emod Vafa",
+    "role": "Founder & CEO",
+    "background": "Digital marketing veteran, 15+ years. Marketer + strategist + founder + systems thinker + AI adopter.",
+    "strengths": ["synthesis", "advisory", "strategic architecture", "AI-driven systems", "relationship building"],
+    "focus": "strategy, growth, client relationships, system design",
+    "not_focus": "execution of repeatable tasks — delegate these"
+  },
+  "offshore_team": {
+    "location": "Philippines",
+    "role": "Execution and delivery support",
+    "capacity": "active",
+    "notes": "Used for campaign management, reporting, and operational tasks"
+  },
+  "hiring_philosophy": "Hire for execution excellence. Founder handles strategy and relationships.",
+  "current_gaps": [
+    "Senior account manager to reduce founder dependency on client communication",
+    "AI systems operator to run and maintain automation layer"
+  ]
+}

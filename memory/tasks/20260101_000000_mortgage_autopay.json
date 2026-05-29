@@ -1,0 +1,8 @@
+{
+  "timestamp": "2026-01-01T00:00:00Z",
+  "source": "manual",
+  "entity": "RBC",
+  "type": "financial_obligation",
+  "content": "Mortgage AutoPay of $1,428.36 hits on 1st of every month. RBC balance is low — confirm funds available before each payment date.",
+  "tags": ["financial", "recurring", "urgent", "mortgage"]
+}

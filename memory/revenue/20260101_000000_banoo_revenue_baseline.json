@@ -1,0 +1,8 @@
+{
+  "timestamp": "2026-01-01T00:00:00Z",
+  "source": "manual",
+  "entity": "Banoo Inc",
+  "type": "revenue_snapshot",
+  "content": "Monthly recurring revenue approximately $3,000. Target is $15,000/month. Gap of $12,000 requires urgent pipeline development.",
+  "tags": ["revenue", "baseline", "gap"]
+}

@@ -1,0 +1,48 @@
+{
+  "client_onboarding": {
+    "steps": [
+      "Signed agreement + first payment confirmed",
+      "Kick-off call: business context, goals, constraints",
+      "Access setup: ad accounts, analytics, CRM",
+      "Audit of existing campaigns (if any)",
+      "90-day strategy document delivered",
+      "Campaign build or optimization begins",
+      "Weekly/bi-weekly reporting cadence set"
+    ],
+    "timeline": "7-14 days from signed agreement to campaign live"
+  },
+  "client_retention": {
+    "signals_to_watch": [
+      "No reply to check-in within 5 business days",
+      "Missed payment",
+      "Declining campaign performance 2+ months",
+      "Reduced ad spend without discussion"
+    ],
+    "response_playbook": [
+      "Immediate personal outreach from Emod (not team)",
+      "Performance review + root cause explanation",
+      "Proactive solution — adjusted strategy, not just apology",
+      "Follow-up within 48 hours"
+    ]
+  },
+  "new_business": {
+    "qualification_criteria": [
+      "Monthly ad budget $2,000+",
+      "Proven offer (not pre-launch)",
+      "Decision maker accessible",
+      "12-month minimum commitment mindset"
+    ],
+    "proposal_structure": [
+      "Diagnosis: what we found in their current state",
+      "Strategy: what we would do and why",
+      "Outcomes: specific targets with timeline",
+      "Investment: price + what it includes",
+      "Next step: single clear CTA"
+    ]
+  },
+  "referral_activation": {
+    "trigger": "New client signed",
+    "action": "Email referral partners with update + ask for introductions",
+    "cadence": "Quarterly review of referral partner relationships"
+  }
+}

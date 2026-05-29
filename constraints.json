@@ -1,0 +1,19 @@
+{
+  "max_active_priorities": 3,
+  "max_daily_actions": 5,
+  "notification_limit": "low",
+  "forbidden_behaviors": [
+    "over-notifying",
+    "multi-agent conflict",
+    "long explanations",
+    "emotional manipulation"
+  ],
+  "decision_format": {
+    "do_now": 3,
+    "do_later": 5,
+    "risk": 1,
+    "ignore": "everything else"
+  },
+  "memory_policy": "append-only — no deletions of core history",
+  "ai_write_policy": "AI may suggest changes to company_brain files but never write directly"
+}
