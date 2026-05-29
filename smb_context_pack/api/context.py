@@ -276,14 +276,22 @@ _RENDERERS = {
 
 # ── Public API ─────────────────────────────────────────────────────────────────
 
-def get_context_string(memory_limit: int = 10, fmt: str = "default") -> str:
+def get_context_string(memory_limit: int = 10, fmt: str = "default",
+                       include_decisions: bool = False) -> str:
     """
     Prompt-ready context string. Prepend to any AI system prompt.
 
     fmt: "default" | "chatgpt" | "claude" | "gemini"
+    include_decisions: append TODAY'S BUSINESS ACTIONS below context string
     """
-    ctx = build_context(memory_limit=memory_limit)
-    return _RENDERERS.get(fmt, _fmt_default)(ctx)
+    ctx    = build_context(memory_limit=memory_limit)
+    result = _RENDERERS.get(fmt, _fmt_default)(ctx)
+
+    if include_decisions:
+        from decision_engine.decision_engine import generate_actions
+        result = result + "\n\n" + generate_actions(context_string=result,
+                                                    memory=ctx["memory"])
+    return result
 
 
 # ── CLI ────────────────────────────────────────────────────────────────────────
@@ -299,6 +307,8 @@ if __name__ == "__main__":
 
     if "--json" in args:
         print(json.dumps(build_context(), indent=2, default=str))
+    elif "--decisions" in args:
+        print(get_context_string(fmt=fmt, include_decisions=True))
     elif "--prompt" in args or any(f in args for f in ("--chatgpt", "--claude", "--gemini")):
         print(get_context_string(fmt=fmt))
     else:
