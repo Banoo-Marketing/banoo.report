@@ -4,6 +4,7 @@ Run: python dashboard.py   → http://localhost:8001
 """
 import json
 import sqlite3
+import sys
 from datetime import date, timedelta
 from pathlib import Path
 from fastapi import FastAPI, Body, HTTPException
@@ -421,6 +422,40 @@ def api_resolve_escalation(eid: int):
     db.init()
     db.mark_escalation_reviewed(eid)
     return {"status": "reviewed", "id": eid}
+
+
+@app.get("/api/runtime/status")
+def api_runtime_status():
+    """Runtime event log stats for dashboard."""
+    try:
+        sys.path.insert(0, str(_HERE.parent / "atlas"))
+        from runtime.memory import event_stats, get_escalations, get_recent_events
+        stats = event_stats(hours=24)
+        esc = get_escalations(hours=24)
+        recent = get_recent_events(hours=1)[-10:]
+        return {
+            "stats": stats,
+            "recent_escalations": [
+                {
+                    "type": e.get("event", {}).get("type"),
+                    "reason": e.get("decision", {}).get("reason", ""),
+                    "summary": e.get("classification", {}).get("summary", ""),
+                    "processed_at": e.get("processed_at", ""),
+                }
+                for e in esc[:10]
+            ],
+            "recent_events": [
+                {
+                    "type": e.get("event", {}).get("type"),
+                    "action": e.get("decision", {}).get("action"),
+                    "summary": e.get("classification", {}).get("summary", ""),
+                    "processed_at": e.get("processed_at", ""),
+                }
+                for e in recent
+            ],
+        }
+    except Exception as e:
+        return {"stats": {}, "recent_escalations": [], "recent_events": [], "error": str(e)}
 
 
 @app.get("/", response_class=HTMLResponse)

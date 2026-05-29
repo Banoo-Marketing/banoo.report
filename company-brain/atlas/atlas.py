@@ -61,6 +61,12 @@ Usage:
   atlas tower decisions          Show pending decisions only
   atlas tower workforce          Agent workforce roster + health
   atlas tower resolve <id>       Mark an escalation as reviewed
+
+  ── Event-Driven Runtime ──────────────────────────────────────────
+  atlas runtime start            Start the always-on event runtime
+  atlas runtime emit <TYPE>      Emit a manual event (test or trigger)
+  atlas runtime status           Show event log stats (last 24h)
+  atlas runtime log [n]          Show last N processed events
 """
 import sys
 import json
@@ -749,6 +755,72 @@ def main():
                 print(f"  Invalid escalation ID: {args[2]}")
         else:
             print("Usage: atlas tower [brief [--skip-run] | weekly | decisions | workforce | resolve <id>]")
+
+    # ── Event Runtime commands ────────────────────────────────────
+    elif cmd == "runtime":
+        import asyncio
+        import json as _json
+        sub = args[1] if len(args) > 1 else "start"
+
+        if sub == "start":
+            no_sources = "--no-sources" in args
+            asyncio.run(__import__("runtime.runtime", fromlist=["start_runtime"]).start_runtime(
+                with_sources=not no_sources
+            ))
+
+        elif sub == "emit":
+            if len(args) < 3:
+                print("Usage: atlas runtime emit <EVENT_TYPE> [json_payload]")
+            else:
+                from runtime.event_model import AtlasEvent, EventSource, EventPriority
+                from runtime.runtime import _dispatch
+                payload = {}
+                if len(args) > 3:
+                    try:
+                        payload = _json.loads(args[3])
+                    except Exception:
+                        payload = {"raw": args[3]}
+                event = AtlasEvent(
+                    type=args[2].upper(),
+                    source=EventSource.MANUAL,
+                    payload=payload,
+                    priority=EventPriority.MEDIUM,
+                )
+                print(f"\n  Emitting: {args[2].upper()}")
+                asyncio.run(_dispatch(event))
+
+        elif sub == "status":
+            from runtime.memory import event_stats, get_escalations
+            stats = event_stats(hours=24)
+            print(f"\n  Atlas Runtime — Last 24h\n  {'─'*40}")
+            print(f"  Total events : {stats['total']}")
+            print(f"  Executed     : {stats['executed']}")
+            print(f"  Escalated    : {stats['escalated']}")
+            print(f"  Logged only  : {stats['logged']}")
+            esc = get_escalations(hours=24)
+            if esc:
+                print(f"\n  Escalations ({len(esc)}):")
+                for e in esc[:5]:
+                    d = e.get("decision", {})
+                    ev = e.get("event", {})
+                    print(f"    🔴 [{ev.get('type','?')}] {d.get('reason','')[:70]}")
+
+        elif sub == "log":
+            from runtime.memory import get_recent_events
+            n = int(args[2]) if len(args) > 2 else 20
+            events = get_recent_events(hours=72)[-n:]
+            print(f"\n  Event Log — last {len(events)} entries\n  {'─'*60}")
+            for e in events:
+                ev = e.get("event", {})
+                cl = e.get("classification", {})
+                de = e.get("decision", {})
+                ts = e.get("processed_at", "")[:16]
+                action = de.get("action", "?")
+                icon = {"EXECUTE": "✓", "ESCALATE": "🔴", "LOG_ONLY": "·"}.get(action, "?")
+                print(f"  {icon} {ts} {ev.get('type','?'):<22} {cl.get('summary','')[:50]}")
+
+        else:
+            print("Usage: atlas runtime [start [--no-sources] | emit <TYPE> | status | log [n]]")
 
     else:
         print(f"Atlas: Unknown command '{cmd}'. Run 'atlas help' to see all commands.")
