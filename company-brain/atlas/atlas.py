@@ -4,13 +4,29 @@ Atlas — Chief of Staff to Emod Vafa
 Your AI right hand. Knows your world, acts in your name, never without your approval.
 
 Usage:
-  atlas brief              Morning brief (what matters today)
-  atlas email draft        Draft replies to emails awaiting response
-  atlas email read [n]     Summarise your last n unread emails
-  atlas ask "question"     Answer anything about your world
-  atlas hire "role"        Draft a job description for a new hire
-  atlas status             Full system status
-  atlas who "name"         Look up a contact instantly
+  atlas brief                    Morning brief (what matters today)
+  atlas ask "question"           Answer anything about your world
+  atlas who "name"               Look up a contact instantly
+  atlas status                   Full system status
+  atlas hire "role"              Draft a job description for a new hire
+
+  atlas email read [n]           Summarise your last n emails
+  atlas email draft              Draft replies to emails needing responses
+  atlas email thread <email>     Full thread summary for a contact
+  atlas email reply <email>      Draft a reply to a specific contact
+
+  atlas ledger                   Full financial health scan
+  atlas ledger invoices          Outstanding invoices
+  atlas ledger commissions       Referral commission tracker
+
+  atlas broker                   Real estate portfolio scan
+  atlas broker tenant            Tenant & property management issues
+  atlas broker market            Pre-construction & market opportunities
+
+  atlas pulse                    Client health dashboard
+  atlas pulse churn              Churn risk analysis
+  atlas pulse <client>           Deep dive on one client
+  atlas pulse checkin <client>   Draft a client check-in email
 """
 import sys
 import json
@@ -317,10 +333,71 @@ def main():
         elif sub == "read":
             n = int(args[2]) if len(args) > 2 else 10
             cmd_email_read(n)
+        elif sub == "thread" and len(args) > 2:
+            import relay
+            print(f"\n  Relay: Thread summary for {args[2]}\n")
+            print(relay.run_thread_summary(args[2]))
+        elif sub == "reply" and len(args) > 2:
+            import relay
+            instruction = args[3] if len(args) > 3 else ""
+            print(f"\n  Relay: Draft reply to {args[2]}\n")
+            print(relay.run_draft_reply(args[2], instruction))
         else:
-            print(f"Unknown email command: {sub}")
+            print(f"Atlas: Unknown email sub-command '{sub}'")
+
+    elif cmd == "ledger":
+        import ledger
+        sub = args[1] if len(args) > 1 else "scan"
+        if sub == "scan" or sub == "ledger":
+            print("\n  Ledger: Financial health scan\n")
+            print("  " + "─" * 60)
+            print(ledger.run_financial_scan())
+        elif sub == "invoices":
+            print("\n  Ledger: Invoice check\n")
+            print(ledger.run_invoice_check())
+        elif sub == "commissions":
+            print("\n  Ledger: Referral commission tracker\n")
+            print(ledger.run_commission_tracker())
+        else:
+            print(f"Atlas: Unknown ledger command '{sub}'")
+
+    elif cmd == "broker":
+        import broker
+        sub = args[1] if len(args) > 1 else "scan"
+        if sub == "scan" or sub == "broker":
+            print("\n  Broker: Real estate portfolio scan\n")
+            print("  " + "─" * 60)
+            print(broker.run_property_scan())
+        elif sub == "tenant":
+            print("\n  Broker: Tenant & property issues\n")
+            print(broker.run_tenant_check())
+        elif sub == "market":
+            print("\n  Broker: Market watch\n")
+            print(broker.run_market_watch())
+        else:
+            print(f"Atlas: Unknown broker command '{sub}'")
+
+    elif cmd == "pulse":
+        import pulse
+        sub = args[1] if len(args) > 1 else "scan"
+        if sub == "scan" or sub == "pulse":
+            print("\n  Pulse: Client health dashboard\n")
+            print("  " + "─" * 60)
+            print(pulse.run_client_health_scan())
+        elif sub == "churn":
+            print("\n  Pulse: Churn risk analysis\n")
+            print(pulse.run_churn_risk())
+        elif sub == "checkin" and len(args) > 2:
+            context = args[3] if len(args) > 3 else ""
+            print(f"\n  Pulse: Check-in draft for {args[2]}\n")
+            print(pulse.run_draft_client_checkin(args[2], context))
+        else:
+            # Treat as client name
+            print(f"\n  Pulse: Client report — {sub}\n")
+            print(pulse.run_client_report(sub))
+
     else:
-        print(f"Atlas: Unknown command '{cmd}'. Try: atlas brief | ask | who | email | hire | status")
+        print(f"Atlas: Unknown command '{cmd}'. Run 'atlas help' to see all commands.")
 
 
 if __name__ == "__main__":
