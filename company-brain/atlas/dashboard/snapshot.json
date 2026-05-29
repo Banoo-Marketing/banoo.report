@@ -1,0 +1,10 @@
+{
+  "revenue": 0,
+  "target": 15000.0,
+  "gap": 15000.0,
+  "pipeline_health": "RED",
+  "active_initiatives": 0,
+  "focus_status": "GREEN",
+  "burnout_risk": "MEDIUM",
+  "automation_ratio": 0
+}

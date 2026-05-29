@@ -7,3 +7,5 @@ company-brain/frontend/package-lock.json
 company-brain/email-analyzer/__pycache__/
 company-brain/email-analyzer/email_cache.db
 company-brain/email-analyzer/reports/
+company-brain/atlas/__pycache__
+*.pyc
