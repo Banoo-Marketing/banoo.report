@@ -3,20 +3,45 @@
     {
       "name": "Fosters Law",
       "health": "ok",
-      "note": "Active retainer"
+      "services": ["Google Ads PPC", "SEO backlinks", "Meta Ads"],
+      "note": "Active retainer — full paid + organic stack"
     },
     {
       "name": "416-Flowers",
       "health": "ok",
-      "note": "Active retainer"
+      "services": ["Email marketing", "Social media posts and engagement", "Cold outreach (Jerylen)", "SEO (Keith)"],
+      "team": {
+        "email_marketing": "John",
+        "social_media": "Grace",
+        "cold_calls": "Jerylen",
+        "seo": "Keith"
+      },
+      "note": "Active retainer — team-managed, each channel has a dedicated person"
     },
     {
       "name": "AngeLink",
       "health": "ok",
-      "note": "On hold — client doing a JV with a partner, will reach out when complete (summer 2026)"
+      "services": ["TBD — campaigns paused"],
+      "note": "On hold — client doing a JV with a partner. Will reach out after JV completes this summer. Not churning."
     }
   ],
-  "prospects": [
-    "1-2 warm leads in conversation — not yet closed"
+  "warm_leads": [
+    {
+      "name": "Am (InvertedTaco)",
+      "industry": "Video production",
+      "status": "Proposal sent",
+      "services_proposed": ["Website design", "SEO"],
+      "note": "Am runs InvertedTaco — video business taking on clients. We sent proposal for website + SEO."
+    },
+    {
+      "name": "Intuitive",
+      "status": "Warm — in conversation",
+      "services_proposed": []
+    },
+    {
+      "name": "Mining Company",
+      "status": "Warm — in conversation",
+      "services_proposed": []
+    }
   ]
 }
