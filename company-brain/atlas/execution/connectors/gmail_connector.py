@@ -14,9 +14,11 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from pathlib import Path
 
-_HERE = Path(__file__).parent.parent.parent
-sys.path.insert(0, str(_HERE.parent / "chief"))
-sys.path.insert(0, str(_HERE.parent.parent / "backend"))
+_HERE = Path(__file__).parent.parent.parent          # → atlas/
+_REPO = _HERE.parent.parent                          # → banoo.report/
+sys.path.insert(0, str(_REPO / "company-brain" / "chief"))
+sys.path.insert(0, str(_REPO / "company-brain" / "backend"))
+sys.path.insert(0, str(_HERE.parent / "chief"))      # fallback
 
 try:
     from dotenv import load_dotenv
