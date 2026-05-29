@@ -177,6 +177,46 @@ def init():
             queue_date  TEXT DEFAULT (date('now')),
             created_at  TEXT DEFAULT (datetime('now'))
         );
+
+        CREATE TABLE IF NOT EXISTS agents (
+            id              INTEGER PRIMARY KEY AUTOINCREMENT,
+            name            TEXT NOT NULL UNIQUE,
+            purpose         TEXT,
+            agent_type      TEXT DEFAULT 'generated',  -- native|generated
+            native_module   TEXT,   -- for native: module name (e.g. 'pulse')
+            native_fn       TEXT,   -- for native: function name
+            scope           TEXT,
+            inputs          TEXT,   -- JSON list of data sources
+            outputs         TEXT,   -- JSON: what it produces
+            frequency       TEXT DEFAULT 'weekly',  -- daily|weekly|monthly|triggered
+            system_prompt   TEXT,   -- for generated agents
+            rules           TEXT,   -- JSON rules
+            escalation_rules TEXT,  -- JSON: when to escalate to Emod
+            success_metric  TEXT,
+            status          TEXT DEFAULT 'active',  -- active|paused|killed
+            last_run        TEXT,
+            last_output     TEXT,   -- compressed last output JSON
+            run_count       INTEGER DEFAULT 0,
+            exception_count INTEGER DEFAULT 0,
+            kill_reason     TEXT,
+            created_at      TEXT DEFAULT (datetime('now')),
+            updated_at      TEXT DEFAULT (datetime('now'))
+        );
+
+        CREATE TABLE IF NOT EXISTS agent_outputs (
+            id          INTEGER PRIMARY KEY AUTOINCREMENT,
+            agent_id    INTEGER NOT NULL,
+            agent_name  TEXT,
+            ran_at      TEXT DEFAULT (datetime('now')),
+            output      TEXT,       -- JSON compressed output
+            exceptions  TEXT,       -- JSON list of exceptions found
+            has_escalation INTEGER DEFAULT 0,
+            escalation_reason TEXT,
+            status      TEXT DEFAULT 'new'  -- new|reviewed|acted
+        );
+
+        CREATE INDEX IF NOT EXISTS idx_agent_outputs_agent ON agent_outputs(agent_id, ran_at DESC);
+        CREATE INDEX IF NOT EXISTS idx_agent_outputs_escalation ON agent_outputs(has_escalation, status);
         """)
 
 
@@ -596,6 +636,106 @@ def update_queue_status(item_id: int, status: str):
 def delete_queue_item(item_id: int):
     with _conn() as c:
         c.execute("DELETE FROM daily_queue WHERE id=?", (item_id,))
+
+
+# ── Agent registry ───────────────────────────────────────────────────────────
+
+def register_agent(a: dict) -> int:
+    with _conn() as c:
+        existing = c.execute("SELECT id FROM agents WHERE name=?", (a["name"],)).fetchone()
+        if existing:
+            c.execute("""UPDATE agents SET purpose=?,agent_type=?,native_module=?,native_fn=?,
+                scope=?,inputs=?,outputs=?,frequency=?,system_prompt=?,rules=?,
+                escalation_rules=?,success_metric=?,status=?,updated_at=datetime('now')
+                WHERE name=?""",
+                (a.get("purpose",""), a.get("agent_type","generated"),
+                 a.get("native_module",""), a.get("native_fn",""),
+                 a.get("scope",""), json.dumps(a.get("inputs",[])),
+                 json.dumps(a.get("outputs",{})), a.get("frequency","weekly"),
+                 a.get("system_prompt",""), json.dumps(a.get("rules",{})),
+                 json.dumps(a.get("escalation_rules",{})), a.get("success_metric",""),
+                 a.get("status","active"), a["name"]))
+            return existing[0]
+        cur = c.execute("""INSERT INTO agents
+            (name,purpose,agent_type,native_module,native_fn,scope,inputs,outputs,
+             frequency,system_prompt,rules,escalation_rules,success_metric,status)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+            (a["name"], a.get("purpose",""), a.get("agent_type","generated"),
+             a.get("native_module",""), a.get("native_fn",""),
+             a.get("scope",""), json.dumps(a.get("inputs",[])),
+             json.dumps(a.get("outputs",{})), a.get("frequency","weekly"),
+             a.get("system_prompt",""), json.dumps(a.get("rules",{})),
+             json.dumps(a.get("escalation_rules",{})), a.get("success_metric",""),
+             a.get("status","active")))
+        return cur.lastrowid
+
+
+def get_agents(status: str = "active") -> list[dict]:
+    with _conn() as c:
+        rows = c.execute(
+            "SELECT * FROM agents WHERE status=? ORDER BY frequency ASC, name ASC", (status,)
+        ).fetchall()
+    return [dict(r) for r in rows]
+
+
+def get_agent(name: str) -> dict | None:
+    with _conn() as c:
+        row = c.execute("SELECT * FROM agents WHERE name=?", (name,)).fetchone()
+    return dict(row) if row else None
+
+
+def update_agent_last_run(agent_name: str, output: str = "", exception: bool = False):
+    with _conn() as c:
+        if exception:
+            c.execute("""UPDATE agents SET last_run=datetime('now'), last_output=?,
+                run_count=run_count+1, exception_count=exception_count+1,
+                updated_at=datetime('now') WHERE name=?""",
+                (str(output)[:2000], agent_name))
+        else:
+            c.execute("""UPDATE agents SET last_run=datetime('now'), last_output=?,
+                run_count=run_count+1, updated_at=datetime('now') WHERE name=?""",
+                (str(output)[:2000], agent_name))
+
+
+def kill_agent(agent_name: str, reason: str = ""):
+    with _conn() as c:
+        c.execute("""UPDATE agents SET status='killed', kill_reason=?,
+            updated_at=datetime('now') WHERE name=?""", (reason, agent_name))
+
+
+def log_agent_output(agent_name: str, output: str = "", exceptions: str = None,
+                     has_escalation: bool = False, escalation_reason: str = "") -> int:
+    with _conn() as c:
+        agent_row = c.execute("SELECT id FROM agents WHERE name=?", (agent_name,)).fetchone()
+        agent_id = agent_row[0] if agent_row else None
+        cur = c.execute("""INSERT INTO agent_outputs
+            (agent_id, agent_name, output, exceptions, has_escalation, escalation_reason)
+            VALUES (?,?,?,?,?,?)""",
+            (agent_id, agent_name, str(output)[:4000],
+             str(exceptions) if exceptions else None,
+             1 if has_escalation else 0, escalation_reason))
+        return cur.lastrowid
+
+
+def get_pending_escalations(limit: int = 20) -> list[dict]:
+    with _conn() as c:
+        rows = c.execute("""SELECT * FROM agent_outputs
+            WHERE has_escalation=1 AND status='new'
+            ORDER BY ran_at DESC LIMIT ?""", (limit,)).fetchall()
+    return [dict(r) for r in rows]
+
+
+def get_agent_history(agent_name: str, limit: int = 10) -> list[dict]:
+    with _conn() as c:
+        rows = c.execute("""SELECT * FROM agent_outputs
+            WHERE agent_name=? ORDER BY ran_at DESC LIMIT ?""",
+            (agent_name, limit)).fetchall()
+    return [dict(r) for r in rows]
+
+
+def mark_escalation_reviewed(output_id: int):
+    with _conn() as c:
+        c.execute("UPDATE agent_outputs SET status='reviewed' WHERE id=?", (output_id,))
 
 
 # ── Stats ─────────────────────────────────────────────────────────────────────

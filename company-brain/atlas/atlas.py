@@ -44,6 +44,23 @@ Usage:
   atlas week-start               Begin the sprint — target, 2 engines, kill mandate
   atlas week-review              Weekly closeout — revenue, focus, system progress
   atlas reality-check            Brutal strategic audit — no comfort
+
+  ── Agent Workforce (Autonomous OS Layer) ─────────────────────────
+  atlas factory register         Register all native sub-agents in the registry
+  atlas factory scan             Scan for new automation candidates
+  atlas factory list             List all registered agents (active + killed)
+  atlas factory kill <name>      Kill an agent with a reason
+
+  atlas monitor                  Run all active agents, surface exceptions only
+  atlas monitor <name>           Run a specific agent by name
+  atlas monitor status           Show last-run status for all agents
+  atlas monitor escalations      Show pending escalations awaiting review
+
+  atlas tower                    Daily control tower brief (runs agents + filters)
+  atlas tower weekly             Weekly workforce + automation report
+  atlas tower decisions          Show pending decisions only
+  atlas tower workforce          Agent workforce roster + health
+  atlas tower resolve <id>       Mark an escalation as reviewed
 """
 import sys
 import json
@@ -459,6 +476,7 @@ Keep it tight. Real candidates should feel excited and clear on expectations."""
 
 def cmd_status():
     """Full Atlas + system status."""
+    import db as _db
     ctx = _chief_context()
     st = ctx["stats"]
     print(f"\n  ┌{'─'*61}┐")
@@ -470,13 +488,32 @@ def cmd_status():
     print(f"  Upcoming events: {len(ctx.get('upcoming_events', []))}")
     print(f"  Daily briefs   : {st.get('briefs', 0):,}")
     print()
-    print(f"  Sub-agents available:")
+    print(f"  Sub-agents (interactive):")
     print(f"    Scout  — Talent & hiring pipeline      (atlas scout)")
     print(f"    Relay  — Email drafting & inbox         (atlas email)")
     print(f"    Ledger — Financial tracking             (atlas ledger)")
     print(f"    Broker — Real estate monitoring         (atlas broker)")
     print(f"    Pulse  — Client health                  (atlas pulse)")
     print()
+
+    # Show agent workforce if registered
+    try:
+        _db.init()
+        active_agents = _db.get_agents("active")
+        pending = _db.get_pending_escalations(limit=5)
+        if active_agents:
+            print(f"  Agent Workforce ({len(active_agents)} active | {len(pending)} pending escalations):")
+            for a in active_agents:
+                runs = a.get("run_count", 0)
+                exc = a.get("exception_count", 0)
+                last = (a.get("last_run") or "never")[:10]
+                icon = "🔴" if exc > 2 else "🟡" if exc > 0 else "🟢"
+                print(f"    {icon} {a['name']:<10} [{a.get('frequency','?'):>8}] runs:{runs} exc:{exc} last:{last}")
+            print()
+            print(f"  Tower commands: atlas tower | atlas monitor | atlas factory list")
+    except Exception:
+        pass
+
     print(f"  All actions require Emod's approval before execution.")
     print()
 
@@ -638,6 +675,80 @@ def main():
         elif cmd == "week-review":   print(el.run_week_review())
         elif cmd == "reality-check": print(el.run_reality_check())
         print()
+
+    # ── Agent Factory commands ────────────────────────────────────
+    elif cmd == "factory":
+        import agent_factory as af
+        sub = args[1] if len(args) > 1 else "list"
+        if sub == "register":
+            n = af.register_native_agents()
+            print(f"\n  Agent Factory: {n} native agents registered.")
+        elif sub == "scan":
+            af.run_factory_scan()
+        elif sub == "list":
+            af.list_agents()
+        elif sub == "kill" and len(args) > 2:
+            reason = args[3] if len(args) > 3 else ""
+            import db
+            db.init()
+            db.kill_agent(args[2], reason)
+            print(f"  Agent '{args[2]}' killed.")
+        else:
+            print("Usage: atlas factory [register | scan | list | kill <name> [reason]]")
+
+    # ── Agent Monitor commands ────────────────────────────────────
+    elif cmd == "monitor":
+        import agent_monitor as am
+        sub = args[1] if len(args) > 1 else None
+        if sub == "status":
+            am.show_status()
+        elif sub == "escalations":
+            am.show_escalations()
+        elif sub is None:
+            results = am.run_all_agents()
+            report = am.build_monitor_report(results)
+            print(f"\n  Monitor: {report['agents_run']} agents ran | {report['escalations']} escalation(s)")
+            if report["escalations"]:
+                for item in report["items"]:
+                    icon = "🔴" if item["urgency"] == "CRITICAL" else "🟡"
+                    print(f"  {icon} [{item['agent']}] {item['reason']}")
+        else:
+            # Treat as agent name
+            results = am.run_all_agents(target_name=sub)
+            if results:
+                r = results[0]
+                icon = "🔴" if r.get("urgency") == "CRITICAL" else "🟡" if r.get("needs_attention") else "🟢"
+                print(f"\n  {icon} {sub}: {r.get('summary', '')}")
+
+    # ── Control Tower commands ────────────────────────────────────
+    elif cmd == "tower":
+        import control_tower as ct
+        sub = args[1] if len(args) > 1 else "brief"
+        if sub == "brief":
+            run_agents = "--skip-run" not in args
+            brief = ct.generate_daily_brief(run_agents=run_agents)
+            print(f"\n  ╔══ ATLAS CONTROL TOWER — {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M')} UTC ══╗\n")
+            print(brief)
+            print(f"\n  ╚{'═'*60}╝")
+        elif sub == "weekly":
+            report = ct.generate_weekly_brief()
+            print(f"\n  ╔══ ATLAS WEEKLY WORKFORCE REPORT — {datetime.now(timezone.utc).strftime('%Y-%m-%d')} ══╗\n")
+            print(report)
+            print(f"\n  ╚{'═'*60}╝")
+        elif sub == "decisions":
+            ct.show_pending_decisions()
+        elif sub == "workforce":
+            ct.show_workforce()
+        elif sub == "resolve" and len(args) > 2:
+            import db
+            db.init()
+            try:
+                db.mark_escalation_reviewed(int(args[2]))
+                print(f"  Escalation {args[2]} marked as reviewed.")
+            except ValueError:
+                print(f"  Invalid escalation ID: {args[2]}")
+        else:
+            print("Usage: atlas tower [brief [--skip-run] | weekly | decisions | workforce | resolve <id>]")
 
     else:
         print(f"Atlas: Unknown command '{cmd}'. Run 'atlas help' to see all commands.")

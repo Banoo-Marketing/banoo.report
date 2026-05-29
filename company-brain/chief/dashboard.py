@@ -382,6 +382,47 @@ def api_brief():
     return brief
 
 
+# ── Agent Workforce endpoints ─────────────────────────────────────
+
+@app.get("/api/agents")
+def api_agents():
+    db.init()
+    active = db.get_agents("active")
+    killed = db.get_agents("killed")
+    return {"agents": active, "killed": killed}
+
+
+@app.post("/api/agents/{name}/kill")
+def api_kill_agent(name: str, body: dict):
+    db.init()
+    reason = body.get("reason", "")
+    if not reason:
+        raise HTTPException(status_code=400, detail="Kill reason is required")
+    db.kill_agent(name, reason)
+    return {"status": "killed", "name": name}
+
+
+@app.get("/api/agents/{name}/history")
+def api_agent_history(name: str, limit: int = 10):
+    db.init()
+    history = db.get_agent_history(name, limit=limit)
+    return {"agent": name, "history": history}
+
+
+@app.get("/api/agents/escalations")
+def api_escalations(limit: int = 20):
+    db.init()
+    pending = db.get_pending_escalations(limit=limit)
+    return {"escalations": pending, "count": len(pending)}
+
+
+@app.post("/api/agents/escalations/{eid}/resolve")
+def api_resolve_escalation(eid: int):
+    db.init()
+    db.mark_escalation_reviewed(eid)
+    return {"status": "reviewed", "id": eid}
+
+
 @app.get("/", response_class=HTMLResponse)
 def dashboard():
     tmpl = _HERE / "templates" / "dashboard.html"

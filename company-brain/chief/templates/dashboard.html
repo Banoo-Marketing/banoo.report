@@ -182,6 +182,7 @@ input.search{background:#0d0d0d;border:1px solid var(--border2);color:var(--text
   <div class="tab" onclick="showTab('strategy')">Strategy</div>
   <div class="tab" onclick="showTab('contacts')">Contacts</div>
   <div class="tab" onclick="showTab('actions')">Actions</div>
+  <div class="tab" onclick="showTab('workforce')">Workforce</div>
 </nav>
 
 <!-- ═══════════════════════════════════════════════ COMMAND ═══ -->
@@ -358,6 +359,39 @@ input.search{background:#0d0d0d;border:1px solid var(--border2);color:var(--text
 <!-- ═══════════════════════════════════════════════ ACTIONS ═══ -->
 <div id="tab-actions" class="page">
   <div id="actions-list"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ WORKFORCE ═══ -->
+<div id="tab-workforce" class="page">
+  <div class="grid2">
+
+    <!-- Agent Roster -->
+    <div>
+      <div class="card">
+        <div class="card-title">Agent Roster
+          <span style="float:right;font-size:.75rem;color:var(--muted2)">◆ native &nbsp; ◇ generated</span>
+        </div>
+        <div id="workforce-roster"><div class="empty">Loading...</div></div>
+      </div>
+    </div>
+
+    <!-- Pending Escalations -->
+    <div>
+      <div class="card">
+        <div class="card-title">Pending Escalations
+          <button class="btn-sm" onclick="resolveAllEscalations()" style="float:right">Mark all reviewed</button>
+        </div>
+        <div id="workforce-escalations"><div class="empty">No pending escalations.</div></div>
+      </div>
+
+      <!-- Agent Output History -->
+      <div class="card" style="margin-top:1rem">
+        <div class="card-title">Recent Agent Output</div>
+        <div id="workforce-history"><div class="empty">Select an agent to view history.</div></div>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <!-- ═══════════════════════════════════════════════ MODALS ═══ -->
@@ -602,10 +636,11 @@ let _contacts=[], _actions=[], _snap={}, _killTarget=null;
 
 // ── Tabs ──────────────────────────────────────────────────────────
 function showTab(name){
-  const tabs=['command','focus','pipeline','systems','strategy','contacts','actions'];
+  const tabs=['command','focus','pipeline','systems','strategy','contacts','actions','workforce'];
   document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',tabs[i]===name));
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('tab-'+name).classList.add('active');
+  if(name==='workforce') loadWorkforce();
 }
 
 // ── API ───────────────────────────────────────────────────────────
@@ -1213,6 +1248,110 @@ async function loadActions(){
     });
   });
   document.getElementById('actions-list').innerHTML=h;
+}
+
+// ── Workforce ─────────────────────────────────────────────────────
+async function loadWorkforce(){
+  const [agentsData, escalationsData] = await Promise.all([
+    api('/agents'),
+    api('/agents/escalations'),
+  ]);
+
+  // Render agent roster
+  const agents = agentsData.agents || [];
+  if(!agents.length){
+    document.getElementById('workforce-roster').innerHTML='<div class="empty">No agents registered. Run: atlas factory register</div>';
+  } else {
+    const healthIcon = a => {
+      const rate = a.run_count > 0 ? (a.exception_count / a.run_count) : 0;
+      if(rate > 0.5 || a.exception_count > 3) return '🔴';
+      if(rate > 0.2 || a.exception_count > 1) return '🟡';
+      return '🟢';
+    };
+    const typeIcon = a => a.agent_type === 'native' ? '◆' : '◇';
+    let h = `<table style="width:100%;border-collapse:collapse;font-size:.78rem">
+      <tr style="color:var(--muted);font-size:.7rem">
+        <th style="text-align:left;padding:.3rem .4rem">Agent</th>
+        <th style="text-align:left">Frequency</th>
+        <th style="text-align:right">Runs</th>
+        <th style="text-align:right">Exc</th>
+        <th style="text-align:left;padding-left:.6rem">Last run</th>
+        <th></th>
+      </tr>`;
+    agents.forEach(a => {
+      const last = (a.last_run||'never').substring(0,16);
+      h += `<tr style="border-top:1px solid var(--border);cursor:pointer" onclick="loadAgentHistory('${a.name}')">
+        <td style="padding:.45rem .4rem"><span style="color:var(--muted2)">${typeIcon(a)}</span> ${healthIcon(a)} <strong>${a.name}</strong></td>
+        <td style="color:var(--muted)">${a.frequency||'?'}</td>
+        <td style="text-align:right;color:var(--muted)">${a.run_count||0}</td>
+        <td style="text-align:right;color:${(a.exception_count||0)>0?'var(--red)':'var(--muted)'}">${a.exception_count||0}</td>
+        <td style="color:var(--muted2);padding-left:.6rem;font-size:.72rem">${last}</td>
+        <td style="text-align:right"><button class="btn-sm" onclick="event.stopPropagation();killAgent('${a.name}')">Kill</button></td>
+      </tr>`;
+      if(a.purpose) h += `<tr><td colspan="6" style="color:var(--muted2);font-size:.7rem;padding:.1rem .4rem .4rem 1.8rem">${a.purpose}</td></tr>`;
+    });
+    h += '</table>';
+    document.getElementById('workforce-roster').innerHTML = h;
+  }
+
+  // Render escalations
+  const escalations = escalationsData.escalations || [];
+  if(!escalations.length){
+    document.getElementById('workforce-escalations').innerHTML='<div class="empty">No pending escalations. All clear.</div>';
+  } else {
+    const urgIcon = u => u==='CRITICAL'?'🔴':u==='HIGH'?'🟡':'🔵';
+    let h = escalations.map(e => `
+      <div style="border-left:3px solid ${e.urgency==='CRITICAL'?'var(--red)':'var(--yellow)' };padding:.5rem .75rem;margin-bottom:.5rem;background:var(--bg2);border-radius:0 4px 4px 0">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div><span style="font-size:.7rem;font-weight:700;color:var(--muted)">[${e.agent_name||'?'}]</span>
+          ${urgIcon(e.urgency)} <span style="font-size:.78rem">${e.escalation_reason||''}</span></div>
+          <button class="btn-sm" onclick="resolveEscalation(${e.id})">✓</button>
+        </div>
+        <div style="font-size:.7rem;color:var(--muted2);margin-top:.25rem">${(e.output||'').substring(0,120)}...</div>
+        <div style="font-size:.67rem;color:var(--muted);margin-top:.2rem">${(e.ran_at||'').substring(0,16)}</div>
+      </div>`).join('');
+    document.getElementById('workforce-escalations').innerHTML = h;
+  }
+}
+
+async function loadAgentHistory(name){
+  const data = await api(`/agents/${name}/history`);
+  const history = data.history || [];
+  if(!history.length){
+    document.getElementById('workforce-history').innerHTML=`<div class="empty">${name}: no runs recorded.</div>`;
+    return;
+  }
+  let h = `<div style="font-size:.75rem;font-weight:600;margin-bottom:.5rem;color:var(--muted2)">${name} — last ${history.length} run(s)</div>`;
+  history.forEach(r => {
+    const icon = r.has_escalation ? '🟡' : '🟢';
+    h += `<div style="margin-bottom:.6rem;padding:.4rem;background:var(--bg2);border-radius:4px">
+      <div style="display:flex;justify-content:space-between">
+        <span style="font-size:.72rem">${icon} ${(r.ran_at||'').substring(0,16)}</span>
+        ${r.has_escalation?`<span style="font-size:.68rem;color:var(--yellow)">${r.escalation_reason||''}</span>`:''}
+      </div>
+      <div style="font-size:.7rem;color:var(--muted2);margin-top:.2rem">${(r.output||'').substring(0,200)}...</div>
+    </div>`;
+  });
+  document.getElementById('workforce-history').innerHTML = h;
+}
+
+async function resolveEscalation(id){
+  await api(`/agents/escalations/${id}/resolve`, 'POST');
+  loadWorkforce();
+}
+
+async function resolveAllEscalations(){
+  const data = await api('/agents/escalations');
+  const ids = (data.escalations||[]).map(e=>e.id);
+  await Promise.all(ids.map(id => api(`/agents/escalations/${id}/resolve`, 'POST')));
+  loadWorkforce();
+}
+
+async function killAgent(name){
+  const reason = prompt(`Kill agent "${name}"? Enter reason (required):`);
+  if(!reason) return;
+  await api(`/agents/${name}/kill`, 'POST', {reason});
+  loadWorkforce();
 }
 
 // ── Load all ──────────────────────────────────────────────────────
