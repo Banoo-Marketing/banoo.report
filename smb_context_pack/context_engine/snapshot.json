@@ -1,0 +1,34 @@
+{
+  "company": "Banoo Inc",
+  "focus": "Retain existing clients and close 2-3 new retainers to close the $12,000/month revenue gap",
+  "clients": [
+    {
+      "name": "Greenline HVAC",
+      "health": "ok"
+    },
+    {
+      "name": "AngeLink",
+      "health": "at_risk"
+    },
+    {
+      "name": "Crestview Realty",
+      "health": "at_risk"
+    }
+  ],
+  "risks": [
+    "Crestview Realty \u2014 budget cut request + competitor proposal, churn risk within 30 days",
+    "AngeLink \u2014 79+ days silent, campaign paused, needs direct founder outreach",
+    "Revenue at $3,000/month vs $15,000 target \u2014 cashflow pressure"
+  ],
+  "state": {
+    "revenue": "weak",
+    "operations": "stable",
+    "relationships": "at_risk"
+  },
+  "tone": "direct, simple, founder-level",
+  "top_priorities": [
+    "Reactivate AngeLink and retain Crestview Realty before end of Q2",
+    "Close 2 new retainers from referral pipeline",
+    "Expand Greenline HVAC to Meta ads"
+  ]
+}
