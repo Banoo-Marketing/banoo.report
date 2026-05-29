@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
 """
-memory/log.py — Append a new memory entry.
+memory/log.py — Append a memory entry. Append-only. No deletes.
+
+Schema: { timestamp, type, entity, content, source }
 
 Usage:
-  python memory/log.py <folder> <entity> <type> "<content>" [--tags tag1 tag2]
+  python memory/log.py <folder> <entity> <type> "<content>" [--source manual]
 
   folder: interactions | clients | tasks | revenue | communications
 
 Examples:
-  python memory/log.py clients "Acme Corp" "status_update" "Signed 3-month renewal" --tags renewal signed
-  python memory/log.py revenue "Banoo Inc" "payment" "Received $3000 from client X" --tags payment received
+  python memory/log.py clients "Acme Corp" "status_update" "Signed 3-month renewal"
+  python memory/log.py revenue "Banoo Inc" "payment" "Received $3000 from client X"
+  python memory/log.py tasks "RBC" "reminder" "Confirm mortgage funds before June 1"
 """
 import json
 import sys
@@ -18,26 +21,24 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 _MEMORY = Path(__file__).parent
-_VALID_FOLDERS = {"interactions", "clients", "tasks", "revenue", "communications"}
+_VALID = {"interactions", "clients", "tasks", "revenue", "communications"}
 
 
 def log_entry(folder: str, entity: str, entry_type: str, content: str,
-              source: str = "manual", tags: list[str] = None) -> Path:
-    if folder not in _VALID_FOLDERS:
-        raise ValueError(f"Invalid folder '{folder}'. Valid: {', '.join(sorted(_VALID_FOLDERS))}")
+              source: str = "manual") -> Path:
+    if folder not in _VALID:
+        raise ValueError(f"Invalid folder '{folder}'. Valid: {', '.join(sorted(_VALID))}")
 
     now = datetime.now(timezone.utc)
-    timestamp = now.isoformat()
     slug = entity.lower().replace(" ", "_").replace("/", "_")[:30]
     filename = f"{now.strftime('%Y%m%d_%H%M%S')}_{slug}.json"
 
     entry = {
-        "timestamp": timestamp,
-        "source": source,
-        "entity": entity,
-        "type": entry_type,
-        "content": content,
-        "tags": tags or [],
+        "timestamp": now.isoformat(),
+        "source":    source,
+        "entity":    entity,
+        "type":      entry_type,
+        "content":   content,
     }
 
     path = _MEMORY / folder / filename
@@ -46,15 +47,13 @@ def log_entry(folder: str, entity: str, entry_type: str, content: str,
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Log a memory entry")
-    parser.add_argument("folder", choices=list(_VALID_FOLDERS))
+    parser = argparse.ArgumentParser()
+    parser.add_argument("folder", choices=list(_VALID))
     parser.add_argument("entity")
     parser.add_argument("type")
     parser.add_argument("content")
     parser.add_argument("--source", default="manual")
-    parser.add_argument("--tags", nargs="*", default=[])
     args = parser.parse_args()
 
-    path = log_entry(args.folder, args.entity, args.type, args.content,
-                     source=args.source, tags=args.tags)
+    path = log_entry(args.folder, args.entity, args.type, args.content, source=args.source)
     print(f"Logged: {path.relative_to(_MEMORY.parent)}")

@@ -1,4 +1,6 @@
 """
+FROZEN — Not required for core product. Do not extend or activate.
+
 forecast_engine.py — Probability-weighted multi-horizon forecasts.
 
 Pure math + heuristics. No LLM calls.

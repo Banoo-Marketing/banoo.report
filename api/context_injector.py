@@ -71,6 +71,10 @@ def get_context_string(memory_limit: int = 10) -> str:
     tone = brain.get("tone_of_voice", {})
     constraints = ctx["constraints"]
 
+    s = state.get("state", {})
+    clients = state.get("clients", [])
+    at_risk = [c for c in clients if c.get("health") == "at_risk"]
+
     lines = [
         f"COMPANY: {state.get('company', '')}",
         f"MISSION: {identity.get('mission', '')}",
@@ -78,31 +82,32 @@ def get_context_string(memory_limit: int = 10) -> str:
         f"",
         f"CURRENT STATE:",
         f"  Focus: {state.get('focus', '')}",
-        f"  Revenue: {state.get('revenue_state', '').upper()}",
-        f"  Operations: {state.get('operational_state', '').upper()}",
-        f"  Active clients: {state.get('active_clients', 0)} ({state.get('at_risk_clients', 0)} at risk)",
+        f"  Revenue: {s.get('revenue', '').upper()}",
+        f"  Operations: {s.get('operations', '').upper()}",
+        f"  Relationships: {s.get('relationships', '').upper()}",
+        f"  Active clients: {len(clients)} ({len(at_risk)} at risk)",
         f"",
         f"TOP PRIORITIES:",
     ]
     for i, p in enumerate(state.get("top_priorities", []), 1):
         lines.append(f"  {i}. {p}")
 
-    active_risks = identity.get("active_risks", [])
-    if active_risks:
+    risks = state.get("risks", [])
+    if risks:
         lines.append("")
         lines.append("ACTIVE RISKS:")
-        for r in active_risks:
+        for r in risks:
             lines.append(f"  - {r}")
 
     lines.extend([
         "",
         "TONE:",
-        f"  Style: {tone.get('style', '')}",
+        f"  Style: {state.get('tone', '')}",
         f"  Avoid: {', '.join(tone.get('avoid', [])[:3])}",
     ])
 
-    max_p = constraints.get("max_active_priorities", 3)
-    forbidden = constraints.get("forbidden_behaviors", [])
+    forbidden = constraints.get("forbidden", [])
+    max_p = constraints.get("max_priorities", 3)
     if forbidden:
         lines.extend([
             "",
@@ -115,8 +120,7 @@ def get_context_string(memory_limit: int = 10) -> str:
     if recent_memory:
         lines.extend(["", "RECENT CONTEXT:"])
         for e in recent_memory:
-            tag_str = f" [{', '.join(e.get('tags', [])[:2])}]" if e.get("tags") else ""
-            lines.append(f"  [{e.get('entity', '?')}] {e.get('content', '')[:120]}{tag_str}")
+            lines.append(f"  [{e.get('entity', '?')}] {e.get('content', '')[:120]}")
 
     return "\n".join(lines)
 
@@ -135,31 +139,40 @@ if __name__ == "__main__":
     else:
         ctx = build_context()
         state = ctx["state"]
+        s = state.get("state", {})
         memory = ctx["memory"]
+        clients = state.get("clients", [])
+        at_risk = [c for c in clients if c.get("health") == "at_risk"]
 
         print(f"\n  Context Injector — Banoo Company Brain")
         print(f"  {'═' * 56}")
         print(f"\n  STATE")
         print(f"  {'─' * 40}")
         print(f"  Company     : {state.get('company')}")
-        print(f"  Revenue     : {state.get('revenue_state', '').upper()}")
-        print(f"  Operations  : {state.get('operational_state', '').upper()}")
-        print(f"  Clients     : {state.get('active_clients')} active / {state.get('at_risk_clients')} at risk")
-        print(f"  Tone        : {state.get('communication_tone')}")
+        print(f"  Focus       : {state.get('focus', '')}")
+        print(f"  Revenue     : {s.get('revenue', '').upper()}")
+        print(f"  Operations  : {s.get('operations', '').upper()}")
+        print(f"  Relationships: {s.get('relationships', '').upper()}")
+        print(f"  Clients     : {len(clients)} active / {len(at_risk)} at risk")
+        print(f"  Tone        : {state.get('tone', '')}")
 
         print(f"\n  PRIORITIES")
         print(f"  {'─' * 40}")
         for i, p in enumerate(state.get("top_priorities", []), 1):
             print(f"  {i}. {p}")
 
+        if state.get("risks"):
+            print(f"\n  RISKS")
+            print(f"  {'─' * 40}")
+            for r in state["risks"]:
+                print(f"  - {r}")
+
         print(f"\n  RECENT MEMORY ({len(memory)} entries)")
         print(f"  {'─' * 40}")
         for e in memory[:5]:
             folder = e.get("_folder", "?")
-            tags = e.get("tags", [])
-            tag_str = f"  [{', '.join(tags[:2])}]" if tags else ""
-            print(f"  [{folder}/{e.get('entity', '?')}] {e.get('content', '')[:80]}{tag_str}")
+            print(f"  [{folder}/{e.get('entity', '?')}] {e.get('content', '')[:80]}")
 
         print(f"\n  BRAIN FILES: {', '.join(ctx['brain'].keys())}")
-        print(f"\n  → build_context()  — full dict for AI system integration")
-        print(f"  → get_context_string()  — prompt-ready string injection")
+        print(f"\n  → build_context()      — full dict for AI system integration")
+        print(f"  → get_context_string() — prompt-ready string injection")

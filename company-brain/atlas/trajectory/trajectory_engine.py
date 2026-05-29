@@ -1,4 +1,6 @@
 """
+FROZEN — Not required for core product. Do not extend or activate.
+
 trajectory_engine.py — Domain state tracker.
 
 Reads existing data sources and writes trajectory_state rows.

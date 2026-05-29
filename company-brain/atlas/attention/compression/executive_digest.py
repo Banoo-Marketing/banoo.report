@@ -1,4 +1,6 @@
 """
+FROZEN — Not required for core product. Do not extend or activate.
+
 executive_digest.py — Morning / Evening / Weekly digest generator.
 
 Max per digest: 3 priorities, 1 warning, 1 decision.

@@ -1,4 +1,6 @@
 """
+FROZEN — Not required for core product. Do not extend or activate.
+
 notification_compressor.py — Interruption cost model + alert deduplication.
 
 Filters escalation queue before it reaches the CEO.
