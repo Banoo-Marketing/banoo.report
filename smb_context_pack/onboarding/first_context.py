@@ -26,30 +26,44 @@ def main() -> None:
         print("\n  Run setup.py first.")
         sys.exit(1)
 
-    ctx     = build_context()
-    state   = ctx["context"]
-    s       = state.get("state", {})
-    clients = state.get("clients", [])
-    at_risk = [c for c in clients if c.get("health") == "at_risk"]
+    try:
+        ctx     = build_context()
+        state   = ctx["context"]
+        s       = state.get("state", {})
+        clients = state.get("clients", [])
+        at_risk = [c for c in clients if c.get("health") == "at_risk"]
 
-    print()
-    print("═" * _W)
-    print("  YOUR COMPANY CONTEXT IS READY")
-    print("═" * _W)
-    print()
-    print(f"  COMPANY : {state.get('company', '(not set)')}")
-    print(f"  FOCUS   : {state.get('focus', '(not set)')}")
-    print(f"  REVENUE : {s.get('revenue', '').upper()}")
-    print(f"  CLIENTS : {len(clients)} active ({len(at_risk)} at risk)")
-    print(f"  TONE    : {state.get('tone', '')}")
-    print()
-    print("─" * _W)
-    print("  COPY THIS INTO ANY AI TOOL")
-    print("─" * _W)
-    print()
-    print(get_context_string())
-    print()
-    print("─" * _W)
+        print()
+        print("═" * _W)
+        print("  YOUR AI BUSINESS CONTEXT IS READY")
+        print("═" * _W)
+        print()
+        print(f"  Company : {state.get('company') or '(not set)'}")
+        print(f"  Focus   : {state.get('focus') or '(not set)'}")
+        print(f"  Revenue : {s.get('revenue', '').upper()}")
+        print(f"  Clients : {len(clients)} active ({len(at_risk)} at risk)")
+        print()
+        print("  HOW TO USE")
+        print(f"  {'─' * 40}")
+        print("  1. Copy the text below")
+        print("  2. Open ChatGPT or Claude")
+        print("  3. Paste it BEFORE your question")
+        print()
+        print("  Example:")
+        print('  Paste → then ask: "Write a follow-up email for my top client"')
+        print('  Paste → then ask: "What should I focus on this week?"')
+        print()
+        print("─" * _W)
+        print("  COPY FROM HERE")
+        print("─" * _W)
+        print()
+        print(get_context_string())
+        print()
+        print("─" * _W)
+
+    except Exception:
+        print("\n  Could not generate context. Try: python onboarding/setup.py")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
