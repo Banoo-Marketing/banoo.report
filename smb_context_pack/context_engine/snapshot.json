@@ -1,24 +1,24 @@
 {
   "company": "Banoo Inc",
-  "focus": "Retain existing clients and close 2-3 new retainers to close the $12,000/month revenue gap",
+  "focus": "Close new clients to grow past $3,000/month \u2014 pipeline is the priority",
   "clients": [
     {
-      "name": "Greenline HVAC",
+      "name": "Fosters Law",
+      "health": "ok"
+    },
+    {
+      "name": "416-Flowers",
       "health": "ok"
     },
     {
       "name": "AngeLink",
       "health": "ok"
-    },
-    {
-      "name": "Crestview Realty",
-      "health": "at_risk"
     }
   ],
   "risks": [
-    "Crestview Realty \u2014 budget cut request + competitor proposal, churn risk within 30 days",
-    "AngeLink \u2014 79+ days silent, campaign paused, needs direct founder outreach",
-    "Revenue at $3,000/month vs $15,000 target \u2014 cashflow pressure"
+    "No new clients coming in \u2014 pipeline too thin to hit $15,000/month target",
+    "Revenue at $1,000\u2013$3,000/month \u2014 cashflow pressure",
+    "Over-reliance on 2 active clients \u2014 one loss would be significant"
   ],
   "state": {
     "revenue": "weak",
@@ -27,8 +27,8 @@
   },
   "tone": "direct, simple, founder-level",
   "top_priorities": [
-    "Reactivate AngeLink and retain Crestview Realty before end of Q2",
-    "Close 2 new retainers from referral pipeline",
-    "Expand Greenline HVAC to Meta ads"
+    "Convert 1-2 warm leads into paying retainers",
+    "Retain and grow Fosters Law and 416-Flowers",
+    "Bring AngeLink back when their JV completes this summer"
   ]
 }

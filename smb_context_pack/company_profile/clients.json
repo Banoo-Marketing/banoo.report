@@ -1,23 +1,22 @@
 {
   "active": [
     {
-      "name": "Greenline HVAC",
+      "name": "Fosters Law",
       "health": "ok",
-      "note": "Active retainer — Google Ads + Meta, regular check-ins"
+      "note": "Active retainer"
+    },
+    {
+      "name": "416-Flowers",
+      "health": "ok",
+      "note": "Active retainer"
     },
     {
       "name": "AngeLink",
       "health": "ok",
       "note": "On hold — client doing a JV with a partner, will reach out when complete (summer 2026)"
-    },
-    {
-      "name": "Crestview Realty",
-      "health": "at_risk",
-      "note": "Budget cut request + competitor proposal received — churn risk"
     }
   ],
   "prospects": [
-    "RBC mortgage referral — warm intro pending",
-    "Soclogix — proposal sent, awaiting decision"
+    "1-2 warm leads in conversation — not yet closed"
   ]
 }

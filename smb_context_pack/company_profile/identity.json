@@ -4,17 +4,17 @@
   "main_offer": "Google Ads and Meta ads retainers — full management, optimization, and monthly reporting",
   "target_customers": "Local and regional service businesses that need measurable growth from paid advertising",
   "tone": "direct",
-  "current_focus": "Retain existing clients and close 2-3 new retainers to close the $12,000/month revenue gap",
+  "current_focus": "Close new clients to grow past $3,000/month — pipeline is the priority",
   "top_priorities": [
-    "Reactivate AngeLink and retain Crestview Realty before end of Q2",
-    "Close 2 new retainers from referral pipeline",
-    "Expand Greenline HVAC to Meta ads"
+    "Convert 1-2 warm leads into paying retainers",
+    "Retain and grow Fosters Law and 416-Flowers",
+    "Bring AngeLink back when their JV completes this summer"
   ],
   "active_risks": [
-    "Crestview Realty — budget cut request + competitor proposal, churn risk within 30 days",
-    "AngeLink — 79+ days silent, campaign paused, needs direct founder outreach",
-    "Revenue at $3,000/month vs $15,000 target — cashflow pressure"
+    "No new clients coming in — pipeline too thin to hit $15,000/month target",
+    "Revenue at $1,000–$3,000/month — cashflow pressure",
+    "Over-reliance on 2 active clients — one loss would be significant"
   ],
   "revenue_target_monthly": 15000,
-  "current_revenue_monthly": 3000
+  "current_revenue_monthly": 2000
 }
