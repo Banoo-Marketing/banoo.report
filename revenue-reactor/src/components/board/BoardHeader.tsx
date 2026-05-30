@@ -17,8 +17,10 @@ interface Props {
 }
 
 export function BoardHeader({ summary, isConnected, lastSyncAt, userEmail, onSync, isSyncing, isDemo }: Props) {
+  const hasRevenue = summary.estimatedRevenue !== '—'
+
   return (
-    <div className="bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 text-white">
+    <div className="bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 text-white print:hidden">
       <div className="max-w-5xl mx-auto px-4 py-4">
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <div className="flex items-center gap-3">
@@ -27,17 +29,34 @@ export function BoardHeader({ summary, isConnected, lastSyncAt, userEmail, onSyn
             </div>
             <div>
               <h1 className="text-xl font-bold">Revenue Reactor</h1>
-              <p className="text-blue-300 text-xs">Find money hiding in Gmail</p>
+              <p className="text-blue-300 text-xs">Your inbox revenue intelligence</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 flex-wrap">
-            {summary.estimatedRevenue !== '—' && (
-              <span className="text-green-400 font-bold text-lg">{summary.estimatedRevenue} found</span>
+          <div className="flex items-center gap-3 flex-wrap">
+            {hasRevenue && (
+              <div className="text-right">
+                <p className="text-blue-300 text-xs">Revenue Found</p>
+                <p className="text-green-400 font-bold text-xl leading-tight">{summary.estimatedRevenue}</p>
+              </div>
             )}
-            <span className="text-blue-200 text-sm hidden sm:inline">
-              {summary.opportunityCount} leads · {summary.churnCount} at risk · {summary.reactivationCount} to reactivate
-            </span>
+            <div className="hidden sm:flex items-center gap-2 text-sm">
+              {summary.opportunityCount > 0 && (
+                <span className="bg-blue-700/50 text-blue-200 px-2 py-0.5 rounded-full text-xs">
+                  {summary.opportunityCount} leads
+                </span>
+              )}
+              {summary.churnCount > 0 && (
+                <span className="bg-red-700/50 text-red-200 px-2 py-0.5 rounded-full text-xs">
+                  {summary.churnCount} at risk
+                </span>
+              )}
+              {summary.reactivationCount > 0 && (
+                <span className="bg-purple-700/50 text-purple-200 px-2 py-0.5 rounded-full text-xs">
+                  {summary.reactivationCount} to reactivate
+                </span>
+              )}
+            </div>
           </div>
 
           <div className="flex items-center gap-2">
@@ -45,7 +64,7 @@ export function BoardHeader({ summary, isConnected, lastSyncAt, userEmail, onSyn
             {isConnected && (
               <Button onClick={onSync} disabled={isSyncing} size="sm" variant="outline" className="border-blue-400 text-blue-200 hover:bg-blue-800 hover:text-white">
                 <RefreshCw className={`w-3.5 h-3.5 mr-1.5 ${isSyncing ? 'animate-spin' : ''}`} />
-                {isSyncing ? 'Syncing...' : 'Sync'}
+                {isSyncing ? 'Syncing...' : 'Sync Now'}
               </Button>
             )}
             <span className="text-blue-400 text-xs hidden lg:inline">{userEmail}</span>
@@ -56,10 +75,13 @@ export function BoardHeader({ summary, isConnected, lastSyncAt, userEmail, onSyn
         </div>
 
         {isDemo && (
-          <div className="mt-3 bg-blue-500/20 border border-blue-500/40 rounded-lg px-3 py-2 text-sm text-blue-200 flex items-center justify-between flex-wrap gap-2">
-            <span>Demo mode — showing example data</span>
-            <Button onClick={onSync} size="sm" className="bg-blue-500 hover:bg-blue-400 text-white h-7 text-xs">
-              Connect Gmail & Get Real Insights
+          <div className="mt-3 bg-blue-500/20 border border-blue-500/40 rounded-lg px-3 py-2.5 flex items-center justify-between flex-wrap gap-2">
+            <div>
+              <p className="text-sm font-medium text-blue-100">Demo mode — showing example data</p>
+              <p className="text-xs text-blue-300">Connect Gmail to see real opportunities from your inbox</p>
+            </div>
+            <Button onClick={onSync} size="sm" className="bg-blue-500 hover:bg-blue-400 text-white h-8 text-xs">
+              Connect Gmail
             </Button>
           </div>
         )}

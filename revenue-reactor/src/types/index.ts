@@ -2,6 +2,7 @@ export interface OpportunitySignal {
   contactName: string
   company: string
   opportunityScore: number
+  revenueConfidence: number
   estimatedValue: string
   reason: string
   evidence: string[]
@@ -13,6 +14,8 @@ export interface ChurnSignalResult {
   churnScore: number
   riskLevel: 'low' | 'medium' | 'high'
   reasons: string[]
+  whatHappened: string
+  whyItMatters: string
   recommendedAction: string
 }
 
@@ -29,6 +32,7 @@ export interface ReactivationResult {
   company: string
   lastContactDate: string
   history: string
+  whyContact: string
   suggestedOffer: string
   suggestedMessage: string
 }
@@ -42,9 +46,37 @@ export interface OutreachContact {
   priority: number
 }
 
+export interface TopAction {
+  id: string
+  type: 'opportunity' | 'churn' | 'reactivation'
+  name: string
+  company: string | null
+  priorityScore: number
+  revenueConfidence: number | null
+  estimatedValue: string | null
+  reason: string
+  action: string
+  riskLevel?: string
+}
+
+export interface RevenuePlanSection {
+  items: { name: string; company: string | null; detail: string; value: string | null }[]
+  estimatedTotal: string
+}
+
+export interface RevenuePlan {
+  month: string
+  generatedAt: string
+  newRevenue: RevenuePlanSection
+  saveRevenue: RevenuePlanSection
+  reactivateRevenue: RevenuePlanSection
+  totalPotential: string
+}
+
 export interface BoardData {
   isGmailConnected: boolean
   lastSyncAt: string | null
+  topActions: TopAction[]
   opportunities: BoardOpportunity[]
   churnSignals: BoardChurnSignal[]
   retentionInsights: BoardRetentionInsight[]
@@ -65,6 +97,7 @@ export interface BoardOpportunity {
   contactName: string
   company: string | null
   opportunityScore: number
+  revenueConfidence: number | null
   estimatedValue: string | null
   reason: string
   evidence: string[]
@@ -79,6 +112,8 @@ export interface BoardChurnSignal {
   churnScore: number
   riskLevel: string
   reasons: string[]
+  whatHappened: string | null
+  whyItMatters: string | null
   recommendedAction: string
   status: string
   createdAt: string
@@ -101,6 +136,7 @@ export interface BoardReactivationTarget {
   company: string | null
   lastContactDate: string
   history: string
+  whyContact: string | null
   suggestedOffer: string
   suggestedMessage: string
   status: string

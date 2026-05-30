@@ -8,7 +8,7 @@ Signals: complaints, frustration, "not happy", "not working", slow responses, re
 Score 0-100 where:
 - 71-100: Urgent — client likely to leave soon
 - 41-70: Watch — early warning signs
-- 0-40: Safe — no significant risk (return this score to indicate skip)
+- 0-40: Safe — no significant risk (skip)
 
 Output ONLY valid JSON:
 {
@@ -16,7 +16,9 @@ Output ONLY valid JSON:
   "churnScore": 0,
   "riskLevel": "low|medium|high",
   "reasons": ["string"],
-  "recommendedAction": "string (specific retention step)"
+  "whatHappened": "string (2-3 sentences describing exactly what the client said or did that raised this flag)",
+  "whyItMatters": "string (1-2 sentences explaining the business impact if this client leaves)",
+  "recommendedAction": "string (specific, actionable retention step)"
 }`
 
 export async function detectChurn(thread: EmailThread, userEmail: string): Promise<ChurnSignalResult | null> {

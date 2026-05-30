@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { requireSession } from '@/lib/session'
 import { prisma } from '@/lib/db'
+import { buildTopActions } from '@/agents/top-actions-engine'
 import type { BoardData } from '@/types'
 
 export async function GET() {
@@ -23,31 +24,52 @@ export async function GET() {
     if (m) estimatedRevenue += parseInt(m[1].replace(/,/g, ''), 10)
   }
 
+  const boardOpportunities = opportunities.map(o => ({
+    id: o.id,
+    contactName: o.contactName,
+    company: o.company,
+    opportunityScore: o.opportunityScore,
+    revenueConfidence: o.revenueConfidence,
+    estimatedValue: o.estimatedValue,
+    reason: o.reason,
+    evidence: o.evidence,
+    suggestedAction: o.suggestedAction,
+    status: o.status,
+    createdAt: o.createdAt.toISOString(),
+  }))
+
+  const boardChurnSignals = churnSignals.map(c => ({
+    id: c.id,
+    clientName: c.clientName,
+    churnScore: c.churnScore,
+    riskLevel: c.riskLevel,
+    reasons: c.reasons,
+    whatHappened: c.whatHappened,
+    whyItMatters: c.whyItMatters,
+    recommendedAction: c.recommendedAction,
+    status: c.status,
+    createdAt: c.createdAt.toISOString(),
+  }))
+
+  const boardReactivationTargets = reactivationTargets.map(rv => ({
+    id: rv.id,
+    contactName: rv.contactName,
+    email: rv.email,
+    company: rv.company,
+    lastContactDate: rv.lastContactDate.toISOString(),
+    history: rv.history,
+    whyContact: rv.whyContact,
+    suggestedOffer: rv.suggestedOffer,
+    suggestedMessage: rv.suggestedMessage,
+    status: rv.status,
+  }))
+
   const data: BoardData = {
     isGmailConnected: !!token,
     lastSyncAt: token?.lastSyncAt?.toISOString() ?? null,
-    opportunities: opportunities.map(o => ({
-      id: o.id,
-      contactName: o.contactName,
-      company: o.company,
-      opportunityScore: o.opportunityScore,
-      estimatedValue: o.estimatedValue,
-      reason: o.reason,
-      evidence: o.evidence,
-      suggestedAction: o.suggestedAction,
-      status: o.status,
-      createdAt: o.createdAt.toISOString(),
-    })),
-    churnSignals: churnSignals.map(c => ({
-      id: c.id,
-      clientName: c.clientName,
-      churnScore: c.churnScore,
-      riskLevel: c.riskLevel,
-      reasons: c.reasons,
-      recommendedAction: c.recommendedAction,
-      status: c.status,
-      createdAt: c.createdAt.toISOString(),
-    })),
+    topActions: buildTopActions(boardOpportunities, boardChurnSignals, boardReactivationTargets),
+    opportunities: boardOpportunities,
+    churnSignals: boardChurnSignals,
     retentionInsights: retentionInsights.map(r => ({
       id: r.id,
       clientName: r.clientName,
@@ -57,17 +79,7 @@ export async function GET() {
       status: r.status,
       createdAt: r.createdAt.toISOString(),
     })),
-    reactivationTargets: reactivationTargets.map(rv => ({
-      id: rv.id,
-      contactName: rv.contactName,
-      email: rv.email,
-      company: rv.company,
-      lastContactDate: rv.lastContactDate.toISOString(),
-      history: rv.history,
-      suggestedOffer: rv.suggestedOffer,
-      suggestedMessage: rv.suggestedMessage,
-      status: rv.status,
-    })),
+    reactivationTargets: boardReactivationTargets,
     summary: {
       estimatedRevenue: estimatedRevenue > 0 ? `$${estimatedRevenue.toLocaleString()}` : '—',
       opportunityCount: opportunities.length,

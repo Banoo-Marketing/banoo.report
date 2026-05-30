@@ -4,12 +4,10 @@ import { useState, useEffect, useCallback } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { BoardHeader } from '@/components/board/BoardHeader'
-import { SectionHeader } from '@/components/board/SectionHeader'
 import { OpportunityCard } from '@/components/board/OpportunityCard'
 import { ChurnCard } from '@/components/board/ChurnCard'
-import { RetentionCard } from '@/components/board/RetentionCard'
 import { ReactivationCard } from '@/components/board/ReactivationCard'
-import { MonthlyOutreachList } from '@/components/board/MonthlyOutreachList'
+import { RevenuePlanSection } from '@/components/board/RevenuePlan'
 import { MOCK_BOARD } from '@/lib/mock-data'
 import type { BoardData } from '@/types'
 
@@ -55,10 +53,9 @@ export default function BoardPage() {
   const data = board ?? MOCK_BOARD
   const isDemo = !data.isGmailConnected
 
-  const opportunities = data.opportunities.filter(o => !dismissed.has(o.id))
-  const churnSignals = data.churnSignals.filter(c => !dismissed.has(c.id))
-  const retentionInsights = data.retentionInsights.filter(r => !dismissed.has(r.id))
-  const reactivationTargets = data.reactivationTargets.filter(rv => !dismissed.has(rv.id))
+  const opportunities = data.opportunities.filter(o => !dismissed.has(o.id)).slice(0, 5)
+  const churnSignals = data.churnSignals.filter(c => !dismissed.has(c.id)).slice(0, 3)
+  const reactivationTargets = data.reactivationTargets.filter(rv => !dismissed.has(rv.id)).slice(0, 10)
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -72,23 +69,23 @@ export default function BoardPage() {
         isDemo={isDemo}
       />
 
-      <main className="max-w-5xl mx-auto px-4 py-8 space-y-10">
+      <main className="max-w-5xl mx-auto px-4 py-8 space-y-8">
 
-        {/* ── OPPORTUNITIES ── */}
+        {/* ── CONTACT TODAY ── */}
         <section>
-          <div className="flex items-center justify-between mb-1">
-            <SectionHeader emoji="💰" title="NEW OPPORTUNITIES" count={opportunities.length} subtitle="Leads, quotes, proposals detected in your inbox" />
-          </div>
+          <SectionTitle emoji="📬" title="Contact Today" count={opportunities.length} />
+          <p className="text-sm text-gray-500 mb-4">Highest-value leads and proposals detected in your inbox</p>
           {opportunities.length === 0
-            ? <EmptyState msg="No new opportunities found yet" sub="Sync Gmail to detect leads and proposals" />
+            ? <EmptyState msg="No new opportunities right now" sub="Sync Gmail to detect leads, quotes, and proposals" />
             : <div className="space-y-3">{opportunities.map(op => <OpportunityCard key={op.id} op={op} onDismiss={() => dismiss(op.id)} />)}</div>}
         </section>
 
         <Divider />
 
-        {/* ── CHURN RISKS ── */}
+        {/* ── CLIENTS AT RISK ── */}
         <section>
-          <SectionHeader emoji="🚨" title="CHURN RISKS" count={churnSignals.length} subtitle="Clients showing signs they may leave" />
+          <SectionTitle emoji="🚨" title="Clients At Risk" count={churnSignals.length} />
+          <p className="text-sm text-gray-500 mb-4">Clients showing signs they may leave — act now before it&apos;s too late</p>
           {churnSignals.length === 0
             ? <EmptyState msg="No churn risks detected" sub="Your client relationships look healthy" />
             : <div className="space-y-3">{churnSignals.map(c => <ChurnCard key={c.id} signal={c} onResolve={() => dismiss(c.id)} />)}</div>}
@@ -96,19 +93,10 @@ export default function BoardPage() {
 
         <Divider />
 
-        {/* ── RETENTION ── */}
+        {/* ── REACTIVATE ── */}
         <section>
-          <SectionHeader emoji="💎" title="RETENTION OPPORTUNITIES" count={retentionInsights.length} subtitle="Ways to strengthen existing client relationships" />
-          {retentionInsights.length === 0
-            ? <EmptyState msg="No retention insights yet" sub="Connect Gmail to surface client relationship opportunities" />
-            : <div className="space-y-3">{retentionInsights.map(r => <RetentionCard key={r.id} insight={r} onDismiss={() => dismiss(r.id)} />)}</div>}
-        </section>
-
-        <Divider />
-
-        {/* ── REACTIVATION ── */}
-        <section>
-          <SectionHeader emoji="🔄" title="REACTIVATION TARGETS" count={reactivationTargets.length} subtitle="Old clients and inactive leads worth re-engaging" />
+          <SectionTitle emoji="🔄" title="Reactivate These Clients" count={reactivationTargets.length} />
+          <p className="text-sm text-gray-500 mb-4">Old clients and inactive leads worth a personal outreach this month</p>
           {reactivationTargets.length === 0
             ? <EmptyState msg="No reactivation targets found" sub="Past clients will appear here after Gmail sync" />
             : <div className="space-y-3">{reactivationTargets.map(rv => <ReactivationCard key={rv.id} target={rv} onSkip={() => dismiss(rv.id)} />)}</div>}
@@ -116,10 +104,11 @@ export default function BoardPage() {
 
         <Divider />
 
-        {/* ── MONTHLY OUTREACH ── */}
+        {/* ── MONTHLY REVENUE PLAN ── */}
         <section>
-          <SectionHeader emoji="📋" title="MONTHLY OUTREACH LIST" count={20} subtitle="Top 20 contacts to reach out to this month — with personalized messages" />
-          <MonthlyOutreachList />
+          <SectionTitle emoji="📊" title="Monthly Revenue Plan" />
+          <p className="text-sm text-gray-500 mb-4">Your total revenue opportunity — new, saved, and reactivated</p>
+          <RevenuePlanSection />
         </section>
 
       </main>
@@ -129,6 +118,16 @@ export default function BoardPage() {
 
 function Divider() {
   return <div className="border-t border-gray-200" />
+}
+
+function SectionTitle({ emoji, title, count }: { emoji: string; title: string; count?: number }) {
+  return (
+    <h2 className="text-xl font-bold text-gray-900 mb-1 flex items-center gap-2">
+      <span>{emoji}</span>
+      {title}
+      {count !== undefined && <span className="text-base font-normal text-gray-400">({count})</span>}
+    </h2>
+  )
 }
 
 function EmptyState({ msg, sub }: { msg: string; sub: string }) {

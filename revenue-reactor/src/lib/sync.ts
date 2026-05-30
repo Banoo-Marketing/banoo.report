@@ -68,13 +68,13 @@ export async function syncUser(userId: string, userEmail: string): Promise<SyncR
 
       if (opp.status === 'fulfilled' && opp.value) {
         const o = opp.value
-        await prisma.opportunity.create({ data: { userId, threadId: thread.id, contactName: o.contactName, company: o.company, opportunityScore: o.opportunityScore, estimatedValue: o.estimatedValue, reason: o.reason, evidence: o.evidence, suggestedAction: o.suggestedAction } })
+        await prisma.opportunity.create({ data: { userId, threadId: thread.id, contactName: o.contactName, company: o.company, opportunityScore: o.opportunityScore, revenueConfidence: o.revenueConfidence, estimatedValue: o.estimatedValue, reason: o.reason, evidence: o.evidence, suggestedAction: o.suggestedAction } })
         result.opportunities++
       }
 
       if (churn.status === 'fulfilled' && churn.value) {
         const c = churn.value
-        await prisma.churnSignal.create({ data: { userId, threadId: thread.id, clientName: c.clientName, churnScore: c.churnScore, riskLevel: c.riskLevel, reasons: c.reasons, recommendedAction: c.recommendedAction } })
+        await prisma.churnSignal.create({ data: { userId, threadId: thread.id, clientName: c.clientName, churnScore: c.churnScore, riskLevel: c.riskLevel, reasons: c.reasons, whatHappened: c.whatHappened, whyItMatters: c.whyItMatters, recommendedAction: c.recommendedAction } })
         result.churnSignals++
       }
 
@@ -88,7 +88,7 @@ export async function syncUser(userId: string, userEmail: string): Promise<SyncR
         const rv = reactivation.value
         const existing = await prisma.reactivationTarget.findFirst({ where: { userId, email: rv.email } })
         if (!existing) {
-          await prisma.reactivationTarget.create({ data: { userId, email: rv.email, contactName: rv.contactName, company: rv.company, lastContactDate: new Date(rv.lastContactDate), history: rv.history, suggestedOffer: rv.suggestedOffer, suggestedMessage: rv.suggestedMessage } })
+          await prisma.reactivationTarget.create({ data: { userId, email: rv.email, contactName: rv.contactName, company: rv.company, lastContactDate: new Date(rv.lastContactDate), history: rv.history, whyContact: rv.whyContact, suggestedOffer: rv.suggestedOffer, suggestedMessage: rv.suggestedMessage } })
           result.reactivations++
         }
       }

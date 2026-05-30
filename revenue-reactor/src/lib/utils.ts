@@ -30,6 +30,12 @@ export function opportunityLabel(score: number): { label: string; emoji: string;
   return { label: 'POSSIBLE', emoji: '👀', cls: 'bg-yellow-100 text-yellow-800 border-yellow-200' }
 }
 
+export function confidenceColor(score: number): string {
+  if (score >= 80) return 'text-green-700'
+  if (score >= 60) return 'text-orange-600'
+  return 'text-yellow-600'
+}
+
 export function churnLabel(score: number, level: string): { label: string; emoji: string; cls: string; border: string } {
   if (level === 'high' || score >= 71) return { label: 'HIGH RISK', emoji: '🚨', cls: 'bg-red-100 text-red-800', border: 'border-l-red-500' }
   if (level === 'medium' || score >= 41) return { label: 'WATCH', emoji: '⚠️', cls: 'bg-yellow-100 text-yellow-800', border: 'border-l-yellow-500' }
