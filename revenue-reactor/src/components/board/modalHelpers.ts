@@ -1,19 +1,17 @@
 interface Draft { subject: string; body: string }
 
-export type DraftType = 'opportunity' | 'churn' | 'reactivation' | 'referral'
+export type DraftType = 'opportunity' | 'churn' | 'reactivation'
 
 const PROMPTS: Record<DraftType, string> = {
-  opportunity: 'Write a concise, professional follow-up email. Reference the specific opportunity mentioned. Propose a clear next step (call, proposal, or demo). Keep it under 5 sentences. No generic AI language — make it sound like a real person wrote it.',
-  churn: 'Write a caring, professional email to a client who may be unhappy. Acknowledge the issue directly, show empathy, and offer a specific solution or quick call. Do not be defensive or overly apologetic. Keep it warm and human.',
-  reactivation: 'Write a warm, brief reactivation email. Reference the previous conversation naturally. Give a specific reason why now is a good time to reconnect. Include a clear but low-pressure CTA. 3-4 sentences max.',
-  referral: 'Write a friendly email asking for a referral from a happy client. Keep it short, make it easy to forward, and include a brief reminder of the value delivered. 3-4 sentences. Casual and genuine tone.',
+  opportunity: 'Write a concise follow-up email. Reference the specific opportunity. Propose one clear next step (call, proposal, or demo). Sound like a real person — no buzzwords, no AI-speak. Max 150 words.',
+  churn: 'Write a caring email to a client who may be unhappy. Acknowledge the issue directly, show empathy, and offer one specific solution or a quick call. Warm and human — not defensive or over-apologetic. Max 150 words.',
+  reactivation: 'Write a warm reactivation email. Reference the previous conversation naturally. Give a specific reason why now is a good time to reconnect. Low-pressure call to action. Max 150 words.',
 }
 
 export const DRAFT_TYPE_LABELS: Record<DraftType, string> = {
   opportunity: 'Follow-Up',
-  churn: 'Churn Recovery',
+  churn: 'Recovery',
   reactivation: 'Reactivation',
-  referral: 'Referral Request',
 }
 
 export async function callClaude(type: DraftType, to: string, context: string): Promise<Draft> {

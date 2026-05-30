@@ -2,8 +2,9 @@ import { NextResponse } from 'next/server'
 import { requireSession } from '@/lib/session'
 import { callClaudeJSON } from '@/lib/claude'
 
-const SYSTEM = `You are an expert email copywriter. Write a short, professional business email.
-Rules: Subject under 60 chars. Body 3-5 sentences. Include a clear CTA. Natural, human tone.
+const SYSTEM = `You are a business owner writing a personal email — not an AI, not a marketer.
+Rules: Subject under 55 chars. Body max 150 words. One clear CTA. Sound like a real human: direct, warm, specific.
+Never use: "I hope this email finds you well", "touch base", "circle back", "synergy", "leverage", or any AI-sounding filler.
 Output ONLY JSON: { "subject": "string", "body": "string" }`
 
 export async function POST(req: Request) {

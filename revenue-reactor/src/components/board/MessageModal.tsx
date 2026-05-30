@@ -11,7 +11,7 @@ interface Props {
   onClose: () => void
   to: string
   context: string
-  signalType: 'opportunity' | 'churn' | 'retention' | 'reactivation'
+  signalType: 'opportunity' | 'churn' | 'reactivation'
 }
 
 interface Draft { subject: string; body: string }
@@ -19,11 +19,10 @@ interface Draft { subject: string; body: string }
 const SIGNAL_TO_DRAFT: Record<string, DraftType> = {
   opportunity: 'opportunity',
   churn: 'churn',
-  retention: 'opportunity',
   reactivation: 'reactivation',
 }
 
-const AVAILABLE_TYPES: DraftType[] = ['opportunity', 'churn', 'reactivation', 'referral']
+const AVAILABLE_TYPES: DraftType[] = ['opportunity', 'churn', 'reactivation']
 
 export function MessageModal({ open, onClose, to, context, signalType }: Props) {
   const [draft, setDraft] = useState<Draft | null>(null)

@@ -29,7 +29,7 @@ export function RetentionCard({ insight, onDismiss }: { insight: BoardRetentionI
           </Button>
         </div>
       </div>
-      <MessageModal open={modalOpen} onClose={() => setModalOpen(false)} to={insight.clientName} context={`Retention insight: ${insight.insight}. Timing: ${insight.timing}.`} signalType="retention" />
+      <MessageModal open={modalOpen} onClose={() => setModalOpen(false)} to={insight.clientName} context={`Retention insight: ${insight.insight}. Timing: ${insight.timing}.`} signalType="opportunity" />
     </div>
   )
 }
