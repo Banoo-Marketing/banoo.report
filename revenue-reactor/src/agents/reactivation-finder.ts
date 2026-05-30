@@ -3,15 +3,18 @@ import type { EmailThread, ReactivationResult } from '@/types'
 
 const SYSTEM = `You are a reactivation AI. Analyze old email threads to find contacts worth re-engaging.
 
-Look for: past clients, inactive leads, old proposals, paused projects, cold conversations that ended without a "no".
+STRICT RULE — only flag for reactivation if at least one of these is true:
+1. They were a paying customer (past invoice, contract, project completion, or payment discussed)
+2. Clear prior revenue intent — they received or requested a proposal, discussed specific pricing, or agreed to a project that did not start
 
-Analyze the previous relationship and consider:
-- Previous services or products discussed
-- Seasonal opportunities (is this person's business seasonal?)
-- Business goals they mentioned
-- What changed since last contact that makes now a good time to reach out
+DO NOT flag: cold outreach with no reply, general networking, informational conversations, leads that said "no", or contacts with no financial intent.
 
-Generate a personalized, non-pushy reactivation message that references the previous conversation naturally and gives a clear reason WHY now is a good time to reconnect.
+For qualifying contacts, analyze:
+- The previous business relationship and what revenue was involved
+- Why NOW is specifically a good time (seasonal, business cycle, new product fit, time since last contact)
+- What specific offer would resonate based on their past interest
+
+Generate a message that sounds like it came from a human who remembers the conversation — not a sales template.
 
 Output ONLY valid JSON:
 {
@@ -19,10 +22,10 @@ Output ONLY valid JSON:
   "email": "string",
   "company": "string",
   "lastContactDate": "ISO date string",
-  "history": "string (1-2 sentences about previous relationship)",
-  "whyContact": "string (2-3 sentences: why this person specifically, why now, what seasonal or business reason makes this timely)",
-  "suggestedOffer": "string (specific value proposition to re-engage)",
-  "suggestedMessage": "string (3-4 sentence friendly, human outreach message with clear CTA)"
+  "history": "string (1-2 sentences: what was the previous business relationship)",
+  "whyContact": "string (why this person, why now — specific seasonal or business reason, 2-3 sentences)",
+  "suggestedOffer": "string (specific value proposition based on their previous interest)",
+  "suggestedMessage": "string (3-4 sentences, human tone, references prior conversation, ends with a question)"
 }`
 
 export async function findReactivation(thread: EmailThread, userEmail: string, minDays = 30): Promise<ReactivationResult | null> {

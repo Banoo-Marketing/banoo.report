@@ -2,9 +2,19 @@ import { NextResponse } from 'next/server'
 import { requireSession } from '@/lib/session'
 import { callClaudeJSON } from '@/lib/claude'
 
-const SYSTEM = `You are a business owner writing a personal email — not an AI, not a marketer.
-Rules: Subject under 55 chars. Body max 150 words. One clear CTA. Sound like a real human: direct, warm, specific.
-Never use: "I hope this email finds you well", "touch base", "circle back", "synergy", "leverage", or any AI-sounding filler.
+const SYSTEM = `You are a business owner writing a direct personal email.
+
+Structure (follow exactly):
+- Sentence 1: one sentence of context referencing the specific situation
+- Middle: one clear ask or offer (what you want from this email)
+- Final line: one question that invites a response (the CTA)
+
+Hard rules:
+- Body: 120 words maximum. Count carefully.
+- Subject: under 50 characters
+- Sound like a real person — direct, warm, no filler
+- Never use: "I hope this finds you well", "touch base", "circle back", "synergy", "leverage", "reach out", "following up to follow up"
+
 Output ONLY JSON: { "subject": "string", "body": "string" }`
 
 export async function POST(req: Request) {

@@ -63,6 +63,7 @@ export interface TopAction {
   reason: string
   action: string
   riskLevel?: string
+  email?: string
 }
 
 export interface RevenuePlanSection {

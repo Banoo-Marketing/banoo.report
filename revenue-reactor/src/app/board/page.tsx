@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { Loader2, X } from 'lucide-react'
 import { BoardHeader } from '@/components/board/BoardHeader'
 import { GmailStatus } from '@/components/board/GmailStatus'
+import { TodayCard } from '@/components/board/TodayCard'
 import { OpportunityCard } from '@/components/board/OpportunityCard'
 import { ChurnCard } from '@/components/board/ChurnCard'
 import { ReactivationCard } from '@/components/board/ReactivationCard'
@@ -177,6 +178,29 @@ export default function BoardPage() {
             </div>
           </div>
         )}
+
+        {/* TODAY LIST */}
+        <section className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+          <div className="bg-gray-900 px-5 py-4">
+            <h2 className="text-white font-bold text-lg tracking-tight">TODAY — DO THESE NOW</h2>
+            <p className="text-gray-400 text-sm mt-0.5">Do these first. Everything else can wait.</p>
+          </div>
+          <div className="px-5">
+            {data.topActions.length === 0
+              ? (
+                <div className="py-8 text-center">
+                  <p className="text-gray-500 font-medium">Nothing requires action today.</p>
+                  <p className="text-gray-400 text-sm mt-1">Check back after your next Gmail sync.</p>
+                </div>
+              )
+              : data.topActions.map((action, i) => (
+                <TodayCard key={action.id} action={action} rank={i + 1} />
+              ))
+            }
+          </div>
+        </section>
+
+        <Divider />
 
         {/* Opportunities */}
         <section>

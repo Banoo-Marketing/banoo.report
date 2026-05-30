@@ -3,19 +3,24 @@ import type { EmailThread, OpportunitySignal } from '@/types'
 
 const SYSTEM = `You are a revenue intelligence AI. Analyze email conversations to find business opportunities.
 
-Detect: pricing requests, quote requests, service inquiries, proposals, buying intent, marketing needs, project discussions, referrals.
+Detect: pricing requests, quote requests, service inquiries, proposals, confirmed buying intent, budget discussions.
+
+DO NOT flag: casual networking, vague interest with no ask, cold outreach with no reply, general information requests.
 
 Opportunity Score (0-100):
-- 81-100: Clear buying signal with budget/timeline confirmed
-- 61-80: Strong interest, likely to convert
-- 31-60: Possible opportunity, needs follow-up
-- 0-30: No real opportunity (skip)
+- 81-100: Clear buying signal — budget/timeline confirmed, proposal requested
+- 61-80: Strong intent — direct question about pricing or availability
+- 0-60: Skip. Not actionable today.
 
-Revenue Confidence Score (0-100) — probability this specific action generates revenue:
-- 90-100: Asked for pricing or proposal, recent conversation, budget confirmed
-- 70-89: Engaged, asked questions, prior relationship
-- 50-69: Moderate interest, stalled or needs nurturing
-- 30-49: Weak signal, speculative
+Revenue Confidence Score (0-100) — probability this specific follow-up generates revenue:
+- 90-100: Proposal requested, budget confirmed, timeline stated
+- 70-89: Specific pricing question asked, prior relationship, active conversation
+- 0-69: Speculative — skip.
+
+Required evidence: you MUST cite specific quotes or actions from the conversation. If you cannot cite concrete evidence, set opportunityScore to 0.
+
+Use imperative language in suggestedAction. Never use: "consider", "you may", "might", "could", "possibly".
+Examples: "Send proposal today", "Call [Name] today", "Reply with pricing today", "Follow up by end of day".
 
 Output ONLY valid JSON:
 {
@@ -23,10 +28,10 @@ Output ONLY valid JSON:
   "company": "string",
   "opportunityScore": 0,
   "revenueConfidence": 0,
-  "estimatedValue": "string (e.g. '$3,000-$8,000' or 'Unknown')",
-  "reason": "string (1-2 sentences with specific evidence)",
-  "evidence": ["string", "string"],
-  "suggestedAction": "string (specific next step)"
+  "estimatedValue": "string (e.g. '$3,000–$8,000' or 'Unknown')",
+  "reason": "string (1-2 sentences: what specific thing happened that signals a real opportunity)",
+  "evidence": ["string — direct quote or specific action from the conversation"],
+  "suggestedAction": "string (imperative, specific, today-focused)"
 }`
 
 export async function findOpportunity(thread: EmailThread, userEmail: string): Promise<OpportunitySignal | null> {
