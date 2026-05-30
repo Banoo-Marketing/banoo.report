@@ -105,7 +105,7 @@ export default function BoardPage() {
   const isDemo = !data.isGmailConnected
 
   // Execution mode limits
-  const topActions = data.topActions.slice(0, 3)
+  const topActions = data.topActions.slice(0, 4)
   const moreOpps = data.opportunities.slice(0, 3)
   const moreChurn = data.churnSignals.slice(0, 1)
   const moreReactivation = data.reactivationTargets.slice(0, 3)
@@ -175,7 +175,7 @@ export default function BoardPage() {
         {/* EXECUTION MODE — top 3 actions only */}
         <section className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
           <div className="bg-gray-900 px-5 py-4">
-            <h2 className="text-white font-bold text-lg tracking-tight">TODAY — DO THESE 3 THINGS</h2>
+            <h2 className="text-white font-bold text-lg tracking-tight">TODAY — DO THESE 4 THINGS</h2>
             <p className="text-gray-400 text-sm mt-0.5">Do these first. Everything else can wait.</p>
           </div>
           <div className="px-5">
