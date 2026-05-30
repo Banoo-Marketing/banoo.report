@@ -29,7 +29,8 @@ export async function detectChurn(thread: EmailThread, userEmail: string): Promi
   try {
     const result = await callClaudeJSON<ChurnSignalResult>(SYSTEM,
       `User email: ${userEmail}\nThread: "${thread.subject}"\n\n${conversation.slice(0, 6000)}`)
-    if (result.churnScore < 41) return null
+    // Raise bar: only surface high-confidence churn signals
+    if (result.churnScore < 55) return null
     return result
   } catch {
     return null

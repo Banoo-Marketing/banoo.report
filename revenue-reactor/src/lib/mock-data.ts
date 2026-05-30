@@ -13,6 +13,7 @@ const mockOpportunities: BoardOpportunity[] = [
     evidence: ['Requested formal proposal', 'Q1 budget ready', 'Needs timeline'],
     suggestedAction: 'Send proposal within 48 hours with pricing and timeline',
     status: 'new',
+    userFeedback: null,
     createdAt: new Date(Date.now() - 2 * 86400000).toISOString(),
   },
   {
@@ -26,6 +27,7 @@ const mockOpportunities: BoardOpportunity[] = [
     evidence: ['Unhappy with current agency', 'Budget $4–5k/month', 'Ready to start ASAP'],
     suggestedAction: 'Schedule a 30-min discovery call this week',
     status: 'new',
+    userFeedback: null,
     createdAt: new Date(Date.now() - 4 * 86400000).toISOString(),
   },
   {
@@ -39,6 +41,7 @@ const mockOpportunities: BoardOpportunity[] = [
     evidence: ['Asked for portfolio', 'Timeline: 60 days', 'Budget confirmed'],
     suggestedAction: 'Send portfolio with real estate case studies and 3-tier pricing',
     status: 'new',
+    userFeedback: null,
     createdAt: new Date(Date.now() - 6 * 86400000).toISOString(),
   },
   {
@@ -52,6 +55,7 @@ const mockOpportunities: BoardOpportunity[] = [
     evidence: ['Pricing inquiry', 'Needs help with Instagram'],
     suggestedAction: 'Send social media package pricing with dental case study',
     status: 'new',
+    userFeedback: null,
     createdAt: new Date(Date.now() - 8 * 86400000).toISOString(),
   },
   {
@@ -65,6 +69,7 @@ const mockOpportunities: BoardOpportunity[] = [
     evidence: ['Website inquiry', 'Google Maps visibility goal'],
     suggestedAction: 'Send contractor website package with local SEO add-on',
     status: 'new',
+    userFeedback: null,
     createdAt: new Date(Date.now() - 10 * 86400000).toISOString(),
   },
 ]
@@ -80,6 +85,7 @@ const mockChurnSignals: BoardChurnSignal[] = [
     whyItMatters: 'Bluestone is one of your top 3 clients by revenue. Losing them would mean $6,500/month in recurring revenue walking out the door.',
     recommendedAction: 'Call within 24 hours. Offer a live performance review session and commit to a weekly reporting cadence.',
     status: 'new',
+    userFeedback: null,
     createdAt: new Date(Date.now() - 1 * 86400000).toISOString(),
   },
   {
@@ -92,6 +98,7 @@ const mockChurnSignals: BoardChurnSignal[] = [
     whyItMatters: 'If they pause during budget review, restarting momentum is difficult. A proactive call can turn this into an upsell instead of a loss.',
     recommendedAction: 'Send a value recap showing ROI from last 3 months before the budget meeting. Offer a flexible retainer option.',
     status: 'new',
+    userFeedback: null,
     createdAt: new Date(Date.now() - 3 * 86400000).toISOString(),
   },
   {
@@ -104,6 +111,7 @@ const mockChurnSignals: BoardChurnSignal[] = [
     whyItMatters: 'Silent disengagement often precedes a cancellation request. Getting ahead of this now is 10x easier than trying to win them back later.',
     recommendedAction: 'Send a proactive check-in with a quick wins summary. Ask if their goals have shifted.',
     status: 'new',
+    userFeedback: null,
     createdAt: new Date(Date.now() - 5 * 86400000).toISOString(),
   },
 ]
@@ -120,6 +128,7 @@ const mockReactivationTargets: BoardReactivationTarget[] = [
     suggestedOffer: 'Spring Google Ads campaign to drive booking calls during peak season',
     suggestedMessage: "Hi Carlos, spring is here and I wanted to check in — your website has been running great! I had a few ideas for a spring Google Ads push to drive more calls during peak season. Would you be open to a quick chat?",
     status: 'pending',
+    userFeedback: null,
   },
   {
     id: 'rv2',
@@ -132,6 +141,7 @@ const mockReactivationTargets: BoardReactivationTarget[] = [
     suggestedOffer: 'LinkedIn content package for consultants with her new brand identity',
     suggestedMessage: "Hi Priya, it's been a few months since your rebrand — hope it's been serving you well! I've been running a LinkedIn strategy for consultants that's getting great engagement. Thought of you immediately. Would you like to see what it looks like?",
     status: 'pending',
+    userFeedback: null,
   },
   {
     id: 'rv3',
@@ -144,6 +154,7 @@ const mockReactivationTargets: BoardReactivationTarget[] = [
     suggestedOffer: 'Insurance-specific Google Local Services Ads with pay-per-lead model',
     suggestedMessage: "Hi Steve, I've been thinking about our conversation earlier this year. Google Local Services Ads for insurance have become incredibly effective — some of my clients are 3x-ing their inbound leads. The timing might be right to revisit. Would you be open to a 15-minute catch-up?",
     status: 'pending',
+    userFeedback: null,
   },
   {
     id: 'rv4',
@@ -156,6 +167,7 @@ const mockReactivationTargets: BoardReactivationTarget[] = [
     suggestedOffer: 'White-label copy retainer for design agencies — faster onboarding than before',
     suggestedMessage: "Hi Megan, checking in on the white-label copy conversation from a couple months back. If the timing is better now, I've streamlined the process and onboarding is much faster. Happy to do a quick 10-minute call to see if it's a fit.",
     status: 'pending',
+    userFeedback: null,
   },
   {
     id: 'rv5',
@@ -168,6 +180,7 @@ const mockReactivationTargets: BoardReactivationTarget[] = [
     suggestedOffer: 'Contractor website + local SEO — lock in now before spring booking season',
     suggestedMessage: "Hi Derek, hope the summer build season was great! You mentioned wanting to invest in your online presence once things slowed down — that time might be now. We've helped 3 other contractors in your area double their inbound leads. Want to chat?",
     status: 'pending',
+    userFeedback: null,
   },
   {
     id: 'rv6',
@@ -180,6 +193,7 @@ const mockReactivationTargets: BoardReactivationTarget[] = [
     suggestedOffer: 'Social media content calendar optimized for wedding photographer bookings',
     suggestedMessage: "Hi Lisa, wedding season is right around the corner! I wanted to reach out about a social media strategy that's been working really well for photographers — especially Instagram Reels for engagement. Would you like to see the approach?",
     status: 'pending',
+    userFeedback: null,
   },
   {
     id: 'rv7',
@@ -192,6 +206,7 @@ const mockReactivationTargets: BoardReactivationTarget[] = [
     suggestedOffer: 'Restaurant Google Ads + social media bundle — timed for upcoming season',
     suggestedMessage: "Hi Ahmad, I hope the staffing situation has settled down! When you're ready to grow your digital presence, I'd love to put together a strategy for your restaurant group. We've helped 2 other local restaurants significantly increase reservations. Worth a 15-minute call?",
     status: 'pending',
+    userFeedback: null,
   },
   {
     id: 'rv8',
@@ -204,6 +219,7 @@ const mockReactivationTargets: BoardReactivationTarget[] = [
     suggestedOffer: 'Local SEO for family law — 90-day results-first trial',
     suggestedMessage: "Hi Sarah, I wanted to follow up on the SEO proposal from a few months ago. I've been tracking results for a similar family law firm and the ROI has been significant. Would you be open to revisiting with a smaller trial period to see real results first?",
     status: 'pending',
+    userFeedback: null,
   },
   {
     id: 'rv9',
@@ -216,6 +232,7 @@ const mockReactivationTargets: BoardReactivationTarget[] = [
     suggestedOffer: 'Spring membership drive via Facebook + Instagram ads — pay for results',
     suggestedMessage: "Hi Marcus, spring is the #1 time people sign up for gyms. I have a Facebook Ads strategy that's been driving new memberships for 2 other gyms this month — would you be interested in seeing the results?",
     status: 'pending',
+    userFeedback: null,
   },
   {
     id: 'rv10',
@@ -228,6 +245,7 @@ const mockReactivationTargets: BoardReactivationTarget[] = [
     suggestedOffer: 'End-of-year enrollment campaign + Google Ads for summer programs',
     suggestedMessage: "Hi Nina, back-to-school season is approaching again and I wanted to reconnect! Last year you were exploring options for your enrollment campaign — I'd love to show you what we've built for similar education centres this year. Worth a quick chat?",
     status: 'pending',
+    userFeedback: null,
   },
 ]
 

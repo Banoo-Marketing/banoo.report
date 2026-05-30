@@ -1,3 +1,9 @@
+export type FeedbackValue = 'useful' | 'not_useful'
+export type SignalKind = 'opportunity' | 'churn' | 'reactivation'
+export type OpportunityStatus = 'new' | 'contacted' | 'won' | 'lost' | 'not_interested'
+export type ChurnStatus = 'new' | 'contacted' | 'resolved' | 'not_relevant'
+export type ReactivationStatus = 'pending' | 'contacted' | 'converted' | 'not_interested'
+
 export interface OpportunitySignal {
   contactName: string
   company: string
@@ -48,7 +54,7 @@ export interface OutreachContact {
 
 export interface TopAction {
   id: string
-  type: 'opportunity' | 'churn' | 'reactivation'
+  type: SignalKind
   name: string
   company: string | null
   priorityScore: number
@@ -71,6 +77,32 @@ export interface RevenuePlan {
   saveRevenue: RevenuePlanSection
   reactivateRevenue: RevenuePlanSection
   totalPotential: string
+}
+
+export interface PrecisionMetrics {
+  opportunities: {
+    total: number
+    withEvidence: number
+    goodFinds: number
+    notUseful: number
+    goodFindsPct: number
+    won: number
+    lost: number
+    contacted: number
+    revenueRecovered: string
+  }
+  churn: {
+    total: number
+    confirmed: number
+    confirmedPct: number
+    resolved: number
+  }
+  reactivation: {
+    total: number
+    contacted: number
+    contactedPct: number
+    converted: number
+  }
 }
 
 export interface BoardData {
@@ -103,6 +135,7 @@ export interface BoardOpportunity {
   evidence: string[]
   suggestedAction: string
   status: string
+  userFeedback: FeedbackValue | null
   createdAt: string
 }
 
@@ -116,6 +149,7 @@ export interface BoardChurnSignal {
   whyItMatters: string | null
   recommendedAction: string
   status: string
+  userFeedback: FeedbackValue | null
   createdAt: string
 }
 
@@ -140,6 +174,7 @@ export interface BoardReactivationTarget {
   suggestedOffer: string
   suggestedMessage: string
   status: string
+  userFeedback: FeedbackValue | null
 }
 
 export interface EmailThread {

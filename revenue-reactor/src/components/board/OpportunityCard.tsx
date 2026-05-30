@@ -5,6 +5,7 @@ import { Mail, CheckCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { opportunityLabel, confidenceColor } from '@/lib/utils'
 import { MessageModal } from './MessageModal'
+import { FeedbackBar } from './FeedbackBar'
 import type { BoardOpportunity } from '@/types'
 
 export function OpportunityCard({ op, onDismiss }: { op: BoardOpportunity; onDismiss: () => void }) {
@@ -23,6 +24,18 @@ export function OpportunityCard({ op, onDismiss }: { op: BoardOpportunity; onDis
           </div>
 
           <p className="text-sm text-gray-700 mb-2">{op.reason}</p>
+
+          {/* Evidence — required to display this card */}
+          {op.evidence.length > 0 && (
+            <div className="mb-2">
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-1">Why surfaced</p>
+              <div className="flex flex-wrap gap-1">
+                {op.evidence.map((e, i) => (
+                  <span key={i} className="text-xs bg-blue-50 text-blue-700 border border-blue-100 px-2 py-0.5 rounded-full">{e}</span>
+                ))}
+              </div>
+            </div>
+          )}
 
           <div className="flex items-center gap-4 mb-2">
             {op.estimatedValue && (
@@ -50,11 +63,19 @@ export function OpportunityCard({ op, onDismiss }: { op: BoardOpportunity; onDis
         </div>
       </div>
 
+      <FeedbackBar
+        signalId={op.id}
+        signalType="opportunity"
+        initialFeedback={op.userFeedback}
+        initialStatus={op.status}
+        showStatusButtons
+      />
+
       <MessageModal
         open={modalOpen}
         onClose={() => setModalOpen(false)}
         to={op.contactName}
-        context={`Opportunity with ${op.contactName}${op.company ? ` at ${op.company}` : ''}. ${op.reason} Estimated value: ${op.estimatedValue ?? 'unknown'}. Suggested action: ${op.suggestedAction}.`}
+        context={`Opportunity with ${op.contactName}${op.company ? ` at ${op.company}` : ''}. ${op.reason} Evidence: ${op.evidence.join(', ')}. Estimated value: ${op.estimatedValue ?? 'unknown'}. Suggested action: ${op.suggestedAction}.`}
         signalType="opportunity"
       />
     </div>

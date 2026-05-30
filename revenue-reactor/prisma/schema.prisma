@@ -23,6 +23,7 @@ model User {
   retentionInsights RetentionInsight[]
   reactivationTargets ReactivationTarget[]
   outreachLists     MonthlyOutreachList[]
+  signalFeedback    SignalFeedback[]
 }
 
 model Account {
@@ -191,6 +192,20 @@ model ReactivationTarget {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, lastContactDate])
+}
+
+model SignalFeedback {
+  id         String   @id @default(cuid())
+  userId     String
+  signalType String   // opportunity | churn | reactivation
+  signalId   String
+  feedback   String   // useful | not_useful
+  createdAt  DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, signalType, signalId])
+  @@index([userId, signalType])
 }
 
 model MonthlyOutreachList {

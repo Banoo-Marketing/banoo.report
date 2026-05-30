@@ -1,7 +1,8 @@
 'use client'
 
-import { RefreshCw, Zap, LogOut } from 'lucide-react'
+import { RefreshCw, Zap, LogOut, BarChart2 } from 'lucide-react'
 import { signOut } from 'next-auth/react'
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { timeAgo } from '@/lib/utils'
 import type { BoardSummary } from '@/types'
@@ -61,6 +62,11 @@ export function BoardHeader({ summary, isConnected, lastSyncAt, userEmail, onSyn
 
           <div className="flex items-center gap-2">
             {lastSyncAt && <span className="text-blue-400 text-xs hidden md:inline">{timeAgo(lastSyncAt)}</span>}
+            <Link href="/metrics">
+              <Button size="sm" variant="ghost" className="text-blue-300 hover:text-white h-7 px-2">
+                <BarChart2 className="w-3.5 h-3.5" />
+              </Button>
+            </Link>
             {isConnected && (
               <Button onClick={onSync} disabled={isSyncing} size="sm" variant="outline" className="border-blue-400 text-blue-200 hover:bg-blue-800 hover:text-white">
                 <RefreshCw className={`w-3.5 h-3.5 mr-1.5 ${isSyncing ? 'animate-spin' : ''}`} />

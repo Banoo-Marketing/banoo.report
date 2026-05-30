@@ -37,7 +37,8 @@ export async function findOpportunity(thread: EmailThread, userEmail: string): P
   try {
     const result = await callClaudeJSON<OpportunitySignal>(SYSTEM,
       `User email: ${userEmail}\nThread: "${thread.subject}"\nParticipants: ${thread.participants.slice(0, 5).join(', ')}\n\n${conversation.slice(0, 6000)}`)
-    if (result.opportunityScore < 31) return null
+    // Raise bar: require score ≥ 50 AND non-empty evidence for signal quality
+    if (result.opportunityScore < 50 || !result.evidence || result.evidence.length === 0) return null
     result.revenueConfidence = Math.min(100, Math.max(0, result.revenueConfidence ?? result.opportunityScore))
     return result
   } catch {

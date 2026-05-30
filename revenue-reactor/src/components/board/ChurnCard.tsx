@@ -5,6 +5,7 @@ import { AlertTriangle, Mail } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { churnLabel } from '@/lib/utils'
 import { MessageModal } from './MessageModal'
+import { FeedbackBar } from './FeedbackBar'
 import type { BoardChurnSignal } from '@/types'
 
 export function ChurnCard({ signal, onResolve }: { signal: BoardChurnSignal; onResolve: () => void }) {
@@ -22,14 +23,14 @@ export function ChurnCard({ signal, onResolve }: { signal: BoardChurnSignal; onR
 
           {signal.whatHappened && (
             <div className="mb-2">
-              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-0.5">What Happened</p>
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-0.5">What Happened</p>
               <p className="text-sm text-gray-700">{signal.whatHappened}</p>
             </div>
           )}
 
           {signal.whyItMatters && (
             <div className="mb-2">
-              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-0.5">Why It Matters</p>
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-0.5">Why It Matters</p>
               <p className="text-sm text-gray-600 italic">{signal.whyItMatters}</p>
             </div>
           )}
@@ -54,6 +55,13 @@ export function ChurnCard({ signal, onResolve }: { signal: BoardChurnSignal; onR
           <Button size="sm" variant="outline" onClick={onResolve} className="h-8 text-xs">Resolved</Button>
         </div>
       </div>
+
+      <FeedbackBar
+        signalId={signal.id}
+        signalType="churn"
+        initialFeedback={signal.userFeedback}
+        initialStatus={signal.status}
+      />
 
       <MessageModal
         open={modalOpen}

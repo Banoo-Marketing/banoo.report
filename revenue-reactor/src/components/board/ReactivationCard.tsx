@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Calendar, Mail } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { MessageModal } from './MessageModal'
+import { FeedbackBar } from './FeedbackBar'
 import type { BoardReactivationTarget } from '@/types'
 
 export function ReactivationCard({ target, onSkip }: { target: BoardReactivationTarget; onSkip: () => void }) {
@@ -26,7 +27,7 @@ export function ReactivationCard({ target, onSkip }: { target: BoardReactivation
 
           {target.whyContact && (
             <div className="mb-2">
-              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-0.5">Why Contact Now</p>
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-0.5">Why Contact Now</p>
               <p className="text-sm text-gray-700">{target.whyContact}</p>
             </div>
           )}
@@ -48,6 +49,13 @@ export function ReactivationCard({ target, onSkip }: { target: BoardReactivation
           <Button size="sm" variant="outline" onClick={onSkip} className="h-8 text-xs">Skip</Button>
         </div>
       </div>
+
+      <FeedbackBar
+        signalId={target.id}
+        signalType="reactivation"
+        initialFeedback={target.userFeedback}
+        initialStatus={target.status}
+      />
 
       <MessageModal
         open={modalOpen}
