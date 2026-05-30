@@ -12,7 +12,6 @@ export function OpportunityCard({ op, index }: { op: BoardOpportunity; index: nu
 
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
-      {/* Name and company */}
       <div className="flex items-start justify-between gap-3 mb-3">
         <div>
           <div className="flex items-center gap-2 mb-0.5">
@@ -30,35 +29,43 @@ export function OpportunityCard({ op, index }: { op: BoardOpportunity; index: nu
           className="h-8 text-xs bg-blue-600 hover:bg-blue-700 shrink-0"
         >
           <Mail className="w-3 h-3 mr-1" />
-          Generate Email
+          Send Email
         </Button>
       </div>
 
-      {/* What happened */}
-      <p className="text-sm text-gray-800 mb-3 leading-relaxed">{op.reason}</p>
-
-      {/* Evidence — shown as plain bullet points */}
-      {op.evidence.length > 0 && (
-        <div className="mb-3">
-          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-1.5">Evidence</p>
-          <ul className="space-y-0.5">
-            {op.evidence.map((e, i) => (
-              <li key={i} className="text-sm text-gray-600 flex items-start gap-2">
-                <span className="text-gray-400 mt-0.5">·</span>
-                {e}
-              </li>
-            ))}
-          </ul>
+      <div className="space-y-2 mb-3">
+        <div>
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-1">What happened</p>
+          <p className="text-sm text-gray-800 leading-relaxed">{op.reason}</p>
         </div>
-      )}
 
-      {/* Recommended action */}
-      <div className="bg-blue-50 rounded-lg px-3 py-2.5">
-        <p className="text-xs font-semibold text-blue-600 uppercase tracking-wide mb-0.5">Recommended action</p>
+        {op.evidence.length > 0 && (
+          <div>
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-1">Evidence</p>
+            <ul className="space-y-0.5">
+              {op.evidence.map((e, i) => (
+                <li key={i} className="text-sm text-gray-600 flex items-start gap-2">
+                  <span className="text-gray-400 mt-0.5 shrink-0">·</span>
+                  {e}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+
+      <div className="bg-blue-50 rounded-lg px-3 py-2.5 mb-1">
+        <p className="text-xs font-semibold text-blue-600 uppercase tracking-wide mb-0.5">What to do</p>
         <p className="text-sm text-blue-900 font-medium">{op.suggestedAction}</p>
       </div>
 
-      <FeedbackBar signalId={op.id} signalType="opportunity" initialFeedback={op.userFeedback} />
+      <FeedbackBar
+        signalId={op.id}
+        signalType="opportunity"
+        initialStatus={op.status}
+        initialFeedback={op.userFeedback}
+        initialRevenue={op.revenueRecovered}
+      />
 
       <MessageModal
         open={modalOpen}

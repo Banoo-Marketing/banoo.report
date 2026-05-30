@@ -105,6 +105,12 @@ export interface PrecisionMetrics {
   }
 }
 
+export interface GmailSyncStats {
+  threadsAnalyzed: number
+  emailsAnalyzed: number
+  lastSyncError: string | null
+}
+
 export interface BoardData {
   isGmailConnected: boolean
   lastSyncAt: string | null
@@ -113,6 +119,10 @@ export interface BoardData {
   churnSignals: BoardChurnSignal[]
   retentionInsights: BoardRetentionInsight[]
   reactivationTargets: BoardReactivationTarget[]
+  revenueRecoveredThisMonth: string
+  revenueRecoveredAllTime: string
+  accuracyScore: number | null
+  syncStats: GmailSyncStats | null
   summary: BoardSummary
 }
 
@@ -135,6 +145,7 @@ export interface BoardOpportunity {
   evidence: string[]
   suggestedAction: string
   status: string
+  revenueRecovered: number | null
   userFeedback: FeedbackValue | null
   createdAt: string
 }

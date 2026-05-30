@@ -7,5 +7,22 @@ export async function GET() {
   if (error) return error
 
   const token = await prisma.gmailToken.findUnique({ where: { userId: session!.user.id } })
-  return NextResponse.json({ connected: !!token, lastSyncAt: token?.lastSyncAt ?? null })
+
+  if (!token) {
+    return NextResponse.json({
+      connected: false,
+      lastSyncAt: null,
+      threadsAnalyzed: 0,
+      emailsAnalyzed: 0,
+      lastSyncError: null,
+    })
+  }
+
+  return NextResponse.json({
+    connected: true,
+    lastSyncAt: token.lastSyncAt?.toISOString() ?? null,
+    threadsAnalyzed: token.threadsAnalyzed,
+    emailsAnalyzed: token.emailsAnalyzed,
+    lastSyncError: token.lastSyncError ?? null,
+  })
 }

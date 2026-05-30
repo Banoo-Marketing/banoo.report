@@ -61,15 +61,18 @@ model VerificationToken {
 }
 
 model GmailToken {
-  id            String    @id @default(cuid())
-  userId        String    @unique
-  accessToken   String    @db.Text
-  refreshToken  String    @db.Text
-  expiresAt     DateTime
-  lastHistoryId String?
-  lastSyncAt    DateTime?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id               String    @id @default(cuid())
+  userId           String    @unique
+  accessToken      String    @db.Text
+  refreshToken     String    @db.Text
+  expiresAt        DateTime
+  lastHistoryId    String?
+  lastSyncAt       DateTime?
+  threadsAnalyzed  Int       @default(0)
+  emailsAnalyzed   Int       @default(0)
+  lastSyncError    String?   @db.Text
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -114,7 +117,7 @@ model EmailMessage {
 }
 
 model Opportunity {
-  id                String   @id @default(cuid())
+  id                String    @id @default(cuid())
   userId            String
   threadId          String?
   contactName       String
@@ -122,12 +125,14 @@ model Opportunity {
   opportunityScore  Int
   revenueConfidence Int?
   estimatedValue    String?
-  reason            String   @db.Text
+  reason            String    @db.Text
   evidence          String[]
-  suggestedAction   String   @db.Text
-  status            String   @default("new")
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  suggestedAction   String    @db.Text
+  status            String    @default("new")
+  revenueRecovered  Float?
+  revenueWonAt      DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
 
   user   User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   thread EmailThread? @relation(fields: [threadId], references: [id])

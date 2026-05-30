@@ -47,7 +47,7 @@ export function ReactivationCard({ target, index }: { target: BoardReactivationT
         <p className="text-sm text-purple-900 leading-relaxed whitespace-pre-line">{target.suggestedMessage}</p>
       </div>
 
-      <FeedbackBar signalId={target.id} signalType="reactivation" initialFeedback={target.userFeedback} />
+      <FeedbackBar signalId={target.id} signalType="reactivation" initialStatus={target.status} initialFeedback={target.userFeedback} />
 
       <MessageModal
         open={modalOpen}

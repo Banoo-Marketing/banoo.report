@@ -12,6 +12,21 @@ export interface SyncResult {
   churnSignals: number
   retentionInsights: number
   reactivations: number
+  threadsAnalyzed: number
+  emailsAnalyzed: number
+}
+
+export function interpretSyncError(err: unknown): string {
+  const msg = err instanceof Error ? err.message : String(err)
+  if (msg.includes('invalid_grant') || msg.includes('Token has been expired') || msg.includes('401'))
+    return 'Google connection expired. Please reconnect Gmail.'
+  if (msg.includes('ECONNREFUSED') || msg.includes('ETIMEDOUT') || msg.includes('network'))
+    return 'Could not connect to Google. Check your internet connection.'
+  if (msg.includes('rateLimitExceeded') || msg.includes('429'))
+    return 'Too many requests to Gmail. Will retry automatically in a few minutes.'
+  if (msg.includes('No Gmail token'))
+    return 'Gmail is not connected. Please connect your Gmail account.'
+  return 'Something went wrong during sync. Please try again.'
 }
 
 export async function syncUser(userId: string, userEmail: string): Promise<SyncResult> {
@@ -32,14 +47,21 @@ export async function syncUser(userId: string, userEmail: string): Promise<SyncR
     newHistoryId = full.historyId
   }
 
-  await prisma.gmailToken.update({ where: { userId }, data: { lastHistoryId: newHistoryId, lastSyncAt: new Date() } })
+  const result: SyncResult = {
+    processed: 0, opportunities: 0, churnSignals: 0,
+    retentionInsights: 0, reactivations: 0,
+    threadsAnalyzed: 0, emailsAnalyzed: 0,
+  }
 
-  const result: SyncResult = { processed: 0, opportunities: 0, churnSignals: 0, retentionInsights: 0, reactivations: 0 }
+  const batch = threadIds.slice(0, 50)
+  result.threadsAnalyzed = batch.length
 
-  for (const tid of threadIds.slice(0, 50)) {
+  for (const tid of batch) {
     try {
       const threadData = await getThread(auth, tid)
       if (!threadData) continue
+
+      result.emailsAnalyzed += threadData.messages.length
 
       const isHuman = isHumanConversation(threadData)
 
@@ -99,6 +121,17 @@ export async function syncUser(userId: string, userEmail: string): Promise<SyncR
       console.error(`Thread ${tid} error:`, err)
     }
   }
+
+  await prisma.gmailToken.update({
+    where: { userId },
+    data: {
+      lastHistoryId: newHistoryId,
+      lastSyncAt: new Date(),
+      lastSyncError: null,
+      threadsAnalyzed: { increment: result.threadsAnalyzed },
+      emailsAnalyzed: { increment: result.emailsAnalyzed },
+    },
+  })
 
   return result
 }

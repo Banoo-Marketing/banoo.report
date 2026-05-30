@@ -54,7 +54,7 @@ export function ChurnCard({ signal, index }: { signal: BoardChurnSignal; index: 
         <p className="text-sm text-amber-900 font-medium">{signal.recommendedAction}</p>
       </div>
 
-      <FeedbackBar signalId={signal.id} signalType="churn" initialFeedback={signal.userFeedback} />
+      <FeedbackBar signalId={signal.id} signalType="churn" initialStatus={signal.status} initialFeedback={signal.userFeedback} />
 
       <MessageModal
         open={modalOpen}

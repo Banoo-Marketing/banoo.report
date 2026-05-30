@@ -4,19 +4,36 @@ import { prisma } from '@/lib/db'
 import { buildTopActions } from '@/agents/top-actions-engine'
 import type { BoardData, FeedbackValue } from '@/types'
 
+function formatMoney(amount: number): string {
+  return amount >= 1000
+    ? `$${(amount / 1000).toFixed(amount % 1000 === 0 ? 0 : 1)}k`
+    : `$${Math.round(amount).toLocaleString()}`
+}
+
 export async function GET() {
   const { session, error } = await requireSession()
   if (error) return error
 
   const userId = session!.user.id
+  const now = new Date()
+  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)
 
-  const [token, opportunities, churnSignals, retentionInsights, reactivationTargets, feedbackRows] = await Promise.all([
+  const [
+    token,
+    opportunities,
+    churnSignals,
+    retentionInsights,
+    reactivationTargets,
+    feedbackRows,
+    wonOpportunities,
+    contactedChurn,
+    contactedReactivation,
+  ] = await Promise.all([
     prisma.gmailToken.findUnique({ where: { userId } }),
-    // Only show opportunities with evidence — no evidence = not shown
     prisma.opportunity.findMany({
-      where: { userId, status: { in: ['new', 'contacted'] } },
+      where: { userId, status: { in: ['new', 'contacted', 'won'] } },
       orderBy: { opportunityScore: 'desc' },
-      take: 15,
+      take: 20,
     }),
     prisma.churnSignal.findMany({
       where: { userId, status: { in: ['new', 'contacted'] } },
@@ -34,15 +51,23 @@ export async function GET() {
       take: 15,
     }),
     prisma.signalFeedback.findMany({ where: { userId } }),
+    prisma.opportunity.findMany({
+      where: { userId, status: 'won' },
+      select: { revenueRecovered: true, revenueWonAt: true },
+    }),
+    prisma.churnSignal.count({ where: { userId, status: 'contacted' } }),
+    prisma.reactivationTarget.count({ where: { userId, status: 'contacted' } }),
   ])
 
   const feedbackMap = new Map<string, FeedbackValue>(
     feedbackRows.map(f => [`${f.signalType}:${f.signalId}`, f.feedback as FeedbackValue])
   )
 
-  // Filter: require evidence, exclude explicitly not_useful signals
+  // Confidence filter: require evidence + confidence ≥ 70 + not ignored
   const validOpportunities = opportunities.filter(o =>
-    o.evidence.length > 0 && feedbackMap.get(`opportunity:${o.id}`) !== 'not_useful'
+    o.evidence.length > 0 &&
+    (o.revenueConfidence ?? 0) >= 70 &&
+    feedbackMap.get(`opportunity:${o.id}`) !== 'not_useful'
   )
 
   const validChurn = churnSignals.filter(c =>
@@ -53,6 +78,21 @@ export async function GET() {
     feedbackMap.get(`reactivation:${rv.id}`) !== 'not_useful'
   )
 
+  // Revenue recovery totals
+  const revenueAllTime = wonOpportunities.reduce((sum, o) => sum + (o.revenueRecovered ?? 0), 0)
+  const revenueThisMonth = wonOpportunities
+    .filter(o => o.revenueWonAt && o.revenueWonAt >= startOfMonth)
+    .reduce((sum, o) => sum + (o.revenueRecovered ?? 0), 0)
+
+  // Accuracy: (contacted + won) / (contacted + won + ignored)
+  const contactedOpps = opportunities.filter(o => o.status === 'contacted' || o.status === 'won').length
+  const goodFinds = contactedOpps + contactedChurn + contactedReactivation
+  const notUseful = feedbackRows.filter(f => f.feedback === 'not_useful').length
+  const accuracyScore = goodFinds + notUseful >= 3
+    ? Math.round((goodFinds / (goodFinds + notUseful)) * 100)
+    : null
+
+  // Potential revenue from surfaced opportunities
   let estimatedRevenue = 0
   for (const op of validOpportunities) {
     const m = op.estimatedValue?.match(/\$?([\d,]+)/)
@@ -70,6 +110,7 @@ export async function GET() {
     evidence: o.evidence,
     suggestedAction: o.suggestedAction,
     status: o.status,
+    revenueRecovered: o.revenueRecovered ?? null,
     userFeedback: feedbackMap.get(`opportunity:${o.id}`) ?? null,
     createdAt: o.createdAt.toISOString(),
   }))
@@ -122,6 +163,16 @@ export async function GET() {
       createdAt: r.createdAt.toISOString(),
     })),
     reactivationTargets: boardReactivationTargets,
+    revenueRecoveredThisMonth: revenueThisMonth > 0 ? formatMoney(revenueThisMonth) : '$0',
+    revenueRecoveredAllTime: revenueAllTime > 0 ? formatMoney(revenueAllTime) : '$0',
+    accuracyScore,
+    syncStats: token
+      ? {
+          threadsAnalyzed: token.threadsAnalyzed,
+          emailsAnalyzed: token.emailsAnalyzed,
+          lastSyncError: token.lastSyncError ?? null,
+        }
+      : null,
     summary: {
       estimatedRevenue: estimatedRevenue > 0 ? `$${estimatedRevenue.toLocaleString()}` : '—',
       opportunityCount: boardOpportunities.length,
