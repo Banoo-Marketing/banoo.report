@@ -20,6 +20,7 @@ Setup (one time — 5 minutes):
 
 Usage:
   python gmail_scanner.py                    # prompts for credentials
+  python gmail_scanner.py --demo             # run with realistic demo data (no Gmail needed)
   python gmail_scanner.py --days 60          # look back 60 days (default: 90)
   python gmail_scanner.py --save             # also log findings to memory entries
 
@@ -340,6 +341,129 @@ def _save_to_memory(results: list[dict]):
     print(f"  → {saved} opportunities saved to memory entries.")
 
 
+# ── Demo mode ─────────────────────────────────────────────────────────────────
+
+def _demo_results() -> list[dict]:
+    """Realistic demo data based on Banoo's actual business context."""
+    today = datetime.datetime.now(datetime.timezone.utc)
+
+    def _days_ago(n):
+        return (today - datetime.timedelta(days=n)).strftime("%Y-%m-%d")
+
+    return [
+        {
+            "uid": "demo_001",
+            "sender_name": "Am Rezaei",
+            "sender_email": "am@invertedtaco.ca",
+            "subject": "Re: Website Design + SEO Proposal — InvertedTaco",
+            "date": _days_ago(12),
+            "days_ago": 12,
+            "priority": "HIGH",
+            "entity": "InvertedTaco (Am)",
+            "reason": "Known lead — InvertedTaco (Am)",
+            "draft": (
+                "Hi Am,\n\n"
+                "Just following up on the proposal I sent over. "
+                "Happy to jump on a quick 15-min call to walk you through it and answer any questions.\n\n"
+                "What does your schedule look like this week?\n\n"
+                "— Emod"
+            ),
+        },
+        {
+            "uid": "demo_002",
+            "sender_name": "Sarah Mitchell",
+            "sender_email": "s.mitchell@fosters-law.com",
+            "subject": "Monthly Campaign — Questions on the Meta Report",
+            "date": _days_ago(4),
+            "days_ago": 4,
+            "priority": "HIGH",
+            "entity": "Fosters Law",
+            "reason": "Known client — Fosters Law",
+            "draft": (
+                "Hi Sarah,\n\n"
+                "Apologies for the slow reply. Happy to walk you through the Meta report — "
+                "the CPL drop you're seeing in week 3 is intentional, I'll explain the bid adjustment.\n\n"
+                "Can we do a quick 15-min call tomorrow?\n\n"
+                "— Emod"
+            ),
+        },
+        {
+            "uid": "demo_003",
+            "sender_name": "Kevin Park",
+            "sender_email": "kevin@intuitive-group.ca",
+            "subject": "Looking for a Marketing Partner — Google Ads + SEO",
+            "date": _days_ago(7),
+            "days_ago": 7,
+            "priority": "HIGH",
+            "entity": "Intuitive",
+            "reason": "Known lead — Intuitive",
+            "draft": (
+                "Hi Kevin,\n\n"
+                "Thanks for reaching out. Yes, we can help with that.\n\n"
+                "We work with a few businesses in your space already — "
+                "let me know a good time for a quick 15-min call and I'll walk you through "
+                "exactly what we'd do for Intuitive and what it costs.\n\n"
+                "— Emod, Banoo Marketing"
+            ),
+        },
+        {
+            "uid": "demo_004",
+            "sender_name": "David Okafor",
+            "sender_email": "david@goldstrike-mining.com",
+            "subject": "Re: Marketing Services Inquiry — Mining Sector",
+            "date": _days_ago(18),
+            "days_ago": 18,
+            "priority": "HIGH",
+            "entity": "Mining Company",
+            "reason": "Known lead — Mining Company",
+            "draft": (
+                "Hi David,\n\n"
+                "Checking in — it's been a couple of weeks since we last connected. "
+                "Still exploring marketing support for Goldstrike?\n\n"
+                "Happy to reconnect whenever the timing works.\n\n"
+                "— Emod"
+            ),
+        },
+        {
+            "uid": "demo_005",
+            "sender_name": "Priya Nair",
+            "sender_email": "priya@bloomretail.ca",
+            "subject": "Interested in Google Ads — budget around $2,000/month",
+            "date": _days_ago(9),
+            "days_ago": 9,
+            "priority": "MEDIUM",
+            "entity": "",
+            "reason": "Opportunity signals: interested, google ads, budget",
+            "draft": (
+                "Hi Priya,\n\n"
+                "Thanks for reaching out. $2,000/month is a solid starting budget for Google Ads "
+                "in retail — we can make that work.\n\n"
+                "Let me know a good time for a 15-min call and I'll walk you through "
+                "exactly what we'd do for Bloom and what results to expect.\n\n"
+                "— Emod, Banoo Marketing"
+            ),
+        },
+        {
+            "uid": "demo_006",
+            "sender_name": "Tom Beaulieu",
+            "sender_email": "tbeaulieu@northernlaw.ca",
+            "subject": "PPC for our law firm — PI cases focus",
+            "date": _days_ago(21),
+            "days_ago": 21,
+            "priority": "MEDIUM",
+            "entity": "",
+            "reason": "Opportunity signals: ppc, law firm, pi cases",
+            "draft": (
+                "Hi Tom,\n\n"
+                "Apologies for the slow reply on this. PI law PPC is exactly what we specialize in — "
+                "we've managed campaigns for some of the largest PI firms in Ontario.\n\n"
+                "Are you still exploring this? Happy to do a quick call this week.\n\n"
+                "— Emod, Banoo Marketing"
+            ),
+        },
+    ]
+
+
 # ── CLI ────────────────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
@@ -347,6 +471,16 @@ if __name__ == "__main__":
 
     days      = DEFAULT_DAYS
     save_mem  = "--save" in args
+    demo_mode = "--demo" in args
+
+    if demo_mode:
+        print("\n  Running in DEMO MODE — no Gmail connection required.")
+        print("  Output reflects your real business context (Banoo Inc).\n")
+        results = _demo_results()
+        _print_results(results, days)
+        if save_mem:
+            _save_to_memory(results)
+        sys.exit(0)
 
     for i, a in enumerate(args):
         if a == "--days" and i + 1 < len(args):
