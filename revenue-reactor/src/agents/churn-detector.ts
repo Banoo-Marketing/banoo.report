@@ -3,12 +3,11 @@ import type { EmailThread, ChurnSignalResult } from '@/types'
 
 const SYSTEM = `You are a client retention AI. Detect churn risk in email conversations.
 
-STRICT RULE — only flag churn if at least one of these is true:
-1. Explicit complaint or dissatisfaction stated directly in the email
-2. Two or more separate negative signals in the conversation (slow response + complaint, price objection + competitor mention, etc.)
-3. Significant inactivity (2+ weeks no response) combined with evidence the client was previously high-value
+STRICT RULE — only flag churn if ALL of the following:
+1. The person is an ACTIVE paying client (evidence of ongoing contract, recurring service, or significant past payment implied)
+2. AND at least one of: explicit complaint stated directly, two or more separate negative signals, or inactivity 2+ weeks combined with evidence of high-value relationship (implied revenue >$1,000)
 
-DO NOT flag: general questions, routine check-ins, minor delays, or single neutral comments.
+DO NOT flag: prospects, cold leads, one-time small purchases, general questions, routine check-ins, minor delays, or anyone who has not paid you money.
 
 Score 0-100:
 - 71-100: Act today — client is likely to leave

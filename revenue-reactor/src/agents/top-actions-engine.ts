@@ -1,7 +1,7 @@
 import type { BoardOpportunity, BoardChurnSignal, BoardReactivationTarget, TopAction } from '@/types'
 
-const TODAY_CUTOFF = 75
-const TODAY_MAX = 5
+const TODAY_CUTOFF = 78
+const TODAY_MAX = 3
 
 function urgencyScore(daysOld: number): number {
   if (daysOld <= 2) return 100
@@ -25,9 +25,9 @@ function reactivationWindow(daysSinceContact: number): number {
   return 35
 }
 
-// Priority = (Revenue Potential × 0.4) + (Urgency × 0.3) + (Evidence Strength × 0.2) + (Recency × 0.1)
-function prioritize(rp: number, urgency: number, evidence: number, recency: number): number {
-  return Math.round(rp * 0.4 + urgency * 0.3 + evidence * 0.2 + recency * 0.1)
+// Final Priority Score = (Revenue Confidence × 0.5) + (Evidence Strength × 0.3) + (Urgency × 0.2)
+function prioritize(confidence: number, evidence: number, urgency: number): number {
+  return Math.round(confidence * 0.5 + evidence * 0.3 + urgency * 0.2)
 }
 
 export function buildTopActions(
@@ -42,10 +42,10 @@ export function buildTopActions(
   for (const op of opportunities) {
     if (notUsefulIds.has(op.id)) continue
     const daysOld = Math.floor((Date.now() - new Date(op.createdAt).getTime()) / 86400000)
-    const rp = op.revenueConfidence ?? op.opportunityScore
-    const urgency = urgencyScore(daysOld)
+    const confidence = op.revenueConfidence ?? op.opportunityScore
     const es = evidenceScore(op.evidence.length)
-    const score = prioritize(rp, urgency, es, urgency)
+    const urgency = urgencyScore(daysOld)
+    const score = prioritize(confidence, es, urgency)
     if (score < TODAY_CUTOFF) continue
     actions.push({
       id: op.id,
@@ -63,11 +63,11 @@ export function buildTopActions(
   for (const c of churnSignals) {
     if (notUsefulIds.has(c.id)) continue
     const daysOld = Math.floor((Date.now() - new Date(c.createdAt).getTime()) / 86400000)
-    const rp = c.churnScore
-    const urgency = c.riskLevel === 'high' ? 100 : c.riskLevel === 'medium' ? 60 : 20
+    const confidence = c.churnScore
     const es = evidenceScore(c.reasons.length)
+    const urgency = c.riskLevel === 'high' ? 100 : c.riskLevel === 'medium' ? 60 : 20
     const recency = urgencyScore(daysOld)
-    const score = prioritize(rp, urgency, es, recency)
+    const score = prioritize(confidence, es, Math.max(urgency, recency))
     if (score < TODAY_CUTOFF) continue
     actions.push({
       id: c.id,
@@ -85,13 +85,12 @@ export function buildTopActions(
 
   for (const rv of reactivationTargets) {
     if (notUsefulIds.has(rv.id)) continue
-    const daysSinceContact = Math.floor((Date.now() - new Date(rv.lastContactDate).getTime()) / 86400000)
+    const daysSince = Math.floor((Date.now() - new Date(rv.lastContactDate).getTime()) / 86400000)
     const daysOld = Math.floor((Date.now() - new Date(rv.lastContactDate).getTime()) / 86400000)
-    const rp = reactivationWindow(daysSinceContact)
-    const urgency = rp
+    const confidence = reactivationWindow(daysSince)
     const es = rv.whyContact ? 80 : 30
-    const recency = urgencyScore(daysOld)
-    const score = prioritize(rp, urgency, es, recency)
+    const urgency = urgencyScore(daysOld)
+    const score = prioritize(confidence, es, urgency)
     if (score < TODAY_CUTOFF) continue
     actions.push({
       id: rv.id,
