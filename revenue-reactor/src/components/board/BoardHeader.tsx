@@ -35,6 +35,11 @@ export function BoardHeader({ summary, isConnected, lastSyncAt, userEmail, userN
           </div>
           <div className="flex items-center gap-1">
             {lastSyncAt && <span className="text-blue-500 text-xs mr-2 hidden md:inline">{timeAgo(lastSyncAt)}</span>}
+            <Link href="/reactivation">
+              <Button size="sm" variant="ghost" className="text-blue-400 hover:text-white h-8 px-2 text-xs">
+                ⚡ Reactivate
+              </Button>
+            </Link>
             <Link href="/metrics">
               <Button size="sm" variant="ghost" className="text-blue-400 hover:text-white h-8 w-8 p-0">
                 <BarChart2 className="w-4 h-4" />

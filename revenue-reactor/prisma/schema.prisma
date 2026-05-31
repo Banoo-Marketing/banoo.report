@@ -23,7 +23,8 @@ model User {
   retentionInsights RetentionInsight[]
   reactivationTargets ReactivationTarget[]
   outreachLists     MonthlyOutreachList[]
-  signalFeedback    SignalFeedback[]
+  signalFeedback       SignalFeedback[]
+  reactivationEmails   ReactivationEmail[]
 }
 
 model Account {
@@ -211,6 +212,28 @@ model SignalFeedback {
 
   @@unique([userId, signalType, signalId])
   @@index([userId, signalType])
+}
+
+model ReactivationEmail {
+  id          String   @id @default(cuid())
+  userId      String
+  contactName String
+  email       String
+  company     String?
+  subject     String
+  draftId     String?
+  sentAt      DateTime @default(now())
+  status      String   @default("drafted")   // drafted | sent | replied | closed
+  score       Int      @default(0)
+  followUp3   Boolean  @default(false)
+  followUp7   Boolean  @default(false)
+  followUp14  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, sentAt])
 }
 
 model MonthlyOutreachList {

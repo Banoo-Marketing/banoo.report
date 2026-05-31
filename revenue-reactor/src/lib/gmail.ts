@@ -72,6 +72,31 @@ export async function getIncrementalThreadIds(auth: GmailAuth, startHistoryId: s
   }
 }
 
+export async function searchThreadIds(auth: GmailAuth, query: string, maxResults = 100): Promise<string[]> {
+  const gmail = google.gmail({ version: 'v1', auth })
+  const res = await gmail.users.threads.list({ userId: 'me', maxResults, q: query })
+  return (res.data.threads ?? []).map(t => t.id ?? '').filter(Boolean)
+}
+
+export async function createGmailDraft(
+  auth: GmailAuth,
+  to: string,
+  subject: string,
+  body: string
+): Promise<{ draftId: string }> {
+  const gmail = google.gmail({ version: 'v1', auth })
+  const mime = [
+    `To: ${to}`,
+    `Subject: ${subject}`,
+    'Content-Type: text/plain; charset=utf-8',
+    '',
+    body,
+  ].join('\r\n')
+  const encoded = Buffer.from(mime).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
+  const res = await gmail.users.drafts.create({ userId: 'me', requestBody: { message: { raw: encoded } } })
+  return { draftId: res.data.id ?? '' }
+}
+
 export async function getThread(auth: GmailAuth, threadId: string): Promise<EmailThread | null> {
   const gmail = google.gmail({ version: 'v1', auth })
   try {
