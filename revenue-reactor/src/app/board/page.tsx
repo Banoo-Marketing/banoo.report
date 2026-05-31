@@ -3,23 +3,10 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { Loader2, X, ChevronDown, ChevronUp } from 'lucide-react'
-import { BoardHeader } from '@/components/board/BoardHeader'
-import { GmailStatus } from '@/components/board/GmailStatus'
+import { Loader2 } from 'lucide-react'
 import { TodayCard } from '@/components/board/TodayCard'
-import { OpportunityCard } from '@/components/board/OpportunityCard'
-import { ChurnCard } from '@/components/board/ChurnCard'
-import { ReactivationCard } from '@/components/board/ReactivationCard'
 import { MOCK_BOARD } from '@/lib/mock-data'
 import type { BoardData } from '@/types'
-
-interface SyncSummary {
-  threadsAnalyzed: number
-  opportunities: number
-  churnRisks: number
-  reactivations: number
-  estimatedRevenue: string
-}
 
 export default function BoardPage() {
   const { data: session, status } = useSession()
@@ -27,15 +14,13 @@ export default function BoardPage() {
   const [board, setBoard] = useState<BoardData | null>(null)
   const [isSyncing, setIsSyncing] = useState(false)
   const [isFirstSync, setIsFirstSync] = useState(false)
-  const [syncSummary, setSyncSummary] = useState<SyncSummary | null>(null)
-  const [showMore, setShowMore] = useState(false)
   const hasAutoSynced = useRef(false)
 
   useEffect(() => {
     if (status === 'unauthenticated') router.push('/login')
   }, [status, router])
 
-  const loadBoard = useCallback(async (): Promise<BoardData | null> => {
+  const loadBoard = useCallback(async () => {
     try {
       const res = await fetch('/api/board')
       if (res.ok) {
@@ -43,9 +28,7 @@ export default function BoardPage() {
         setBoard(data)
         return data
       }
-    } catch {
-      // fall through
-    }
+    } catch { /* fall through */ }
     setBoard(MOCK_BOARD)
     return null
   }, [])
@@ -58,207 +41,84 @@ export default function BoardPage() {
     if (board && board.isGmailConnected && !board.lastSyncAt && !hasAutoSynced.current) {
       hasAutoSynced.current = true
       setIsFirstSync(true)
-      runSync(true)
+      runSync()
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [board])
 
-  const runSync = async (isFirst = false) => {
+  const runSync = async () => {
     setIsSyncing(true)
     try {
       await fetch('/api/gmail/sync', { method: 'POST' })
-      const newBoard = await loadBoard()
-      if (isFirst && newBoard) {
-        setSyncSummary({
-          threadsAnalyzed: newBoard.syncStats?.threadsAnalyzed ?? 0,
-          opportunities: newBoard.summary.opportunityCount,
-          churnRisks: newBoard.summary.churnCount,
-          reactivations: newBoard.summary.reactivationCount,
-          estimatedRevenue: newBoard.summary.estimatedRevenue,
-        })
-      }
+      await loadBoard()
     } finally {
       setIsSyncing(false)
       setIsFirstSync(false)
     }
   }
 
-  const handleSync = () => runSync(false)
-
   if (status === 'loading' || !session) return null
 
   if (isFirstSync && isSyncing) {
     return (
-      <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center gap-6 px-4">
-        <Loader2 className="w-10 h-10 animate-spin text-blue-600" />
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Analyzing your inbox...</h2>
-          <p className="text-gray-500 max-w-sm">
-            Finding opportunities, at-risk clients, and contacts worth reactivating.
-          </p>
-        </div>
+      <div className="min-h-screen bg-white flex flex-col items-center justify-center gap-4">
+        <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
+        <p className="text-gray-600 font-medium">Reading your inbox...</p>
       </div>
     )
   }
 
   const data = board ?? MOCK_BOARD
   const isDemo = !data.isGmailConnected
-
-  // Execution mode limits
-  const topActions = data.topActions.slice(0, 4)
-  const moreOpps = data.opportunities.slice(0, 3)
-  const moreChurn = data.churnSignals.slice(0, 1)
-  const moreReactivation = data.reactivationTargets.slice(0, 3)
-  const moreCount = moreOpps.length + moreChurn.length + moreReactivation.length
+  const actions = data.topActions.slice(0, 3)
+  const lastSync = data.lastSyncAt ? new Date(data.lastSyncAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : null
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <BoardHeader
-        summary={data.summary}
-        isConnected={data.isGmailConnected}
-        lastSyncAt={data.lastSyncAt}
-        userEmail={session.user?.email ?? ''}
-        userName={session.user?.name ?? null}
-        onSync={handleSync}
-        isSyncing={isSyncing}
-        isDemo={isDemo}
-      />
+    <div className="min-h-screen bg-white">
+      {/* Top bar */}
+      <div className="border-b border-gray-100 px-5 py-3 flex items-center justify-between">
+        <span className="font-semibold text-gray-900 text-sm">Revenue Reactor</span>
+        <div className="flex items-center gap-3">
+          {lastSync && <span className="text-xs text-gray-400">synced {lastSync}</span>}
+          <button
+            onClick={runSync}
+            disabled={isSyncing}
+            className="flex items-center gap-1.5 text-xs font-semibold bg-gray-900 text-white px-3 py-1.5 rounded-lg hover:bg-gray-700 transition-colors disabled:opacity-50"
+          >
+            {isSyncing && <Loader2 className="w-3 h-3 animate-spin" />}
+            {isSyncing ? 'Refreshing...' : 'Refresh'}
+          </button>
+        </div>
+      </div>
 
-      <GmailStatus
-        connected={data.isGmailConnected}
-        lastSyncAt={data.lastSyncAt}
-        syncStats={data.syncStats}
-        accuracyScore={data.accuracyScore}
-      />
-
-      {syncSummary && (
-        <div className="bg-blue-600 text-white px-6 py-4 print:hidden">
-          <div className="max-w-4xl mx-auto flex items-start justify-between gap-4">
-            <div>
-              <p className="font-semibold text-base">
-                {syncSummary.threadsAnalyzed > 0
-                  ? `I reviewed ${syncSummary.threadsAnalyzed.toLocaleString()} conversations and found:`
-                  : 'Analysis complete. Here\'s what I found:'}
-              </p>
-              <p className="text-blue-100 text-sm mt-1">
-                {[
-                  syncSummary.opportunities > 0 && `${syncSummary.opportunities} ${syncSummary.opportunities === 1 ? 'opportunity' : 'opportunities'}`,
-                  syncSummary.churnRisks > 0 && `${syncSummary.churnRisks} at-risk ${syncSummary.churnRisks === 1 ? 'client' : 'clients'}`,
-                  syncSummary.reactivations > 0 && `${syncSummary.reactivations} reactivation ${syncSummary.reactivations === 1 ? 'target' : 'targets'}`,
-                ].filter(Boolean).join(' · ') || 'Nothing significant found — try again after more emails come in.'}
-                {syncSummary.estimatedRevenue !== '—' && ` · Estimated revenue: ${syncSummary.estimatedRevenue}`}
-              </p>
-            </div>
-            <button onClick={() => setSyncSummary(null)} className="text-blue-300 hover:text-white shrink-0 mt-0.5">
-              <X className="w-4 h-4" />
-            </button>
-          </div>
+      {isDemo && (
+        <div className="bg-blue-50 border-b border-blue-100 px-5 py-2 text-center text-xs text-blue-600">
+          Demo mode — <a href="/login" className="font-semibold underline">connect Gmail</a> to see real opportunities
         </div>
       )}
 
-      <main className="max-w-4xl mx-auto px-4 py-8 space-y-6">
+      <main className="max-w-2xl mx-auto px-5 py-10">
+        <div className="mb-8">
+          <h1 className="text-2xl font-bold text-gray-900">TODAY — DO THESE 3 THINGS</h1>
+          <p className="text-gray-400 text-sm mt-1">Ranked by revenue impact. Do these first.</p>
+        </div>
 
-        {/* Revenue recovered — only show when non-zero */}
-        {(data.revenueRecoveredAllTime !== '$0' || data.revenueRecoveredThisMonth !== '$0') && (
-          <div className="flex gap-4">
-            <div className="bg-green-50 border border-green-200 rounded-xl px-5 py-3">
-              <p className="text-xs text-green-700 font-medium mb-0.5">Recovered This Month</p>
-              <p className="text-xl font-bold text-green-800">{data.revenueRecoveredThisMonth}</p>
-            </div>
-            <div className="bg-green-50 border border-green-200 rounded-xl px-5 py-3">
-              <p className="text-xs text-green-700 font-medium mb-0.5">Recovered All Time</p>
-              <p className="text-xl font-bold text-green-800">{data.revenueRecoveredAllTime}</p>
-            </div>
+        {actions.length === 0 ? (
+          <div className="py-16 text-center">
+            <p className="text-gray-500 font-medium">No high-confidence actions today.</p>
+            <p className="text-gray-400 text-sm mt-1">
+              {data.isGmailConnected
+                ? 'Click Refresh to scan for new signals.'
+                : 'Connect Gmail to see real recommendations.'}
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {actions.map((action) => (
+              <TodayCard key={action.id} action={action} />
+            ))}
           </div>
         )}
-
-        {/* EXECUTION MODE — top 3 actions only */}
-        <section className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
-          <div className="bg-gray-900 px-5 py-4">
-            <h2 className="text-white font-bold text-lg tracking-tight">TODAY — DO THESE 4 THINGS</h2>
-            <p className="text-gray-400 text-sm mt-0.5">Do these first. Everything else can wait.</p>
-          </div>
-          <div className="px-5">
-            {topActions.length === 0 ? (
-              <div className="py-8 text-center">
-                <p className="text-gray-500 font-medium">Nothing requires action today.</p>
-                <p className="text-gray-400 text-sm mt-1">
-                  {data.isGmailConnected
-                    ? 'Sync Gmail to check for new signals.'
-                    : 'Connect Gmail to see real recommendations.'}
-                </p>
-              </div>
-            ) : (
-              topActions.map((action, i) => (
-                <TodayCard key={action.id} action={action} rank={i + 1} />
-              ))
-            )}
-          </div>
-        </section>
-
-        {/* View more toggle */}
-        {moreCount > 0 && (
-          <div className="text-center">
-            <button
-              onClick={() => setShowMore(prev => !prev)}
-              className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-800 transition-colors"
-            >
-              {showMore ? (
-                <><ChevronUp className="w-4 h-4" /> Hide additional signals</>
-              ) : (
-                <><ChevronDown className="w-4 h-4" /> View {moreCount} additional signal{moreCount !== 1 ? 's' : ''}</>
-              )}
-            </button>
-          </div>
-        )}
-
-        {/* Additional signals — hidden by default */}
-        {showMore && (
-          <>
-            {moreOpps.length > 0 && (
-              <section>
-                <h2 className="text-base font-semibold text-gray-500 uppercase tracking-wide mb-3">
-                  More Opportunities
-                </h2>
-                <div className="space-y-3">
-                  {moreOpps.map((op, i) => <OpportunityCard key={op.id} op={op} index={i + 1} />)}
-                </div>
-              </section>
-            )}
-
-            {moreChurn.length > 0 && (
-              <section>
-                <h2 className="text-base font-semibold text-gray-500 uppercase tracking-wide mb-3">
-                  Client At Risk
-                </h2>
-                <div className="space-y-3">
-                  {moreChurn.map((c, i) => <ChurnCard key={c.id} signal={c} index={i + 1} />)}
-                </div>
-              </section>
-            )}
-
-            {moreReactivation.length > 0 && (
-              <section>
-                <h2 className="text-base font-semibold text-gray-500 uppercase tracking-wide mb-3">
-                  Reactivation
-                </h2>
-                <div className="space-y-3">
-                  {moreReactivation.map((rv, i) => <ReactivationCard key={rv.id} target={rv} index={i + 1} />)}
-                </div>
-              </section>
-            )}
-
-            <div className="text-center pt-2">
-              <button
-                onClick={() => setShowMore(false)}
-                className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-600 transition-colors"
-              >
-                <ChevronUp className="w-4 h-4" /> Hide
-              </button>
-            </div>
-          </>
-        )}
-
       </main>
     </div>
   )

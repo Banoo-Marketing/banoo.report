@@ -1,7 +1,7 @@
 import type { BoardOpportunity, BoardChurnSignal, BoardReactivationTarget, TopAction } from '@/types'
 
 const TODAY_CUTOFF = 78
-const TODAY_MAX = 4
+const TODAY_MAX = 3
 
 function urgencyScore(daysOld: number): number {
   if (daysOld <= 2) return 100
