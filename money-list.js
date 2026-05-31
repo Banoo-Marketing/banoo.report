@@ -14,6 +14,15 @@ const SKIP = new Set([
   'money-list.js', 'package.json', 'package-lock.json', 'README.md',
 ])
 
+// Already active — remove from list
+const ACTIVE = new Set([
+  '416Flower',   // working with them
+  'FostersLaw',  // working with them
+  'afcr',        // already reached out
+  'nfcr',        // already reached out
+  'angelink',    // already reached out
+])
+
 // Known emails from past communications
 const KNOWN_EMAILS = {
   'nfcr':                   'JFelts@nfcr.org',
@@ -268,7 +277,7 @@ Is marketing still a focus for you this year, or should I close the loop?
 const clients = []
 
 for (const dir of fs.readdirSync(ROOT)) {
-  if (SKIP.has(dir) || dir.startsWith('.')) continue
+  if (SKIP.has(dir) || ACTIVE.has(dir) || dir.startsWith('.')) continue
   const fullPath = path.join(ROOT, dir)
   let stat
   try { stat = fs.statSync(fullPath) } catch { continue }
