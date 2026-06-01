@@ -36,12 +36,18 @@ const KNOWN_EMAILS = {
   'vegain':                 'edan@vegain.ca',
   'Gus':                    'jon.isaak@gusdesigngroup.com',
   'developmentca':          'saath@getbuildify.com',
-  'angelink':               null,
-  '416Flower':              null,
-  'FostersLaw':             null,
-  'cafeconvo':              null,
-  'lakeside-landscaping':   null,
-  'ccl-group':              null,
+  'ccl-group':              'IPreda@cclgroup.com',   // Isabella Preda — cc: ATate@cclgroup.com, SKhanam@cclgroup.com
+  'lakeside-landscaping':   'bruce@lakesidelandscaping.ca',
+  'groundscapesolution':    null,                    // no direct email — find contact
+}
+
+// First name for email greeting
+const CONTACT_FIRST_NAMES = {
+  'ccl-group':              'Isabella',
+  'lakeside-landscaping':   'Bruce',
+  'nfcr':                   'Julia',
+  'vegain':                 'Edan',
+  'developmentca':          'Saath',
 }
 
 // Human-readable names for email subjects / bodies
@@ -226,11 +232,13 @@ function reactivationAngle(c) {
 
 function generateEmail(c) {
   const n = c.displayName
+  const firstName = CONTACT_FIRST_NAMES[c.name] ?? null
+  const greeting = firstName ? `Hi ${firstName},` : 'Hi,'
   let subject, body
 
   if (c.hasProposal && c.monthCount === 0) {
     subject = `${n} — still relevant?`
-    body = `Hi,
+    body = `${greeting}
 
 Following up on the proposal we put together for ${n}.
 
@@ -241,7 +249,7 @@ Happy to simplify the scope if priorities have changed.
 — Emod`
   } else if (c.hasAds) {
     subject = `${n} — ad campaigns`
-    body = `Hi,
+    body = `${greeting}
 
 Checking in on the paid media we managed for ${n}.
 
@@ -252,7 +260,7 @@ If paused, I can put together a quick restart plan.
 — Emod`
   } else if (c.monthCount >= 3) {
     subject = `${n} — quick check-in`
-    body = `Hi,
+    body = `${greeting}
 
 Checking in on ${n}. We had good momentum going on the marketing side.
 
@@ -263,7 +271,7 @@ Is the work still active, or did priorities shift?
 — Emod`
   } else {
     subject = `${n} — still a priority?`
-    body = `Hi,
+    body = `${greeting}
 
 Following up on our last conversation about ${n}.
 
