@@ -9,18 +9,23 @@ function getClient() {
 
 function buildEmail(prospect) {
   const firstName = prospect.firstName || null
-  const greeting = firstName ? `Hi ${firstName},` : 'Hi Team,'
+  const greeting = firstName ? `Hi ${firstName},` : 'Hi,'
 
   const body = `${greeting}
 
-Any plan to reengage with your clients in June and July?
+How many injury inquiries from the past 20 months never signed a retainer?
 
-I help PI Law firms with their CRM, Email Marketing, Follow up with leads, PPC, SEO, Social Media, AI Visibility to find new clients and get in touch with their old leads.
+Most PI firms have hundreds of old leads sitting in their CRM with little or no follow-up.
 
-Let me know if you see a value in a quick call.`
+We help law firms reactivate old leads, automate follow-ups, improve CRM management, and generate more consultations.
 
-  const firm = prospect.company || prospect.name || 'your firm'
-  const subject = `${firm} — June/July client reactivation`
+The entire service is only $2K/month.
+
+If we help recover just one additional case, the ROI is significant.
+
+Worth a quick conversation?`
+
+  const subject = `$2K/month to recover old injury leads?`
 
   return { subject, body }
 }
