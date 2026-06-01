@@ -14,13 +14,17 @@ const SKIP = new Set([
   'money-list.js', 'package.json', 'package-lock.json', 'README.md',
 ])
 
-// Already active — remove from list
+// Already active or not direct — remove from list
 const ACTIVE = new Set([
-  '416Flower',   // working with them
-  'FostersLaw',  // working with them
-  'afcr',        // already reached out
-  'nfcr',        // already reached out
-  'angelink',    // already reached out
+  '416Flower',          // active client
+  'FostersLaw',         // active client
+  'afcr',               // already reached out (same team as aim-hi/nfcr)
+  'nfcr',               // already reached out
+  'angelink',           // already reached out
+  'aim-hi',             // same people as AFCR/NFCR
+  'TGB',                // active campaign (Taheri)
+  'craig-petronella',   // not direct — goes through InvertedTaco (Amr)
+  'developmentca',      // commission deal that didn't work out
 ])
 
 // Known emails from past communications
