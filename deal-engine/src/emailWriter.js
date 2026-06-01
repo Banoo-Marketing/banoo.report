@@ -7,46 +7,26 @@ function getClient() {
   return _client
 }
 
-const SYSTEM = `You are Emod Vafa, founder of Banoo Marketing in Toronto. You write short, punchy outreach emails.
+function buildEmail(prospect) {
+  const firstName = prospect.firstName || null
+  const greeting = firstName ? `Hi ${firstName},` : 'Hi Team,'
 
-Rules:
-- Subject line: specific, not generic (e.g. "Smith Law — Google Ads intake" not "Quick question")
-- Body: max 4 lines
-- Reference something specific about them (their firm, city, practice area)
-- One clear CTA: 15-min call or "reply with interest"
-- Never use "I hope this finds you well" or any filler
-- Sign off exactly: "— Emod\nemod@banoo.ca | (416) 400-4699"
-- Output format: Subject: [line]\n\n[body]`
+  const body = `${greeting}
 
-async function generateEmail(prospect) {
-  let prompt
-  if (prospect.pathType === 'warm') {
-    prompt = `Write a warm re-engagement email to ${prospect.name}${prospect.company ? ` at ${prospect.company}` : ''}.
-Last contact: ${prospect.lastContact || '2-3 months ago'}.
-Topic last discussed: ${prospect.topic || 'marketing'}.
-CTA: "Want to reconnect this month?"`
-  } else {
-    prompt = `Write a cold outreach email to ${prospect.name}${prospect.company ? ` at ${prospect.company}` : ''}${prospect.city ? ` in ${prospect.city}` : ''}.
-They are a personal injury ${prospect.title || 'lawyer'} in Ontario.
-Pitch: I manage Google Ads and intake optimization for PI firms. I can drive more qualified case intake.
-Be direct. Reference their specific type of firm.`
-  }
+Any plan to reengage with your clients in June and July?
 
-  const msg = await getClient().messages.create({
-    model: 'claude-sonnet-4-6',
-    max_tokens: 350,
-    system: SYSTEM,
-    messages: [{ role: 'user', content: prompt }],
-  })
+I help PI Law firms with their CRM, Email Marketing, Follow up with leads, PPC, SEO, Social Media, AI Visibility to find new clients and get in touch with their old leads.
 
-  const text = msg.content[0].text.trim()
-  const subjectMatch = text.match(/^Subject:\s*(.+)/im)
-  const subject = subjectMatch
-    ? subjectMatch[1].trim()
-    : `${prospect.company || prospect.name} — quick question`
-  const body = text.replace(/^Subject:\s*.+\n?/im, '').trim()
+Let me know if you see a value in a quick call.`
+
+  const firm = prospect.company || prospect.name || 'your firm'
+  const subject = `${firm} — June/July client reactivation`
 
   return { subject, body }
+}
+
+async function generateEmail(prospect) {
+  return buildEmail(prospect)
 }
 
 module.exports = { generateEmail }
