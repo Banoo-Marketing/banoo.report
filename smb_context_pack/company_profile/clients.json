@@ -81,6 +81,104 @@
       "note": "Same organization across 3 brands. Active campaigns in Aug 2025 ($3,500 budget, 67 leads). Already emailed once — do not double-contact."
     }
   ],
+  "cold_prospects": [
+    {
+      "name": "Grillo Law",
+      "industry": "Personal Injury Law",
+      "website": "grillo.ca",
+      "contact": "Sal Grillo (founder)",
+      "phone": "416-614-6000",
+      "status": "Not contacted",
+      "pitch": "Managed Diamond & Diamond PPC — can take market share from them at lower cost",
+      "note": "35+ years, 15,000+ claims, boutique vs D&D's massive spend — clear ROI story"
+    },
+    {
+      "name": "Schiffmann Personal Injury Lawyers",
+      "industry": "Personal Injury Law",
+      "website": "schiffmannlaw.ca",
+      "contact": "Chris Schiffmann (principal)",
+      "phone": "(416) 780-1600",
+      "status": "Not contacted",
+      "pitch": "Solo boutique in a $50-100 CPC market — smarter targeting beats bigger budgets",
+      "note": "1315 Lawrence Ave E, Suite 104, Toronto"
+    },
+    {
+      "name": "Sokoloff Lawyers",
+      "industry": "Personal Injury Law",
+      "website": "sokoloff.ca",
+      "contact": "Wendy Sokoloff (founder)",
+      "phone": "416-966-4878",
+      "status": "Not contacted",
+      "pitch": "Added a new partner Jan 2024 — in growth mode, needs pipeline volume",
+      "note": "120 Scollard St, Toronto — 34+ years, catastrophic injury focus"
+    },
+    {
+      "name": "Longo Lawyers",
+      "industry": "Personal Injury Law",
+      "website": "longolawyers.ca",
+      "contact": "Fabio Longo (founder)",
+      "phone": "416-800-4232",
+      "status": "Not contacted",
+      "pitch": "Lexpert Leading Firm 2026 — credibility is there, PPC puts you top of Google at 11pm",
+      "note": "4950 Yonge St Suite 401, Toronto"
+    },
+    {
+      "name": "Karapancev Law",
+      "industry": "Criminal Defence",
+      "website": "karapancevlaw.ca",
+      "contact": "Alex Karapancev (founder)",
+      "phone": "(416) 613-9984",
+      "email": "alex@karapancevlaw.ca",
+      "status": "Not contacted",
+      "pitch": "Diamond Winner Best Criminal Lawyer 2025 — PPC converts brand recognition into booked consultations",
+      "note": "CTV and CityNews media appearances — high public profile, no agency visible"
+    },
+    {
+      "name": "Kain & Ball Family Law",
+      "industry": "Family Law",
+      "website": "kainfamilylaw.com",
+      "phone": "647-499-4888",
+      "status": "Not contacted",
+      "pitch": "Free 30-min consultation is a perfect PPC conversion offer — needs paid traffic to the funnel",
+      "note": "161 Bay St, 27th Floor, Toronto — Bay Street positioning, boutique"
+    },
+    {
+      "name": "Omulique Lawyers",
+      "industry": "Immigration Law",
+      "website": "omulique.ca",
+      "phone": "416-704-0779",
+      "email": "info@omulique.ca",
+      "status": "Not contacted",
+      "pitch": "Affordability positioning is a strong ad differentiator — immigration searches are high-volume and direct",
+      "note": "Boutique immigration + business law, Toronto"
+    },
+    {
+      "name": "Poonah Immigration Law Firm",
+      "industry": "Immigration Law (US + Canada)",
+      "website": "poonahimmigrationlaw.com",
+      "status": "Not contacted",
+      "pitch": "Dual US/Canada licensing is a rare niche — 'US immigration lawyer Toronto' is underserved in paid search",
+      "note": "Cross-border immigration specialist, Toronto"
+    },
+    {
+      "name": "De Krupe Law",
+      "industry": "Real Estate Law",
+      "website": "dekrupelaw.ca",
+      "phone": "(416) 901-9344",
+      "email": "toronto@dekrupelaw.ca",
+      "status": "Not contacted",
+      "pitch": "Weekend + after-hours availability is a closing argument in an ad — transactional urgency play",
+      "note": "Multi-location (Toronto, Newmarket, Vaughan, Barrie) — 800 Sheppard Ave W"
+    },
+    {
+      "name": "Alexander Hu Law",
+      "industry": "Real Estate Law",
+      "website": "alexhulaw.ca",
+      "status": "Not contacted",
+      "pitch": "Solo real estate lawyer — 2 extra closings/month from PPC covers the entire campaign cost",
+      "note": "Boutique real estate, Toronto — free consultation hook already on site"
+    }
+  ],
   "removed_from_pipeline": [
     {"name": "Craig Petronella", "reason": "Not a direct client — must go through InvertedTaco (Amr)"},
     {"name": "Developments.ca", "reason": "Commission-based arrangement — did not close, no retainer"},
