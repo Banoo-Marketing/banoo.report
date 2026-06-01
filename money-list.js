@@ -25,6 +25,9 @@ const ACTIVE = new Set([
   'TGB',                // active campaign (Taheri)
   'craig-petronella',   // not direct — goes through InvertedTaco (Amr)
   'developmentca',      // commission deal that didn't work out
+  'vegain',             // active campaign
+  'cafeconvo',          // active campaign
+  'cenan',              // did not go well — do not contact
 ])
 
 // Known emails from past communications
