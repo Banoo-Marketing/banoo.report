@@ -19,6 +19,13 @@
       "note": "Active retainer — team-managed, each channel has a dedicated person"
     },
     {
+      "name": "Toronto Gold Bullion",
+      "health": "ok",
+      "contact": "Taheri",
+      "services": ["Geo-fencing campaign", "Digital advertising"],
+      "note": "Active campaign — geo-fencing GTA. Contact: Taheri."
+    },
+    {
       "name": "AngeLink",
       "health": "ok",
       "services": ["TBD — campaigns paused"],
@@ -27,11 +34,19 @@
   ],
   "warm_leads": [
     {
-      "name": "Am (InvertedTaco)",
+      "name": "Am / Amr (InvertedTaco)",
       "industry": "Video production",
       "status": "Proposal sent",
       "services_proposed": ["Website design", "SEO"],
-      "note": "Am runs InvertedTaco — video business taking on clients. We sent proposal for website + SEO."
+      "note": "Amr runs InvertedTaco — video business. Proposal sent for website + SEO. Also potential channel to Craig Petronella (not a direct client — must go through Amr)."
+    },
+    {
+      "name": "ReadyDOS (Omar Himada)",
+      "industry": "AI / Consulting",
+      "status": "HOT — responded positively May 31 2026",
+      "contact": "Omar Himada — contact@omarhimada.com — +1-416-917-4329",
+      "services_proposed": ["Simplified scope TBD — full audit + partnership review done Feb 2026"],
+      "note": "Omar replied same day. Said: happy to revisit with simplified scope. Call being booked."
     },
     {
       "name": "Intuitive",
@@ -43,5 +58,33 @@
       "status": "Warm — in conversation",
       "services_proposed": []
     }
+  ],
+  "reactivation_targets": [
+    {
+      "name": "CCL Financial Group",
+      "status": "Email sent — awaiting response",
+      "note": "SEO audit done July 2025. $2.6K monthly traffic value identified. 590x traffic gap between domains."
+    },
+    {
+      "name": "BrownStone (BCF)",
+      "status": "Email sent — awaiting response",
+      "note": "Full proposal + SEO audit prepared. Never closed."
+    },
+    {
+      "name": "SOClogix",
+      "status": "Email sent — awaiting response",
+      "note": "Executive SEO audit delivered. Cybersecurity firm. Never converted."
+    },
+    {
+      "name": "AFCR / AIM-HI / NFCR",
+      "status": "One email already sent — same people/org",
+      "note": "Same organization across 3 brands. Active campaigns in Aug 2025 ($3,500 budget, 67 leads). Already emailed once — do not double-contact."
+    }
+  ],
+  "removed_from_pipeline": [
+    {"name": "Craig Petronella", "reason": "Not a direct client — must go through InvertedTaco (Amr)"},
+    {"name": "Developments.ca", "reason": "Commission-based arrangement — did not close, no retainer"},
+    {"name": "Feel Synergy / Synergy Face + Body", "reason": "Test account for a job interview (Brad's company) — not a real Banoo client"},
+    {"name": "AIM-HI / NFCR", "reason": "Same people as AFCR — consolidated into one entry"}
   ]
 }
