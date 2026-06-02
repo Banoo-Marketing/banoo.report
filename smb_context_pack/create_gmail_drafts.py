@@ -27,7 +27,7 @@ from pathlib import Path
 _HERE = Path(__file__).parent
 CREDENTIALS_FILE = _HERE / "credentials.json"
 TOKEN_FILE       = _HERE / "gmail_token.json"
-SENDER           = "emadvafa@gmail.com"
+SENDER           = "emod@banoo.marketing"
 
 SCOPES = ["https://www.googleapis.com/auth/gmail.compose"]
 
