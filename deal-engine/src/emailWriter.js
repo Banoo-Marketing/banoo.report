@@ -6,85 +6,74 @@ function getClient() {
   return _client;
 }
 
-// ── Email template ─────────────────────────────────────────────────────────────
-// Fixed body structure — only first name and subject are personalized.
+// ── Subject line pool — rotate per prospect ────────────────────────────────────
+const SUBJECTS = [
+  'Cases are being lost after intake—not before it',
+  'Question about your unretained files',
+  'Do you re-engage closed consultations?',
+  'Advertising isn\'t the problem',
+  'Curious how your firm handles old leads',
+  'Former leads are hiring other firms',
+  'Most firms underestimate this revenue leak',
+  'Are old inquiries still being contacted?',
+  'What firms are doing with dormant leads in 2026',
+];
+
+let _subjectIndex = 0;
+function nextSubject() {
+  const s = SUBJECTS[_subjectIndex % SUBJECTS.length];
+  _subjectIndex++;
+  return s;
+}
+
+// ── Fixed email body ───────────────────────────────────────────────────────────
 
 function buildBody(firstName) {
-  const greeting = firstName && firstName !== 'there' ? firstName : 'Team';
-  return `Hi ${greeting}
+  const greeting = (firstName && !isFirmName(firstName)) ? firstName : 'there';
+  return `Hey ${greeting},
 
-Any plan to reengage with your clients in June and July?
+Most law firms have more signed-case potential sitting in their CRM than in their ad account.
 
-I help PI Law firms with their CRM, Email Marketing, Follow up with leads, PPC, SEO, Social Media, AI Visibility to find new clients and get in touch with their old leads.
+While reviewing intake and follow-up processes across Ontario firms, a common pattern kept showing up: old inquiries, unsigned retainers, and dormant consultations often receive little or no follow-up after the initial conversation.
 
-Let me know if you see value in a quick call`;
+The result isn't a lead generation problem—it's a lead recovery problem.
+
+Curious: do you currently have a process for re-engaging inquiries and consultations from the last 12–24 months?
+
+If not, happy to share what we're seeing and where firms are typically uncovering additional signed cases without increasing ad spend.
+
+Emod
+
+Emod Vafa
+Founder
+Banoo Marketing
+Toronto Legal Marketing`;
 }
 
-// ── Subject generation via Claude ──────────────────────────────────────────────
-// Body is fixed. Only the subject line is AI-generated to be specific to the firm.
+const FIRM_SIGNALS = ['llp', 'law', 'lawyers', 'legal', 'associates', 'partners',
+                      'barristers', 'injury', 'family', 'litigation', 'inc', 'pc'];
 
-const SUBJECT_SYSTEM = `You write subject lines for cold outreach emails targeting personal injury law firms in Ontario.
-The email is from Emod Vafa at Banoo Marketing (emod@banoo.ca).
-
-Rules:
-- Short: 6-10 words max
-- Specific to their firm, city, or niche — not generic
-- No clickbait, no all-caps, no exclamation marks
-- Do NOT use "Hope this finds you" or similar
-- Examples of good subjects:
-  "Quick question — PI lead gen for [Firm]"
-  "Toronto PI firms + client reactivation — worth a chat?"
-  "Your [City] PI practice + summer pipeline"
-
-Return ONLY the subject line as plain text. No quotes, no JSON.`;
-
-async function getSubject(prospect, logger) {
-  const client = getClient();
-  const prompt = `Write a subject line for a cold outreach email to:
-Firm: ${prospect.firm || prospect.name}
-City: ${prospect.city || 'Ontario'}
-Context: ${prospect.context || 'PI law firm'}`;
-
-  try {
-    const msg = await client.messages.create({
-      model:      'claude-sonnet-4-6',
-      max_tokens: 30,
-      system:     SUBJECT_SYSTEM,
-      messages:   [{ role: 'user', content: prompt }],
-    });
-    return msg.content[0].text.trim().replace(/^["']|["']$/g, '');
-  } catch (err) {
-    logger.error('Subject generation failed', { message: err.message });
-    return `PI lead gen — worth a quick chat, ${prospect.firm || prospect.city || 'Ontario'}?`;
-  }
+function isFirmName(name) {
+  const lower = (name || '').toLowerCase();
+  return FIRM_SIGNALS.some(s => lower.includes(s));
 }
 
-// ── PATH A: Warm re-engagement ─────────────────────────────────────────────────
+function extractFirstName(fullName) {
+  if (!fullName) return null;
+  if (isFirmName(fullName)) return null;
+  return fullName.split(' ')[0];
+}
+
+// ── Both paths use the same template ──────────────────────────────────────────
 
 async function writeReengagementEmail(prospect, logger) {
   const firstName = prospect.first_name || extractFirstName(prospect.name);
-  const subject   = await getSubject(prospect, logger);
-  const body      = buildBody(firstName);
-  return { subject, body };
+  return { subject: nextSubject(), body: buildBody(firstName) };
 }
-
-// ── PATH B: Cold outreach ──────────────────────────────────────────────────────
 
 async function writeColdEmail(prospect, logger) {
   const firstName = prospect.first_name || extractFirstName(prospect.name);
-  const subject   = await getSubject(prospect, logger);
-  const body      = buildBody(firstName);
-  return { subject, body };
-}
-
-const FIRM_SIGNALS = ['llp', 'law', 'lawyers', 'legal', 'associates', 'partners', 'barristers', 'injury'];
-
-function extractFirstName(fullName) {
-  if (!fullName || fullName === 'there') return null;
-  const lower = fullName.toLowerCase();
-  // If it looks like a firm name, use "Team"
-  if (FIRM_SIGNALS.some(s => lower.includes(s))) return null;
-  return fullName.split(' ')[0];
+  return { subject: nextSubject(), body: buildBody(firstName) };
 }
 
 module.exports = { writeReengagementEmail, writeColdEmail };

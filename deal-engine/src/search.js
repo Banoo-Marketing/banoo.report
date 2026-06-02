@@ -1,8 +1,6 @@
 /**
- * search.js — Claude-powered PI firm discovery fallback.
- *
- * Used when SEMrush is unavailable (IP not whitelisted) or returns no results.
- * Generates a fresh list of Ontario PI law firms to target using Claude.
+ * search.js — Claude-powered prospect discovery fallback.
+ * Used when Apollo/SEMrush are unavailable (IP not whitelisted).
  */
 
 const Anthropic = require('@anthropic-ai/sdk');
@@ -13,39 +11,63 @@ function getClient() {
   return _client;
 }
 
-// Firms already in the pipeline — Claude will exclude these
 const KNOWN_FIRMS = [
-  'Diamond and Diamond', 'Preszler Law', 'Fosters Law',
-  'Grillo Law', 'Schiffmann', 'Sokoloff', 'Longo Lawyers',
-  'Karapancev', 'Kain & Ball', 'Omulique', 'Poonah', 'De Krupe',
+  'Diamond and Diamond', 'Preszler', 'Fosters Law',
+  'Fasken', 'McCarthy Tetrault', 'Blakes', 'Osler', 'Stikeman', 'Borden Ladner',
+  'Norton Rose', 'Dentons', 'Gowling',
 ];
 
-async function findNewProspects(count = 5, logger) {
-  const client = getClient();
-  logger.info('Claude fallback: generating PI firm prospect list');
+// Rotate through provinces to get variety across runs
+const PROVINCE_POOL = [
+  { province: 'Ontario',          cities: 'Toronto, Ottawa, Hamilton, Mississauga',  area: 'family law and litigation' },
+  { province: 'Alberta',          cities: 'Calgary, Edmonton',                       area: 'family law and litigation' },
+  { province: 'British Columbia', cities: 'Vancouver, Surrey, Victoria',             area: 'family law and litigation' },
+  { province: 'Nova Scotia',      cities: 'Halifax, Dartmouth',                      area: 'family law, litigation, and personal injury' },
+];
 
-  const prompt = `Generate a JSON array of ${count} real Ontario personal injury law firms
-that would be strong candidates for Google Ads PPC management by Banoo Marketing.
+let _provinceIndex = 0;
+
+async function findNewProspects(count = 4, logger) {
+  const client = getClient();
+
+  // Rotate through provinces so each run targets a different region
+  const targets = [];
+  for (let i = 0; i < 2; i++) {
+    targets.push(PROVINCE_POOL[_provinceIndex % PROVINCE_POOL.length]);
+    _provinceIndex++;
+  }
+
+  logger.info('Claude fallback: generating prospect list', {
+    provinces: targets.map(t => t.province).join(', '),
+  });
+
+  const prompt = `Generate a JSON array of ${count} real Canadian law firms that would be strong candidates
+for Banoo Marketing's lead recovery and CRM re-engagement service.
+
+Target provinces and practice areas:
+${targets.map(t => `- ${t.province}: ${t.area} — cities: ${t.cities}`).join('\n')}
 
 Criteria:
-- Ontario-based (Toronto, Mississauga, Brampton, Hamilton, Ottawa, GTA)
-- Personal injury focus (car accidents, slip & fall, catastrophic injury)
-- Solo to 20-person boutique firms
-- NOT already in pipeline: ${KNOWN_FIRMS.join(', ')}
+- Boutique to mid-size (2–30 lawyers)
+- Family law, divorce, litigation, or civil litigation focus
+- Nova Scotia firms: also include PI firms in Halifax/Atlantic
+- NOT these already-known firms: ${KNOWN_FIRMS.join(', ')}
+- Firms that likely accumulate dormant leads (high consultation volume)
 
 For each firm return:
 {
-  "name": "firm name",
-  "email": "best guess contact email (info@domain.com)",
-  "domain": "domain.com",
+  "name": "firm name or contact person name",
+  "first_name": "first name if known, else null",
+  "email": "info@domain or best guess",
   "firm": "firm name",
+  "domain": "domain.com",
   "city": "city",
+  "province": "province abbreviation (ON/AB/BC/NS)",
+  "practice": "family law|litigation|PI",
   "size": "solo|boutique|mid",
-  "why": "1-line reason they need PPC (specific to their situation)",
+  "context": "1-sentence about why they accumulate dormant leads",
   "path": "B",
-  "source": "claude-research",
-  "context": "Boutique PI firm in [city] — [specific insight about their situation]",
-  "keyword": "personal injury lawyer [city]"
+  "source": "claude-research"
 }
 
 Return ONLY the JSON array. No other text.`;
@@ -53,7 +75,7 @@ Return ONLY the JSON array. No other text.`;
   try {
     const msg = await client.messages.create({
       model:      'claude-sonnet-4-6',
-      max_tokens: 1000,
+      max_tokens: 1200,
       messages:   [{ role: 'user', content: prompt }],
     });
 
@@ -61,7 +83,7 @@ Return ONLY the JSON array. No other text.`;
     const clean = text.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '').trim();
     const firms = JSON.parse(clean);
 
-    logger.info(`Claude returned ${firms.length} prospect firms`);
+    logger.info(`Claude returned ${firms.length} prospects`);
     return Array.isArray(firms) ? firms : [];
   } catch (err) {
     logger.error('Claude prospect search failed', { message: err.message });

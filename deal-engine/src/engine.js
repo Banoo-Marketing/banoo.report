@@ -2,8 +2,8 @@ require('dotenv').config({ path: require('path').join(__dirname, '..', '.env') }
 
 const Logger                             = require('./logger');
 const { scanDormantContacts, createDraft } = require('./gmail');
-const { findPILawyers }                  = require('./apollo');
-const { findPIAdvertisers }              = require('./semrush');
+const { findLawyers }                    = require('./apollo');
+const { findAdvertisers }                = require('./semrush');
 const { findNewProspects }               = require('./search');
 const { writeReengagementEmail, writeColdEmail } = require('./emailWriter');
 
@@ -15,7 +15,7 @@ async function runEngine() {
   let errors    = 0;
   const targets = [];
 
-  // ── Phase 1: Gmail scan — dormant contacts (PATH A, warm) ─────────────────
+  // ── Phase 1: Gmail — dormant family/litigation contacts (PATH A) ───────────
   logger.info('Phase 1: Gmail dormant contact scan');
   try {
     const dormant = await scanDormantContacts(logger);
@@ -24,29 +24,29 @@ async function runEngine() {
     logger.warn('Gmail scan skipped (no refresh token?)', { message: err.message });
   }
 
-  // ── Phase 2: Apollo.io — PI lawyers in Ontario/GTA (PATH B, verified emails)
+  // ── Phase 2: Apollo — family/litigation lawyers across Canada (PATH B) ─────
   if (targets.length < DRAFTS_PER_RUN) {
-    logger.info('Phase 2: Apollo PI lawyer search');
+    logger.info('Phase 2: Apollo prospect search (family law + litigation, ON/AB/BC/NS)');
     try {
-      const found = await findPILawyers(DRAFTS_PER_RUN - targets.length + 5, logger);
+      const found = await findLawyers(DRAFTS_PER_RUN - targets.length + 5, logger);
       targets.push(...found);
     } catch (err) {
       logger.warn('Apollo search error', { message: err.message });
     }
   }
 
-  // ── Phase 3: SEMrush — firms actively spending on Google Ads ──────────────
+  // ── Phase 3: SEMrush — firms advertising family/litigation keywords ─────────
   if (targets.length < DRAFTS_PER_RUN) {
-    logger.info('Phase 3: SEMrush PI advertiser discovery');
+    logger.info('Phase 3: SEMrush advertiser discovery');
     try {
-      const found = await findPIAdvertisers(logger);
+      const found = await findAdvertisers(logger);
       targets.push(...found.slice(0, DRAFTS_PER_RUN - targets.length + 5));
     } catch (err) {
       logger.warn('SEMrush unavailable', { message: err.message });
     }
   }
 
-  // ── Phase 4: Claude fallback — curated Ontario PI firms ───────────────────
+  // ── Phase 4: Claude — curated family/litigation firms across provinces ──────
   if (targets.length < DRAFTS_PER_RUN) {
     logger.info('Phase 4: Claude fallback prospect research');
     try {
@@ -59,7 +59,7 @@ async function runEngine() {
   }
 
   if (targets.length === 0) {
-    logger.warn('No prospects found in this run — check API keys');
+    logger.warn('No prospects found — check API keys and IP allowlists');
     logger.summary(0, errors);
     return { drafts: 0, errors };
   }
@@ -88,7 +88,7 @@ async function runEngine() {
     }
 
     if (!email?.subject || !email?.body) {
-      logger.warn('Claude returned invalid email', { prospect: prospect.email });
+      logger.warn('Invalid email output', { prospect: prospect.email });
       errors++;
       continue;
     }
@@ -102,15 +102,13 @@ async function runEngine() {
       errors++;
     }
 
-    await sleep(500);
+    await sleep(300);
   }
 
   logger.summary(drafts, errors);
   return { drafts, errors };
 }
 
-function sleep(ms) {
-  return new Promise(r => setTimeout(r, ms));
-}
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
 module.exports = { runEngine };
