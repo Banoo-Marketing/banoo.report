@@ -42,12 +42,8 @@ Curious: do you currently have a process for re-engaging inquiries and consultat
 
 If not, happy to share what we're seeing and where firms are typically uncovering additional signed cases without increasing ad spend.
 
-Emod
-
-Emod Vafa
-Founder
-Banoo Marketing
-Toronto Legal Marketing`;
+Banoo Legal Marketing
+🇨🇦+1 (416) 400-4699`;
 }
 
 const FIRM_SIGNALS = ['llp', 'law', 'lawyers', 'legal', 'associates', 'partners',
