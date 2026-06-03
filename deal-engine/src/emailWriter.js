@@ -1,12 +1,15 @@
 'use strict'
 
 const SUBJECTS = [
-  'Question about your unretained PI files',
-  'Do you re-engage old injury consultations?',
-  'Cases lost after intake — not before it',
+  'Cases are being lost after intake—not before it',
+  'Question about your unretained files',
+  'Do you re-engage closed consultations?',
+  'Advertising isn\'t the problem',
+  'Curious how your firm handles old leads',
   'Former leads are hiring other firms',
+  'Most PI firms underestimate this revenue leak',
   'Are old inquiries still being contacted?',
-  'What Ontario PI firms are doing differently in 2026',
+  'What firms are doing with dormant leads in 2026',
 ]
 
 let subjectIndex = 0
@@ -25,6 +28,10 @@ Most PI firms have more signed-case potential sitting in old CRM contacts than i
 Are you re-engaging injury inquiries from the last 12–24 months?
 
 Happy to share what GTA firms are doing to recover those cases.
+
+---
+Growth Plan for you:
+PPC, SEO, Email Marketing, Social Media, Lead Generation, CRM Cleanup.
 
 Banoo Legal Marketing
 🇨🇦+1 (416) 400-4699`
