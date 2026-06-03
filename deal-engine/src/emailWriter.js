@@ -26,10 +26,8 @@ Are you re-engaging injury inquiries from the last 12–24 months?
 
 Happy to share what GTA firms are doing to recover those cases.
 
-Emod Vafa
-Banoo Marketing
-banoo.marketing
-cal.com/emodvafa`
+Banoo Legal Marketing
+🇨🇦+1 (416) 400-4699`
 
   return { subject, body }
 }
