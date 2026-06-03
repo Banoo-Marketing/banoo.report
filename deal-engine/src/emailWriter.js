@@ -1,31 +1,35 @@
 'use strict'
-const Anthropic = require('@anthropic-ai/sdk')
 
-let _client = null
-function getClient() {
-  if (!_client) _client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
-  return _client
-}
+const SUBJECTS = [
+  'Question about your unretained PI files',
+  'Do you re-engage old injury consultations?',
+  'Cases lost after intake — not before it',
+  'Former leads are hiring other firms',
+  'Are old inquiries still being contacted?',
+  'What Ontario PI firms are doing differently in 2026',
+]
+
+let subjectIndex = 0
 
 function buildEmail(prospect) {
   const firstName = prospect.firstName || null
-  const greeting = firstName ? `Hi ${firstName},` : 'Hi,'
+  const greeting = firstName ? `Hey ${firstName},` : 'Hey,'
+
+  const subject = SUBJECTS[subjectIndex % SUBJECTS.length]
+  subjectIndex++
 
   const body = `${greeting}
 
-How many injury inquiries from the past 20 months never signed a retainer?
+Most PI firms have more signed-case potential sitting in old CRM contacts than in their current ad spend.
 
-Most PI firms have hundreds of old leads sitting in their CRM with little or no follow-up.
+Are you re-engaging injury inquiries from the last 12–24 months?
 
-We help law firms reactivate old leads, automate follow-ups, improve CRM management, and generate more consultations.
+Happy to share what GTA firms are doing to recover those cases.
 
-The entire service is only $2K/month.
-
-If we help recover just one additional case, the ROI is significant.
-
-Worth a quick conversation?`
-
-  const subject = `$2K/month to recover old injury leads?`
+Emod Vafa
+Banoo Marketing
+banoo.marketing
+cal.com/emodvafa`
 
   return { subject, body }
 }
