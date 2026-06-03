@@ -3,24 +3,39 @@ const Anthropic = require('@anthropic-ai/sdk');
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 const COLD_SUBJECTS = [
-  'Cases are being lost after intake—not before it',
-  'Question about your unretained files',
-  'Do you re-engage closed consultations?',
-  'Advertising isn\'t the problem',
-  'Curious how your firm handles old leads',
-  'Former leads are hiring other firms',
-  'Most PI firms underestimate this revenue leak',
-  'Are old inquiries still being contacted?',
-  'What firms are doing with dormant leads in 2026',
+  'Quick question about your old PI files',
+  'Are former leads hiring other firms?',
+  'Do you follow up on unsigned retainers?',
+  'Most PI firms miss this revenue source',
+  'Old injury inquiries — what happens to them?',
+  'What GTA firms are doing with dormant leads',
 ];
 
-const SIGNATURE = 'Banoo Legal Marketing\n🇨🇦+1 (416) 400-4699';
+const SIGNATURE = `Emod Vafa
+Banoo Marketing
+banoo.marketing
++1 (416) 400-4699
+cal.com/emodvafa`;
 
-const GROWTH_PLAN = 'Growth Plan for you:\nPPC, SEO, Email Marketing, Social Media, Lead Generation, CRM Cleanup.';
+const BODY = `Most PI firms have more signed-case potential sitting in old CRM contacts than in their current ad spend.
 
-let subjectIndex = 0;
+Are you re-engaging injury inquiries from the last 12–24 months?
+
+Happy to share what GTA firms are doing to recover those cases.`;
+
+let lastSubjectIndex = -1;
 function nextSubject() {
-  return COLD_SUBJECTS[subjectIndex++ % COLD_SUBJECTS.length];
+  let index;
+  do {
+    index = Math.floor(Math.random() * COLD_SUBJECTS.length);
+  } while (index === lastSubjectIndex && COLD_SUBJECTS.length > 1);
+  lastSubjectIndex = index;
+  return COLD_SUBJECTS[index];
+}
+
+function greeting(name) {
+  const first = name && name.split(' ')[0].trim();
+  return first ? `Hi ${first},` : 'Hi there,';
 }
 
 /**
@@ -29,13 +44,12 @@ function nextSubject() {
 async function writeWarmEmail(prospect) {
   const { name, email, lastContactDate, meetingTitle } = prospect;
 
-  const firstName = name.split(' ')[0] || name;
   const dateStr = lastContactDate
     ? new Date(lastContactDate).toLocaleDateString('en-CA', { month: 'long', year: 'numeric' })
     : 'a few months ago';
   const context = meetingTitle ? `our meeting about "${meetingTitle}"` : `our conversation in ${dateStr}`;
 
-  const prompt = `Write a short re-engagement email to ${firstName} (a personal injury lawyer).
+  const prompt = `Write a short re-engagement email to a personal injury lawyer.
 
 Context:
 - Last contact: ${dateStr}
@@ -43,15 +57,13 @@ Context:
 - Email to: ${email}
 
 Requirements:
-- Subject: one of these (pick the most relevant): ${COLD_SUBJECTS.join(' | ')}
-- Body: 3-4 sentences MAX
-- Reference the prior contact naturally
-- CTA: simple — "Worth reconnecting in July?"
-- Tone: warm, direct, peer-to-peer — no fluff
-- No sender name anywhere in the body
-- End with EXACTLY this on its own line: ${SIGNATURE}
-- After the body and before the signature, add EXACTLY this block:
-${GROWTH_PLAN}
+- Subject: choose the most fitting from: ${COLD_SUBJECTS.join(' | ')}
+- Greeting: "${greeting(name)}"
+- Body (max 5 lines, plain text only, no bold/underline):
+${BODY}
+- Then on a new line, add the signature exactly as:
+${SIGNATURE}
+- No services list, no pricing, no "Growth Plan"
 
 Respond ONLY with JSON (no markdown):
 {
@@ -65,36 +77,28 @@ Respond ONLY with JSON (no markdown):
     messages: [{ role: 'user', content: prompt }],
   });
 
-  return parseEmailJSON(msg.content[0]?.text, email, firstName, 'A');
+  return parseEmailJSON(msg.content[0]?.text, email, name, 'A');
 }
 
 /**
  * PATH B — cold authority: no prior contact, prospect from Apollo or web research.
  */
 async function writeColdEmail(prospect) {
-  const { name, email, firmName, city, growthSignal, fitReason } = prospect;
+  const { name, email, firmName, city } = prospect;
 
-  const firstName = name.split(' ')[0] || name;
-  const firm = firmName ? ` at ${firmName}` : '';
   const location = city || 'Ontario';
-  const signal = growthSignal ? `\n- Growth signal: ${growthSignal}` : '';
-  const fit = fitReason ? `\n- Fit: ${fitReason}` : '';
+  const firm = firmName ? ` at ${firmName}` : '';
 
-  const prompt = `Write a short cold outreach email to ${firstName}${firm}, a personal injury lawyer in ${location}.
-
-Context:${signal}${fit}
+  const prompt = `Write a short cold outreach email to a personal injury lawyer${firm} in ${location}.
 
 Requirements:
-- Subject: one of these (pick the most relevant): ${COLD_SUBJECTS.join(' | ')}
-- Body: 3-4 sentences MAX
-- Reference something specific about them or their firm if available
-- Core message: we work with PI firms on lead recovery and growth marketing
-- CTA: ask if they re-engage old inquiries, or offer to share what firms are doing
-- Tone: confident, peer-to-peer — no hype, no "I" or sender name in body
-- No sender name anywhere in the body
-- End with EXACTLY this on its own line: ${SIGNATURE}
-- After the body and before the signature, add EXACTLY this block:
-${GROWTH_PLAN}
+- Subject: choose the most fitting from: ${COLD_SUBJECTS.join(' | ')}
+- Greeting: "${greeting(name)}"
+- Body (max 5 lines, plain text only, no bold/underline):
+${BODY}
+- Then on a new line, add the signature exactly as:
+${SIGNATURE}
+- No services list, no pricing, no "Growth Plan"
 
 Respond ONLY with JSON (no markdown):
 {
@@ -108,7 +112,7 @@ Respond ONLY with JSON (no markdown):
     messages: [{ role: 'user', content: prompt }],
   });
 
-  return parseEmailJSON(msg.content[0]?.text, email, firstName, 'B');
+  return parseEmailJSON(msg.content[0]?.text, email, name, 'B');
 }
 
 function parseEmailJSON(text, toEmail, name, path) {
@@ -123,10 +127,11 @@ function parseEmailJSON(text, toEmail, name, path) {
   }
 
   const subject = nextSubject();
-  const fallbackBody =
-    path === 'A'
-      ? `Hey ${name},\n\nA lot has changed in PI lead gen this year. Most firms have more signed-case potential sitting in their CRM than in their ad account.\n\nAre you currently re-engaging inquiries from the last 12–24 months?\n\n${GROWTH_PLAN}\n\n${SIGNATURE}`
-      : `Hey ${name},\n\nMost PI law firms — including firms like yours — have more signed-case potential sitting in their CRM than in their ad account.\n\nAre you currently re-engaging inquiries from the last 12–24 months?\n\n${GROWTH_PLAN}\n\n${SIGNATURE}`;
+  const fallbackBody = `${greeting(name)}
+
+${BODY}
+
+${SIGNATURE}`;
 
   return { to: toEmail, subject, body: fallbackBody, path };
 }
