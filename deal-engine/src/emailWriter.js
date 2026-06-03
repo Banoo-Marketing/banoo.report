@@ -1,18 +1,16 @@
-// ── Subject line pool — shuffled A/B rotation ────────────────────────────────
+// Subject pool — shuffled, no consecutive repeats
 const SUBJECTS = [
-  'Cases are being lost after intake—not before it',
-  'Question about your unretained files',
-  'Do you re-engage closed consultations?',
-  'Advertising isn\'t the problem',
-  'Curious how your firm handles old leads',
-  'Former leads are hiring other firms',
-  'Most PI firms underestimate this revenue leak',
-  'Are old inquiries still being contacted?',
-  'What firms are doing with dormant leads in 2026',
+  'Quick question about your old PI files',
+  'Are former leads hiring other firms?',
+  'Do you follow up on unsigned retainers?',
+  'Most PI firms miss this revenue source',
+  'Old injury inquiries — what happens to them?',
+  'What GTA firms are doing with dormant leads',
 ];
 
-// Fisher-Yates shuffle for true A/B rotation — no repeats until full cycle
 let _pool = [];
+let _lastSubject = null;
+
 function nextSubject() {
   if (_pool.length === 0) {
     _pool = [...SUBJECTS];
@@ -21,31 +19,29 @@ function nextSubject() {
       [_pool[i], _pool[j]] = [_pool[j], _pool[i]];
     }
   }
-  return _pool.pop();
+  // Avoid consecutive repeat
+  if (_pool[_pool.length - 1] === _lastSubject && _pool.length > 1) {
+    const top = _pool.pop();
+    const idx = Math.floor(Math.random() * _pool.length);
+    _pool.splice(idx, 0, top);
+  }
+  _lastSubject = _pool.pop();
+  return _lastSubject;
 }
 
-// ── Email body ────────────────────────────────────────────────────────────────
+// Email body — exact, no changes
+const BODY = `Most PI firms have more signed-case potential sitting in old CRM contacts than in their current ad spend.
 
-function buildBody(firstName) {
-  const greeting = (firstName && !isFirmName(firstName)) ? firstName : 'there';
-  return `Hey ${greeting},
+Are you re-engaging injury inquiries from the last 12–24 months?
 
-Most law firms have more signed-case potential sitting in their CRM than in their ad account.
+Happy to share what GTA firms are doing to recover those cases.`;
 
-While reviewing intake and follow-up processes across Ontario firms, a common pattern kept showing up: old inquiries, unsigned retainers, and dormant consultations often receive little or no follow-up after the initial conversation.
-
-The result isn't a lead generation problem—it's a lead recovery problem.
-
-Curious: do you currently have a process for re-engaging inquiries and consultations from the last 12–24 months?
-
-If not, happy to share what we're seeing and where firms are typically uncovering additional signed cases without increasing ad spend.
-
-Growth Plan for you:
-PPC, SEO, Email Marketing, Social Media, Lead Generation, CRM Cleanup.
-
-Banoo Legal Marketing
-🇨🇦+1 (416) 400-4699`;
-}
+// Signature — exact format
+const SIGNATURE = `Emod Vafa
+Banoo Marketing
+banoo.marketing
++1 (416) 400-4699
+cal.com/emodvafa`;
 
 const FIRM_SIGNALS = ['llp', 'law', 'lawyers', 'legal', 'associates', 'partners',
                       'barristers', 'injury', 'family', 'litigation', 'inc', 'pc'];
@@ -59,16 +55,21 @@ function extractFirstName(fullName) {
   return fullName.split(' ')[0];
 }
 
-// ── Exports ───────────────────────────────────────────────────────────────────
+function buildEmail(prospect) {
+  const firstName = prospect.first_name || extractFirstName(prospect.name);
+  const greeting  = (firstName && firstName.trim()) ? `Hi ${firstName},` : 'Hi there,';
+  return {
+    subject: nextSubject(),
+    body:    `${greeting}\n\n${BODY}\n\n${SIGNATURE}`,
+  };
+}
 
 async function writeReengagementEmail(prospect, logger) {
-  const firstName = prospect.first_name || extractFirstName(prospect.name);
-  return { subject: nextSubject(), body: buildBody(firstName) };
+  return buildEmail(prospect);
 }
 
 async function writeColdEmail(prospect, logger) {
-  const firstName = prospect.first_name || extractFirstName(prospect.name);
-  return { subject: nextSubject(), body: buildBody(firstName) };
+  return buildEmail(prospect);
 }
 
 module.exports = { writeReengagementEmail, writeColdEmail };
