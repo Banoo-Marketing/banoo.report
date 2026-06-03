@@ -27,7 +27,7 @@ Requirements:
 - Reference something specific about the prior contact naturally
 - CTA: "Want to reconnect in July?" or similar — one simple ask
 - Tone: warm, direct, confident — not salesy
-- Sign off: Emod Vafa, Banoo Marketing
+- Sign off: Banoo Legal Marketing\n🇨🇦+1 (416) 400-4699
 
 Respond ONLY with JSON (no markdown):
 {
@@ -67,7 +67,7 @@ Requirements:
 - Core message: Emod manages PPC and lead gen for top PI firms in Toronto/Ontario
 - CTA: one clear ask — offer a 15-min call or ask them to reply with interest
 - Tone: confident authority, peer-to-peer — not salesy, no hype
-- Sign off: Emod Vafa, Banoo Marketing | cal.com/emodvafa
+- Sign off: Banoo Legal Marketing\n🇨🇦+1 (416) 400-4699
 
 Respond ONLY with JSON (no markdown):
 {
@@ -99,8 +99,8 @@ function parseEmailJSON(text, toEmail, name, path) {
   const fallbackSubject = path === 'A' ? `Reconnecting — Emod Vafa` : `PI Lead Gen for ${name}'s Firm`;
   const fallbackBody =
     path === 'A'
-      ? `Hi ${name},\n\nI was thinking about our last conversation and wanted to check in. A lot has changed in PI lead gen this year — want to reconnect in July for a quick chat?\n\nEmod Vafa\nBanoo Marketing`
-      : `Hi ${name},\n\nI manage PPC and lead gen for top PI firms in Toronto/Ontario. We help firms like yours generate consistent intake without the guesswork.\n\nOpen to a 15-min call to see if there's a fit?\n\nEmod Vafa\nBanoo Marketing | cal.com/emodvafa`;
+      ? `Hi ${name},\n\nI was thinking about our last conversation and wanted to check in. A lot has changed in PI lead gen this year — want to reconnect in July for a quick chat?\n\nBanoo Legal Marketing\n🇨🇦+1 (416) 400-4699`
+      : `Hi ${name},\n\nI manage PPC and lead gen for top PI firms in Toronto/Ontario. We help firms like yours generate consistent intake without the guesswork.\n\nOpen to a 15-min call to see if there's a fit?\n\nBanoo Legal Marketing\n🇨🇦+1 (416) 400-4699`;
 
   return { to: toEmail, subject: fallbackSubject, body: fallbackBody, path };
 }
