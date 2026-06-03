@@ -2,11 +2,32 @@ const Anthropic = require('@anthropic-ai/sdk');
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
+const COLD_SUBJECTS = [
+  'Cases are being lost after intake—not before it',
+  'Question about your unretained files',
+  'Do you re-engage closed consultations?',
+  'Advertising isn\'t the problem',
+  'Curious how your firm handles old leads',
+  'Former leads are hiring other firms',
+  'Most PI firms underestimate this revenue leak',
+  'Are old inquiries still being contacted?',
+  'What firms are doing with dormant leads in 2026',
+];
+
+const SIGNATURE = 'Banoo Legal Marketing\n🇨🇦+1 (416) 400-4699';
+
+const GROWTH_PLAN = 'Growth Plan for you:\nPPC, SEO, Email Marketing, Social Media, Lead Generation, CRM Cleanup.';
+
+let subjectIndex = 0;
+function nextSubject() {
+  return COLD_SUBJECTS[subjectIndex++ % COLD_SUBJECTS.length];
+}
+
 /**
  * PATH A — warm re-engage: prospect had a prior Gmail/Calendar thread.
  */
 async function writeWarmEmail(prospect) {
-  const { name, email, subject, lastContactDate, meetingTitle, threadId } = prospect;
+  const { name, email, lastContactDate, meetingTitle } = prospect;
 
   const firstName = name.split(' ')[0] || name;
   const dateStr = lastContactDate
@@ -14,7 +35,7 @@ async function writeWarmEmail(prospect) {
     : 'a few months ago';
   const context = meetingTitle ? `our meeting about "${meetingTitle}"` : `our conversation in ${dateStr}`;
 
-  const prompt = `Write a short, professional re-engagement email from Emod Vafa at Banoo Marketing to ${firstName} (a personal injury lawyer).
+  const prompt = `Write a short re-engagement email to ${firstName} (a personal injury lawyer).
 
 Context:
 - Last contact: ${dateStr}
@@ -22,12 +43,15 @@ Context:
 - Email to: ${email}
 
 Requirements:
-- Subject line: personalized, references the prior conversation (NOT generic)
-- Body: 3-4 lines MAX
-- Reference something specific about the prior contact naturally
-- CTA: "Want to reconnect in July?" or similar — one simple ask
-- Tone: warm, direct, confident — not salesy
-- Sign off: Banoo Legal Marketing\n🇨🇦+1 (416) 400-4699
+- Subject: one of these (pick the most relevant): ${COLD_SUBJECTS.join(' | ')}
+- Body: 3-4 sentences MAX
+- Reference the prior contact naturally
+- CTA: simple — "Worth reconnecting in July?"
+- Tone: warm, direct, peer-to-peer — no fluff
+- No sender name anywhere in the body
+- End with EXACTLY this on its own line: ${SIGNATURE}
+- After the body and before the signature, add EXACTLY this block:
+${GROWTH_PLAN}
 
 Respond ONLY with JSON (no markdown):
 {
@@ -48,7 +72,7 @@ Respond ONLY with JSON (no markdown):
  * PATH B — cold authority: no prior contact, prospect from Apollo or web research.
  */
 async function writeColdEmail(prospect) {
-  const { name, email, firmName, city, title, growthSignal, fitReason } = prospect;
+  const { name, email, firmName, city, growthSignal, fitReason } = prospect;
 
   const firstName = name.split(' ')[0] || name;
   const firm = firmName ? ` at ${firmName}` : '';
@@ -56,18 +80,21 @@ async function writeColdEmail(prospect) {
   const signal = growthSignal ? `\n- Growth signal: ${growthSignal}` : '';
   const fit = fitReason ? `\n- Fit: ${fitReason}` : '';
 
-  const prompt = `Write a short cold outreach email from Emod Vafa at Banoo Marketing to ${firstName}${firm}, a personal injury lawyer in ${location}.
+  const prompt = `Write a short cold outreach email to ${firstName}${firm}, a personal injury lawyer in ${location}.
 
 Context:${signal}${fit}
 
 Requirements:
-- Subject line: specific, not generic (no "Quick question" or "Following up")
-- Body: 3-4 lines MAX
-- Reference something specific about them or their firm (use the growth signal if available)
-- Core message: Emod manages PPC and lead gen for top PI firms in Toronto/Ontario
-- CTA: one clear ask — offer a 15-min call or ask them to reply with interest
-- Tone: confident authority, peer-to-peer — not salesy, no hype
-- Sign off: Banoo Legal Marketing\n🇨🇦+1 (416) 400-4699
+- Subject: one of these (pick the most relevant): ${COLD_SUBJECTS.join(' | ')}
+- Body: 3-4 sentences MAX
+- Reference something specific about them or their firm if available
+- Core message: we work with PI firms on lead recovery and growth marketing
+- CTA: ask if they re-engage old inquiries, or offer to share what firms are doing
+- Tone: confident, peer-to-peer — no hype, no "I" or sender name in body
+- No sender name anywhere in the body
+- End with EXACTLY this on its own line: ${SIGNATURE}
+- After the body and before the signature, add EXACTLY this block:
+${GROWTH_PLAN}
 
 Respond ONLY with JSON (no markdown):
 {
@@ -95,14 +122,13 @@ function parseEmailJSON(text, toEmail, name, path) {
     // fallback below
   }
 
-  // Fallback if Claude returns unexpected format
-  const fallbackSubject = path === 'A' ? `Reconnecting — Emod Vafa` : `PI Lead Gen for ${name}'s Firm`;
+  const subject = nextSubject();
   const fallbackBody =
     path === 'A'
-      ? `Hi ${name},\n\nI was thinking about our last conversation and wanted to check in. A lot has changed in PI lead gen this year — want to reconnect in July for a quick chat?\n\nBanoo Legal Marketing\n🇨🇦+1 (416) 400-4699`
-      : `Hi ${name},\n\nI manage PPC and lead gen for top PI firms in Toronto/Ontario. We help firms like yours generate consistent intake without the guesswork.\n\nOpen to a 15-min call to see if there's a fit?\n\nBanoo Legal Marketing\n🇨🇦+1 (416) 400-4699`;
+      ? `Hey ${name},\n\nA lot has changed in PI lead gen this year. Most firms have more signed-case potential sitting in their CRM than in their ad account.\n\nAre you currently re-engaging inquiries from the last 12–24 months?\n\n${GROWTH_PLAN}\n\n${SIGNATURE}`
+      : `Hey ${name},\n\nMost PI law firms — including firms like yours — have more signed-case potential sitting in their CRM than in their ad account.\n\nAre you currently re-engaging inquiries from the last 12–24 months?\n\n${GROWTH_PLAN}\n\n${SIGNATURE}`;
 
-  return { to: toEmail, subject: fallbackSubject, body: fallbackBody, path };
+  return { to: toEmail, subject, body: fallbackBody, path };
 }
 
 async function generateEmail(prospect) {
