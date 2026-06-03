@@ -1,12 +1,4 @@
-const Anthropic = require('@anthropic-ai/sdk');
-
-let _client = null;
-function getClient() {
-  if (!_client) _client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-  return _client;
-}
-
-// ── Subject line pool — rotate per prospect ────────────────────────────────────
+// ── Subject line pool — shuffled A/B rotation ────────────────────────────────
 const SUBJECTS = [
   'Cases are being lost after intake—not before it',
   'Question about your unretained files',
@@ -14,19 +6,25 @@ const SUBJECTS = [
   'Advertising isn\'t the problem',
   'Curious how your firm handles old leads',
   'Former leads are hiring other firms',
-  'Most firms underestimate this revenue leak',
+  'Most PI firms underestimate this revenue leak',
   'Are old inquiries still being contacted?',
   'What firms are doing with dormant leads in 2026',
 ];
 
-let _subjectIndex = 0;
+// Fisher-Yates shuffle for true A/B rotation — no repeats until full cycle
+let _pool = [];
 function nextSubject() {
-  const s = SUBJECTS[_subjectIndex % SUBJECTS.length];
-  _subjectIndex++;
-  return s;
+  if (_pool.length === 0) {
+    _pool = [...SUBJECTS];
+    for (let i = _pool.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [_pool[i], _pool[j]] = [_pool[j], _pool[i]];
+    }
+  }
+  return _pool.pop();
 }
 
-// ── Fixed email body ───────────────────────────────────────────────────────────
+// ── Email body ────────────────────────────────────────────────────────────────
 
 function buildBody(firstName) {
   const greeting = (firstName && !isFirmName(firstName)) ? firstName : 'there';
@@ -42,6 +40,9 @@ Curious: do you currently have a process for re-engaging inquiries and consultat
 
 If not, happy to share what we're seeing and where firms are typically uncovering additional signed cases without increasing ad spend.
 
+Growth Plan for you:
+PPC, SEO, Email Marketing, Social Media, Lead Generation, CRM Cleanup.
+
 Banoo Legal Marketing
 🇨🇦+1 (416) 400-4699`;
 }
@@ -50,17 +51,15 @@ const FIRM_SIGNALS = ['llp', 'law', 'lawyers', 'legal', 'associates', 'partners'
                       'barristers', 'injury', 'family', 'litigation', 'inc', 'pc'];
 
 function isFirmName(name) {
-  const lower = (name || '').toLowerCase();
-  return FIRM_SIGNALS.some(s => lower.includes(s));
+  return FIRM_SIGNALS.some(s => (name || '').toLowerCase().includes(s));
 }
 
 function extractFirstName(fullName) {
-  if (!fullName) return null;
-  if (isFirmName(fullName)) return null;
+  if (!fullName || isFirmName(fullName)) return null;
   return fullName.split(' ')[0];
 }
 
-// ── Both paths use the same template ──────────────────────────────────────────
+// ── Exports ───────────────────────────────────────────────────────────────────
 
 async function writeReengagementEmail(prospect, logger) {
   const firstName = prospect.first_name || extractFirstName(prospect.name);
