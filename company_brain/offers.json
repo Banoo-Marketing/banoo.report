@@ -1,0 +1,36 @@
+{
+  "_note": "Update pricing when it changes. These are reference points, not fixed prices.",
+  "retainer_tiers": [
+    {
+      "name": "Core",
+      "price_monthly": 1500,
+      "includes": ["1 channel management", "monthly reporting", "strategy calls"],
+      "best_for": "small businesses, single-channel focus"
+    },
+    {
+      "name": "Growth",
+      "price_monthly": 3000,
+      "includes": ["2 channel management", "bi-weekly calls", "landing page optimization", "monthly reporting"],
+      "best_for": "growing SMBs, multi-channel campaigns"
+    },
+    {
+      "name": "Scale",
+      "price_monthly": 5000,
+      "includes": ["full-funnel management", "weekly calls", "CRO", "custom reporting", "AI system integration"],
+      "best_for": "established businesses, aggressive growth targets"
+    }
+  ],
+  "fractional_cmo": {
+    "price_monthly": 4000,
+    "hours": 10,
+    "includes": ["strategic marketing leadership", "team oversight", "board/investor comms support"]
+  },
+  "project_work": {
+    "minimum": 2500,
+    "notes": "Lead gen builds, AI system setup, campaign audits"
+  },
+  "referral_policy": {
+    "commission_rate": "10-15%",
+    "partners": ["Merchant Growth", "Driven Financial", "AFN", "Journey Capital"]
+  }
+}

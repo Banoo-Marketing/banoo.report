@@ -1,0 +1,38 @@
+{
+  "company": "Banoo Inc",
+  "focus": "Close new clients to grow past $3,000/month \u2014 pipeline is the priority",
+  "clients": [
+    {
+      "name": "Fosters Law",
+      "health": "ok"
+    },
+    {
+      "name": "416-Flowers",
+      "health": "ok"
+    },
+    {
+      "name": "Toronto Gold Bullion",
+      "health": "ok"
+    },
+    {
+      "name": "AngeLink",
+      "health": "ok"
+    }
+  ],
+  "risks": [
+    "No new clients coming in \u2014 pipeline too thin to hit $15,000/month target",
+    "Revenue at $1,000\u2013$3,000/month \u2014 cashflow pressure",
+    "Over-reliance on 2 active clients \u2014 one loss would be significant"
+  ],
+  "state": {
+    "revenue": "weak",
+    "operations": "stable",
+    "relationships": "at_risk"
+  },
+  "tone": "direct, simple, founder-level",
+  "top_priorities": [
+    "Convert 1-2 warm leads into paying retainers",
+    "Retain and grow Fosters Law and 416-Flowers",
+    "Bring AngeLink back when their JV completes this summer"
+  ]
+}

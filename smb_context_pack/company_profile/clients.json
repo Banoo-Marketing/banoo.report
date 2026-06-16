@@ -1,0 +1,140 @@
+{
+  "active": [
+    {
+      "name": "Fosters Law",
+      "health": "ok",
+      "services": ["Google Ads PPC", "SEO backlinks", "Meta Ads"],
+      "note": "Active retainer — full paid + organic stack"
+    },
+    {
+      "name": "416-Flowers",
+      "health": "ok",
+      "services": ["Email marketing", "Social media posts and engagement", "Cold outreach (Jerylen)", "SEO (Keith)"],
+      "team": {
+        "email_marketing": "John",
+        "social_media": "Grace",
+        "cold_calls": "Jerylen",
+        "seo": "Keith"
+      },
+      "note": "Active retainer — team-managed, each channel has a dedicated person"
+    },
+    {
+      "name": "Toronto Gold Bullion",
+      "health": "ok",
+      "contact": "Taheri",
+      "services": ["Geo-fencing campaign", "Digital advertising"],
+      "note": "Active campaign — geo-fencing GTA. Contact: Taheri."
+    },
+    {
+      "name": "AngeLink",
+      "health": "ok",
+      "services": ["TBD — campaigns paused"],
+      "note": "On hold — client doing a JV with a partner. Will reach out after JV completes this summer. Not churning."
+    }
+  ],
+  "warm_leads": [
+    {
+      "name": "Am / Amr (InvertedTaco)",
+      "industry": "Video production",
+      "status": "Proposal sent",
+      "services_proposed": ["Website design", "SEO"],
+      "note": "Amr runs InvertedTaco — video business. Proposal sent for website + SEO. Also potential channel to Craig Petronella (not a direct client — must go through Amr)."
+    },
+    {
+      "name": "ReadyDOS (Omar Himada)",
+      "industry": "AI / Consulting",
+      "status": "HOT — responded positively May 31 2026",
+      "contact": "Omar Himada — contact@omarhimada.com — +1-416-917-4329",
+      "services_proposed": ["Simplified scope TBD — full audit + partnership review done Feb 2026"],
+      "note": "Omar replied same day. Said: happy to revisit with simplified scope. Call being booked."
+    },
+    {
+      "name": "Intuitive",
+      "status": "Warm — in conversation",
+      "services_proposed": []
+    },
+    {
+      "name": "Mining Company",
+      "status": "Warm — in conversation",
+      "services_proposed": []
+    }
+  ],
+  "reactivation_targets": [
+    {
+      "name": "CCL Financial Group",
+      "status": "Email sent — awaiting response",
+      "note": "SEO audit done July 2025. $2.6K monthly traffic value identified. 590x traffic gap between domains."
+    },
+    {
+      "name": "BrownStone (BCF)",
+      "status": "Email sent — awaiting response",
+      "note": "Full proposal + SEO audit prepared. Never closed."
+    },
+    {
+      "name": "SOClogix",
+      "status": "Email sent — awaiting response",
+      "note": "Executive SEO audit delivered. Cybersecurity firm. Never converted."
+    },
+    {
+      "name": "AFCR / AIM-HI / NFCR",
+      "status": "One email already sent — same people/org",
+      "note": "Same organization across 3 brands. Active campaigns in Aug 2025 ($3,500 budget, 67 leads). Already emailed once — do not double-contact."
+    }
+  ],
+  "cold_prospects": [
+    {
+      "name": "Mincher Koeman",
+      "industry": "Family Law",
+      "province": "AB",
+      "website": "familylawyerab.com",
+      "email": "reception@mincherkoeman.com",
+      "phone": "403-910-3000",
+      "city": "Calgary",
+      "status": "Not contacted",
+      "pitch": "Calgary family law boutique — lead recovery pitch resonates in high-volume intake markets",
+      "note": "707 7 Ave SW, Calgary"
+    },
+    {
+      "name": "Soby Boyden Lenz LLP",
+      "industry": "Family Law",
+      "province": "AB",
+      "website": "sobyboydenlenz.com",
+      "email": "info@sbllaw.ca",
+      "phone": "403-262-0000",
+      "city": "Calgary",
+      "status": "Not contacted",
+      "pitch": "Largest family law boutique in Calgary since 1986 — decades of dormant files",
+      "note": "Exclusive family law since 1986"
+    },
+    {
+      "name": "MacLean Law",
+      "industry": "Family Law",
+      "province": "BC",
+      "website": "macleanfamilylaw.ca",
+      "email": "vancouver@macleanlaw.ca",
+      "phone": "604-602-9000",
+      "city": "Vancouver",
+      "status": "Not contacted",
+      "pitch": "Top boutique family law finalist 2026 — high-net-worth intake = high-value dormant leads",
+      "note": "Finalist Top Boutique Firm of The Year 2026"
+    },
+    {
+      "name": "YLaw",
+      "industry": "Family Law",
+      "province": "BC",
+      "website": "ylaw.ca",
+      "email": "info@ylaw.ca",
+      "phone": "604-974-9529",
+      "city": "Vancouver",
+      "status": "Not contacted",
+      "pitch": "Fastest-growing family law firm in BC — rapid intake growth means follow-up gaps",
+      "note": "Vancouver, Langley, Chilliwack — family + employment law"
+    }
+  ],
+  "removed_from_pipeline": [
+    {"name": "Craig Petronella", "reason": "Not a direct client — must go through InvertedTaco (Amr)"},
+    {"name": "Developments.ca", "reason": "Commission-based arrangement — did not close, no retainer"},
+    {"name": "Feel Synergy / Synergy Face + Body", "reason": "Test account for a job interview (Brad's company) — not a real Banoo client"},
+    {"name": "AIM-HI / NFCR", "reason": "Same people as AFCR — consolidated into one entry"}
+  ]
+}

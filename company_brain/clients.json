@@ -1,0 +1,38 @@
+{
+  "_note": "Update this file when client status changes. Source of truth for active relationships.",
+  "active": [
+    {
+      "name": "AngeLink",
+      "type": "client",
+      "service": "Google Ads",
+      "status": "active",
+      "health": "at_risk",
+      "notes": "79 days silent after cancelled meeting — needs re-engagement",
+      "contact": ""
+    }
+  ],
+  "past": [],
+  "prospects": [],
+  "partners": [
+    {
+      "name": "Merchant Growth",
+      "type": "referral_partner",
+      "notes": "Referral commission arrangement active"
+    },
+    {
+      "name": "Driven Financial",
+      "type": "referral_partner",
+      "notes": "Referral arrangement active"
+    },
+    {
+      "name": "AFN",
+      "type": "referral_partner",
+      "notes": "Referral arrangement active"
+    },
+    {
+      "name": "Journey Capital",
+      "type": "referral_partner",
+      "notes": "Referral arrangement active"
+    }
+  ]
+}

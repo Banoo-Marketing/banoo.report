@@ -1,0 +1,46 @@
+# ── Atlas Configuration ────────────────────────────────────────────────────
+# This file controls Atlas's operational constraints.
+# Changing these values changes Atlas's enforcement behavior.
+
+user:
+  name: Emod Vafa
+  timezone: America/Toronto
+  income_target: 15000       # monthly USD target
+  monthly_obligations: 1428  # mortgage AutoPay
+
+constraints:
+  max_active_initiatives: 3
+  max_daily_tasks: 3
+  max_revenue_streams: 5
+  kill_roi_threshold: 6      # ROI score below this triggers kill review
+  cash_gap_threshold: 0.5    # >50% of income from single source = yellow flag
+
+priorities:
+  - revenue
+  - leverage
+  - automation
+  - focus
+  - compounding_assets
+
+modes:
+  strict_focus: true        # enforce 3-initiative limit
+  kill_low_roi: true        # auto-flag streams below kill_roi_threshold
+  enforce_weekly_reset: true
+  require_kill_reason: true  # kill modal must have reason
+
+orchestrator:
+  model: claude-sonnet-4-6
+  planner_tokens: 1500
+  executor_tokens: 1200
+  evaluator_tokens: 2000
+  max_retries: 2
+
+memory:
+  sync_on_run: true         # sync SQLite → JSON before each agent run
+  snapshot_dir: memory
+  tasks_dir: tasks
+
+strategic_path: >
+  AI-First Fractional Growth & Systems Partner for SMBs.
+  Services: AI consulting, marketing automation, lead gen systems,
+  executive AI copilots, company brain systems.

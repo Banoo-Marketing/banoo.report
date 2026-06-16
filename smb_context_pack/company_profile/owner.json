@@ -1,0 +1,69 @@
+{
+  "name": "Emod Vafa",
+  "title": "Fractional CMO & Founder, Banoo Marketing",
+  "location": "Toronto, ON",
+  "experience_years": 15,
+  "education": "Honours BBA, Marketing — Schulich School of Business, York University (2011)",
+  "certifications": [
+    "Google Ads Certified (Search, Display, Video, Shopping, App)",
+    "Google Analytics 4 (GA4)",
+    "Meta Blueprint"
+  ],
+  "tools": [
+    "Google Ads", "Meta Ads", "LinkedIn Ads", "GA4", "Search Console",
+    "HubSpot", "Salesforce", "Close CRM", "Instantly.ai", "Apollo.io", "Snov.io",
+    "Mailgun", "SendGrid", "Twilio", "Vapi.ai",
+    "OpenAI / Claude / Gemini (LLM automation)",
+    "Semrush", "Webflow", "Mixpanel", "Marketo", "Zoominfo"
+  ],
+  "career_highlights": [
+    {
+      "company": "Intercap Inc.",
+      "years": "2022–2025",
+      "role": "Director of Marketing",
+      "result": "Doubled ARR $5M → $10M. Grew team 1 → 10. Reduced CPL 30%, increased lead volume 50%."
+    },
+    {
+      "company": "VerticalScope Inc.",
+      "years": "2018–2022",
+      "role": "Senior Growth Marketing Manager",
+      "result": "Grew ecommerce team 4 → 40. Grew affiliate revenue 75%, reduced CPC 45%."
+    },
+    {
+      "company": "Visualping",
+      "years": "2022 (6 months)",
+      "role": "Senior Growth Marketing Manager",
+      "result": "Exceeded revenue goals by 110%, cut CAC 25% via A/B testing and paid optimization."
+    },
+    {
+      "company": "Search Engine People / Search Kings",
+      "years": "2016–2018",
+      "role": "Agency Paid Search & Performance Leader",
+      "result": "Managed 70+ accounts. Legal: Diamond & Diamond PI, Preszler Law ($50–$200+ CPCs). Trades: Mr. Rooter, HVAC, roofing, dental. Auto: Rafih Auto Group, Subaru Canada."
+    },
+    {
+      "company": "Divorce Marketing Group",
+      "years": "2013–2014",
+      "result": "Managed Google Ads + social for 30+ family law firms across North America."
+    },
+    {
+      "company": "N5R",
+      "years": "2012–2013",
+      "result": "Real estate pre-con lead gen. Drove $8.5M revenue in 6 months with 88% sales increase via paid search, display, and HubSpot drip campaigns."
+    }
+  ],
+  "vertical_credibility": {
+    "legal": "Deep expertise — ran PPC for Diamond & Diamond PI, Preszler Law, Heydary Hamilton, and 30+ family law firms. Knows high-CPC legal bidding cold.",
+    "automotive": "Managed 20+ dealerships at eDealer and multiple auto groups at SEP (Rafih, Subaru Canada, Policaro, Pfaff, Zanchin).",
+    "real_estate": "Pre-con condo lead gen via N5R, World Class Realty Point, Connect Asset Management, Royal LePage.",
+    "skilled_trades": "Google Ads for Mr. Rooter Plumbing, HVAC, roofing, dental across Canada.",
+    "affiliate_ecommerce": "4 years at VerticalScope — fitness, automotive, health affiliate review sites.",
+    "saas_b2b": "Intercap Inc. (premium domain sales, Web3, B2B outbound), Visualping (SaaS)."
+  },
+  "key_pitch_points": [
+    "Personally ran campaigns for Diamond & Diamond and Preszler Law — two of the most competitive legal advertisers in Ontario",
+    "Doubled ARR at Intercap ($5M → $10M) by architecting the full marketing system from scratch",
+    "Managed 70+ accounts simultaneously at Canada's top PPC agency",
+    "AI-native operator — deploys LLM workflows for outbound, content, reporting, and landing pages"
+  ]
+}

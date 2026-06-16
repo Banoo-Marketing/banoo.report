@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Company Brain — Email Intelligence Report</title>
+<style>
+  :root {
+    --bg: #0f0f0f; --card: #1a1a1a; --border: #2a2a2a;
+    --text: #e0e0e0; --muted: #888; --accent: #3b82f6;
+    --green: #22c55e; --yellow: #eab308; --red: #ef4444;
+    --purple: #a855f7; --orange: #f97316;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.6; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+  h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.25rem; }
+  h2 { font-size: 1.25rem; font-weight: 600; color: var(--accent); margin: 2rem 0 1rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
+  .muted { color: var(--muted); font-size: 0.875rem; }
+  .divider { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+  .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0; }
+  .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; }
+  .stat-card .value { font-size: 2rem; font-weight: 700; color: var(--accent); }
+  .stat-card .label { color: var(--muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1rem; }
+  .cat-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; }
+  .cat-card .count { font-size: 1.5rem; font-weight: 700; color: var(--accent); float: right; }
+  .cat-card .label { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.75rem; }
+  .email-item { border-top: 1px solid var(--border); padding: 0.6rem 0; font-size: 0.82rem; }
+  .email-item .subject { color: var(--text); font-weight: 500; }
+  .email-item .meta { color: var(--muted); font-size: 0.75rem; }
+  .email-item .summary { color: #aaa; margin-top: 0.2rem; font-style: italic; }
+  .tag { display: inline-block; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+  .tag-pos { background: #14532d; color: var(--green); }
+  .tag-neg { background: #450a0a; color: var(--red); }
+  .tag-neu { background: #1c1917; color: var(--muted); }
+  .theme-list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0; }
+  .theme-tag { background: #1e3a5f; color: #93c5fd; padding: 0.3rem 0.75rem; border-radius: 20px; font-size: 0.8rem; }
+  .person-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; margin-bottom: 0.75rem; }
+  .person-card h3 { font-size: 0.95rem; }
+  .person-card .email-addr { color: var(--accent); font-size: 0.8rem; font-family: monospace; }
+  .person-card .reason { color: #ccc; font-size: 0.85rem; margin-top: 0.4rem; }
+  .timeline-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; overflow-x: auto; display: block; }
+  .timeline-table th { background: #111; color: var(--muted); padding: 0.6rem 0.8rem; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.75rem; text-transform: uppercase; }
+  .timeline-table td { padding: 0.5rem 0.8rem; border-bottom: 1px solid #1a1a1a; }
+  .timeline-table tr:hover td { background: #1e1e1e; }
+  .num { text-align: right; color: var(--accent); font-weight: 600; }
+  .badge { background: var(--accent); color: white; padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.7rem; font-weight: 700; }
+  .section-header { display: flex; align-items: center; gap: 1rem; }
+  .zero { opacity: 0.3; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div style="margin-bottom: 2rem;">
+    <h1>🧠 Email Intelligence Report</h1>
+    <p class="muted">Generated {{ generated_at[:19] }} UTC</p>
+  </div>
+
+  <!-- Stats -->
+  <div class="grid-4">
+    <div class="stat-card">
+      <div class="value">{{ "{:,}".format(stats.emails_processed) }}</div>
+      <div class="label">Emails Analysed</div>
+    </div>
+    <div class="stat-card">
+      <div class="value">{{ "{:,}".format(stats.total_emails_cached) }}</div>
+      <div class="label">Emails Fetched</div>
+    </div>
+    <div class="stat-card">
+      <div class="value">{{ stats.date_range.split('→')[0].strip()[:7] }}</div>
+      <div class="label">Earliest Email</div>
+    </div>
+    <div class="stat-card">
+      <div class="value">{{ theme_analysis|length }}</div>
+      <div class="label">Themes Detected</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Categories -->
+  <h2>📁 Category Breakdown</h2>
+  <div class="cat-grid">
+    {% for key, info in category_summary.items() %}
+    <div class="cat-card {% if info.count == 0 %}zero{% endif %}">
+      <span class="count">{{ info.count }}</span>
+      <div class="label">{{ info.label }}</div>
+      {% for ex in info.top_examples[:3] %}
+      <div class="email-item">
+        <span class="tag {% if ex.sentiment == 'positive' %}tag-pos{% elif ex.sentiment == 'negative' %}tag-neg{% else %}tag-neu{% endif %}">{{ ex.sentiment }}</span>
+        <div class="subject">{{ ex.subject[:55] }}</div>
+        <div class="meta">{{ ex.from[:40] }} · {{ ex.date }}</div>
+        {% if ex.summary %}<div class="summary">{{ ex.summary[:100] }}</div>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+
+  <hr class="divider">
+
+  <!-- Themes -->
+  <h2>🏷️ Recurring Themes</h2>
+  <div class="theme-list">
+    {% for t in theme_analysis[:25] %}
+    <span class="theme-tag">{{ t.theme }} <strong>×{{ t.count }}</strong></span>
+    {% endfor %}
+  </div>
+
+  <hr class="divider">
+
+  <!-- Reconnect -->
+  <h2>🤝 Who Should You Reconnect With?</h2>
+  {% if contact_recommendations.reconnect %}
+    {% for r in contact_recommendations.reconnect[:10] %}
+    <div class="person-card">
+      <h3>{{ r.from[:60] }}</h3>
+      <div class="meta">Last contact: {{ r.date }} · {{ r.subject[:60] }}</div>
+      <div class="reason">{{ r.reason }}</div>
+    </div>
+    {% endfor %}
+  {% else %}
+    <p class="muted">No reconnect contacts found in processed emails.</p>
+  {% endif %}
+
+  <hr class="divider">
+
+  <!-- Nurture -->
+  <h2>🎯 Business Owners — Nurture for Digital Marketing</h2>
+  {% if contact_recommendations.nurture_for_conversion %}
+    {% for n in contact_recommendations.nurture_for_conversion[:10] %}
+    <div class="person-card">
+      <h3>{{ n.from[:60] }}</h3>
+      <div class="meta">{{ n.date }} · {{ n.subject[:60] }}</div>
+      <div class="reason">{{ n.notes }}</div>
+      {% if n.key_people %}
+        {% for p in n.key_people[:2] %}
+        <div class="email-addr">{{ p.name }} — {{ p.email }}</div>
+        {% endfor %}
+      {% endif %}
+    </div>
+    {% endfor %}
+  {% else %}
+    <p class="muted">No nurture prospects found in processed emails.</p>
+  {% endif %}
+
+  <hr class="divider">
+
+  <!-- Banoo Clients -->
+  <h2>🚀 Banoo Clients & Leads</h2>
+  {% if contact_recommendations.banoo_related %}
+    {% for b in contact_recommendations.banoo_related[:10] %}
+    <div class="person-card">
+      <h3>{{ b.from[:60] }}</h3>
+      <div class="meta">{{ b.date }} · {{ b.subject[:60] }}</div>
+      {% if b.summary %}<div class="reason">{{ b.summary }}</div>{% endif %}
+    </div>
+    {% endfor %}
+  {% else %}
+    <p class="muted">No Banoo-specific leads found in processed emails.</p>
+  {% endif %}
+
+  <hr class="divider">
+
+  <!-- Key People -->
+  <h2>⭐ Key People (by frequency)</h2>
+  <div class="cat-grid">
+    {% for p in contact_recommendations.key_people[:12] %}
+    <div class="person-card">
+      <h3>{{ p.name or 'Unknown' }}</h3>
+      <div class="email-addr">{{ p.email }}</div>
+      {% if p.role %}<div class="meta">{{ p.role }}</div>{% endif %}
+      <div class="meta" style="margin-top: 0.3rem;">{{ p.count }} emails · {{ p.categories[:3]|join(', ') }}</div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <hr class="divider">
+
+  <!-- Timeline -->
+  <h2>📅 Timeline Insights</h2>
+  <table class="timeline-table">
+    <thead>
+      <tr>
+        <th>Year</th>
+        {% for key, label in categories.items() %}
+        <th>{{ label[:20] }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for year, year_data in timeline_insights.items()|sort %}
+      <tr>
+        <td><strong>{{ year }}</strong></td>
+        {% for key in categories.keys() %}
+        <td class="num {% if year_data.get(key, 0) == 0 %}zero{% endif %}">
+          {{ year_data.get(key, 0) or '' }}
+        </td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <hr class="divider">
+  <p class="muted" style="text-align:center; padding: 1rem 0;">
+    Company Brain Email Analyzer · All processing done locally · Report generated {{ generated_at[:10] }}
+  </p>
+</div>
+</body>
+</html>

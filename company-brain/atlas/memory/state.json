@@ -1,0 +1,19 @@
+{
+  "today": "2026-05-29",
+  "week_start": "2026-05-25",
+  "north_star_90d": "Reach $15,000/month stable recurring income from AI + marketing systems",
+  "current_revenue": 0,
+  "target_revenue": 15000.0,
+  "gap": 15000.0,
+  "gap_pct": 100.0,
+  "focus_load": {
+    "active_initiatives": 0,
+    "status": "GREEN"
+  },
+  "energy_level": 0,
+  "weekly_focus_score": 0,
+  "deep_work_hours": 0,
+  "context_switches": 0,
+  "contacts_total": 75,
+  "open_actions": 59
+}

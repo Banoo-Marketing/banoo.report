@@ -1,0 +1,25 @@
+{
+  "company_name": "Banoo Inc",
+  "legal_name": "Banoo Marketing Inc",
+  "founded": "2018",
+  "location": "Toronto, Canada",
+  "mission": "Build AI-driven marketing and growth systems that create measurable, compounding returns for clients",
+  "positioning": "High-touch, founder-led growth partner for ambitious businesses",
+  "business_model": "Retainer-based agency + fractional growth partner",
+  "revenue_target_monthly": 15000,
+  "current_revenue_monthly": 3000,
+  "team_size": "small",
+  "current_focus": "client retention + cashflow stability + Banoo agency growth",
+  "top_priorities": [
+    "Close the $12,000/month revenue gap",
+    "Protect and retain existing client base",
+    "Systematize delivery to reduce founder time per client"
+  ],
+  "active_risks": [
+    "218 Wilfred Ave tenant legal dispute — do not contact tenant directly",
+    "RBC low balance — mortgage AutoPay $1,428.36 hits 1st of month",
+    "Over-reliance on founder for all client work"
+  ],
+  "stage": "growth",
+  "category": "digital marketing agency"
+}

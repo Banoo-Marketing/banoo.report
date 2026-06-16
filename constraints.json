@@ -1,0 +1,12 @@
+{
+  "max_priorities": 3,
+  "max_actions_per_day": 5,
+  "tone": "direct, simple, founder-level",
+  "forbidden": [
+    "over-explaining",
+    "over-notifying",
+    "complex reasoning outputs"
+  ],
+  "memory_policy": "append-only",
+  "ai_write_policy": "read-only — humans edit company_brain files directly"
+}

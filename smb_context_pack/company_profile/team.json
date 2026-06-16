@@ -1,0 +1,25 @@
+{
+  "members": [
+    {
+      "name": "John",
+      "role": "Email marketing",
+      "accounts": ["416-Flowers"]
+    },
+    {
+      "name": "Grace",
+      "role": "Social media posts and engagement",
+      "accounts": ["416-Flowers"]
+    },
+    {
+      "name": "Jerylen",
+      "role": "Cold calls / outreach",
+      "accounts": ["416-Flowers"]
+    },
+    {
+      "name": "Keith",
+      "role": "SEO",
+      "accounts": ["416-Flowers"]
+    }
+  ],
+  "note": "Fosters Law (Google Ads, Meta Ads, SEO backlinks) managed by owner"
+}

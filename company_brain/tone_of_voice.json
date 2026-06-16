@@ -1,0 +1,25 @@
+{
+  "style": "direct, casual, founder-level clarity",
+  "personality": "confident, strategic, no-fluff",
+  "reading_level": "business-literate adult, not academic",
+  "sentence_length": "short to medium — never long blocks",
+  "use": [
+    "plain language",
+    "specific numbers over vague claims",
+    "action-oriented framing",
+    "honest about tradeoffs",
+    "first-person founder voice where appropriate"
+  ],
+  "avoid": [
+    "corporate fluff",
+    "over-selling",
+    "long explanations",
+    "buzzwords without substance",
+    "passive voice",
+    "hedging language that weakens the message",
+    "emotional manipulation"
+  ],
+  "email_signature": "Emod | Banoo Marketing",
+  "outreach_tone": "peer-level, not vendor-level",
+  "proposal_tone": "direct ROI framing, specific outcomes, no hype"
+}

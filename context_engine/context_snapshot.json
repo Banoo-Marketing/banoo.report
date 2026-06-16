@@ -1,0 +1,26 @@
+{
+  "company": "Banoo Inc",
+  "focus": "client retention + cashflow stability + Banoo agency growth",
+  "clients": [
+    {
+      "name": "AngeLink",
+      "health": "at_risk"
+    }
+  ],
+  "risks": [
+    "218 Wilfred Ave tenant legal dispute \u2014 do not contact tenant directly",
+    "RBC low balance \u2014 mortgage AutoPay $1,428.36 hits 1st of month",
+    "Over-reliance on founder for all client work"
+  ],
+  "state": {
+    "revenue": "weak",
+    "operations": "overloaded",
+    "relationships": "at_risk"
+  },
+  "tone": "direct, casual, founder-level clarity",
+  "top_priorities": [
+    "Close the $12,000/month revenue gap",
+    "Protect and retain existing client base",
+    "Systematize delivery to reduce founder time per client"
+  ]
+}

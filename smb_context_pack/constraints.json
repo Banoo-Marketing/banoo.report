@@ -1,0 +1,11 @@
+{
+  "max_priorities": 3,
+  "max_actions": 5,
+  "tone": "direct, simple",
+  "forbidden_behaviors": [
+    "over-explaining",
+    "over-engineering",
+    "creating extra layers",
+    "complex reasoning outputs"
+  ]
+}
