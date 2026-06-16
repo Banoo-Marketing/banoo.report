@@ -3,26 +3,17 @@ const axios = require('axios');
 const SEMRUSH_BASE = 'https://api.semrush.com/';
 
 const TARGET_PHRASES = [
-  // Ontario — Family
-  'family lawyer toronto',
-  'divorce lawyer toronto',
-  'family law ontario',
-  'family lawyer ottawa',
-  // Ontario — Litigation
-  'litigation lawyer toronto',
-  'civil litigation ontario',
-  // Alberta
+  // Calgary
   'family lawyer calgary',
-  'family lawyer edmonton',
+  'divorce lawyer calgary',
   'litigation lawyer calgary',
+  'civil litigation calgary',
   // BC
   'family lawyer vancouver',
   'divorce lawyer vancouver',
   'litigation lawyer vancouver',
-  // Nova Scotia / Atlantic
-  'family lawyer halifax',
-  'personal injury lawyer halifax',
-  'litigation lawyer nova scotia',
+  'family lawyer surrey bc',
+  'family lawyer victoria bc',
 ];
 
 const EXCLUDE_DOMAINS = [
@@ -94,21 +85,18 @@ async function findAdvertisers(logger) {
 }
 
 function inferProvince(phrase) {
-  if (/calgary|edmonton|alberta/.test(phrase)) return 'Alberta';
-  if (/vancouver|bc|british columbia/.test(phrase)) return 'British Columbia';
-  if (/halifax|nova scotia/.test(phrase)) return 'Nova Scotia';
-  return 'Ontario';
+  if (/calgary/.test(phrase)) return 'Alberta';
+  return 'British Columbia';
 }
 
 function inferCity(phrase) {
   const map = {
-    toronto: 'Toronto', ottawa: 'Ottawa', calgary: 'Calgary',
-    edmonton: 'Edmonton', vancouver: 'Vancouver', halifax: 'Halifax',
+    calgary: 'Calgary', vancouver: 'Vancouver', surrey: 'Surrey', victoria: 'Victoria',
   };
   for (const [k, v] of Object.entries(map)) {
     if (phrase.includes(k)) return v;
   }
-  return 'Ontario';
+  return 'Vancouver';
 }
 
 function parseSemrushCSV(raw) {

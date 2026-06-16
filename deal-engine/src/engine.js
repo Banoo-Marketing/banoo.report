@@ -24,9 +24,9 @@ async function runEngine() {
     logger.warn('Gmail scan skipped (no refresh token?)', { message: err.message });
   }
 
-  // ── Phase 2: Apollo — family/litigation lawyers across Canada (PATH B) ─────
+  // ── Phase 2: Apollo — family/litigation lawyers in BC + Calgary (PATH B) ────
   if (targets.length < DRAFTS_PER_RUN) {
-    logger.info('Phase 2: Apollo prospect search (family law + litigation, ON/AB/BC/NS)');
+    logger.info('Phase 2: Apollo prospect search (family law + litigation, BC + Calgary)');
     try {
       const found = await findLawyers(DRAFTS_PER_RUN - targets.length + 5, logger);
       targets.push(...found);
@@ -46,7 +46,7 @@ async function runEngine() {
     }
   }
 
-  // ── Phase 4: Claude — curated family/litigation firms across provinces ──────
+  // ── Phase 4: Claude — curated family/litigation firms in BC + Calgary ───────
   if (targets.length < DRAFTS_PER_RUN) {
     logger.info('Phase 4: Claude fallback prospect research');
     try {

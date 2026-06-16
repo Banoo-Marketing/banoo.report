@@ -17,12 +17,10 @@ const KNOWN_FIRMS = [
   'Norton Rose', 'Dentons', 'Gowling',
 ];
 
-// Rotate through provinces to get variety across runs
+// Rotate through BC/Calgary to get variety across runs
 const PROVINCE_POOL = [
-  { province: 'Ontario',          cities: 'Toronto, Ottawa, Hamilton, Mississauga',  area: 'family law and litigation' },
-  { province: 'Alberta',          cities: 'Calgary, Edmonton',                       area: 'family law and litigation' },
-  { province: 'British Columbia', cities: 'Vancouver, Surrey, Victoria',             area: 'family law and litigation' },
-  { province: 'Nova Scotia',      cities: 'Halifax, Dartmouth',                      area: 'family law, litigation, and personal injury' },
+  { province: 'British Columbia', cities: 'Vancouver, Surrey, Victoria, Burnaby', area: 'family law and litigation' },
+  { province: 'Alberta',          cities: 'Calgary',                             area: 'family law and litigation' },
 ];
 
 let _provinceIndex = 0;
@@ -50,7 +48,6 @@ ${targets.map(t => `- ${t.province}: ${t.area} — cities: ${t.cities}`).join('\
 Criteria:
 - Boutique to mid-size (2–30 lawyers)
 - Family law, divorce, litigation, or civil litigation focus
-- Nova Scotia firms: also include PI firms in Halifax/Atlantic
 - NOT these already-known firms: ${KNOWN_FIRMS.join(', ')}
 - Firms that likely accumulate dormant leads (high consultation volume)
 
@@ -62,8 +59,8 @@ For each firm return:
   "firm": "firm name",
   "domain": "domain.com",
   "city": "city",
-  "province": "province abbreviation (ON/AB/BC/NS)",
-  "practice": "family law|litigation|PI",
+  "province": "province abbreviation (BC/AB)",
+  "practice": "family law|litigation",
   "size": "solo|boutique|mid",
   "context": "1-sentence about why they accumulate dormant leads",
   "path": "B",

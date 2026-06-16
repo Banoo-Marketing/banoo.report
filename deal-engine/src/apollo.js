@@ -2,24 +2,15 @@ const axios = require('axios');
 
 const APOLLO_BASE = 'https://api.apollo.io/v1';
 
-// Target cities across provinces
+// Target cities — BC and Calgary only
 const TARGET_LOCATIONS = [
-  // Ontario
-  'Toronto, Ontario, Canada',
-  'Ottawa, Ontario, Canada',
-  'Hamilton, Ontario, Canada',
-  'Mississauga, Ontario, Canada',
-  'Brampton, Ontario, Canada',
-  // Alberta
-  'Calgary, Alberta, Canada',
-  'Edmonton, Alberta, Canada',
   // British Columbia
   'Vancouver, British Columbia, Canada',
   'Surrey, British Columbia, Canada',
   'Burnaby, British Columbia, Canada',
-  // Nova Scotia / Atlantic
-  'Halifax, Nova Scotia, Canada',
-  'Dartmouth, Nova Scotia, Canada',
+  'Victoria, British Columbia, Canada',
+  // Calgary
+  'Calgary, Alberta, Canada',
 ];
 
 const TARGET_TITLES = [
