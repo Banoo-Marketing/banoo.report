@@ -72,7 +72,7 @@ Respond ONLY with JSON (no markdown):
 }`;
 
   const msg = await client.messages.create({
-    model: 'claude-sonnet-4-20250514',
+    model: 'claude-sonnet-4-6',
     max_tokens: 512,
     messages: [{ role: 'user', content: prompt }],
   });
@@ -107,7 +107,7 @@ Respond ONLY with JSON (no markdown):
 }`;
 
   const msg = await client.messages.create({
-    model: 'claude-sonnet-4-20250514',
+    model: 'claude-sonnet-4-6',
     max_tokens: 512,
     messages: [{ role: 'user', content: prompt }],
   });
