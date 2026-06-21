@@ -4,10 +4,10 @@ const APOLLO_BASE = 'https://api.apollo.io/v1';
 
 const PI_KEYWORDS = ['personal injury', 'personal injury lawyer', 'PI law', 'accident lawyer', 'injury attorney'];
 
-const GTA_CITIES = ['Toronto', 'Mississauga', 'Brampton', 'Hamilton', 'Ottawa', 'Scarborough', 'North York', 'Markham'];
+const TARGET_LOCATIONS = ['British Columbia, Canada', 'Calgary, Alberta, Canada'];
 
 /**
- * Search Apollo.io for PI lawyers in Ontario.
+ * Search Apollo.io for PI lawyers in BC and Calgary.
  * Returns prospects formatted for emailWriter.
  */
 async function searchPILawyers(limit = 5) {
@@ -18,7 +18,6 @@ async function searchPILawyers(limit = 5) {
   }
 
   const payload = {
-    api_key: apiKey,
     q_keywords: 'personal injury lawyer',
     person_titles: [
       'Personal Injury Lawyer',
@@ -28,7 +27,7 @@ async function searchPILawyers(limit = 5) {
       'Principal Lawyer',
       'Founding Lawyer',
     ],
-    person_locations: GTA_CITIES.map((c) => `${c}, Ontario, Canada`),
+    person_locations: TARGET_LOCATIONS,
     organization_industry_tag_ids: [],
     per_page: limit * 3,
     page: 1,
@@ -37,7 +36,7 @@ async function searchPILawyers(limit = 5) {
   let data;
   try {
     const res = await axios.post(`${APOLLO_BASE}/mixed_people/search`, payload, {
-      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-cache' },
+      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-cache', 'X-Api-Key': apiKey },
       timeout: 15000,
     });
     data = res.data;

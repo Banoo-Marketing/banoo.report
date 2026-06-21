@@ -39,7 +39,7 @@ async function runDealEngine() {
 
   // Priority 3: Apollo.io PI lawyers
   if (prospects.length < TARGET_DRAFTS) {
-    log.write('Searching Apollo for PI lawyers in Ontario...');
+    log.write('Searching Apollo for PI lawyers in BC and Calgary...');
     try {
       const apolloProspects = await searchPILawyers(TARGET_DRAFTS - prospects.length + 2);
       log.write(`Apollo: found ${apolloProspects.length} prospects`);

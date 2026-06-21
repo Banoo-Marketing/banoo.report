@@ -86,7 +86,7 @@ Respond ONLY with JSON (no markdown):
 async function writeColdEmail(prospect) {
   const { name, email, firmName, city } = prospect;
 
-  const location = city || 'Ontario';
+  const location = city || 'British Columbia';
   const firm = firmName ? ` at ${firmName}` : '';
 
   const prompt = `Write a short cold outreach email to a personal injury lawyer${firm} in ${location}.

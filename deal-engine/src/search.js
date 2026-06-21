@@ -1,7 +1,7 @@
 const Anthropic = require('@anthropic-ai/sdk');
 
 /**
- * Use Claude to identify new PI law firms in Ontario that are actively growing.
+ * Use Claude to identify new PI law firms in BC and Calgary that are actively growing.
  * Returns a list of prospect objects for cold outreach.
  */
 async function findGrowingPIFirms(limit = 3) {
@@ -9,7 +9,7 @@ async function findGrowingPIFirms(limit = 3) {
 
   const prompt = `You are a research assistant helping find outreach prospects for Banoo Marketing.
 
-Find ${limit} personal injury law firms in Ontario, Canada (Toronto, Mississauga, Brampton, Hamilton, or Ottawa) that show signs of growth or active hiring. These should be small firms (1–20 lawyers).
+Find ${limit} personal injury law firms in British Columbia or Calgary, Alberta, Canada (Vancouver, Surrey, Burnaby, Richmond, Victoria, or Calgary) that show signs of growth or active hiring. These should be small firms (1–20 lawyers).
 
 For each firm, provide:
 - Firm name
